@@ -20,8 +20,6 @@ https://baronrobin.github.io/#contact
 
 ## Authors
 
-Contributors names and contact info
-
 + Robin Baron
 [@phtorob](https://twitter.com/dompizzie)
 
