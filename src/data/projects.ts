@@ -338,7 +338,30 @@ export const projects: Project[] = [
             { type: 'video', url: '/projects/09_fotogrammetrie/castle1.mp4' },
             { type: 'video', url: '/projects/09_fotogrammetrie/castle2.mp4' },
             { type: 'image', url: '/projects/09_fotogrammetrie/castlerender.jpg' }
-        ]
+        ],
+        technicals: {
+            icons: [Camera, SiBlender, SiUnrealengine],
+            columns: [
+                [
+                    'Processing in Agisoft Metashape',
+                    'High Poly Mesh Generation',
+                    'Texture Projection',
+                    'Point Cloud Cleanup'
+                ],
+                [
+                    'Rendering in Blender',
+                    'Cycles Engine',
+                    'Gaussian Splatting Import',
+                    'Lighting Setup'
+                ],
+                [
+                    'Unreal Engine 5',
+                    'Lumen & Nanite',
+                    'Level Sequencer',
+                    'Movie Render Queue'
+                ]
+            ]
+        }
     },
     {
         id: '10-projection-mapping',
