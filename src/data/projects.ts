@@ -167,41 +167,40 @@ export const projects: Project[] = [
         description: 'Urban planning and smart city visualization concepts.',
         folderName: '04_smart_city',
         media: [
-            media: [
-                { type: 'video', url: '/projects/04_smart_city/demo.webm' },
-                { type: 'image', url: '/projects/04_smart_city/1.jpg' },
-                { type: 'image', url: '/projects/04_smart_city/2.jpg' },
-                { type: 'image', url: '/projects/04_smart_city/3.jpg' },
-                { type: 'image', url: '/projects/04_smart_city/4.jpg' },
-                { type: 'image', url: '/projects/04_smart_city/cover.webp' }
-            ],
-            technicals: {
-                icons: [SiAdobeaftereffects, Box, SiUnrealengine],
-                columns: [
-                    [
-                        'Postproduction inklusive Crypomattes',
-                        'Video Cutting',
-                        'Transitions',
-                        'Masking',
-                        'Color Correction',
-                        'Text Animation',
-                        'MoGraph'
-                    ],
-                    [
-                        'Unreal Mesh to LiDAR Pointcloud'
-                    ],
-                    [
-                        'Level Sequencer',
-                        'MovieRenderQueue',
-                        'Layout 3D',
-                        'Rendering mit Passes',
-                        'Animation Laternen',
-                        'Camera',
-                        'Lighting',
-                        'Materials'
-                    ]
+            { type: 'video', url: '/projects/04_smart_city/demo.webm' },
+            { type: 'image', url: '/projects/04_smart_city/1.jpg' },
+            { type: 'image', url: '/projects/04_smart_city/2.jpg' },
+            { type: 'image', url: '/projects/04_smart_city/3.jpg' },
+            { type: 'image', url: '/projects/04_smart_city/4.jpg' },
+            { type: 'image', url: '/projects/04_smart_city/cover.webp' }
+        ],
+        technicals: {
+            icons: [SiAdobeaftereffects, Box, SiUnrealengine],
+            columns: [
+                [
+                    'Postproduction inklusive Crypomattes',
+                    'Video Cutting',
+                    'Transitions',
+                    'Masking',
+                    'Color Correction',
+                    'Text Animation',
+                    'MoGraph'
+                ],
+                [
+                    'Unreal Mesh to LiDAR Pointcloud'
+                ],
+                [
+                    'Level Sequencer',
+                    'MovieRenderQueue',
+                    'Layout 3D',
+                    'Rendering mit Passes',
+                    'Animation Laternen',
+                    'Camera',
+                    'Lighting',
+                    'Materials'
                 ]
-            }
+            ]
+        }
     },
     {
         id: '05-dashboard',
