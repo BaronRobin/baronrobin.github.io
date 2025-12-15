@@ -225,18 +225,7 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* ... skip Skills/Projects ... */}
 
-            {/* ... in StatusItem ... */}
-            const StatusItem = ({year, title, place}: StatusItemProps) => (
-            <li className="flex gap-4 items-start">
-                <span className="text-purple-400 font-mono text-sm pt-1 w-12 shrink-0">{year}</span>
-                <div>
-                    <div className="font-semibold text-white">{title}</div>
-                    <div className="text-sm text-slate-400">{place}</div>
-                </div>
-            </li>
-            );
 
             {/* Skills Section */}
             <section id="skills" className="py-24">
