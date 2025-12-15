@@ -8,8 +8,7 @@ import {
     Mail,
     ChevronDown,
     ArrowUp,
-    Target,
-    ExternalLink
+    Target
 } from 'lucide-react';
 import {
     SiUnrealengine,
