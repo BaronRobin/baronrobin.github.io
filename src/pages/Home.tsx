@@ -32,24 +32,25 @@ import { projects } from '../data/projects';
 interface Skill {
     name: string;
     icon: React.ComponentType<{ className?: string }>;
+    url: string;
 }
 
 // Data
 const skills: Skill[] = [
-    { name: 'Unreal Engine 5', icon: SiUnrealengine },
-    { name: 'Houdini', icon: SiHoudini },
-    { name: 'Blender', icon: SiBlender },
-    { name: 'Adobe Suite', icon: SiAdobe },
-    { name: 'Photoshop', icon: SiAdobephotoshop },
-    { name: 'Illustrator', icon: SiAdobeillustrator },
-    { name: 'InDesign', icon: SiAdobeindesign },
-    { name: 'Lightroom', icon: SiAdobelightroomclassic },
-    { name: 'After Effects', icon: SiAdobeaftereffects },
-    { name: 'Premiere Pro', icon: SiAdobepremierepro },
-    { name: 'XD', icon: SiAdobexd },
-    { name: 'Acrobat', icon: SiAdobeacrobatreader },
-    { name: 'DaVinci Resolve', icon: SiDavinciresolve },
-    { name: 'Quad & Drone Pilot', icon: Target },
+    { name: 'Unreal Engine 5', icon: SiUnrealengine, url: 'https://www.unrealengine.com' },
+    { name: 'Houdini', icon: SiHoudini, url: 'https://www.sidefx.com' },
+    { name: 'Blender', icon: SiBlender, url: 'https://www.blender.org' },
+    { name: 'Adobe Suite', icon: SiAdobe, url: 'https://www.adobe.com/creativecloud.html' },
+    { name: 'Photoshop', icon: SiAdobephotoshop, url: 'https://www.adobe.com/products/photoshop.html' },
+    { name: 'Illustrator', icon: SiAdobeillustrator, url: 'https://www.adobe.com/products/illustrator.html' },
+    { name: 'InDesign', icon: SiAdobeindesign, url: 'https://www.adobe.com/products/indesign.html' },
+    { name: 'Lightroom', icon: SiAdobelightroomclassic, url: 'https://www.adobe.com/products/photoshop-lightroom.html' },
+    { name: 'After Effects', icon: SiAdobeaftereffects, url: 'https://www.adobe.com/products/aftereffects.html' },
+    { name: 'Premiere Pro', icon: SiAdobepremierepro, url: 'https://www.adobe.com/products/premiere.html' },
+    { name: 'XD', icon: SiAdobexd, url: 'https://helpx.adobe.com/support/xd.html' },
+    { name: 'Acrobat', icon: SiAdobeacrobatreader, url: 'https://www.adobe.com/acrobat.html' },
+    { name: 'DaVinci Resolve', icon: SiDavinciresolve, url: 'https://www.blackmagicdesign.com/products/davinciresolve' },
+    { name: 'Quad & Drone Pilot', icon: Target, url: 'https://www.dji.com' },
 ];
 
 const Home = () => {
@@ -188,10 +189,10 @@ const Home = () => {
 
                         <div className="space-y-6 text-slate-300 leading-relaxed text-sm md:text-base">
                             <p>
-                                I'm a passionate creator based in Germany, currently pursuing my Bachelor's degree at <span className="text-white font-medium">Hochschule Kaiserslautern</span>.
+                                I'm a passionate creator based in Germany, currently pursuing my Bachelor's degree at <a href="https://www.hs-kl.de/" target="_blank" rel="noopener noreferrer" className="text-white font-medium hover:text-purple-400 transition-colors">Hochschule Kaiserslautern</a>.
                             </p>
                             <p>
-                                Alongside my studies, I work at <span className="text-white font-medium">relticc GmbH</span>, where I apply my skills in real-world scenarios. My focus lies in the intersection of technical implementation and artistic expression.
+                                Alongside my studies, I work at <a href="https://relticc.com/" target="_blank" rel="noopener noreferrer" className="text-white font-medium hover:text-purple-400 transition-colors">relticc GmbH</a>, where I apply my skills in real-world scenarios. My focus lies in the intersection of technical implementation and artistic expression.
                             </p>
                             <p>
                                 I don't just "use" software; I combine tools like Unreal Engine, Houdini, and the Adobe Suite to craft immersive digital experiences.
@@ -217,19 +218,22 @@ const Home = () => {
 
                     <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 max-w-6xl mx-auto">
                         {skills.map((skill, index) => (
-                            <motion.div
+                            <motion.a
                                 key={skill.name}
+                                href={skill.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.05 }}
-                                className="glass-card p-6 flex flex-col items-center justify-center gap-4 hover:bg-white/10 transition-colors group cursor-default"
+                                className="glass-card p-6 flex flex-col items-center justify-center gap-4 hover:bg-white/10 transition-colors group cursor-pointer"
                             >
                                 <div className="w-10 h-10 transition-transform group-hover:scale-110" style={{ color: 'white' }}>
                                     <skill.icon className="w-full h-full" />
                                 </div>
                                 <span className="text-sm font-medium text-slate-300 text-center">{skill.name}</span>
-                            </motion.div>
+                            </motion.a>
                         ))}
                     </div>
                 </div>
@@ -274,7 +278,7 @@ const Home = () => {
                                     <div className="absolute bottom-0 left-0 p-8 w-full pointer-events-none">
                                         <span className="text-purple-400 text-sm font-medium mb-2 block">{project.category}</span>
                                         <h3 className="text-2xl font-bold mb-2">{project.title}</h3>
-                                        <p className="text-slate-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        <p className="text-slate-300 text-sm opacity-100 transition-opacity duration-300">
                                             {project.description}
                                         </p>
                                     </div>

@@ -32,7 +32,7 @@ export const projects: Project[] = [
     {
         id: '01-polarise',
         title: 'Polarise - AI Hub',
-        category: 'Design System',
+        category: 'Arch Viz',
         description: 'A comprehensive AI hub design system focusing on clarity and utility.',
         folderName: '01_polarise',
         media: [
@@ -73,7 +73,7 @@ export const projects: Project[] = [
     {
         id: '02-3d-video',
         title: '3D Video',
-        category: 'Motion',
+        category: 'Launch',
         description: 'Experimental 3D video production and motion graphics.',
         folderName: '02_3d_video',
         media: [
@@ -239,7 +239,7 @@ export const projects: Project[] = [
     {
         id: '09-fotogrammetrie',
         title: 'Fotogrammetrie & Gaussians',
-        category: 'R&D',
+        category: 'Personal Interest',
         description: 'Research into photogrammetry and 3D Gaussian Splatting workflows.',
         folderName: '09_fotogrammetrie',
         media: [{ type: 'image', url: '/projects/09_fotogrammetrie/cover.webp' }]
