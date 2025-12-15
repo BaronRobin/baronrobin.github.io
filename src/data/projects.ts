@@ -81,7 +81,6 @@ export const projects: Project[] = [
         folderName: '02_3d_video',
         media: [
             { type: 'image', url: '/projects/02_3d_video/cover.jpg' },
-            { type: 'video', url: '/projects/02_3d_video/demo.webm' },
             { type: 'video', url: '/projects/02_3d_video/Gatti_Lauch_3D_Video_1.webm' },
             { type: 'image', url: '/projects/02_3d_video/01.jpg' },
             { type: 'image', url: '/projects/02_3d_video/02.jpg' },

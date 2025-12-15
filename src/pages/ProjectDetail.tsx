@@ -15,20 +15,29 @@ const ProjectDetail = () => {
 
     const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
+    // Filter and Sort Logic
+    const processedMedia = project ? project.media.filter(item =>
+        !item.url.includes('cover.jpg') && !item.url.includes('cover.webp')
+    ).sort((a, b) => {
+        if (a.type === 'video' && b.type !== 'video') return -1;
+        if (a.type !== 'video' && b.type === 'video') return 1;
+        return 0;
+    }) : [];
+
     const openLightbox = (index: number) => setLightboxIndex(index);
     const closeLightbox = () => setLightboxIndex(null);
 
     const nextImage = (e?: React.MouseEvent) => {
         e?.stopPropagation();
         if (lightboxIndex !== null && project) {
-            setLightboxIndex((prev) => (prev! + 1) % project.media.length);
+            setLightboxIndex((prev) => (prev! + 1) % processedMedia.length);
         }
     };
 
     const prevImage = (e?: React.MouseEvent) => {
         e?.stopPropagation();
         if (lightboxIndex !== null && project) {
-            setLightboxIndex((prev) => (prev! - 1 + project.media.length) % project.media.length);
+            setLightboxIndex((prev) => (prev! - 1 + processedMedia.length) % processedMedia.length);
         }
     };
 
@@ -177,13 +186,12 @@ const ProjectDetail = () => {
                         </div>
                     </div>
                 </section>
-            )
-            }
+            )}
 
             {/* Media Gallery */}
             <section className="pb-32 container mx-auto px-6">
                 <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-                    {project.media.map((item, index) => (
+                    {processedMedia.map((item, index) => (
                         <motion.div
                             key={index}
                             initial={{ opacity: 0, scale: 0.95 }}
@@ -235,29 +243,29 @@ const ProjectDetail = () => {
                         </button>
 
                         <div className="max-w-7xl max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
-                            {project.media[lightboxIndex].type === 'video' ? (
+                            {processedMedia[lightboxIndex].type === 'video' ? (
                                 <video
-                                    src={project.media[lightboxIndex].url}
+                                    src={processedMedia[lightboxIndex].url}
                                     controls
                                     autoPlay
                                     className="max-w-full max-h-[85vh] object-contain mx-auto rounded-lg"
                                 />
                             ) : (
                                 <img
-                                    src={project.media[lightboxIndex].url}
+                                    src={processedMedia[lightboxIndex].url}
                                     alt="Enlarged view"
                                     className="max-w-full max-h-[90vh] object-contain mx-auto rounded-lg shadow-2xl"
                                 />
                             )}
                             <div className="text-center text-slate-400 mt-4 font-mono text-sm">
-                                {lightboxIndex + 1} / {project.media.length}
+                                {lightboxIndex + 1} / {processedMedia.length}
                             </div>
                         </div>
                     </div>
                 )}
 
                 {/* Placeholder for no media */}
-                {project.media.length === 0 && (
+                {processedMedia.length === 0 && (
                     <div className="text-center py-20 bg-white/5 rounded-2xl border border-white/10 max-w-4xl mx-auto">
                         <p className="text-slate-400">Media for this project is coming soon.</p>
                         <p className="text-sm text-slate-500 mt-2">Check back later!</p>
