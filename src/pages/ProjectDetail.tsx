@@ -176,100 +176,99 @@ const ProjectDetail = () => {
                             ))}
                         </div>
                     </div>
-                </div>
                 </section>
-    )
-}
+            )
+            }
 
-{/* Media Gallery */ }
-<section className="pb-32 container mx-auto px-6">
-    <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-        {project.media.map((item, index) => (
-            <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.1 }}
-                className="relative w-full cursor-pointer group"
-                onClick={() => openLightbox(index)}
-            >
-                {item.type !== 'video' && (
-                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10 rounded-xl pointer-events-none">
-                        <ZoomIn className="text-white w-8 h-8" />
+            {/* Media Gallery */}
+            <section className="pb-32 container mx-auto px-6">
+                <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                    {project.media.map((item, index) => (
+                        <motion.div
+                            key={index}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: index * 0.1 }}
+                            className="relative w-full cursor-pointer group"
+                            onClick={() => openLightbox(index)}
+                        >
+                            {item.type !== 'video' && (
+                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10 rounded-xl pointer-events-none">
+                                    <ZoomIn className="text-white w-8 h-8" />
+                                </div>
+                            )}
+
+                            {item.type === 'video' ? (
+                                <video
+                                    src={item.url}
+                                    controls
+                                    className="w-full h-auto rounded-xl shadow-lg"
+                                    poster={item.thumbnail}
+                                    onClick={(e) => e.stopPropagation()} // Let underlying controls work
+                                />
+                            ) : (
+                                <img
+                                    src={item.url}
+                                    alt={`${project.title} - Media ${index + 1}`}
+                                    className="w-full h-auto object-contain"
+                                />
+                            )}
+                        </motion.div>
+                    ))}
+                </div>
+
+                {/* Lightbox Overlay */}
+                {lightboxIndex !== null && (
+                    <div className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm"
+                        onClick={closeLightbox}>
+
+                        <button onClick={closeLightbox} className="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors">
+                            <X size={32} />
+                        </button>
+
+                        <button onClick={prevImage} className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white/50 hover:text-white p-2 hover:bg-white/10 rounded-full transition-all">
+                            <ChevronLeft size={48} />
+                        </button>
+
+                        <button onClick={nextImage} className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white/50 hover:text-white p-2 hover:bg-white/10 rounded-full transition-all">
+                            <ChevronRight size={48} />
+                        </button>
+
+                        <div className="max-w-7xl max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
+                            {project.media[lightboxIndex].type === 'video' ? (
+                                <video
+                                    src={project.media[lightboxIndex].url}
+                                    controls
+                                    autoPlay
+                                    className="max-w-full max-h-[85vh] object-contain mx-auto rounded-lg"
+                                />
+                            ) : (
+                                <img
+                                    src={project.media[lightboxIndex].url}
+                                    alt="Enlarged view"
+                                    className="max-w-full max-h-[90vh] object-contain mx-auto rounded-lg shadow-2xl"
+                                />
+                            )}
+                            <div className="text-center text-slate-400 mt-4 font-mono text-sm">
+                                {lightboxIndex + 1} / {project.media.length}
+                            </div>
+                        </div>
                     </div>
                 )}
 
-                {item.type === 'video' ? (
-                    <video
-                        src={item.url}
-                        controls
-                        className="w-full h-auto rounded-xl shadow-lg"
-                        poster={item.thumbnail}
-                        onClick={(e) => e.stopPropagation()} // Let underlying controls work
-                    />
-                ) : (
-                    <img
-                        src={item.url}
-                        alt={`${project.title} - Media ${index + 1}`}
-                        className="w-full h-auto object-contain"
-                    />
+                {/* Placeholder for no media */}
+                {project.media.length === 0 && (
+                    <div className="text-center py-20 bg-white/5 rounded-2xl border border-white/10 max-w-4xl mx-auto">
+                        <p className="text-slate-400">Media for this project is coming soon.</p>
+                        <p className="text-sm text-slate-500 mt-2">Check back later!</p>
+                    </div>
                 )}
-            </motion.div>
-        ))}
-    </div>
+            </section>
 
-    {/* Lightbox Overlay */}
-    {lightboxIndex !== null && (
-        <div className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm"
-            onClick={closeLightbox}>
-
-            <button onClick={closeLightbox} className="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors">
-                <X size={32} />
-            </button>
-
-            <button onClick={prevImage} className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white/50 hover:text-white p-2 hover:bg-white/10 rounded-full transition-all">
-                <ChevronLeft size={48} />
-            </button>
-
-            <button onClick={nextImage} className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white/50 hover:text-white p-2 hover:bg-white/10 rounded-full transition-all">
-                <ChevronRight size={48} />
-            </button>
-
-            <div className="max-w-7xl max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
-                {project.media[lightboxIndex].type === 'video' ? (
-                    <video
-                        src={project.media[lightboxIndex].url}
-                        controls
-                        autoPlay
-                        className="max-w-full max-h-[85vh] object-contain mx-auto rounded-lg"
-                    />
-                ) : (
-                    <img
-                        src={project.media[lightboxIndex].url}
-                        alt="Enlarged view"
-                        className="max-w-full max-h-[90vh] object-contain mx-auto rounded-lg shadow-2xl"
-                    />
-                )}
-                <div className="text-center text-slate-400 mt-4 font-mono text-sm">
-                    {lightboxIndex + 1} / {project.media.length}
-                </div>
-            </div>
-        </div>
-    )}
-
-    {/* Placeholder for no media */}
-    {project.media.length === 0 && (
-        <div className="text-center py-20 bg-white/5 rounded-2xl border border-white/10 max-w-4xl mx-auto">
-            <p className="text-slate-400">Media for this project is coming soon.</p>
-            <p className="text-sm text-slate-500 mt-2">Check back later!</p>
-        </div>
-    )}
-</section>
-
-{/* Simple Footer */ }
-<footer className="py-8 border-t border-white/5 text-center text-slate-500 text-sm">
-    <p>&copy; {new Date().getFullYear()} Robin Baron. All rights reserved.</p>
-</footer>
+            {/* Simple Footer */}
+            <footer className="py-8 border-t border-white/5 text-center text-slate-500 text-sm">
+                <p>&copy; {new Date().getFullYear()} Robin Baron. All rights reserved.</p>
+            </footer>
         </div >
     );
 };
