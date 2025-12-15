@@ -165,28 +165,28 @@ const Home = () => {
                 <div className="container mx-auto px-6">
                     <SectionHeader title="About Me" subtitle="The journey so far" />
 
-                    <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+                    <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8 items-start">
                         {/* Profile Image - Placeholder */}
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
-                            className="relative aspect-square rounded-2xl overflow-hidden glass-card"
+                            className="relative w-full rounded-2xl overflow-hidden glass-card"
                         >
                             <img
                                 src="/profile.webp"
                                 alt="Robin Baron"
-                                className="w-full h-full object-cover"
+                                className="w-full h-auto"
                                 onError={(e) => {
                                     // Fallback if image not found
                                     e.currentTarget.style.display = 'none';
-                                    e.currentTarget.parentElement!.classList.add('flex', 'items-center', 'justify-center', 'bg-slate-800');
-                                    e.currentTarget.parentElement!.innerHTML = '<span class="text-slate-500">Add profile.webp</span>';
+                                    e.currentTarget.parentElement!.classList.add('flex', 'items-center', 'justify-center', 'bg-slate-800', 'aspect-square');
+                                    e.currentTarget.parentElement!.innerHTML = '<span class="text-slate-500">profile.webp</span>';
                                 }}
                             />
                         </motion.div>
 
-                        <div className="space-y-6 text-slate-300 leading-relaxed">
+                        <div className="space-y-6 text-slate-300 leading-relaxed text-sm md:text-base">
                             <p>
                                 I'm a passionate creator based in Germany, currently pursuing my Bachelor's degree at <span className="text-white font-medium">Hochschule Kaiserslautern</span>.
                             </p>
@@ -196,15 +196,15 @@ const Home = () => {
                             <p>
                                 I don't just "use" software; I combine tools like Unreal Engine, Houdini, and the Adobe Suite to craft immersive digital experiences.
                             </p>
+                        </div>
 
-                            <div className="glass-card p-6 mt-6">
-                                <h3 className="text-xl font-semibold mb-4 text-white">Current Status</h3>
-                                <ul className="space-y-4">
-                                    <StatusItem year="2025" title="Bachelor Student" place="Hochschule Kaiserslautern" />
-                                    <StatusItem year="Current" title="Employee" place="relticc GmbH" />
-                                    <StatusItem year="Goal" title="Expanding Horizons" place="Open to new challenges" />
-                                </ul>
-                            </div>
+                        <div className="glass-card p-6">
+                            <h3 className="text-xl font-semibold mb-4 text-white">Current Status</h3>
+                            <ul className="space-y-4">
+                                <StatusItem year="2025" title="Bachelor Student" place="Hochschule Kaiserslautern" />
+                                <StatusItem year="Current" title="Employee" place="relticc GmbH" />
+                                <StatusItem year="Goal" title="Expanding Horizons" place="Open to new challenges" />
+                            </ul>
                         </div>
                     </div>
                 </div>

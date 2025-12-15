@@ -36,8 +36,18 @@ export const projects: Project[] = [
         description: 'A comprehensive AI hub design system focusing on clarity and utility.',
         folderName: '01_polarise',
         media: [
-            { type: 'image', url: '/projects/01_polarise/cover.webp' },
-            { type: 'video', url: '/projects/01_polarise/demo.webm' },
+            { type: 'image', url: '/projects/01_polarise/01_Datacenter_Outdoor.jpg' },
+            { type: 'video', url: '/projects/01_polarise/Polarise.mp4' },
+            { type: 'image', url: '/projects/01_polarise/02_PV_Anlage.jpg' },
+            { type: 'image', url: '/projects/01_polarise/03_Office.jpg' },
+            { type: 'image', url: '/projects/01_polarise/04_Kitchen.jpg' },
+            { type: 'image', url: '/projects/01_polarise/05_Meeting.jpg' },
+            { type: 'image', url: '/projects/01_polarise/06_Rack.jpg' },
+            { type: 'image', url: '/projects/01_polarise/07_Pods.jpg' },
+            { type: 'image', url: '/projects/01_polarise/08_OverallDC.jpg' },
+            { type: 'image', url: '/projects/01_polarise/09_UPS.jpg' },
+            { type: 'image', url: '/projects/01_polarise/10_Cooling.jpg' },
+            { type: 'image', url: '/projects/01_polarise/11_Focus_Zone.jpg' },
         ],
         technicals: {
             icons: [SiAdobeaftereffects, SiAdobepremierepro, SiAdobephotoshop, SiUnrealengine],
@@ -104,7 +114,10 @@ export const projects: Project[] = [
         category: 'Video Production',
         description: 'Interview series editing and color grading.',
         folderName: '03_gatti_interviews',
-        media: [{ type: 'image', url: '/projects/03_gatti_interviews/cover.webp' }],
+        media: [
+            { type: 'video', url: '/projects/03_gatti_interviews/2025-11-06_Gatti_People_Video_Christof_relticc_Soundtrack_1.webm' },
+            { type: 'video', url: '/projects/03_gatti_interviews/2025-11-06_Gatti_People_Video_Team_relticc_Soundtrack_1.webm' }
+        ],
         technicals: {
             icons: [SiAdobeaftereffects, SiAdobepremierepro, SiBlender, SiUnrealengine, Camera],
             columns: [
@@ -177,7 +190,7 @@ export const projects: Project[] = [
         category: 'UI/UX',
         description: 'Data visualization dashboard design for enterprise metrics.',
         folderName: '05_dashboard',
-        media: [{ type: 'image', url: '/projects/05_dashboard/cover.webp' }],
+        media: [{ type: 'video', url: '/projects/05_dashboard/relticc_Experience_Pro_Platform.webm' }],
         technicals: {
             icons: [SiReact, Database, Mail],
             columns: [
@@ -196,7 +209,7 @@ export const projects: Project[] = [
         category: 'VFX / Simulation',
         description: 'Procedural generation and simulation studies in Houdini.',
         folderName: '06_houdini',
-        media: [{ type: 'image', url: '/projects/06_houdini/cover.webp' }]
+        media: [{ type: 'video', url: '/projects/06_houdini/Houdini_1.webm' }]
     },
     {
         id: '07-kitchen-visualisation',
@@ -204,7 +217,7 @@ export const projects: Project[] = [
         category: 'ArchViz',
         description: 'Photorealistic kitchen rendering and lighting setup.',
         folderName: '07_kitchen_visualisation',
-        media: [{ type: 'image', url: '/projects/07_kitchen_visualisation/cover.webp' }]
+        media: [{ type: 'video', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3_1.webm' }]
     },
     {
         id: '08-freisteller',
@@ -212,7 +225,16 @@ export const projects: Project[] = [
         category: 'Commercial',
         description: 'Modular data center visualization and product showcase.',
         folderName: '08_freisteller',
-        media: [{ type: 'image', url: '/projects/08_freisteller/cover.webp' }]
+        media: [
+            { type: 'image', url: '/projects/08_freisteller/ND_MD_OverallDC.webp' },
+            { type: 'image', url: '/projects/08_freisteller/ND_MD_Rack_Double.webp' },
+            { type: 'image', url: '/projects/08_freisteller/ND_MD_Rackrow_Back.webp' },
+            { type: 'image', url: '/projects/08_freisteller/ND_MD_OverallDC_Layered.webp' },
+            { type: 'image', url: '/projects/08_freisteller/ND_MD_Rack_Single_Back.webp' },
+            { type: 'image', url: '/projects/08_freisteller/ND_MD_Rackrow_Front.webp' },
+            { type: 'image', url: '/projects/08_freisteller/ND_MD_OverallDC_perspective.webp' },
+            { type: 'image', url: '/projects/08_freisteller/ND_MD_Rack_Single_Front.webp' }
+        ]
     },
     {
         id: '09-fotogrammetrie',
