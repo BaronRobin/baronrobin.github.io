@@ -234,7 +234,11 @@ export const projects: Project[] = [
         description: 'Procedural generation and simulation studies in Houdini.',
         folderName: '06_houdini',
         media: [
-            { type: 'video', url: '/projects/06_houdini/Houdini_1.webm' }
+            { type: 'video', url: '/projects/06_houdini/Houdini_1.webm' },
+            { type: 'image', url: '/projects/06_houdini/houd_01.webp' },
+            { type: 'image', url: '/projects/06_houdini/houd_02.webp' },
+            { type: 'image', url: '/projects/06_houdini/houd_03.webp' },
+            { type: 'image', url: '/projects/06_houdini/houd_04.webp' }
         ],
         technicals: {
             icons: [SiDavinciresolve, SiHoudini],
