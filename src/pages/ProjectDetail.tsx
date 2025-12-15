@@ -148,8 +148,8 @@ const ProjectDetail = () => {
 
                             {/* Columns */}
                             <div className={`grid gap-8 ${project.technicals.columns.length === 1 ? 'place-items-center text-center' :
-                                    project.technicals.columns.length === 2 ? 'md:grid-cols-2' :
-                                        'md:grid-cols-3'
+                                project.technicals.columns.length === 2 ? 'md:grid-cols-2' :
+                                    'md:grid-cols-3'
                                 }`}>
                                 {project.technicals.columns.map((column, colIndex) => (
                                     <ul key={colIndex} className="space-y-3">
@@ -192,9 +192,11 @@ const ProjectDetail = () => {
                             className="relative w-full cursor-pointer group"
                             onClick={() => openLightbox(index)}
                         >
-                            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10 rounded-xl pointer-events-none">
-                                <ZoomIn className="text-white w-8 h-8" />
-                            </div>
+                            {item.type !== 'video' && (
+                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10 rounded-xl pointer-events-none">
+                                    <ZoomIn className="text-white w-8 h-8" />
+                                </div>
+                            )}
 
                             {item.type === 'video' ? (
                                 <video
