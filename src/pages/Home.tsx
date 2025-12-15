@@ -146,7 +146,7 @@ const Home = () => {
                 {/* Background Image */}
                 <div className="absolute inset-0 z-0">
                     <img
-                        src="/projects/01_polarise/01_Datacenter_Outdoor.jpg"
+                        src="/hero.jpg"
                         alt="Hero Background"
                         className="w-full h-full object-cover"
                     />
