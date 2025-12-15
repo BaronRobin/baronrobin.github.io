@@ -97,7 +97,7 @@ const ProjectDetail = () => {
 
             {/* Back Button */}
             <div className="pt-32 container mx-auto px-6">
-                <Link to="/" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-8 group">
+                <Link to="/#projects" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-8 group">
                     <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
                     <span>Back to Projects</span>
                 </Link>
@@ -114,9 +114,20 @@ const ProjectDetail = () => {
                         {project.category}
                     </span>
                     <h1 className="text-4xl md:text-6xl font-bold mb-8">{project.title}</h1>
-                    <p className="text-xl text-slate-300 leading-relaxed max-w-2xl mx-auto">
+                    <p className="text-xl text-slate-300 leading-relaxed max-w-2xl mx-auto mb-8">
                         {project.description}
                     </p>
+
+                    {project.link && (
+                        <a
+                            href={project.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-3 rounded-full font-medium transition-colors"
+                        >
+                            Visit Live Demo
+                        </a>
+                    )}
                 </motion.div>
             </div>
 

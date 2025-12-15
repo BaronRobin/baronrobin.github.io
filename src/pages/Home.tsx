@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
+    Menu,
+    X,
     Github,
     Instagram,
     Mail,
     ChevronDown,
-    ExternalLink,
-    Menu,
-    X,
-    Target
+    ArrowUp,
+    Target,
+    ExternalLink
 } from 'lucide-react';
 import {
     SiUnrealengine,
@@ -54,6 +55,7 @@ const skills: Skill[] = [
 ];
 
 const Home = () => {
+    const location = useLocation();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     // Smooth scroll
@@ -64,6 +66,30 @@ const Home = () => {
             setIsMenuOpen(false);
         }
     };
+
+    // Scroll to hash on mount (for back button)
+    useEffect(() => {
+        if (location.hash) {
+            const element = document.getElementById(location.hash.substring(1));
+            if (element) {
+                setTimeout(() => {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            }
+        }
+    }, [location.hash]);
+
+    // Back to Top Logic
+    const [showBackToTop, setShowBackToTop] = useState(false);
+    useEffect(() => {
+        const handleScroll = () => {
+            setShowBackToTop(window.scrollY > 500);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
     return (
         <div className="min-h-screen bg-slate-950 text-white font-sans selection:bg-purple-500/30">
@@ -318,6 +344,15 @@ const Home = () => {
             <footer className="py-8 border-t border-white/5 text-center text-slate-500 text-sm">
                 <p>&copy; {new Date().getFullYear()} Robin Baron. All rights reserved.</p>
             </footer>
+            {/* Back to Top */}
+            <motion.button
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: showBackToTop ? 1 : 0, scale: showBackToTop ? 1 : 0.8 }}
+                onClick={scrollToTop}
+                className="fixed bottom-8 right-8 bg-purple-600 text-white p-3 rounded-full shadow-lg hover:bg-purple-500 transition-colors z-40"
+            >
+                <ArrowUp size={24} />
+            </motion.button>
         </div>
     );
 };

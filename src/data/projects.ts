@@ -19,6 +19,7 @@ export interface Project {
     id: string;
     title: string;
     category: string;
+    link?: string;
     description: string;
     folderName: string; // Helper for public folder path
     media: ProjectMedia[];
@@ -79,6 +80,7 @@ export const projects: Project[] = [
         media: [
             { type: 'video', url: '/projects/02_3d_video/demo.webm' },
             { type: 'video', url: '/projects/02_3d_video/Gatti_Lauch_3D_Video_1.webm' },
+            { type: 'image', url: '/projects/02_3d_video/timeline.jpg' },
             { type: 'image', url: '/projects/02_3d_video/cover.webp' }
         ],
         technicals: {
@@ -117,7 +119,8 @@ export const projects: Project[] = [
         folderName: '03_gatti_interviews',
         media: [
             { type: 'video', url: '/projects/03_gatti_interviews/2025-11-06_Gatti_People_Video_Christof_relticc_Soundtrack_1.webm' },
-            { type: 'video', url: '/projects/03_gatti_interviews/2025-11-06_Gatti_People_Video_Team_relticc_Soundtrack_1.webm' }
+            { type: 'video', url: '/projects/03_gatti_interviews/2025-11-06_Gatti_People_Video_Team_relticc_Soundtrack_1.webm' },
+            { type: 'image', url: '/projects/03_gatti_interviews/timeline.jpg' }
         ],
         technicals: {
             icons: [SiAdobeaftereffects, SiAdobepremierepro, SiBlender, SiUnrealengine, Camera],
@@ -193,8 +196,18 @@ export const projects: Project[] = [
         title: 'Dashboard',
         category: 'UI/UX',
         description: 'Data visualization dashboard design for enterprise metrics.',
+        link: 'https://apps.relticc.com/demo',
         folderName: '05_dashboard',
-        media: [{ type: 'video', url: '/projects/05_dashboard/relticc_Experience_Pro_Platform.webm' }],
+        media: [
+            { type: 'video', url: '/projects/05_dashboard/relticc_Experience_Pro_Platform.webm' },
+            { type: 'image', url: '/projects/05_dashboard/01.jpg' },
+            { type: 'image', url: '/projects/05_dashboard/02.jpg' },
+            { type: 'image', url: '/projects/05_dashboard/03.jpg' },
+            { type: 'image', url: '/projects/05_dashboard/04.jpg' },
+            { type: 'image', url: '/projects/05_dashboard/05.jpg' },
+            { type: 'image', url: '/projects/05_dashboard/06.jpg' },
+            { type: 'image', url: '/projects/05_dashboard/07.jpg' }
+        ],
         technicals: {
             icons: [SiReact, Database, Mail],
             columns: [
@@ -226,9 +239,30 @@ export const projects: Project[] = [
         folderName: '07_kitchen_visualisation',
         media: [
             { type: 'video', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3_1.webm' },
-            { type: 'video', url: '/projects/07_kitchen_visualisation/relticc_3d_exp_pro_kitchen_1.webm' },
-            { type: 'image', url: '/projects/07_kitchen_visualisation/technical_breakdown.png' }
-        ]
+            { type: 'video', url: '/projects/07_kitchen_visualisation/relticc_3d_exp_pro_kitchen_1.webm' }
+        ],
+        technicals: {
+            icons: [SiUnrealengine, SiAdobeaftereffects],
+            columns: [
+                [
+                    'Postproduction inklusive Crypomattes',
+                    'Video Cutting',
+                    'Transitions',
+                    'Masking',
+                    'Color Correction'
+                ],
+                [
+                    'Level Sequencer',
+                    'MovieRenderQueue',
+                    'Layout 3D',
+                    'Rendering mit Passes',
+                    'Camera',
+                    'Lighting',
+                    'Materials',
+                    'PathTracing'
+                ]
+            ]
+        }
     },
     {
         id: '08-freisteller',
