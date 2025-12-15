@@ -267,8 +267,17 @@ export const projects: Project[] = [
         description: 'Photorealistic kitchen rendering and lighting setup.',
         folderName: '07_kitchen_visualisation',
         media: [
+            { type: 'video', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3_1.webm' },
             { type: 'video', url: '/projects/07_kitchen_visualisation/relticc_3d_exp_pro_kitchen_1.webm' },
-            { type: 'video', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3_1.webm' }
+            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;01;21).jpg' },
+            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;02;14).jpg' },
+            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;03;03).jpg' },
+            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;05;13).jpg' },
+            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;09;00).jpg' },
+            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;09;16).jpg' },
+            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;11;22).jpg' },
+            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;12;19).jpg' },
+            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;14;00).jpg' }
         ],
         technicals: {
             icons: [SiUnrealengine, SiAdobeaftereffects],
