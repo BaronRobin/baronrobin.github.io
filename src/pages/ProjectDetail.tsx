@@ -36,7 +36,6 @@ const ProjectDetail = () => {
                         {/* Desktop Nav */}
                         <div className="hidden md:flex space-x-6 text-sm font-medium text-slate-300">
                             <Link to="/" className="hover:text-white transition-colors">Home</Link>
-                            {/* These anchor links only work on Home, so we redirect to Home first */}
                             <Link to="/" className="hover:text-white transition-colors">Projects</Link>
                             <Link to="/" className="hover:text-white transition-colors">About</Link>
                             <Link to="/" className="hover:text-white transition-colors">Contact</Link>
@@ -64,7 +63,7 @@ const ProjectDetail = () => {
                 )}
             </nav>
 
-            {/* Back Button (Breadcrumb style) */}
+            {/* Back Button */}
             <div className="pt-32 container mx-auto px-6">
                 <Link to="/" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-8 group">
                     <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
@@ -88,6 +87,53 @@ const ProjectDetail = () => {
                     </p>
                 </motion.div>
             </div>
+
+            {/* Technical Details Section */}
+            {project.technicals && (
+                <section className="pb-16 container mx-auto px-6">
+                    <div className="max-w-5xl mx-auto glass-card p-8 md:p-12">
+
+                        {/* Icons */}
+                        <div className="flex flex-wrap justify-center gap-6 mb-12 border-b border-white/5 pb-8">
+                            {project.technicals.icons.map((Icon, i) => (
+                                <div key={i} className="text-slate-300 bg-white/5 p-4 rounded-xl hover:bg-white/10 hover:text-white transition-all hover:scale-110">
+                                    <Icon className="w-8 h-8 md:w-10 md:h-10" />
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Columns */}
+                        <div className={`grid gap-8 ${project.technicals.columns.length === 1 ? 'place-items-center text-center' :
+                                project.technicals.columns.length === 2 ? 'md:grid-cols-2' :
+                                    'md:grid-cols-3'
+                            }`}>
+                            {project.technicals.columns.map((column, colIndex) => (
+                                <ul key={colIndex} className="space-y-3">
+                                    {column.map((item, itemIndex) => (
+                                        <motion.li
+                                            key={itemIndex}
+                                            initial={{ opacity: 0, y: 10 }}
+                                            whileInView={{ opacity: 1, y: 0 }}
+                                            viewport={{ once: true }}
+                                            transition={{ delay: itemIndex * 0.05 }}
+                                            className="text-slate-300 font-light flex items-start gap-2"
+                                        >
+                                            {project.technicals!.columns.length === 1 ? (
+                                                <span className="block">{item}</span>
+                                            ) : (
+                                                <>
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-2 shrink-0 opacity-50" />
+                                                    <span>{item}</span>
+                                                </>
+                                            )}
+                                        </motion.li>
+                                    ))}
+                                </ul>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {/* Media Gallery */}
             <section className="pb-32 container mx-auto px-6">

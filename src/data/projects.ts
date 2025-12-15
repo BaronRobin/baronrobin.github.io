@@ -1,3 +1,14 @@
+import React from 'react';
+import {
+    SiAdobeaftereffects,
+    SiAdobepremierepro,
+    SiAdobephotoshop,
+    SiUnrealengine,
+    SiBlender,
+    SiReact
+} from 'react-icons/si';
+import { Camera, Mail, Database, Box } from 'lucide-react';
+
 export interface ProjectMedia {
     type: 'image' | 'video';
     url: string;
@@ -11,6 +22,10 @@ export interface Project {
     description: string;
     folderName: string; // Helper for public folder path
     media: ProjectMedia[];
+    technicals?: {
+        icons: React.ComponentType<{ className?: string }>[];
+        columns: string[][];
+    };
 }
 
 export const projects: Project[] = [
@@ -23,7 +38,27 @@ export const projects: Project[] = [
         media: [
             { type: 'image', url: '/projects/01_polarise/cover.webp' },
             { type: 'video', url: '/projects/01_polarise/demo.webm' },
-        ]
+        ],
+        technicals: {
+            icons: [SiAdobeaftereffects, SiAdobepremierepro, SiAdobephotoshop, SiUnrealengine],
+            columns: [
+                [
+                    'Postproduction inklusive Crypomattes',
+                    'Color Correction'
+                ],
+                [
+                    'Level Sequencer',
+                    'MovieRenderQueue',
+                    'Layout 3D',
+                    'Rendering mit Passes',
+                    'Camera',
+                    'Lighting',
+                    'Materials',
+                    'PathTracing',
+                    'Blueprint Coding'
+                ]
+            ]
+        }
     },
     {
         id: '02-3d-video',
@@ -34,7 +69,34 @@ export const projects: Project[] = [
         media: [
             { type: 'video', url: '/projects/02_3d_video/demo.webm' },
             { type: 'image', url: '/projects/02_3d_video/cover.webp' }
-        ]
+        ],
+        technicals: {
+            icons: [SiAdobeaftereffects, SiAdobepremierepro, SiBlender, SiUnrealengine],
+            columns: [
+                [
+                    'Postproduction inklusive Crypomattes',
+                    'Video Cutting',
+                    'Text Animation',
+                    'Masking',
+                    'Captions',
+                    'Color Correction'
+                ],
+                [
+                    'Particle Simulation + Rendering (Eevee)',
+                    '3D Modeling'
+                ],
+                [
+                    'Level Sequencer',
+                    'MovieRenderQueue',
+                    'Layout 3D',
+                    'Rendering mit Passes',
+                    'Animation Ventilatoren',
+                    'Camera',
+                    'Lighting',
+                    'Materials'
+                ]
+            ]
+        }
     },
     {
         id: '03-gatti-interviews',
@@ -42,7 +104,37 @@ export const projects: Project[] = [
         category: 'Video Production',
         description: 'Interview series editing and color grading.',
         folderName: '03_gatti_interviews',
-        media: [{ type: 'image', url: '/projects/03_gatti_interviews/cover.webp' }]
+        media: [{ type: 'image', url: '/projects/03_gatti_interviews/cover.webp' }],
+        technicals: {
+            icons: [SiAdobeaftereffects, SiAdobepremierepro, SiBlender, SiUnrealengine, Camera],
+            columns: [
+                [
+                    'Postproduction inklusive Crypomattes',
+                    'Video Cutting',
+                    'Text Animation',
+                    'Masking',
+                    'Captions',
+                    'Color Correction'
+                ],
+                [
+                    'Particle Simulation + Rendering (Eevee)',
+                    '3D Modeling',
+                    'Real Life Footage filming mit Gimbal',
+                    'Shotlist Working',
+                    'Audio Setup'
+                ],
+                [
+                    'Level Sequencer',
+                    'MovieRenderQueue',
+                    'Layout 3D',
+                    'Rendering mit Passes',
+                    'Animation Ventilatoren',
+                    'Camera',
+                    'Lighting',
+                    'Materials'
+                ]
+            ]
+        }
     },
     {
         id: '04-smart-city',
@@ -50,7 +142,34 @@ export const projects: Project[] = [
         category: '3D Visualization',
         description: 'Urban planning and smart city visualization concepts.',
         folderName: '04_smart_city',
-        media: [{ type: 'image', url: '/projects/04_smart_city/cover.webp' }]
+        media: [{ type: 'image', url: '/projects/04_smart_city/cover.webp' }],
+        technicals: {
+            icons: [SiAdobeaftereffects, Box, SiUnrealengine],
+            columns: [
+                [
+                    'Postproduction inklusive Crypomattes',
+                    'Video Cutting',
+                    'Transitions',
+                    'Masking',
+                    'Color Correction',
+                    'Text Animation',
+                    'MoGraph'
+                ],
+                [
+                    'Unreal Mesh to LiDAR Pointcloud'
+                ],
+                [
+                    'Level Sequencer',
+                    'MovieRenderQueue',
+                    'Layout 3D',
+                    'Rendering mit Passes',
+                    'Animation Laternen',
+                    'Camera',
+                    'Lighting',
+                    'Materials'
+                ]
+            ]
+        }
     },
     {
         id: '05-dashboard',
@@ -58,7 +177,18 @@ export const projects: Project[] = [
         category: 'UI/UX',
         description: 'Data visualization dashboard design for enterprise metrics.',
         folderName: '05_dashboard',
-        media: [{ type: 'image', url: '/projects/05_dashboard/cover.webp' }]
+        media: [{ type: 'image', url: '/projects/05_dashboard/cover.webp' }],
+        technicals: {
+            icons: [SiReact, Database, Mail],
+            columns: [
+                [
+                    'Gebaut mit:',
+                    'react (UI)',
+                    'sql (Daten)',
+                    'Postmark (Email-Verkehr)'
+                ]
+            ]
+        }
     },
     {
         id: '06-houdini',
