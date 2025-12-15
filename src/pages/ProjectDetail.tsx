@@ -136,7 +136,7 @@ const ProjectDetail = () => {
             {project.technicals && (
                 <section className="py-20 bg-slate-900">
                     <div className="container mx-auto px-6">
-                        <div className="max-w-7xl mx-auto">
+                        <div className="max-w-5xl mx-auto">
                             {/* Icons */}
                             <div className="flex flex-wrap justify-center gap-6 mb-12 border-b border-white/5 pb-8">
                                 {project.technicals.icons.map((Icon, i) => (
