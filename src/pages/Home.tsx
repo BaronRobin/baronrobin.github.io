@@ -153,17 +153,15 @@ const Home = () => {
                     <div className="absolute inset-0 bg-gradient-to-b from-slate-950/30 via-slate-950/20 to-slate-950/90" />
                 </div>
 
-                <div className="container mx-auto px-6 relative z-10 text-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.4 }}
-                        className="flex justify-center space-x-6 mb-12"
-                    >
-                        <SocialLink href="https://www.instagram.com/phtorob" icon={<Instagram />} />
-                        <SocialLink href="mailto:robinbaron@icloud.com" icon={<Mail />} />
-                    </motion.div>
-                </div>
+                <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, delay: 0.4 }}
+                    className="absolute bottom-10 right-6 md:right-10 flex gap-4 z-20"
+                >
+                    <SocialLink href="https://www.instagram.com/phtorob" icon={<Instagram />} />
+                    <SocialLink href="mailto:robinbaron@icloud.com" icon={<Mail />} />
+                </motion.div>
 
                 <motion.div
                     animate={{ y: [0, 15, 0] }}
