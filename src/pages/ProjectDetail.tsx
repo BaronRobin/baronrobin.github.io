@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { projects } from '../data/projects';
 
 const ProjectDetail = () => {
     const { id } = useParams<{ id: string }>();
-    const navigate = useNavigate();
     const project = projects.find((p) => p.id === id);
 
     useEffect(() => {

@@ -241,7 +241,7 @@ const Home = () => {
                     <SectionHeader title="Selected Works" subtitle="A glimpse into my portfolio" />
 
                     <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                        {projects.map((project, index) => (
+                        {projects.map((project) => (
                             <Link to={`/project/${project.id}`} key={project.id}>
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
