@@ -32,11 +32,18 @@ interface Skill {
   color: string;
 }
 
+interface ProjectMedia {
+  type: 'image' | 'video';
+  url: string;
+  thumbnail?: string;
+}
+
 interface Project {
+  id: string;
   title: string;
   category: string;
-  image: string;
   description: string;
+  media: ProjectMedia[];
 }
 
 // Data
@@ -56,26 +63,16 @@ const skills: Skill[] = [
   { name: 'DaVinci Resolve', icon: SiDavinciresolve, color: '#000000' },
 ];
 
-const projects: Project[] = [
-  {
-    title: 'Waves',
-    category: 'Motion Design',
-    image: 'https://images.unsplash.com/photo-1518155317743-a8ff43ea6a5d?q=80&w=2670&auto=format&fit=crop', // Placeholder until local images are linked
-    description: 'Experimental fluid simulations and wave dynamics.'
-  },
-  {
-    title: 'Cube Sphere',
-    category: '3D Modeling',
-    image: 'https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=2670&auto=format&fit=crop', // Placeholder
-    description: 'Geometric abstraction studies.'
-  },
-  {
-    title: 'Displacement',
-    category: 'VFX',
-    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop', // Placeholder
-    description: 'Procedural displacement loop animations.'
-  },
-];
+const projects: Project[] = Array.from({ length: 10 }, (_, i) => ({
+  id: `project-${i + 1}`,
+  title: `Project ${i + 1}`,
+  category: ['Motion Design', '3D Modeling', 'VFX', 'Commercial'][i % 4],
+  description: 'Description of the project goes here. This will be replaced by your content.',
+  media: [
+    { type: 'image', url: 'https://images.unsplash.com/photo-1518155317743-a8ff43ea6a5d?q=80&w=2670&auto=format&fit=crop' },
+    { type: 'video', url: '/projects/demo.webm', thumbnail: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop' }
+  ]
+}));
 
 const App = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -196,7 +193,7 @@ const App = () => {
                 I'm a passionate creator based in Germany, currently pursuing my Bachelor's degree at <span className="text-white font-medium">Hochschule Kaiserslautern</span>.
               </p>
               <p>
-                Alongside my studies, I work at <span className="text-white font-medium">Relticc GmbH</span>, where I apply my skills in real-world scenarios. My focus lies in the intersection of technical implementation and artistic expression.
+                Alongside my studies, I work at <span className="text-white font-medium">relticc GmbH</span>, where I apply my skills in real-world scenarios. My focus lies in the intersection of technical implementation and artistic expression.
               </p>
               <p>
                 I don't just "use" software; I combine tools like Unreal Engine, Houdini, and the Adobe Suite to craft immersive digital experiences.
@@ -207,7 +204,7 @@ const App = () => {
               <h3 className="text-xl font-semibold mb-6">Current Status</h3>
               <ul className="space-y-4">
                 <StatusItem year="2025" title="Bachelor Student" place="Hochschule Kaiserslautern" />
-                <StatusItem year="Current" title="Employee" place="Relticc GmbH" />
+                <StatusItem year="Current" title="Employee" place="relticc GmbH" />
                 <StatusItem year="Goal" title="Expanding Horizons" place="Open to new challenges" />
               </ul>
             </div>
@@ -254,14 +251,29 @@ const App = () => {
                 viewport={{ once: true }}
                 className="group relative aspect-square overflow-hidden rounded-2xl cursor-pointer"
               >
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
+                <div className="absolute inset-0 w-full h-full transition-transform duration-500 group-hover:scale-110">
+                  {project.media[0].type === 'video' ? (
+                    <video
+                      src={project.media[0].url}
+                      muted
+                      loop
+                      playsInline
+                      poster={project.media[0].thumbnail}
+                      className="object-cover w-full h-full"
+                      onMouseEnter={(e) => e.currentTarget.play()}
+                      onMouseLeave={(e) => e.currentTarget.pause()}
+                    />
+                  ) : (
+                    <img
+                      src={project.media[0].url}
+                      alt={project.title}
+                      className="object-cover w-full h-full"
+                    />
+                  )}
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity pointer-events-none" />
 
-                <div className="absolute bottom-0 left-0 p-8 w-full">
+                <div className="absolute bottom-0 left-0 p-8 w-full pointer-events-none">
                   <span className="text-purple-400 text-sm font-medium mb-2 block">{project.category}</span>
                   <h3 className="text-2xl font-bold mb-2">{project.title}</h3>
                   <p className="text-slate-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
