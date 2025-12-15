@@ -180,7 +180,7 @@ const Home = () => {
                 <div className="container mx-auto px-6">
                     <SectionHeader title="About Me" subtitle="The journey so far" />
 
-                    <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8 items-start">
+                    <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-16 items-start">
                         {/* Profile Image - Placeholder */}
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9 }}
@@ -201,7 +201,7 @@ const Home = () => {
                             />
                         </motion.div>
 
-                        <div className="space-y-6 text-slate-300 leading-relaxed text-sm md:text-base">
+                        <div className="space-y-8 text-slate-300 leading-relaxed text-sm md:text-base">
                             <p>
                                 I'm a passionate creator based in Germany, currently pursuing my Bachelor's degree at <a href="https://www.hs-kl.de/" target="_blank" rel="noopener noreferrer" className="text-white font-medium hover:text-purple-400 transition-colors">Hochschule Kaiserslautern</a>.
                             </p>
@@ -217,13 +217,26 @@ const Home = () => {
                             <h3 className="text-xl font-semibold mb-4 text-white">Current Status</h3>
                             <ul className="space-y-4">
                                 <StatusItem year="2025" title="Bachelor Student" place="Hochschule Kaiserslautern" />
-                                <StatusItem year="Current" title="Employee" place="relticc GmbH" />
+                                <StatusItem year="Now" title="Employee" place="relticc GmbH" />
                                 <StatusItem year="Goal" title="Expanding Horizons" place="Open to new challenges" />
                             </ul>
                         </div>
                     </div>
                 </div>
             </section>
+
+            {/* ... skip Skills/Projects ... */}
+
+            {/* ... in StatusItem ... */}
+            const StatusItem = ({year, title, place}: StatusItemProps) => (
+            <li className="flex gap-4 items-start">
+                <span className="text-purple-400 font-mono text-sm pt-1 w-12 shrink-0">{year}</span>
+                <div>
+                    <div className="font-semibold text-white">{title}</div>
+                    <div className="text-sm text-slate-400">{place}</div>
+                </div>
+            </li>
+            );
 
             {/* Skills Section */}
             <section id="skills" className="py-24">
@@ -379,7 +392,7 @@ interface StatusItemProps {
 
 const StatusItem = ({ year, title, place }: StatusItemProps) => (
     <li className="flex gap-4 items-start">
-        <span className="text-purple-400 font-mono text-sm pt-1">{year}</span>
+        <span className="text-purple-400 font-mono text-sm pt-1 w-12 shrink-0">{year}</span>
         <div>
             <div className="font-semibold text-white">{title}</div>
             <div className="text-sm text-slate-400">{place}</div>
