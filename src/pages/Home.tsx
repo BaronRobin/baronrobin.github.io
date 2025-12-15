@@ -242,7 +242,7 @@ const Home = () => {
 
                     <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                         {projects.map((project) => (
-                            <Link to={`/project/${project.id}`} key={project.id}>
+                            <Link to={`/project/${project.id}`} key={project.id} className="block h-full">
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
                                     whileInView={{ opacity: 1, y: 0 }}

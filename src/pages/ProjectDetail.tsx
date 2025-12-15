@@ -1,12 +1,13 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Menu, X } from 'lucide-react';
 import { projects } from '../data/projects';
 
 const ProjectDetail = () => {
     const { id } = useParams<{ id: string }>();
     const project = projects.find((p) => p.id === id);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -27,23 +28,52 @@ const ProjectDetail = () => {
             {/* Navigation */}
             <nav className="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-md border-b border-white/5">
                 <div className="container mx-auto px-6 h-20 flex items-center justify-between">
-                    <Link to="/" className="hover:text-purple-400 transition-colors">
-                        <motion.div
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            className="flex items-center gap-2"
-                        >
-                            <ArrowLeft size={20} />
-                            <span className="font-medium">Back</span>
-                        </motion.div>
-                    </Link>
+                    <div className="flex items-center gap-6">
+                        <Link to="/" className="text-2xl font-bold tracking-tighter hover:text-purple-400 transition-colors">
+                            BARON
+                        </Link>
 
-                    <div className="font-bold tracking-tighter">BARON</div>
+                        {/* Desktop Nav */}
+                        <div className="hidden md:flex space-x-6 text-sm font-medium text-slate-300">
+                            <Link to="/" className="hover:text-white transition-colors">Home</Link>
+                            {/* These anchor links only work on Home, so we redirect to Home first */}
+                            <Link to="/" className="hover:text-white transition-colors">Projects</Link>
+                            <Link to="/" className="hover:text-white transition-colors">About</Link>
+                            <Link to="/" className="hover:text-white transition-colors">Contact</Link>
+                        </div>
+                    </div>
+
+                    {/* Mobile Menu Toggle */}
+                    <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                        {isMenuOpen ? <X /> : <Menu />}
+                    </button>
                 </div>
+
+                {/* Mobile Menu */}
+                {isMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="md:hidden absolute top-20 left-0 w-full bg-slate-950 border-b border-white/10 py-4"
+                    >
+                        <Link to="/" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>Home</Link>
+                        <Link to="/" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>Projects</Link>
+                        <Link to="/" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>About</Link>
+                        <Link to="/" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>Contact</Link>
+                    </motion.div>
+                )}
             </nav>
 
+            {/* Back Button (Breadcrumb style) */}
+            <div className="pt-32 container mx-auto px-6">
+                <Link to="/" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-8 group">
+                    <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+                    <span>Back to Projects</span>
+                </Link>
+            </div>
+
             {/* Hero Content */}
-            <div className="pt-32 pb-16 container mx-auto px-6">
+            <div className="pb-16 container mx-auto px-6">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
