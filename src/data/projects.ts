@@ -5,7 +5,9 @@ import {
     SiAdobephotoshop,
     SiUnrealengine,
     SiBlender,
-    SiReact
+    SiReact,
+    SiDavinciresolve,
+    SiHoudini
 } from 'react-icons/si';
 import { Camera, Mail, Database, Box } from 'lucide-react';
 
@@ -75,7 +77,7 @@ export const projects: Project[] = [
         id: '02-3d-video',
         title: '3D Video',
         category: 'Launch',
-        description: 'Experimental 3D video production and motion graphics.',
+        description: 'Launch video of Company Rebranding.',
         folderName: '02_3d_video',
         media: [
             { type: 'video', url: '/projects/02_3d_video/demo.webm' },
@@ -227,9 +229,27 @@ export const projects: Project[] = [
         description: 'Procedural generation and simulation studies in Houdini.',
         folderName: '06_houdini',
         media: [
-            { type: 'video', url: '/projects/06_houdini/Houdini_1.webm' },
-            { type: 'image', url: '/projects/06_houdini/technical_breakdown.png' }
-        ]
+            { type: 'video', url: '/projects/06_houdini/Houdini_1.webm' }
+        ],
+        technicals: {
+            icons: [SiDavinciresolve, SiHoudini],
+            columns: [
+                [
+                    'Postproduction',
+                    'Video Cutting',
+                    'Transitions',
+                    'Masking',
+                    'Color Correction'
+                ],
+                [
+                    'Vellum Simulation',
+                    'Rendering',
+                    'Lighting',
+                    'Camera',
+                    'Materials & stress Parameter as color driver'
+                ]
+            ]
+        }
     },
     {
         id: '07-kitchen-visualisation',
@@ -294,11 +314,24 @@ export const projects: Project[] = [
         id: '10-projection-mapping',
         title: 'Projection Mapping',
         category: 'Event Tech',
-        description: 'Large scale projection mapping projects and tests.',
+        description: 'First steps in MadMapper.',
         folderName: '10_projection_mapping',
         media: [
-            { type: 'video', url: '/projects/10_projection_mapping/demo.webm' },
-            { type: 'image', url: '/projects/10_projection_mapping/technical_breakdown.png' }
-        ]
+            { type: 'video', url: '/projects/10_projection_mapping/demo.webm' }
+        ],
+        technicals: {
+            icons: [SiAdobeaftereffects, Box],
+            columns: [
+                [
+                    'Effekterstellung',
+                    'Platzhalter zum Mappen',
+                    'Animationen',
+                    'Musikabstimmung'
+                ],
+                [
+                    'Mapping in Echtwelt'
+                ]
+            ]
+        }
     }
 ];
