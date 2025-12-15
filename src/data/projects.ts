@@ -78,6 +78,7 @@ export const projects: Project[] = [
         folderName: '02_3d_video',
         media: [
             { type: 'video', url: '/projects/02_3d_video/demo.webm' },
+            { type: 'video', url: '/projects/02_3d_video/Gatti_Lauch_3D_Video_1.webm' },
             { type: 'image', url: '/projects/02_3d_video/cover.webp' }
         ],
         technicals: {
@@ -155,7 +156,10 @@ export const projects: Project[] = [
         category: '3D Visualization',
         description: 'Urban planning and smart city visualization concepts.',
         folderName: '04_smart_city',
-        media: [{ type: 'image', url: '/projects/04_smart_city/cover.webp' }],
+        media: [
+            { type: 'image', url: '/projects/04_smart_city/cover.webp' },
+            { type: 'video', url: '/projects/04_smart_city/Regionnect_Trailer_4k_1.webm' }
+        ],
         technicals: {
             icons: [SiAdobeaftereffects, Box, SiUnrealengine],
             columns: [
@@ -209,7 +213,10 @@ export const projects: Project[] = [
         category: 'VFX / Simulation',
         description: 'Procedural generation and simulation studies in Houdini.',
         folderName: '06_houdini',
-        media: [{ type: 'video', url: '/projects/06_houdini/Houdini_1.webm' }]
+        media: [
+            { type: 'video', url: '/projects/06_houdini/Houdini_1.webm' },
+            { type: 'image', url: '/projects/06_houdini/technical_breakdown.png' }
+        ]
     },
     {
         id: '07-kitchen-visualisation',
@@ -217,7 +224,11 @@ export const projects: Project[] = [
         category: 'ArchViz',
         description: 'Photorealistic kitchen rendering and lighting setup.',
         folderName: '07_kitchen_visualisation',
-        media: [{ type: 'video', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3_1.webm' }]
+        media: [
+            { type: 'video', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3_1.webm' },
+            { type: 'video', url: '/projects/07_kitchen_visualisation/relticc_3d_exp_pro_kitchen_1.webm' },
+            { type: 'image', url: '/projects/07_kitchen_visualisation/technical_breakdown.png' }
+        ]
     },
     {
         id: '08-freisteller',
@@ -233,7 +244,8 @@ export const projects: Project[] = [
             { type: 'image', url: '/projects/08_freisteller/ND_MD_Rack_Single_Back.webp' },
             { type: 'image', url: '/projects/08_freisteller/ND_MD_Rackrow_Front.webp' },
             { type: 'image', url: '/projects/08_freisteller/ND_MD_OverallDC_perspective.webp' },
-            { type: 'image', url: '/projects/08_freisteller/ND_MD_Rack_Single_Front.webp' }
+            { type: 'image', url: '/projects/08_freisteller/ND_MD_Rack_Single_Front.webp' },
+            { type: 'image', url: '/projects/08_freisteller/technical_breakdown.png' }
         ]
     },
     {
@@ -250,6 +262,9 @@ export const projects: Project[] = [
         category: 'Event Tech',
         description: 'Large scale projection mapping projects and tests.',
         folderName: '10_projection_mapping',
-        media: [{ type: 'video', url: '/projects/10_projection_mapping/demo.webm' }]
+        media: [
+            { type: 'video', url: '/projects/10_projection_mapping/demo.webm' },
+            { type: 'image', url: '/projects/10_projection_mapping/technical_breakdown.png' }
+        ]
     }
 ];
