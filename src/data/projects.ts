@@ -40,7 +40,7 @@ export const projects: Project[] = [
         folderName: '01_polarise',
         media: [
             { type: 'image', url: '/projects/01_polarise/01_Datacenter_Outdoor.jpg' },
-            { type: 'video', url: '/projects/01_polarise/Polarise.mp4' },
+            { type: 'video', url: '/projects/01_polarise/Polarise_1.webm' },
             { type: 'image', url: '/projects/01_polarise/02_PV_Anlage.jpg' },
             { type: 'image', url: '/projects/01_polarise/03_Office.jpg' },
             { type: 'image', url: '/projects/01_polarise/04_Kitchen.jpg' },
