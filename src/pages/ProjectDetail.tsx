@@ -131,48 +131,50 @@ const ProjectDetail = () => {
                 </motion.div>
             </div>
 
-            {/* Technical Details Section */}
+            {/* Technical Details */}
+            {/* Technical Details */}
             {project.technicals && (
-                <section className="pb-16 container mx-auto px-6">
-                    <div className="max-w-5xl mx-auto glass-card p-8 md:p-12">
+                <section className="py-20 bg-slate-900">
+                    <div className="container mx-auto px-6">
+                        <div className="max-w-7xl mx-auto">
+                            {/* Icons */}
+                            <div className="flex flex-wrap justify-center gap-6 mb-12 border-b border-white/5 pb-8">
+                                {project.technicals.icons.map((Icon, i) => (
+                                    <div key={i} className="text-slate-300 bg-white/5 p-4 rounded-xl hover:bg-white/10 hover:text-white transition-all hover:scale-110">
+                                        <Icon className="w-8 h-8 md:w-10 md:h-10" />
+                                    </div>
+                                ))}
+                            </div>
 
-                        {/* Icons */}
-                        <div className="flex flex-wrap justify-center gap-6 mb-12 border-b border-white/5 pb-8">
-                            {project.technicals.icons.map((Icon, i) => (
-                                <div key={i} className="text-slate-300 bg-white/5 p-4 rounded-xl hover:bg-white/10 hover:text-white transition-all hover:scale-110">
-                                    <Icon className="w-8 h-8 md:w-10 md:h-10" />
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Columns */}
-                        <div className={`grid gap-8 ${project.technicals.columns.length === 1 ? 'place-items-center text-center' :
-                            project.technicals.columns.length === 2 ? 'md:grid-cols-2' :
-                                'md:grid-cols-3'
-                            }`}>
-                            {project.technicals.columns.map((column, colIndex) => (
-                                <ul key={colIndex} className="space-y-3">
-                                    {column.map((item, itemIndex) => (
-                                        <motion.li
-                                            key={itemIndex}
-                                            initial={{ opacity: 0, y: 10 }}
-                                            whileInView={{ opacity: 1, y: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ delay: itemIndex * 0.05 }}
-                                            className="text-slate-300 font-light flex items-start gap-2"
-                                        >
-                                            {project.technicals!.columns.length === 1 ? (
-                                                <span className="block">{item}</span>
-                                            ) : (
-                                                <>
-                                                    <span className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-2 shrink-0 opacity-50" />
-                                                    <span>{item}</span>
-                                                </>
-                                            )}
-                                        </motion.li>
-                                    ))}
-                                </ul>
-                            ))}
+                            {/* Columns */}
+                            <div className={`grid gap-8 ${project.technicals.columns.length === 1 ? 'place-items-center text-center' :
+                                    project.technicals.columns.length === 2 ? 'md:grid-cols-2' :
+                                        'md:grid-cols-3'
+                                }`}>
+                                {project.technicals.columns.map((column, colIndex) => (
+                                    <ul key={colIndex} className="space-y-3">
+                                        {column.map((item, itemIndex) => (
+                                            <motion.li
+                                                key={itemIndex}
+                                                initial={{ opacity: 0, y: 10 }}
+                                                whileInView={{ opacity: 1, y: 0 }}
+                                                viewport={{ once: true }}
+                                                transition={{ delay: itemIndex * 0.05 }}
+                                                className="text-slate-300 font-light flex items-start gap-2"
+                                            >
+                                                {project.technicals!.columns.length === 1 ? (
+                                                    <span className="block">{item}</span>
+                                                ) : (
+                                                    <>
+                                                        <span className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-2 shrink-0 opacity-50" />
+                                                        <span>{item}</span>
+                                                    </>
+                                                )}
+                                            </motion.li>
+                                        ))}
+                                    </ul>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </section>

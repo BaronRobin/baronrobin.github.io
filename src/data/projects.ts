@@ -80,10 +80,16 @@ export const projects: Project[] = [
         description: 'Launch video of Company Rebranding.',
         folderName: '02_3d_video',
         media: [
+            { type: 'image', url: '/projects/02_3d_video/cover.jpg' },
             { type: 'video', url: '/projects/02_3d_video/demo.webm' },
             { type: 'video', url: '/projects/02_3d_video/Gatti_Lauch_3D_Video_1.webm' },
-            { type: 'image', url: '/projects/02_3d_video/timeline.jpg' },
-            { type: 'image', url: '/projects/02_3d_video/cover.webp' }
+            { type: 'image', url: '/projects/02_3d_video/01.jpg' },
+            { type: 'image', url: '/projects/02_3d_video/02.jpg' },
+            { type: 'image', url: '/projects/02_3d_video/03.jpg' },
+            { type: 'image', url: '/projects/02_3d_video/04.jpg' },
+            { type: 'image', url: '/projects/02_3d_video/05.jpg' },
+            { type: 'image', url: '/projects/02_3d_video/06.jpg' },
+            { type: 'image', url: '/projects/02_3d_video/timeline.jpg' }
         ],
         technicals: {
             icons: [SiAdobeaftereffects, SiAdobepremierepro, SiBlender, SiUnrealengine],
@@ -258,8 +264,8 @@ export const projects: Project[] = [
         description: 'Photorealistic kitchen rendering and lighting setup.',
         folderName: '07_kitchen_visualisation',
         media: [
-            { type: 'video', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3_1.webm' },
-            { type: 'video', url: '/projects/07_kitchen_visualisation/relticc_3d_exp_pro_kitchen_1.webm' }
+            { type: 'video', url: '/projects/07_kitchen_visualisation/relticc_3d_exp_pro_kitchen_1.webm' },
+            { type: 'video', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3_1.webm' }
         ],
         technicals: {
             icons: [SiUnrealengine, SiAdobeaftereffects],
@@ -298,9 +304,25 @@ export const projects: Project[] = [
             { type: 'image', url: '/projects/08_freisteller/ND_MD_Rack_Single_Back.webp' },
             { type: 'image', url: '/projects/08_freisteller/ND_MD_Rackrow_Front.webp' },
             { type: 'image', url: '/projects/08_freisteller/ND_MD_OverallDC_perspective.webp' },
-            { type: 'image', url: '/projects/08_freisteller/ND_MD_Rack_Single_Front.webp' },
-            { type: 'image', url: '/projects/08_freisteller/technical_breakdown.png' }
-        ]
+            { type: 'image', url: '/projects/08_freisteller/ND_MD_Rack_Single_Front.webp' }
+        ],
+        technicals: {
+            icons: [SiUnrealengine, SiAdobeaftereffects, SiBlender],
+            columns: [
+                [
+                    'Studio Setup',
+                    'Rendering mit Passes',
+                    'Lighting',
+                    'Modular Modeling'
+                ],
+                [
+                    'Postproduction',
+                    'Freisteller Workflow',
+                    'Color Correction',
+                    'Retouching'
+                ]
+            ]
+        }
     },
     {
         id: '09-fotogrammetrie',
