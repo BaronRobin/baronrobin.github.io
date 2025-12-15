@@ -104,8 +104,8 @@ const ProjectDetail = () => {
 
                         {/* Columns */}
                         <div className={`grid gap-8 ${project.technicals.columns.length === 1 ? 'place-items-center text-center' :
-                                project.technicals.columns.length === 2 ? 'md:grid-cols-2' :
-                                    'md:grid-cols-3'
+                            project.technicals.columns.length === 2 ? 'md:grid-cols-2' :
+                                'md:grid-cols-3'
                             }`}>
                             {project.technicals.columns.map((column, colIndex) => (
                                 <ul key={colIndex} className="space-y-3">
@@ -144,23 +144,20 @@ const ProjectDetail = () => {
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: index * 0.1 }}
-                            className={`relative rounded-2xl overflow-hidden glass-card ${
-                                // Make the first item span full width if it's the only one or logically the 'hero'
-                                index === 0 && project.media.length % 2 !== 0 ? 'md:col-span-2 aspect-video' : 'aspect-[4/3]'
-                                }`}
+                            className="relative w-full"
                         >
                             {item.type === 'video' ? (
                                 <video
                                     src={item.url}
                                     controls
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-auto rounded-xl shadow-lg"
                                     poster={item.thumbnail}
                                 />
                             ) : (
                                 <img
                                     src={item.url}
                                     alt={`${project.title} - Media ${index + 1}`}
-                                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                                    className="w-full h-auto object-contain"
                                 />
                             )}
                         </motion.div>

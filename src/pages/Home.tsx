@@ -174,7 +174,7 @@ const Home = () => {
                             className="relative w-full rounded-2xl overflow-hidden glass-card"
                         >
                             <img
-                                src="/profile.webp"
+                                src="/profile.webp?v=2"
                                 alt="Robin Baron"
                                 className="w-full h-auto"
                                 onError={(e) => {
