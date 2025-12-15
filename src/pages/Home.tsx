@@ -4,7 +4,6 @@ import { Link, useLocation } from 'react-router-dom';
 import {
     Menu,
     X,
-    Github,
     Instagram,
     Mail,
     ChevronDown,
@@ -144,46 +143,36 @@ const Home = () => {
             </nav>
 
             {/* Hero Section */}
-            <section className="relative h-screen flex items-center justify-center overflow-hidden">
-                {/* Background Gradients */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(76,29,149,0.15),rgba(15,23,42,1))]" />
+            <section className="relative h-screen flex items-end justify-center overflow-hidden pb-20">
+                {/* Background Image */}
+                <div className="absolute inset-0 z-0">
+                    <img
+                        src="/projects/01_polarise/01_Datacenter_Outdoor.jpg"
+                        alt="Hero Background"
+                        className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-slate-950/30 via-slate-950/20 to-slate-950/90" />
+                </div>
 
                 <div className="container mx-auto px-6 relative z-10 text-center">
-                    <motion.h1
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="text-5xl md:text-8xl font-bold tracking-tight mb-6"
-                    >
-                        Robin Baron
-                    </motion.h1>
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-xl md:text-2xl text-slate-400 max-w-2xl mx-auto mb-12"
-                    >
-                        Bridging the gap between Virtual Design & Technology.
-                    </motion.p>
-
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.4 }}
-                        className="flex justify-center space-x-6"
+                        className="flex justify-center space-x-6 mb-12"
                     >
-                        <SocialLink href="https://github.com/BaronRobin" icon={<Github />} />
                         <SocialLink href="https://www.instagram.com/phtorob" icon={<Instagram />} />
                         <SocialLink href="mailto:robinbaron@icloud.com" icon={<Mail />} />
                     </motion.div>
                 </div>
 
                 <motion.div
-                    animate={{ y: [0, 10, 0] }}
-                    transition={{ repeat: Infinity, duration: 2 }}
-                    className="absolute bottom-10 left-1/2 -translate-x-1/2 text-slate-500"
+                    animate={{ y: [0, 15, 0] }}
+                    transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                    className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50 flex flex-col items-center gap-2"
                 >
-                    <ChevronDown />
+                    <span className="text-xs uppercase tracking-widest font-light">Scroll</span>
+                    <ChevronDown size={32} />
                 </motion.div>
             </section>
 
@@ -314,9 +303,6 @@ const Home = () => {
                     </div>
 
                     <div className="text-center mt-12">
-                        <a href="https://github.com/BaronRobin" target="_blank" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
-                            View more on GitHub <ExternalLink size={16} />
-                        </a>
                     </div>
                 </div>
             </section>
