@@ -330,7 +330,16 @@ export const projects: Project[] = [
         category: 'Personal Interest',
         description: 'Research into photogrammetry and 3D Gaussian Splatting workflows.',
         folderName: '09_fotogrammetrie',
-        media: [{ type: 'image', url: '/projects/09_fotogrammetrie/cover.webp' }]
+        media: [
+            { type: 'image', url: '/projects/09_fotogrammetrie/fotogrammetrie.jpg' },
+            { type: 'video', url: '/projects/09_fotogrammetrie/stone.mp4' },
+            { type: 'video', url: '/projects/09_fotogrammetrie/hands.mp4' },
+            { type: 'image', url: '/projects/09_fotogrammetrie/hands.jpg' },
+            { type: 'video', url: '/projects/09_fotogrammetrie/well.mp4' },
+            { type: 'video', url: '/projects/09_fotogrammetrie/castle1.mp4' },
+            { type: 'video', url: '/projects/09_fotogrammetrie/castle2.mp4' },
+            { type: 'image', url: '/projects/09_fotogrammetrie/castlerender.jpg' }
+        ]
     },
     {
         id: '10-projection-mapping',
