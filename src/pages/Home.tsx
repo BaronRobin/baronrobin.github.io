@@ -28,14 +28,90 @@ import {
 } from 'react-icons/si';
 import { projects } from '../data/projects';
 
-// Data Types
+// --- Data Types ---
 interface Skill {
     name: string;
     icon: React.ComponentType<{ className?: string }>;
     url: string;
 }
 
-// Data
+interface SectionHeaderProps {
+    title: string;
+    subtitle: string;
+}
+
+interface SocialLinkProps {
+    href: string;
+    icon: React.ReactNode;
+}
+
+interface StatusItemProps {
+    year: string;
+    title: string;
+    place: string;
+}
+
+interface SocialCardProps {
+    handle: string;
+    label: string;
+    url: string;
+    image: string;
+}
+
+// --- Helper Components ---
+const SectionHeader = ({ title, subtitle }: SectionHeaderProps) => (
+    <div className="mb-16 text-center">
+        <h2 className="text-3xl md:text-5xl font-bold mb-4">{title}</h2>
+        <div className="w-12 h-1 bg-purple-500 mx-auto mb-4" />
+        <p className="text-slate-400">{subtitle}</p>
+    </div>
+);
+
+const SocialLink = ({ href, icon }: SocialLinkProps) => (
+    <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="p-3 bg-white/5 rounded-full hover:bg-white/10 hover:text-purple-400 transition-colors"
+    >
+        {icon}
+    </a>
+);
+
+const StatusItem = ({ year, title, place }: StatusItemProps) => (
+    <li className="flex gap-4 items-start">
+        <span className="text-purple-400 font-mono text-sm pt-1 w-12 shrink-0">{year}</span>
+        <div>
+            <div className="font-semibold text-white">{title}</div>
+            <div className="text-sm text-slate-400">{place}</div>
+        </div>
+    </li>
+);
+
+const SocialCard = ({ handle, label, url, image }: SocialCardProps) => (
+    <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group relative overflow-hidden rounded-2xl aspect-square flex items-end p-6 glass-card hover:bg-white/10 transition-all duration-500"
+    >
+        <div className="absolute inset-0 z-0">
+            <img src={image} alt={handle} className="w-full h-full object-cover opacity-60 group-hover:opacity-40 group-hover:scale-110 transition-all duration-700" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+        </div>
+
+        <div className="relative z-10 w-full transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+            <div className="flex items-center gap-2 mb-1 text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -translate-y-2 group-hover:translate-y-0">
+                <Instagram size={16} />
+                <span className="text-xs font-medium tracking-wider uppercase">Instagram</span>
+            </div>
+            <h3 className="text-xl font-bold text-white mb-1">{handle}</h3>
+            <p className="text-sm text-slate-300 group-hover:text-white transition-colors">{label}</p>
+        </div>
+    </a>
+);
+
+// --- Data ---
 const skills: Skill[] = [
     { name: 'Unreal Engine 5', icon: SiUnrealengine, url: 'https://www.unrealengine.com' },
     { name: 'Houdini', icon: SiHoudini, url: 'https://www.sidefx.com' },
@@ -71,7 +147,7 @@ const Home = () => {
         }
     };
 
-    // Scroll to hash on mount (for back button and cross-page navigation)
+    // Scroll to hash on mount
     useEffect(() => {
         if (location.hash) {
             const scrollToHash = () => {
@@ -80,8 +156,6 @@ const Home = () => {
                     element.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             };
-
-            // Attempt scroll immediately and after a short delay to account for rendering/layout shifts
             scrollToHash();
             setTimeout(scrollToHash, 100);
             setTimeout(scrollToHash, 500);
@@ -168,7 +242,6 @@ const Home = () => {
 
             {/* Hero Section */}
             <section className="relative h-screen flex items-end justify-center overflow-hidden pb-10">
-                {/* Background Image */}
                 <div className="absolute inset-0 z-0">
                     <img
                         src="/hero.jpg"
@@ -204,7 +277,7 @@ const Home = () => {
                     <SectionHeader title={t('about.title')} subtitle={t('about.subtitle')} />
 
                     <div className="max-w-7xl mx-auto grid md:grid-cols-5 gap-16 items-stretch">
-                        {/* Profile Image - Placeholder */}
+                        {/* Profile Image - 40% Width */}
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9 }}
                             whileInView={{ opacity: 1, scale: 1 }}
@@ -216,7 +289,6 @@ const Home = () => {
                                 alt="Robin Baron"
                                 className="w-full h-full object-cover"
                                 onError={(e) => {
-                                    // Fallback if image not found
                                     e.currentTarget.style.display = 'none';
                                     e.currentTarget.parentElement!.classList.add('flex', 'items-center', 'justify-center', 'bg-slate-800', 'aspect-square');
                                     e.currentTarget.parentElement!.innerHTML = '<span class="text-slate-500">profile.webp</span>';
@@ -255,8 +327,6 @@ const Home = () => {
                     </div>
                 </div>
             </section>
-
-
 
             {/* Skills Section */}
             <section id="skills" className="py-24">
@@ -343,14 +413,39 @@ const Home = () => {
                             </motion.div>
                         ))}
                     </div>
+                </div>
+            </section>
 
-                    <div className="text-center mt-12">
+            {/* Social Hub - NEW SECTION */}
+            <section className="py-24">
+                <div className="container mx-auto px-6">
+                    <SectionHeader title="Social Hub" subtitle="Follow my creative journey" />
+
+                    <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                        <SocialCard
+                            handle="@stuffmadebyrob"
+                            label="Maker Portfolio"
+                            url="https://instagram.com/stuffmadebyrob"
+                            image="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800&auto=format&fit=crop"
+                        />
+                        <SocialCard
+                            handle="@phtorob"
+                            label="Photography"
+                            url="https://instagram.com/phtorob"
+                            image="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=800&auto=format&fit=crop"
+                        />
+                        <SocialCard
+                            handle="@35mmfilmbyrob"
+                            label="Analog Film"
+                            url="https://www.instagram.com/35mmfilmbyrob/"
+                            image="https://images.unsplash.com/photo-1495121605193-b116b5b9c5fe?q=80&w=800&auto=format&fit=crop"
+                        />
                     </div>
                 </div>
             </section>
 
             {/* Contact Section */}
-            <section id="contact" className="py-24">
+            <section id="contact" className="py-24 bg-slate-900/50">
                 <div className="container mx-auto px-6 text-center">
                     <SectionHeader title={t('contact.title')} subtitle={t('contact.subtitle')} />
 
@@ -372,6 +467,7 @@ const Home = () => {
             <footer className="py-8 border-t border-white/5 text-center text-slate-500 text-sm">
                 <p>&copy; {new Date().getFullYear()} Robin Baron. {t('footer.rights')}</p>
             </footer>
+
             {/* Back to Top */}
             <motion.button
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -384,50 +480,5 @@ const Home = () => {
         </div>
     );
 };
-
-interface SectionHeaderProps {
-    title: string;
-    subtitle: string;
-}
-
-const SectionHeader = ({ title, subtitle }: SectionHeaderProps) => (
-    <div className="mb-16 text-center">
-        <h2 className="text-3xl md:text-5xl font-bold mb-4">{title}</h2>
-        <div className="w-12 h-1 bg-purple-500 mx-auto mb-4" />
-        <p className="text-slate-400">{subtitle}</p>
-    </div>
-);
-
-interface SocialLinkProps {
-    href: string;
-    icon: React.ReactNode;
-}
-
-const SocialLink = ({ href, icon }: SocialLinkProps) => (
-    <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="p-3 bg-white/5 rounded-full hover:bg-white/10 hover:text-purple-400 transition-colors"
-    >
-        {icon}
-    </a>
-);
-
-interface StatusItemProps {
-    year: string;
-    title: string;
-    place: string;
-}
-
-const StatusItem = ({ year, title, place }: StatusItemProps) => (
-    <li className="flex gap-4 items-start">
-        <span className="text-purple-400 font-mono text-sm pt-1 w-12 shrink-0">{year}</span>
-        <div>
-            <div className="font-semibold text-white">{title}</div>
-            <div className="text-sm text-slate-400">{place}</div>
-        </div>
-    </li>
-);
 
 export default Home;
