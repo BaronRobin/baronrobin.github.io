@@ -85,6 +85,7 @@ const ProjectDetail = () => {
                             <Link to="/" className="hover:text-white transition-colors">{t('nav.home')}</Link>
                             <Link to="/#projects" className="hover:text-white transition-colors">{t('nav.projects')}</Link>
                             <Link to="/#about" className="hover:text-white transition-colors">{t('nav.about')}</Link>
+                            <Link to="/#skills" className="hover:text-white transition-colors">{t('nav.skills')}</Link>
                             <Link to="/#contact" className="hover:text-white transition-colors">{t('nav.contact')}</Link>
 
                             <div className="flex gap-2 border-l border-white/10 pl-6 ml-2">
@@ -113,6 +114,7 @@ const ProjectDetail = () => {
                         <Link to="/" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>{t('nav.home')}</Link>
                         <Link to="/#projects" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>{t('nav.projects')}</Link>
                         <Link to="/#about" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>{t('nav.about')}</Link>
+                        <Link to="/#skills" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>{t('nav.skills')}</Link>
                         <Link to="/#contact" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>{t('nav.contact')}</Link>
 
                         <div className="flex gap-4 px-6 py-3 border-t border-white/10 mt-2">

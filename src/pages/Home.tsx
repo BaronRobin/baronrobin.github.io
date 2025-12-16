@@ -71,15 +71,20 @@ const Home = () => {
         }
     };
 
-    // Scroll to hash on mount (for back button)
+    // Scroll to hash on mount (for back button and cross-page navigation)
     useEffect(() => {
         if (location.hash) {
-            const element = document.getElementById(location.hash.substring(1));
-            if (element) {
-                setTimeout(() => {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
-            }
+            const scrollToHash = () => {
+                const element = document.getElementById(location.hash.substring(1));
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            };
+
+            // Attempt scroll immediately and after a short delay to account for rendering/layout shifts
+            scrollToHash();
+            setTimeout(scrollToHash, 100);
+            setTimeout(scrollToHash, 500);
         }
     }, [location.hash]);
 
