@@ -438,21 +438,21 @@ const Home = () => {
                             label={t('social.maker.label')}
                             description={t('social.maker.description')}
                             url="https://instagram.com/stuffmadebyrob"
-                            image="https://scontent-fra5-1.cdninstagram.com/v/t51.2885-19/269663636_606907077250202_4697961221321562994_n.jpg?efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby43NTAuYzIifQ&_nc_ht=scontent-fra5-1.cdninstagram.com&_nc_cat=102&_nc_oc=Q6cZ2QFI5CB2Ks82fWHnr1gNLADSnHYBiVrvx4z70L8lUEz-nKfSPocRB5iHfdsg7vQ_eQ&_nc_ohc=MKJ2LVtPtk8Q7kNvwEeU9-n&_nc_gid=cjkFnd9ZquZk6VTke6CrLA&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_Afl1KhJfh_yIgg7TscpIJUD3UfbLOdkbL48RXY_tvbEcUg&oe=69477E97&_nc_sid=7a9f4b"
+                            image="/stuffmadebyrob.jpeg"
                         />
                         <SocialCard
                             handle="@phtorob"
                             label={t('social.photo.label')}
                             description={t('social.photo.description')}
                             url="https://instagram.com/phtorob"
-                            image="https://scontent-fra5-1.cdninstagram.com/v/t51.2885-19/350866996_149754101427634_340384223945696899_n.jpg?efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-fra5-1.cdninstagram.com&_nc_cat=110&_nc_oc=Q6cZ2QHcJ7o7o8mwh1wpZTHZoS_wBGtXHXsi8qELglVzolWIgwuVfNXBrAbrJmhWdvv9DpU&_nc_ohc=iPxkeCw3EqQQ7kNvwFMk_4T&_nc_gid=L-yyQOWW_bgrTy5dJIemLA&edm=APoiHPcBAAAA&ccb=7-5&oh=00_AfkfIEvgfbtLChqqi2yLBaZKMsXAnMROf1rgCu4hZ6sV0Q&oe=6947A969&_nc_sid=22de04"
+                            image="/phtorob.jpeg"
                         />
                         <SocialCard
                             handle="@35mmfilmbyrob"
                             label={t('social.film.label')}
                             description={t('social.film.description')}
                             url="https://www.instagram.com/35mmfilmbyrob/"
-                            image="https://scontent-fra5-2.cdninstagram.com/v/t51.2885-19/364360729_594903539521482_312397832388824997_n.jpg?efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-fra5-2.cdninstagram.com&_nc_cat=106&_nc_oc=Q6cZ2QHMHytRh_GovaiqagRYTKDlPEYTyLVSf3OqzkO1eriWJ8HC_zwHvhgUemfdqPyalhk&_nc_ohc=1pkkf7bRHGgQ7kNvwGwesIq&_nc_gid=8bj19DHOibH66jVoOfxwZA&edm=APoiHPcBAAAA&ccb=7-5&oh=00_AfnXI-Si7OyDEyTg1QrOd4A-UkGk0XKUf0uTMkFZflWchw&oe=694780CE&_nc_sid=22de04"
+                            image="/35mmfilmbyrob.jpeg"
                         />
                     </div>
                 </div>
