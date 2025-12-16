@@ -209,12 +209,10 @@ const Home = () => {
                                 {t(`nav.${item}`)}
                             </button>
                         ))}
-                        <div className="flex gap-2 ml-4 border-l border-white/10 pl-4">
-                            <button onClick={() => changeLanguage('en')} className={`hover:text-white transition-colors ${i18n.language === 'en' ? 'text-white font-bold' : ''}`}>EN</button>
-                            <span>/</span>
-                            <button onClick={() => changeLanguage('de')} className={`hover:text-white transition-colors ${i18n.language === 'de' ? 'text-white font-bold' : ''}`}>DE</button>
-                            <span>/</span>
-                            <button onClick={() => changeLanguage('es')} className={`hover:text-white transition-colors ${i18n.language === 'es' ? 'text-white font-bold' : ''}`}>ES</button>
+                        <div className="flex gap-4 border-l border-white/10 pl-6 ml-2">
+                            <button onClick={() => changeLanguage('en')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'en' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="English">🇺🇸</button>
+                            <button onClick={() => changeLanguage('de')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'de' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="Deutsch">🇩🇪</button>
+                            <button onClick={() => changeLanguage('es')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'es' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="Español">🇪🇸</button>
                         </div>
                     </div>
 
@@ -240,12 +238,10 @@ const Home = () => {
                                 {t(`nav.${item}`)}
                             </button>
                         ))}
-                        <div className="flex gap-4 px-6 py-3 border-t border-white/10 mt-2">
-                            <button onClick={() => changeLanguage('en')} className={`hover:text-white transition-colors ${i18n.language === 'en' ? 'text-white font-bold' : 'text-slate-400'}`}>EN</button>
-                            <span className="text-slate-600">/</span>
-                            <button onClick={() => changeLanguage('de')} className={`hover:text-white transition-colors ${i18n.language === 'de' ? 'text-white font-bold' : 'text-slate-400'}`}>DE</button>
-                            <span className="text-slate-600">/</span>
-                            <button onClick={() => changeLanguage('es')} className={`hover:text-white transition-colors ${i18n.language === 'es' ? 'text-white font-bold' : 'text-slate-400'}`}>ES</button>
+                        <div className="flex gap-4 border-l border-white/10 pl-6 ml-2">
+                            <button onClick={() => changeLanguage('en')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'en' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="English">🇬🇺🇸</button>
+                            <button onClick={() => changeLanguage('de')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'de' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="Deutsch">🇩🇪</button>
+                            <button onClick={() => changeLanguage('es')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'es' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="Español">🇪🇸</button>
                         </div>
                     </motion.div>
                 )}
