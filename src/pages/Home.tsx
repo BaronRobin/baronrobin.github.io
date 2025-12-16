@@ -495,42 +495,7 @@ const Home = () => {
     );
 };
 
-interface SocialCardProps {
-    handle: string;
-    label: string;
-    description: string;
-    url: string;
-    image: string;
-}
 
-const SocialCard = ({ handle, label, description, url, image }: SocialCardProps) => (
-    <a
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group relative overflow-hidden rounded-2xl flex items-center gap-6 p-4 glass-card hover:bg-white/10 transition-all duration-500 border border-white/5 hover:border-purple-500/30"
-    >
-        {/* Profile Image - Circular preview */}
-        <div className="relative w-16 h-16 shrink-0 rounded-full overflow-hidden border-2 border-white/10 group-hover:border-purple-500/50 transition-colors">
-            <img src={image} alt={handle} className="w-full h-full object-cover" />
-        </div>
-
-        {/* Content */}
-        <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1 text-purple-400">
-                <Instagram size={14} />
-                <span className="text-[10px] font-bold tracking-wider uppercase">{label}</span>
-            </div>
-            <h3 className="text-lg font-bold text-white truncate group-hover:text-purple-300 transition-colors">{handle}</h3>
-            <p className="text-sm text-slate-400 group-hover:text-slate-200 transition-colors truncate">{description}</p>
-        </div>
-
-        {/* Arrow Hint */}
-        <div className="opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300 text-purple-400">
-            <Target size={20} className="rotate-[-45deg]" /> {/* Using Target as placeholder arrow, or just arrow */}
-        </div>
-    </a>
-);
 
 export default Home;
 
