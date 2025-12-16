@@ -203,13 +203,13 @@ const Home = () => {
                 <div className="container mx-auto px-6">
                     <SectionHeader title={t('about.title')} subtitle={t('about.subtitle')} />
 
-                    <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-stretch">
+                    <div className="max-w-7xl mx-auto grid md:grid-cols-5 gap-16 items-stretch">
                         {/* Profile Image - Placeholder */}
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
-                            className="relative w-full h-full rounded-2xl overflow-hidden glass-card min-h-[400px]"
+                            className="md:col-span-2 relative w-full h-full rounded-2xl overflow-hidden glass-card min-h-[400px]"
                         >
                             <img
                                 src="/profile.webp?v=2"
@@ -224,7 +224,7 @@ const Home = () => {
                             />
                         </motion.div>
 
-                        <div className="flex flex-col gap-8 justify-between">
+                        <div className="md:col-span-3 flex flex-col gap-8 justify-between">
                             <div className="space-y-8 text-slate-300 leading-relaxed text-sm md:text-base">
                                 <p>
                                     <Trans

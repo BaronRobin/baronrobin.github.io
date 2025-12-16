@@ -244,8 +244,7 @@ export const projects: Project[] = [
             { type: 'image', url: '/projects/06_houdini/houd_01.webp' },
             { type: 'image', url: '/projects/06_houdini/houd_02.webp' },
             { type: 'image', url: '/projects/06_houdini/houd_03.webp' },
-            { type: 'image', url: '/projects/06_houdini/houd_04.webp' },
-            { type: 'image', url: '/projects/06_houdini/technical_breakdown.png' }
+            { type: 'image', url: '/projects/06_houdini/houd_04.webp' }
         ],
         technicals: {
             icons: [SiDavinciresolve, SiHoudini],
@@ -324,8 +323,7 @@ export const projects: Project[] = [
             { type: 'image', url: '/projects/08_freisteller/ND_MD_Rack_Single_Back.webp' },
             { type: 'image', url: '/projects/08_freisteller/ND_MD_Rackrow_Front.webp' },
             { type: 'image', url: '/projects/08_freisteller/ND_MD_OverallDC_perspective.webp' },
-            { type: 'image', url: '/projects/08_freisteller/ND_MD_Rack_Single_Front.webp' },
-            { type: 'image', url: '/projects/08_freisteller/technical_breakdown.png' }
+            { type: 'image', url: '/projects/08_freisteller/ND_MD_Rack_Single_Front.webp' }
         ],
         technicals: {
             icons: [SiUnrealengine, SiAdobeaftereffects, SiBlender],
@@ -393,8 +391,7 @@ export const projects: Project[] = [
         folderName: '10_projection_mapping',
         media: [
             { type: 'video', url: '/projects/10_projection_mapping/demo.webm', thumbnail: '/projects/10_projection_mapping/cover.webp' },
-            { type: 'image', url: '/projects/10_projection_mapping/cover.webp' },
-            { type: 'image', url: '/projects/10_projection_mapping/technical_breakdown.png' }
+            { type: 'image', url: '/projects/10_projection_mapping/cover.webp' }
         ],
         technicals: {
             icons: [SiAdobeaftereffects, Box],
