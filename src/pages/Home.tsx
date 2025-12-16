@@ -434,21 +434,21 @@ const Home = () => {
 
                     <div className="flex flex-col gap-4 max-w-xs mx-auto">
                         <SocialCard
-                            handle="@stuffmadebyrob"
+                            handle="Rob"
                             label={t('social.maker.label')}
                             description={t('social.maker.description')}
                             url="https://instagram.com/stuffmadebyrob"
                             image="/stuffmadebyrob.jpeg"
                         />
                         <SocialCard
-                            handle="@phtorob"
+                            handle="Rob"
                             label={t('social.photo.label')}
                             description={t('social.photo.description')}
                             url="https://instagram.com/phtorob"
                             image="/phtorob.jpeg"
                         />
                         <SocialCard
-                            handle="@35mmfilmbyrob"
+                            handle="Rob"
                             label={t('social.film.label')}
                             description={t('social.film.description')}
                             url="https://www.instagram.com/35mmfilmbyrob/"
