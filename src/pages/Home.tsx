@@ -141,6 +141,10 @@ const Home = () => {
     const location = useLocation();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+    useEffect(() => {
+        console.log("Portfolio v1.1 - Social Hub Internationalized");
+    }, []);
+
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng);
     };
