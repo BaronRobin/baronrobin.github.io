@@ -75,26 +75,24 @@ const ProjectDetail = () => {
             {/* Navigation */}
             <nav className="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-md border-b border-white/5">
                 <div className="container mx-auto px-6 h-20 flex items-center justify-between">
-                    <div className="flex items-center gap-6">
-                        <Link to="/" className="text-2xl font-bold tracking-tighter hover:text-purple-400 transition-colors">
-                            BARON
-                        </Link>
+                    <Link to="/" className="text-2xl font-bold tracking-tighter hover:text-purple-400 transition-colors">
+                        BARON
+                    </Link>
 
-                        {/* Desktop Nav */}
-                        <div className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
-                            <Link to="/" className="hover:text-white transition-colors">{t('nav.home')}</Link>
-                            <Link to="/#projects" className="hover:text-white transition-colors">{t('nav.projects')}</Link>
-                            <Link to="/#about" className="hover:text-white transition-colors">{t('nav.about')}</Link>
-                            <Link to="/#skills" className="hover:text-white transition-colors">{t('nav.skills')}</Link>
-                            <Link to="/#contact" className="hover:text-white transition-colors">{t('nav.contact')}</Link>
+                    {/* Desktop Nav */}
+                    <div className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
+                        <Link to="/" className="hover:text-white transition-colors">{t('nav.home')}</Link>
+                        <Link to="/#projects" className="hover:text-white transition-colors">{t('nav.projects')}</Link>
+                        <Link to="/#about" className="hover:text-white transition-colors">{t('nav.about')}</Link>
+                        <Link to="/#skills" className="hover:text-white transition-colors">{t('nav.skills')}</Link>
+                        <Link to="/#contact" className="hover:text-white transition-colors">{t('nav.contact')}</Link>
 
-                            <div className="flex gap-2 border-l border-white/10 pl-6 ml-2">
-                                <button onClick={() => changeLanguage('en')} className={`hover:text-white transition-colors ${i18n.language === 'en' ? 'text-white font-bold' : 'text-slate-400'}`}>EN</button>
-                                <span className="text-slate-600">/</span>
-                                <button onClick={() => changeLanguage('de')} className={`hover:text-white transition-colors ${i18n.language === 'de' ? 'text-white font-bold' : 'text-slate-400'}`}>DE</button>
-                                <span className="text-slate-600">/</span>
-                                <button onClick={() => changeLanguage('es')} className={`hover:text-white transition-colors ${i18n.language === 'es' ? 'text-white font-bold' : 'text-slate-400'}`}>ES</button>
-                            </div>
+                        <div className="flex gap-2 border-l border-white/10 pl-6 ml-2">
+                            <button onClick={() => changeLanguage('en')} className={`hover:text-white transition-colors ${i18n.language === 'en' ? 'text-white font-bold' : 'text-slate-400'}`}>EN</button>
+                            <span className="text-slate-600">/</span>
+                            <button onClick={() => changeLanguage('de')} className={`hover:text-white transition-colors ${i18n.language === 'de' ? 'text-white font-bold' : 'text-slate-400'}`}>DE</button>
+                            <span className="text-slate-600">/</span>
+                            <button onClick={() => changeLanguage('es')} className={`hover:text-white transition-colors ${i18n.language === 'es' ? 'text-white font-bold' : 'text-slate-400'}`}>ES</button>
                         </div>
                     </div>
 

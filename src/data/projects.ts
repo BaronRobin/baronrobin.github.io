@@ -127,6 +127,7 @@ export const projects: Project[] = [
         folderName: '03_gatti_interviews',
         media: [
             { type: 'video', url: '/projects/03_gatti_interviews/2025-11-06_Gatti_People_Video_Christof_relticc_Soundtrack_1.webm' },
+            { type: 'video', url: '/projects/03_gatti_interviews/Timeline_TeamVideo.mp4' },
             { type: 'video', url: '/projects/03_gatti_interviews/2025-11-06_Gatti_People_Video_Team_relticc_Soundtrack_1.webm' },
             { type: 'image', url: '/projects/03_gatti_interviews/timeline.jpg' }
         ],
@@ -212,7 +213,6 @@ export const projects: Project[] = [
         folderName: '05_dashboard',
         media: [
             { type: 'video', url: '/projects/05_dashboard/relticc_Experience_Pro_Platform.webm' },
-            { type: 'video', url: '/projects/05_dashboard/Timeline_TeamVideo.mp4' },
             { type: 'image', url: '/projects/05_dashboard/01.jpg' },
             { type: 'image', url: '/projects/05_dashboard/02.jpg' },
             { type: 'image', url: '/projects/05_dashboard/03.jpg' },
