@@ -107,8 +107,8 @@ const SocialCard = ({ handle, label, description, url, image }: SocialCardProps)
                 <Instagram size={14} />
                 <span className="text-[10px] font-bold tracking-wider uppercase">{label}</span>
             </div>
-            <h3 className="text-lg font-bold text-white truncate group-hover:text-purple-300 transition-colors">{handle}</h3>
-            <p className="text-sm text-slate-400 group-hover:text-slate-200 transition-colors truncate">{description}</p>
+            <h3 className="text-lg font-bold text-white group-hover:text-purple-300 transition-colors">{handle}</h3>
+            <p className="text-sm text-slate-400 group-hover:text-slate-200 transition-colors">{description}</p>
         </div>
 
         {/* Arrow Hint */}
