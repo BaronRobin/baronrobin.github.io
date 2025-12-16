@@ -267,6 +267,22 @@
             }
         }
     },
+    "social": {
+        "title": "Centro Social",
+        "subtitle": "Sigue mi viaje creativo",
+        "maker": {
+            "label": "Portafolio Maker",
+            "description": "Impresión 3D e Ingeniería"
+        },
+        "photo": {
+            "label": "Fotografía",
+            "description": "Fotografía Digital"
+        },
+        "film": {
+            "label": "Película Analógica",
+            "description": "Olympus OM10"
+        }
+    },
     "contact": {
         "title": "Ponte en Contacto",
         "subtitle": "Creemos algo juntos",

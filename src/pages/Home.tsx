@@ -54,6 +54,7 @@ interface StatusItemProps {
 interface SocialCardProps {
     handle: string;
     label: string;
+    description: string;
     url: string;
     image: string;
 }
@@ -88,25 +89,31 @@ const StatusItem = ({ year, title, place }: StatusItemProps) => (
     </li>
 );
 
-const SocialCard = ({ handle, label, url, image }: SocialCardProps) => (
+const SocialCard = ({ handle, label, description, url, image }: SocialCardProps) => (
     <a
         href={url}
         target="_blank"
         rel="noopener noreferrer"
-        className="group relative overflow-hidden rounded-2xl aspect-square flex items-end p-6 glass-card hover:bg-white/10 transition-all duration-500"
+        className="group relative overflow-hidden rounded-2xl flex items-center gap-6 p-4 glass-card hover:bg-white/10 transition-all duration-500 border border-white/5 hover:border-purple-500/30"
     >
-        <div className="absolute inset-0 z-0">
-            <img src={image} alt={handle} className="w-full h-full object-cover opacity-60 group-hover:opacity-40 group-hover:scale-110 transition-all duration-700" />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+        {/* Profile Image - Circular preview */}
+        <div className="relative w-16 h-16 shrink-0 rounded-full overflow-hidden border-2 border-white/10 group-hover:border-purple-500/50 transition-colors">
+            <img src={image} alt={handle} className="w-full h-full object-cover" />
         </div>
 
-        <div className="relative z-10 w-full transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-            <div className="flex items-center gap-2 mb-1 text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -translate-y-2 group-hover:translate-y-0">
-                <Instagram size={16} />
-                <span className="text-xs font-medium tracking-wider uppercase">Instagram</span>
+        {/* Content */}
+        <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1 text-purple-400">
+                <Instagram size={14} />
+                <span className="text-[10px] font-bold tracking-wider uppercase">{label}</span>
             </div>
-            <h3 className="text-xl font-bold text-white mb-1">{handle}</h3>
-            <p className="text-sm text-slate-300 group-hover:text-white transition-colors">{label}</p>
+            <h3 className="text-lg font-bold text-white truncate group-hover:text-purple-300 transition-colors">{handle}</h3>
+            <p className="text-sm text-slate-400 group-hover:text-slate-200 transition-colors truncate">{description}</p>
+        </div>
+
+        {/* Arrow Hint */}
+        <div className="opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300 text-purple-400">
+            <Target size={20} className="rotate-[-45deg]" /> {/* Using Target as placeholder arrow, or just arrow */}
         </div>
     </a>
 );
@@ -419,26 +426,29 @@ const Home = () => {
             {/* Social Hub - NEW SECTION */}
             <section className="py-24">
                 <div className="container mx-auto px-6">
-                    <SectionHeader title="Social Hub" subtitle="Follow my creative journey" />
+                    <SectionHeader title={t('social.title')} subtitle={t('social.subtitle')} />
 
-                    <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                    <div className="flex flex-col gap-4 max-w-4xl mx-auto">
                         <SocialCard
                             handle="@stuffmadebyrob"
-                            label="Maker Portfolio"
+                            label={t('social.maker.label')}
+                            description={t('social.maker.description')}
                             url="https://instagram.com/stuffmadebyrob"
-                            image="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800&auto=format&fit=crop"
+                            image="https://scontent-fra5-1.cdninstagram.com/v/t51.2885-19/269663636_606907077250202_4697961221321562994_n.jpg?efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby43NTAuYzIifQ&_nc_ht=scontent-fra5-1.cdninstagram.com&_nc_cat=102&_nc_oc=Q6cZ2QFI5CB2Ks82fWHnr1gNLADSnHYBiVrvx4z70L8lUEz-nKfSPocRB5iHfdsg7vQ_eQ&_nc_ohc=MKJ2LVtPtk8Q7kNvwEeU9-n&_nc_gid=cjkFnd9ZquZk6VTke6CrLA&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_Afl1KhJfh_yIgg7TscpIJUD3UfbLOdkbL48RXY_tvbEcUg&oe=69477E97&_nc_sid=7a9f4b"
                         />
                         <SocialCard
                             handle="@phtorob"
-                            label="Photography"
+                            label={t('social.photo.label')}
+                            description={t('social.photo.description')}
                             url="https://instagram.com/phtorob"
-                            image="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=800&auto=format&fit=crop"
+                            image="https://scontent-fra5-1.cdninstagram.com/v/t51.2885-19/350866996_149754101427634_340384223945696899_n.jpg?efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-fra5-1.cdninstagram.com&_nc_cat=110&_nc_oc=Q6cZ2QHcJ7o7o8mwh1wpZTHZoS_wBGtXHXsi8qELglVzolWIgwuVfNXBrAbrJmhWdvv9DpU&_nc_ohc=iPxkeCw3EqQQ7kNvwFMk_4T&_nc_gid=L-yyQOWW_bgrTy5dJIemLA&edm=APoiHPcBAAAA&ccb=7-5&oh=00_AfkfIEvgfbtLChqqi2yLBaZKMsXAnMROf1rgCu4hZ6sV0Q&oe=6947A969&_nc_sid=22de04"
                         />
                         <SocialCard
                             handle="@35mmfilmbyrob"
-                            label="Analog Film"
+                            label={t('social.film.label')}
+                            description={t('social.film.description')}
                             url="https://www.instagram.com/35mmfilmbyrob/"
-                            image="https://images.unsplash.com/photo-1495121605193-b116b5b9c5fe?q=80&w=800&auto=format&fit=crop"
+                            image="https://scontent-fra5-2.cdninstagram.com/v/t51.2885-19/364360729_594903539521482_312397832388824997_n.jpg?efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-fra5-2.cdninstagram.com&_nc_cat=106&_nc_oc=Q6cZ2QHMHytRh_GovaiqagRYTKDlPEYTyLVSf3OqzkO1eriWJ8HC_zwHvhgUemfdqPyalhk&_nc_ohc=1pkkf7bRHGgQ7kNvwGwesIq&_nc_gid=8bj19DHOibH66jVoOfxwZA&edm=APoiHPcBAAAA&ccb=7-5&oh=00_AfnXI-Si7OyDEyTg1QrOd4A-UkGk0XKUf0uTMkFZflWchw&oe=694780CE&_nc_sid=22de04"
                         />
                     </div>
                 </div>
@@ -481,4 +491,42 @@ const Home = () => {
     );
 };
 
+interface SocialCardProps {
+    handle: string;
+    label: string;
+    description: string;
+    url: string;
+    image: string;
+}
+
+const SocialCard = ({ handle, label, description, url, image }: SocialCardProps) => (
+    <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group relative overflow-hidden rounded-2xl flex items-center gap-6 p-4 glass-card hover:bg-white/10 transition-all duration-500 border border-white/5 hover:border-purple-500/30"
+    >
+        {/* Profile Image - Circular preview */}
+        <div className="relative w-16 h-16 shrink-0 rounded-full overflow-hidden border-2 border-white/10 group-hover:border-purple-500/50 transition-colors">
+            <img src={image} alt={handle} className="w-full h-full object-cover" />
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1 text-purple-400">
+                <Instagram size={14} />
+                <span className="text-[10px] font-bold tracking-wider uppercase">{label}</span>
+            </div>
+            <h3 className="text-lg font-bold text-white truncate group-hover:text-purple-300 transition-colors">{handle}</h3>
+            <p className="text-sm text-slate-400 group-hover:text-slate-200 transition-colors truncate">{description}</p>
+        </div>
+
+        {/* Arrow Hint */}
+        <div className="opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300 text-purple-400">
+            <Target size={20} className="rotate-[-45deg]" /> {/* Using Target as placeholder arrow, or just arrow */}
+        </div>
+    </a>
+);
+
 export default Home;
+

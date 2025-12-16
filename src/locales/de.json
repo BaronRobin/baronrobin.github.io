@@ -267,6 +267,22 @@
             }
         }
     },
+    "social": {
+        "title": "Social Hub",
+        "subtitle": "Folge meiner kreativen Reise",
+        "maker": {
+            "label": "Maker Portfolio",
+            "description": "3D-Druck & Engineering"
+        },
+        "photo": {
+            "label": "Fotografie",
+            "description": "Digitale Fotografie"
+        },
+        "film": {
+            "label": "Analog Film",
+            "description": "Olympus OM10"
+        }
+    },
     "contact": {
         "title": "Kontakt",
         "subtitle": "Lass uns etwas erschaffen",
