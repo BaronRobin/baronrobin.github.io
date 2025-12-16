@@ -164,15 +164,15 @@ export const projects: Project[] = [
         id: '04-smart-city',
         title: 'Smart City',
         category: '3D Visualization',
-        description: 'Urban planning and smart city visualization concepts.',
+        description: 'Point Cloud to Unreal Mesh',
         folderName: '04_smart_city',
         media: [
+            { type: 'image', url: '/projects/04_smart_city/cover.webp' },
             { type: 'video', url: '/projects/04_smart_city/demo.webm' },
             { type: 'image', url: '/projects/04_smart_city/1.jpg' },
             { type: 'image', url: '/projects/04_smart_city/2.jpg' },
             { type: 'image', url: '/projects/04_smart_city/3.jpg' },
-            { type: 'image', url: '/projects/04_smart_city/4.jpg' },
-            { type: 'image', url: '/projects/04_smart_city/cover.webp' }
+            { type: 'image', url: '/projects/04_smart_city/4.jpg' }
         ],
         technicals: {
             icons: [SiAdobeaftereffects, Box, SiUnrealengine],
@@ -271,6 +271,7 @@ export const projects: Project[] = [
         description: 'Photorealistic kitchen rendering and lighting setup.',
         folderName: '07_kitchen_visualisation',
         media: [
+            { type: 'image', url: '/projects/07_kitchen_visualisation/cover.webp' },
             { type: 'video', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3_1.webm' },
             { type: 'video', url: '/projects/07_kitchen_visualisation/relticc_3d_exp_pro_kitchen_1.webm' },
             { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;01;21).jpg' },

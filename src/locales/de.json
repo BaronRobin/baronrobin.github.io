@@ -1,0 +1,279 @@
+{
+    "nav": {
+        "about": "Über Mich",
+        "projects": "Projekte",
+        "skills": "Skills",
+        "contact": "Kontakt",
+        "home": "Home"
+    },
+    "hero": {
+        "scroll": "Scrollen"
+    },
+    "about": {
+        "title": "Über Mich",
+        "subtitle": "Der bisherige Weg",
+        "intro1": "Ich bin ein passionierter Gestalter aus Deutschland und studiere derzeit an der <0>Hochschule Kaiserslautern</0>.",
+        "intro2": "Neben meinem Studium arbeite ich bei der <0>relticc GmbH</0>, wo ich meine Fähigkeiten in realen Szenarien anwende. Mein Fokus liegt auf der Schnittstelle zwischen technischer Umsetzung und künstlerischem Ausdruck.",
+        "intro3": "Ich „benutze“ Software nicht einfach nur; ich kombiniere Werkzeuge wie Unreal Engine, Houdini und die Adobe Suite, um immersive digitale Erlebnisse zu schaffen.",
+        "statusTitle": "Aktueller Status",
+        "status": {
+            "student": "Bachelor Student",
+            "employee": "Angestellter",
+            "goals": "Horizonte erweitern",
+            "goalsPlace": "Offen für neue Herausforderungen"
+        }
+    },
+    "skills": {
+        "title": "Technisches Arsenal",
+        "subtitle": "Meine Werkzeuge"
+    },
+    "projects": {
+        "title": "Ausgewählte Arbeiten",
+        "subtitle": "Ein Einblick in mein Portfolio",
+        "visitLive": "Live Demo ansehen",
+        "backToProjects": "Zurück zu Projekte",
+        "notFound": "Projekt nicht gefunden",
+        "backToHome": "Zurück zur Startseite",
+        "mediaComingSoon": "Medien für dieses Projekt folgen in Kürze.",
+        "checkBackLater": "Schau später nochmal vorbei!",
+        "01-polarise": {
+            "title": "Polarise - AI Hub",
+            "category": "Arch Viz",
+            "description": "Ein umfassendes Designsystem für einen KI-Hub mit Fokus auf Klarheit und Nutzen.",
+            "technicals": {
+                "col1": [
+                    "Postproduction inklusive Cryptomattes",
+                    "Color Correction"
+                ],
+                "col2": [
+                    "Level Sequencer",
+                    "MovieRenderQueue",
+                    "Layout 3D",
+                    "Rendering mit Passes",
+                    "Kamera",
+                    "Lighting",
+                    "Materials",
+                    "PathTracing",
+                    "Blueprint Coding"
+                ]
+            }
+        },
+        "02-3d-video": {
+            "title": "3D Video",
+            "category": "Launch",
+            "description": "Launch-Video für ein Firmen-Rebranding.",
+            "technicals": {
+                "col1": [
+                    "Postproduction inklusive Cryptomattes",
+                    "Video-Schnitt",
+                    "Text-Animation",
+                    "Masking",
+                    "Untertitel",
+                    "Color Correction"
+                ],
+                "col2": [
+                    "Partikel-Simulation + Rendering (Eevee)",
+                    "3D Modeling"
+                ],
+                "col3": [
+                    "Level Sequencer",
+                    "MovieRenderQueue",
+                    "Layout 3D",
+                    "Rendering mit Passes",
+                    "Animation Ventilatoren",
+                    "Kamera",
+                    "Lighting",
+                    "Materials"
+                ]
+            }
+        },
+        "03-gatti-interviews": {
+            "title": "Gatti Interviews",
+            "category": "Video Production",
+            "description": "Schnitt und Color Grading einer Interview-Serie.",
+            "technicals": {
+                "col1": [
+                    "Postproduction inklusive Cryptomattes",
+                    "Video-Schnitt",
+                    "Text-Animation",
+                    "Masking",
+                    "Untertitel",
+                    "Color Correction"
+                ],
+                "col2": [
+                    "Partikel-Simulation + Rendering (Eevee)",
+                    "3D Modeling",
+                    "Real Life Aufnahmen mit Gimbal",
+                    "Shotlist Erstellung",
+                    "Audio Setup"
+                ],
+                "col3": [
+                    "Level Sequencer",
+                    "MovieRenderQueue",
+                    "Layout 3D",
+                    "Rendering mit Passes",
+                    "Animation Ventilatoren",
+                    "Kamera",
+                    "Lighting",
+                    "Materials"
+                ]
+            }
+        },
+        "04-smart-city": {
+            "title": "Smart City",
+            "category": "3D Visualisierung",
+            "description": "Punktwolke zu Unreal Mesh",
+            "technicals": {
+                "col1": [
+                    "Postproduction inklusive Cryptomattes",
+                    "Video-Schnitt",
+                    "Transitions",
+                    "Masking",
+                    "Color Correction",
+                    "Text-Animation",
+                    "MoGraph"
+                ],
+                "col2": [
+                    "Unreal Mesh zu LiDAR Pointcloud"
+                ],
+                "col3": [
+                    "Level Sequencer",
+                    "MovieRenderQueue",
+                    "Layout 3D",
+                    "Rendering mit Passes",
+                    "Animation Straßenlaternen",
+                    "Kamera",
+                    "Lighting",
+                    "Materials"
+                ]
+            }
+        },
+        "05-dashboard": {
+            "title": "Dashboard",
+            "category": "UI/UX",
+            "description": "Design eines Datenvisualisierungs-Dashboards für Unternehmensmetriken.",
+            "technicals": {
+                "col1": [
+                    "Gebaut mit:",
+                    "react (UI)",
+                    "sql (Daten)",
+                    "Postmark (E-Mail-Service)"
+                ]
+            }
+        },
+        "06-houdini": {
+            "title": "Houdini Explorations",
+            "category": "VFX / Simulation",
+            "description": "Studien zu prozeduraler Generierung und Simulation in Houdini.",
+            "technicals": {
+                "col1": [
+                    "Postproduction",
+                    "Video-Schnitt",
+                    "Transitions",
+                    "Masking",
+                    "Color Correction"
+                ],
+                "col2": [
+                    "Vellum Simulation",
+                    "Rendering",
+                    "Lighting",
+                    "Kamera",
+                    "Materials & Stress-Parameter als Farbtreiber"
+                ]
+            }
+        },
+        "07-kitchen-visualisation": {
+            "title": "Küchen Visualisierung",
+            "category": "ArchViz",
+            "description": "Fotorealistisches Küchen-Rendering und Licht-Setup.",
+            "technicals": {
+                "col1": [
+                    "Postproduction inklusive Cryptomattes",
+                    "Video-Schnitt",
+                    "Transitions",
+                    "Masking",
+                    "Color Correction"
+                ],
+                "col2": [
+                    "Level Sequencer",
+                    "MovieRenderQueue",
+                    "Layout 3D",
+                    "Rendering mit Passes",
+                    "Kamera",
+                    "Lighting",
+                    "Materials",
+                    "PathTracing"
+                ]
+            }
+        },
+        "08-freisteller": {
+            "title": "Freisteller Modular DC",
+            "category": "Commercial",
+            "description": "Modulare Rechenzentrum-Visualisierung und Produktpräsentation.",
+            "technicals": {
+                "col1": [
+                    "Studio Setup",
+                    "Rendering mit Passes",
+                    "Lighting",
+                    "Modulares Modeling"
+                ],
+                "col2": [
+                    "Postproduction",
+                    "Freisteller Workflow",
+                    "Color Correction",
+                    "Retusche"
+                ]
+            }
+        },
+        "09-fotogrammetrie": {
+            "title": "Fotogrammetrie & Gaussians",
+            "category": "Personal Interest",
+            "description": "Forschung zu Photogrammetrie und 3D Gaussian Splatting Workflows.",
+            "technicals": {
+                "col1": [
+                    "Verarbeitung in Agisoft Metashape",
+                    "High Poly Mesh Generierung",
+                    "Textur Projektion",
+                    "Point Cloud Bereinigung"
+                ],
+                "col2": [
+                    "Rendering in Blender",
+                    "Cycles Engine",
+                    "Gaussian Splatting Import",
+                    "Licht Setup"
+                ],
+                "col3": [
+                    "Unreal Engine 5",
+                    "Lumen & Nanite",
+                    "Level Sequencer",
+                    "Movie Render Queue"
+                ]
+            }
+        },
+        "10-projection-mapping": {
+            "title": "Projection Mapping",
+            "category": "Event Tech",
+            "description": "Erste Schritte in MadMapper.",
+            "technicals": {
+                "col1": [
+                    "Effekterstellung",
+                    "Platzhalter für Mapping",
+                    "Animationen",
+                    "Musikabstimmung"
+                ],
+                "col2": [
+                    "Mapping in der realen Welt"
+                ]
+            }
+        }
+    },
+    "contact": {
+        "title": "Kontakt",
+        "subtitle": "Lass uns etwas erschaffen",
+        "message": "Hast du ein Projekt im Kopf oder möchtest einfach Hallo sagen? Ich bin immer offen für neue Möglichkeiten und Ideen.",
+        "cta": "Sag Hallo"
+    },
+    "footer": {
+        "rights": "Alle Rechte vorbehalten."
+    }
+}

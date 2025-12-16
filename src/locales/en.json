@@ -1,0 +1,279 @@
+{
+    "nav": {
+        "about": "About",
+        "projects": "Projects",
+        "skills": "Skills",
+        "contact": "Contact",
+        "home": "Home"
+    },
+    "hero": {
+        "scroll": "Scroll"
+    },
+    "about": {
+        "title": "About Me",
+        "subtitle": "The journey so far",
+        "intro1": "I'm a passionate creator based in Germany, currently pursuing my Bachelor's degree at <0>Hochschule Kaiserslautern</0>.",
+        "intro2": "Alongside my studies, I work at <0>relticc GmbH</0>, where I apply my skills in real-world scenarios. My focus lies in the intersection of technical implementation and artistic expression.",
+        "intro3": "I don't just \"use\" software; I combine tools like Unreal Engine, Houdini, and the Adobe Suite to craft immersive digital experiences.",
+        "statusTitle": "Current Status",
+        "status": {
+            "student": "Bachelor Student",
+            "employee": "Employee",
+            "goals": "Expanding Horizons",
+            "goalsPlace": "Open to new challenges"
+        }
+    },
+    "skills": {
+        "title": "Technical Arsenal",
+        "subtitle": "Tools I execute with"
+    },
+    "projects": {
+        "title": "Selected Works",
+        "subtitle": "A glimpse into my portfolio",
+        "visitLive": "Visit Live Demo",
+        "backToProjects": "Back to Projects",
+        "notFound": "Project Not Found",
+        "backToHome": "Back to Home",
+        "mediaComingSoon": "Media for this project is coming soon.",
+        "checkBackLater": "Check back later!",
+        "01-polarise": {
+            "title": "Polarise - AI Hub",
+            "category": "Arch Viz",
+            "description": "A comprehensive AI hub design system focusing on clarity and utility.",
+            "technicals": {
+                "col1": [
+                    "Postproduction including Cryptomattes",
+                    "Color Correction"
+                ],
+                "col2": [
+                    "Level Sequencer",
+                    "MovieRenderQueue",
+                    "Layout 3D",
+                    "Rendering with Passes",
+                    "Camera",
+                    "Lighting",
+                    "Materials",
+                    "PathTracing",
+                    "Blueprint Coding"
+                ]
+            }
+        },
+        "02-3d-video": {
+            "title": "3D Video",
+            "category": "Launch",
+            "description": "Launch video of Company Rebranding.",
+            "technicals": {
+                "col1": [
+                    "Postproduction including Cryptomattes",
+                    "Video Cutting",
+                    "Text Animation",
+                    "Masking",
+                    "Captions",
+                    "Color Correction"
+                ],
+                "col2": [
+                    "Particle Simulation + Rendering (Eevee)",
+                    "3D Modeling"
+                ],
+                "col3": [
+                    "Level Sequencer",
+                    "MovieRenderQueue",
+                    "Layout 3D",
+                    "Rendering with Passes",
+                    "Animation Fans",
+                    "Camera",
+                    "Lighting",
+                    "Materials"
+                ]
+            }
+        },
+        "03-gatti-interviews": {
+            "title": "Gatti Interviews",
+            "category": "Video Production",
+            "description": "Interview series editing and color grading.",
+            "technicals": {
+                "col1": [
+                    "Postproduction including Cryptomattes",
+                    "Video Cutting",
+                    "Text Animation",
+                    "Masking",
+                    "Captions",
+                    "Color Correction"
+                ],
+                "col2": [
+                    "Particle Simulation + Rendering (Eevee)",
+                    "3D Modeling",
+                    "Real Life Footage filming with Gimbal",
+                    "Shotlist Working",
+                    "Audio Setup"
+                ],
+                "col3": [
+                    "Level Sequencer",
+                    "MovieRenderQueue",
+                    "Layout 3D",
+                    "Rendering with Passes",
+                    "Animation Fans",
+                    "Camera",
+                    "Lighting",
+                    "Materials"
+                ]
+            }
+        },
+        "04-smart-city": {
+            "title": "Smart City",
+            "category": "3D Visualization",
+            "description": "Point Cloud to Unreal Mesh",
+            "technicals": {
+                "col1": [
+                    "Postproduction including Cryptomattes",
+                    "Video Cutting",
+                    "Transitions",
+                    "Masking",
+                    "Color Correction",
+                    "Text Animation",
+                    "MoGraph"
+                ],
+                "col2": [
+                    "Unreal Mesh to LiDAR Pointcloud"
+                ],
+                "col3": [
+                    "Level Sequencer",
+                    "MovieRenderQueue",
+                    "Layout 3D",
+                    "Rendering with Passes",
+                    "Animation Streetlights",
+                    "Camera",
+                    "Lighting",
+                    "Materials"
+                ]
+            }
+        },
+        "05-dashboard": {
+            "title": "Dashboard",
+            "category": "UI/UX",
+            "description": "Data visualization dashboard design for enterprise metrics.",
+            "technicals": {
+                "col1": [
+                    "Built with:",
+                    "react (UI)",
+                    "sql (Data)",
+                    "Postmark (Email-Service)"
+                ]
+            }
+        },
+        "06-houdini": {
+            "title": "Houdini Explorations",
+            "category": "VFX / Simulation",
+            "description": "Procedural generation and simulation studies in Houdini.",
+            "technicals": {
+                "col1": [
+                    "Postproduction",
+                    "Video Cutting",
+                    "Transitions",
+                    "Masking",
+                    "Color Correction"
+                ],
+                "col2": [
+                    "Vellum Simulation",
+                    "Rendering",
+                    "Lighting",
+                    "Camera",
+                    "Materials & stress Parameter as color driver"
+                ]
+            }
+        },
+        "07-kitchen-visualisation": {
+            "title": "Kitchen Visualisation",
+            "category": "ArchViz",
+            "description": "Photorealistic kitchen rendering and lighting setup.",
+            "technicals": {
+                "col1": [
+                    "Postproduction including Cryptomattes",
+                    "Video Cutting",
+                    "Transitions",
+                    "Masking",
+                    "Color Correction"
+                ],
+                "col2": [
+                    "Level Sequencer",
+                    "MovieRenderQueue",
+                    "Layout 3D",
+                    "Rendering with Passes",
+                    "Camera",
+                    "Lighting",
+                    "Materials",
+                    "PathTracing"
+                ]
+            }
+        },
+        "08-freisteller": {
+            "title": "Freisteller Modular DC",
+            "category": "Commercial",
+            "description": "Modular data center visualization and product showcase.",
+            "technicals": {
+                "col1": [
+                    "Studio Setup",
+                    "Rendering with Passes",
+                    "Lighting",
+                    "Modular Modeling"
+                ],
+                "col2": [
+                    "Postproduction",
+                    "Cut-out Workflow",
+                    "Color Correction",
+                    "Retouching"
+                ]
+            }
+        },
+        "09-fotogrammetrie": {
+            "title": "Fotogrammetrie & Gaussians",
+            "category": "Personal Interest",
+            "description": "Research into photogrammetry and 3D Gaussian Splatting workflows.",
+            "technicals": {
+                "col1": [
+                    "Processing in Agisoft Metashape",
+                    "High Poly Mesh Generation",
+                    "Texture Projection",
+                    "Point Cloud Cleanup"
+                ],
+                "col2": [
+                    "Rendering in Blender",
+                    "Cycles Engine",
+                    "Gaussian Splatting Import",
+                    "Lighting Setup"
+                ],
+                "col3": [
+                    "Unreal Engine 5",
+                    "Lumen & Nanite",
+                    "Level Sequencer",
+                    "Movie Render Queue"
+                ]
+            }
+        },
+        "10-projection-mapping": {
+            "title": "Projection Mapping",
+            "category": "Event Tech",
+            "description": "First steps in MadMapper.",
+            "technicals": {
+                "col1": [
+                    "Effect Creation",
+                    "Mapping Placeholders",
+                    "Animations",
+                    "Music Sync"
+                ],
+                "col2": [
+                    "Mapping in Real Life"
+                ]
+            }
+        }
+    },
+    "contact": {
+        "title": "Get in Touch",
+        "subtitle": "Let's create something together",
+        "message": "Have a project in mind or just want to say hi? I'm always open to discussing new opportunities and ideas.",
+        "cta": "Say Hello"
+    },
+    "footer": {
+        "rights": "All rights reserved."
+    }
+}

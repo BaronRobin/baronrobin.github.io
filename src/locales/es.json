@@ -1,0 +1,279 @@
+{
+    "nav": {
+        "about": "Sobre mí",
+        "projects": "Proyectos",
+        "skills": "Habilidades",
+        "contact": "Contacto",
+        "home": "Inicio"
+    },
+    "hero": {
+        "scroll": "Desplazarse"
+    },
+    "about": {
+        "title": "Sobre mí",
+        "subtitle": "El viaje hasta ahora",
+        "intro1": "Soy un creador apasionado con sede en Alemania, actualmente cursando mi licenciatura en <0>Hochschule Kaiserslautern</0>.",
+        "intro2": "Junto con mis estudios, trabajo en <0>relticc GmbH</0>, donde aplico mis habilidades en escenarios del mundo real. Mi enfoque radica en la intersección de la implementación técnica y la expresión artística.",
+        "intro3": "No solo \"uso\" software; combino herramientas como Unreal Engine, Houdini y Adobe Suite para crear experiencias digitales inmersivas.",
+        "statusTitle": "Estado Actual",
+        "status": {
+            "student": "Estudiante de Grado",
+            "employee": "Empleado",
+            "goals": "Expandiendo Horizontes",
+            "goalsPlace": "Abierto a nuevos desafíos"
+        }
+    },
+    "skills": {
+        "title": "Arsenal Técnico",
+        "subtitle": "Herramientas que utilizo"
+    },
+    "projects": {
+        "title": "Trabajos Seleccionados",
+        "subtitle": "Un vistazo a mi portafolio",
+        "visitLive": "Ver Demo en Vivo",
+        "backToProjects": "Volver a Proyectos",
+        "notFound": "Proyecto no encontrado",
+        "backToHome": "Volver al Inicio",
+        "mediaComingSoon": "Los medios para este proyecto estarán disponibles pronto.",
+        "checkBackLater": "¡Vuelve más tarde!",
+        "01-polarise": {
+            "title": "Polarise - AI Hub",
+            "category": "Arch Viz",
+            "description": "Un sistema de diseño integral para un centro de IA centrado en la claridad y la utilidad.",
+            "technicals": {
+                "col1": [
+                    "Postproducción incluyendo Cryptomattes",
+                    "Corrección de Color"
+                ],
+                "col2": [
+                    "Level Sequencer",
+                    "MovieRenderQueue",
+                    "Diseño 3D",
+                    "Renderizado con Pases",
+                    "Cámara",
+                    "Iluminación",
+                    "Materiales",
+                    "PathTracing",
+                    "Codificación Blueprint"
+                ]
+            }
+        },
+        "02-3d-video": {
+            "title": "Video 3D",
+            "category": "Lanzamiento",
+            "description": "Video de lanzamiento del cambio de marca de la empresa.",
+            "technicals": {
+                "col1": [
+                    "Postproducción incluyendo Cryptomattes",
+                    "Edición de Video",
+                    "Animación de Texto",
+                    "Máscaras",
+                    "Subtítulos",
+                    "Corrección de Color"
+                ],
+                "col2": [
+                    "Simulación de Partículas + Renderizado (Eevee)",
+                    "Modelado 3D"
+                ],
+                "col3": [
+                    "Level Sequencer",
+                    "MovieRenderQueue",
+                    "Diseño 3D",
+                    "Renderizado con Pases",
+                    "Animación de Ventiladores",
+                    "Cámara",
+                    "Iluminación",
+                    "Materiales"
+                ]
+            }
+        },
+        "03-gatti-interviews": {
+            "title": "Entrevistas Gatti",
+            "category": "Producción de Video",
+            "description": "Edición y etalonaje de series de entrevistas.",
+            "technicals": {
+                "col1": [
+                    "Postproducción incluyendo Cryptomattes",
+                    "Edición de Video",
+                    "Animación de Texto",
+                    "Máscaras",
+                    "Subtítulos",
+                    "Corrección de Color"
+                ],
+                "col2": [
+                    "Simulación de Partículas + Renderizado (Eevee)",
+                    "Modelado 3D",
+                    "Grabación de video real con Gimbal",
+                    "Lista de tomas",
+                    "Configuración de Audio"
+                ],
+                "col3": [
+                    "Level Sequencer",
+                    "MovieRenderQueue",
+                    "Diseño 3D",
+                    "Renderizado con Pases",
+                    "Animación de Ventiladores",
+                    "Cámara",
+                    "Iluminación",
+                    "Materiales"
+                ]
+            }
+        },
+        "04-smart-city": {
+            "title": "Smart City",
+            "category": "Visualización 3D",
+            "description": "Nube de Puntos a Malla Unreal",
+            "technicals": {
+                "col1": [
+                    "Postproducción incluyendo Cryptomattes",
+                    "Edición de Video",
+                    "Transiciones",
+                    "Máscaras",
+                    "Corrección de Color",
+                    "Animación de Texto",
+                    "MoGraph"
+                ],
+                "col2": [
+                    "Malla Unreal a Nube de Puntos LiDAR"
+                ],
+                "col3": [
+                    "Level Sequencer",
+                    "MovieRenderQueue",
+                    "Diseño 3D",
+                    "Renderizado con Pases",
+                    "Animación de Farolas",
+                    "Cámara",
+                    "Iluminación",
+                    "Materiales"
+                ]
+            }
+        },
+        "05-dashboard": {
+            "title": "Dashboard",
+            "category": "UI/UX",
+            "description": "Diseño de panel de visualización de datos para métricas empresariales.",
+            "technicals": {
+                "col1": [
+                    "Construido con:",
+                    "react (UI)",
+                    "sql (Datos)",
+                    "Postmark (Servicio de Email)"
+                ]
+            }
+        },
+        "06-houdini": {
+            "title": "Exploraciones en Houdini",
+            "category": "VFX / Simulación",
+            "description": "Generación procedimental y estudios de simulación en Houdini.",
+            "technicals": {
+                "col1": [
+                    "Postproducción",
+                    "Edición de Video",
+                    "Transiciones",
+                    "Máscaras",
+                    "Corrección de Color"
+                ],
+                "col2": [
+                    "Simulación Vellum",
+                    "Renderizado",
+                    "Iluminación",
+                    "Cámara",
+                    "Materiales y parámetro de estrés como conductor de color"
+                ]
+            }
+        },
+        "07-kitchen-visualisation": {
+            "title": "Visualización de Cocina",
+            "category": "ArchViz",
+            "description": "Renderizado fotorrealista de cocina y configuración de iluminación.",
+            "technicals": {
+                "col1": [
+                    "Postproducción incluyendo Cryptomattes",
+                    "Edición de Video",
+                    "Transiciones",
+                    "Máscaras",
+                    "Corrección de Color"
+                ],
+                "col2": [
+                    "Level Sequencer",
+                    "MovieRenderQueue",
+                    "Diseño 3D",
+                    "Renderizado con Pases",
+                    "Cámara",
+                    "Iluminación",
+                    "Materiales",
+                    "PathTracing"
+                ]
+            }
+        },
+        "08-freisteller": {
+            "title": "Freisteller Modular DC",
+            "category": "Comercial",
+            "description": "Visualización modular de centro de datos y exhibición de productos.",
+            "technicals": {
+                "col1": [
+                    "Configuración de Estudio",
+                    "Renderizado con Pases",
+                    "Iluminación",
+                    "Modelado Modular"
+                ],
+                "col2": [
+                    "Postproducción",
+                    "Flujo de trabajo de recorte",
+                    "Corrección de Color",
+                    "Retoque"
+                ]
+            }
+        },
+        "09-fotogrammetrie": {
+            "title": "Fotogrammetría y Gaussianas",
+            "category": "Interés Personal",
+            "description": "Investigación en flujos de trabajo de fotogrametría y 3D Gaussian Splatting.",
+            "technicals": {
+                "col1": [
+                    "Procesamiento en Agisoft Metashape",
+                    "Generación de Malla High Poly",
+                    "Proyección de Textura",
+                    "Limpieza de Nube de Puntos"
+                ],
+                "col2": [
+                    "Renderizado en Blender",
+                    "Motor Cycles",
+                    "Importación de Gaussian Splatting",
+                    "Configuración de Iluminación"
+                ],
+                "col3": [
+                    "Unreal Engine 5",
+                    "Lumen y Nanite",
+                    "Level Sequencer",
+                    "Movie Render Queue"
+                ]
+            }
+        },
+        "10-projection-mapping": {
+            "title": "Projection Mapping",
+            "category": "Tecnología de Eventos",
+            "description": "Primeros pasos en MadMapper.",
+            "technicals": {
+                "col1": [
+                    "Creación de Efectos",
+                    "Marcadores de posición para Mapping",
+                    "Animaciones",
+                    "Sincronización Musical"
+                ],
+                "col2": [
+                    "Mapping en la vida real"
+                ]
+            }
+        }
+    },
+    "contact": {
+        "title": "Ponte en Contacto",
+        "subtitle": "Creemos algo juntos",
+        "message": "¿Tienes un proyecto en mente o simplemente quieres saludar? Siempre estoy abierto a discutir nuevas oportunidades e ideas.",
+        "cta": "Di Hola"
+    },
+    "footer": {
+        "rights": "Todos los derechos reservados."
+    }
+}

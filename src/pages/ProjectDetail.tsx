@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Menu, X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
 import { projects } from '../data/projects';
 
 const ProjectDetail = () => {
+    const { t } = useTranslation();
     const { id } = useParams<{ id: string }>();
     const project = projects.find((p) => p.id === id);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -57,8 +59,8 @@ const ProjectDetail = () => {
     if (!project) {
         return (
             <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-white">
-                <h2 className="text-2xl font-bold mb-4">Project Not Found</h2>
-                <Link to="/" className="text-purple-400 hover:text-purple-300">Back to Home</Link>
+                <h2 className="text-2xl font-bold mb-4">{t('projects.notFound')}</h2>
+                <Link to="/" className="text-purple-400 hover:text-purple-300">{t('projects.backToHome')}</Link>
             </div>
         );
     }
@@ -76,10 +78,10 @@ const ProjectDetail = () => {
 
                         {/* Desktop Nav */}
                         <div className="hidden md:flex space-x-6 text-sm font-medium text-slate-300">
-                            <Link to="/" className="hover:text-white transition-colors">Home</Link>
-                            <Link to="/" className="hover:text-white transition-colors">Projects</Link>
-                            <Link to="/" className="hover:text-white transition-colors">About</Link>
-                            <Link to="/" className="hover:text-white transition-colors">Contact</Link>
+                            <Link to="/" className="hover:text-white transition-colors">{t('nav.home')}</Link>
+                            <Link to="/" className="hover:text-white transition-colors">{t('nav.projects')}</Link>
+                            <Link to="/" className="hover:text-white transition-colors">{t('nav.about')}</Link>
+                            <Link to="/" className="hover:text-white transition-colors">{t('nav.contact')}</Link>
                         </div>
                     </div>
 
@@ -96,10 +98,10 @@ const ProjectDetail = () => {
                         animate={{ opacity: 1, y: 0 }}
                         className="md:hidden absolute top-20 left-0 w-full bg-slate-950 border-b border-white/10 py-4"
                     >
-                        <Link to="/" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>Home</Link>
-                        <Link to="/" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>Projects</Link>
-                        <Link to="/" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>About</Link>
-                        <Link to="/" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>Contact</Link>
+                        <Link to="/" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>{t('nav.home')}</Link>
+                        <Link to="/" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>{t('nav.projects')}</Link>
+                        <Link to="/" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>{t('nav.about')}</Link>
+                        <Link to="/" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>{t('nav.contact')}</Link>
                     </motion.div>
                 )}
             </nav>
@@ -108,7 +110,7 @@ const ProjectDetail = () => {
             <div className="pt-32 container mx-auto px-6">
                 <Link to="/#projects" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-8 group">
                     <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-                    <span>Back to Projects</span>
+                    <span>{t('projects.backToProjects')}</span>
                 </Link>
             </div>
 
@@ -120,11 +122,11 @@ const ProjectDetail = () => {
                     className="max-w-4xl mx-auto text-center"
                 >
                     <span className="text-purple-400 font-medium mb-4 block tracking-wide uppercase text-sm">
-                        {project.category}
+                        {t(`projects.${project.id}.category`)}
                     </span>
-                    <h1 className="text-4xl md:text-6xl font-bold mb-8">{project.title}</h1>
+                    <h1 className="text-4xl md:text-6xl font-bold mb-8">{t(`projects.${project.id}.title`)}</h1>
                     <p className="text-xl text-slate-300 leading-relaxed max-w-2xl mx-auto mb-8">
-                        {project.description}
+                        {t(`projects.${project.id}.description`)}
                     </p>
 
                     {project.link && (
@@ -134,7 +136,7 @@ const ProjectDetail = () => {
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-3 rounded-full font-medium transition-colors"
                         >
-                            Visit Live Demo
+                            {t('projects.visitLive')}
                         </a>
                     )}
                 </motion.div>
@@ -160,29 +162,32 @@ const ProjectDetail = () => {
                             project.technicals.columns.length === 2 ? 'md:grid-cols-2' :
                                 'md:grid-cols-3'
                             }`}>
-                            {project.technicals.columns.map((column, colIndex) => (
-                                <ul key={colIndex} className="space-y-3">
-                                    {column.map((item, itemIndex) => (
-                                        <motion.li
-                                            key={itemIndex}
-                                            initial={{ opacity: 0, y: 10 }}
-                                            whileInView={{ opacity: 1, y: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ delay: itemIndex * 0.05 }}
-                                            className="text-slate-300 font-light flex items-start gap-2"
-                                        >
-                                            {project.technicals!.columns.length === 1 ? (
-                                                <span className="block">{item}</span>
-                                            ) : (
-                                                <>
-                                                    <span className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-2 shrink-0 opacity-50" />
-                                                    <span>{item}</span>
-                                                </>
-                                            )}
-                                        </motion.li>
-                                    ))}
-                                </ul>
-                            ))}
+                            {project.technicals.columns.map((_, colIndex) => {
+                                const items = t(`projects.${project.id}.technicals.col${colIndex + 1}`, { returnObjects: true }) as string[];
+                                return (
+                                    <ul key={colIndex} className="space-y-3">
+                                        {Array.isArray(items) && items.map((item, itemIndex) => (
+                                            <motion.li
+                                                key={itemIndex}
+                                                initial={{ opacity: 0, y: 10 }}
+                                                whileInView={{ opacity: 1, y: 0 }}
+                                                viewport={{ once: true }}
+                                                transition={{ delay: itemIndex * 0.05 }}
+                                                className="text-slate-300 font-light flex items-start gap-2"
+                                            >
+                                                {project.technicals!.columns.length === 1 ? (
+                                                    <span className="block">{item}</span>
+                                                ) : (
+                                                    <>
+                                                        <span className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-2 shrink-0 opacity-50" />
+                                                        <span>{item}</span>
+                                                    </>
+                                                )}
+                                            </motion.li>
+                                        ))}
+                                    </ul>
+                                )
+                            })}
                         </div>
                     </div>
                 </section>
@@ -217,7 +222,7 @@ const ProjectDetail = () => {
                             ) : (
                                 <img
                                     src={item.url}
-                                    alt={`${project.title} - Media ${index + 1}`}
+                                    alt={`${t(`projects.${project.id}.title`)} - Media ${index + 1}`}
                                     className="w-full h-auto object-contain"
                                 />
                             )}
@@ -267,15 +272,15 @@ const ProjectDetail = () => {
                 {/* Placeholder for no media */}
                 {processedMedia.length === 0 && (
                     <div className="text-center py-20 bg-white/5 rounded-2xl border border-white/10 max-w-4xl mx-auto">
-                        <p className="text-slate-400">Media for this project is coming soon.</p>
-                        <p className="text-sm text-slate-500 mt-2">Check back later!</p>
+                        <p className="text-slate-400">{t('projects.mediaComingSoon')}</p>
+                        <p className="text-sm text-slate-500 mt-2">{t('projects.checkBackLater')}</p>
                     </div>
                 )}
             </section>
 
             {/* Simple Footer */}
             <footer className="py-8 border-t border-white/5 text-center text-slate-500 text-sm">
-                <p>&copy; {new Date().getFullYear()} Robin Baron. All rights reserved.</p>
+                <p>&copy; {new Date().getFullYear()} Robin Baron. {t('footer.rights')}</p>
             </footer>
         </div >
     );

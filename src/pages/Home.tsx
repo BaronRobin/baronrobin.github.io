@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation, Trans } from 'react-i18next';
 import {
     Menu,
     X,
@@ -53,8 +54,13 @@ const skills: Skill[] = [
 ];
 
 const Home = () => {
+    const { t, i18n } = useTranslation();
     const location = useLocation();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const changeLanguage = (lng: string) => {
+        i18n.changeLanguage(lng);
+    };
 
     // Smooth scroll
     const scrollTo = (id: string) => {
@@ -103,16 +109,23 @@ const Home = () => {
                         BARON
                     </motion.div>
 
-                    <div className="hidden md:flex space-x-8 text-sm font-medium text-slate-300">
-                        {['About', 'Projects', 'Skills', 'Contact'].map((item) => (
+                    <div className="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+                        {['about', 'projects', 'skills', 'contact'].map((item) => (
                             <button
                                 key={item}
-                                onClick={() => scrollTo(item.toLowerCase())}
-                                className="hover:text-white transition-colors"
+                                onClick={() => scrollTo(item)}
+                                className="hover:text-white transition-colors capitalize"
                             >
-                                {item}
+                                {t(`nav.${item}`)}
                             </button>
                         ))}
+                        <div className="flex gap-2 ml-4 border-l border-white/10 pl-4">
+                            <button onClick={() => changeLanguage('en')} className={`hover:text-white transition-colors ${i18n.language === 'en' ? 'text-white font-bold' : ''}`}>EN</button>
+                            <span>/</span>
+                            <button onClick={() => changeLanguage('de')} className={`hover:text-white transition-colors ${i18n.language === 'de' ? 'text-white font-bold' : ''}`}>DE</button>
+                            <span>/</span>
+                            <button onClick={() => changeLanguage('es')} className={`hover:text-white transition-colors ${i18n.language === 'es' ? 'text-white font-bold' : ''}`}>ES</button>
+                        </div>
                     </div>
 
                     {/* Mobile Menu Toggle */}
@@ -128,15 +141,22 @@ const Home = () => {
                         animate={{ opacity: 1, y: 0 }}
                         className="md:hidden absolute top-20 left-0 w-full bg-slate-950 border-b border-white/10 py-4"
                     >
-                        {['About', 'Projects', 'Skills', 'Contact'].map((item) => (
+                        {['about', 'projects', 'skills', 'contact'].map((item) => (
                             <button
                                 key={item}
-                                onClick={() => scrollTo(item.toLowerCase())}
-                                className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white"
+                                onClick={() => scrollTo(item)}
+                                className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white capitalize"
                             >
-                                {item}
+                                {t(`nav.${item}`)}
                             </button>
                         ))}
+                        <div className="flex gap-4 px-6 py-3 border-t border-white/10 mt-2">
+                            <button onClick={() => changeLanguage('en')} className={`hover:text-white transition-colors ${i18n.language === 'en' ? 'text-white font-bold' : 'text-slate-400'}`}>EN</button>
+                            <span className="text-slate-600">/</span>
+                            <button onClick={() => changeLanguage('de')} className={`hover:text-white transition-colors ${i18n.language === 'de' ? 'text-white font-bold' : 'text-slate-400'}`}>DE</button>
+                            <span className="text-slate-600">/</span>
+                            <button onClick={() => changeLanguage('es')} className={`hover:text-white transition-colors ${i18n.language === 'es' ? 'text-white font-bold' : 'text-slate-400'}`}>ES</button>
+                        </div>
                     </motion.div>
                 )}
             </nav>
@@ -168,7 +188,7 @@ const Home = () => {
                     transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
                     className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50 flex flex-col items-center gap-2"
                 >
-                    <span className="text-xs uppercase tracking-widest font-light">Scroll</span>
+                    <span className="text-xs uppercase tracking-widest font-light">{t('hero.scroll')}</span>
                     <ChevronDown size={32} />
                 </motion.div>
             </section>
@@ -176,7 +196,7 @@ const Home = () => {
             {/* About Section */}
             <section id="about" className="py-24 bg-slate-900/50">
                 <div className="container mx-auto px-6">
-                    <SectionHeader title="About Me" subtitle="The journey so far" />
+                    <SectionHeader title={t('about.title')} subtitle={t('about.subtitle')} />
 
                     <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-16 items-start">
                         {/* Profile Image - Placeholder */}
@@ -201,22 +221,26 @@ const Home = () => {
 
                         <div className="space-y-8 text-slate-300 leading-relaxed text-sm md:text-base">
                             <p>
-                                I'm a passionate creator based in Germany, currently pursuing my Bachelor's degree at <a href="https://www.hs-kl.de/" target="_blank" rel="noopener noreferrer" className="text-white font-medium hover:text-purple-400 transition-colors">Hochschule Kaiserslautern</a>.
+                                <Trans i18nKey="about.intro1">
+                                    I'm a passionate creator based in Germany, currently pursuing my Bachelor's degree at <a href="https://www.hs-kl.de/" target="_blank" rel="noopener noreferrer" className="text-white font-medium hover:text-purple-400 transition-colors">Hochschule Kaiserslautern</a>.
+                                </Trans>
                             </p>
                             <p>
-                                Alongside my studies, I work at <a href="https://relticc.com/" target="_blank" rel="noopener noreferrer" className="text-white font-medium hover:text-purple-400 transition-colors">relticc GmbH</a>, where I apply my skills in real-world scenarios. My focus lies in the intersection of technical implementation and artistic expression.
+                                <Trans i18nKey="about.intro2">
+                                    Alongside my studies, I work at <a href="https://relticc.com/" target="_blank" rel="noopener noreferrer" className="text-white font-medium hover:text-purple-400 transition-colors">relticc GmbH</a>, where I apply my skills in real-world scenarios. My focus lies in the intersection of technical implementation and artistic expression.
+                                </Trans>
                             </p>
                             <p>
-                                I don't just "use" software; I combine tools like Unreal Engine, Houdini, and the Adobe Suite to craft immersive digital experiences.
+                                {t('about.intro3')}
                             </p>
                         </div>
 
                         <div className="glass-card p-6">
-                            <h3 className="text-xl font-semibold mb-4 text-white">Current Status</h3>
+                            <h3 className="text-xl font-semibold mb-4 text-white">{t('about.statusTitle')}</h3>
                             <ul className="space-y-4">
-                                <StatusItem year="2025" title="Bachelor Student" place="Hochschule Kaiserslautern" />
-                                <StatusItem year="Now" title="Employee" place="relticc GmbH" />
-                                <StatusItem year="Goal" title="Expanding Horizons" place="Open to new challenges" />
+                                <StatusItem year="2025" title={t('about.status.student')} place="Hochschule Kaiserslautern" />
+                                <StatusItem year="Now" title={t('about.status.employee')} place="relticc GmbH" />
+                                <StatusItem year="Goal" title={t('about.status.goals')} place={t('about.status.goalsPlace')} />
                             </ul>
                         </div>
                     </div>
@@ -228,7 +252,7 @@ const Home = () => {
             {/* Skills Section */}
             <section id="skills" className="py-24">
                 <div className="container mx-auto px-6">
-                    <SectionHeader title="Technical Arsenal" subtitle="Tools I execute with" />
+                    <SectionHeader title={t('skills.title')} subtitle={t('skills.subtitle')} />
 
                     <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 max-w-6xl mx-auto">
                         {skills.map((skill, index) => (
@@ -256,7 +280,7 @@ const Home = () => {
             {/* Projects Section */}
             <section id="projects" className="py-24 bg-slate-900/50">
                 <div className="container mx-auto px-6">
-                    <SectionHeader title="Selected Works" subtitle="A glimpse into my portfolio" />
+                    <SectionHeader title={t('projects.title')} subtitle={t('projects.subtitle')} />
 
                     <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                         {projects.map((project) => (
@@ -282,7 +306,7 @@ const Home = () => {
                                         ) : (
                                             <img
                                                 src={project.media[0]?.url}
-                                                alt={project.title}
+                                                alt={t(`projects.${project.id}.title`)}
                                                 className="object-cover w-full h-full"
                                             />
                                         )}
@@ -290,10 +314,10 @@ const Home = () => {
                                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity pointer-events-none" />
 
                                     <div className="absolute bottom-0 left-0 p-8 w-full pointer-events-none">
-                                        <span className="text-purple-400 text-sm font-medium mb-2 block">{project.category}</span>
-                                        <h3 className="text-2xl font-bold mb-2">{project.title}</h3>
+                                        <span className="text-purple-400 text-sm font-medium mb-2 block">{t(`projects.${project.id}.category`)}</span>
+                                        <h3 className="text-2xl font-bold mb-2">{t(`projects.${project.id}.title`)}</h3>
                                         <p className="text-slate-300 text-sm opacity-100 transition-opacity duration-300">
-                                            {project.description}
+                                            {t(`projects.${project.id}.description`)}
                                         </p>
                                     </div>
                                 </motion.div>
@@ -309,17 +333,17 @@ const Home = () => {
             {/* Contact Section */}
             <section id="contact" className="py-24">
                 <div className="container mx-auto px-6 text-center">
-                    <SectionHeader title="Get in Touch" subtitle="Let's create something together" />
+                    <SectionHeader title={t('contact.title')} subtitle={t('contact.subtitle')} />
 
                     <div className="max-w-xl mx-auto glass-card p-12">
                         <p className="text-xl text-slate-300 mb-8">
-                            Have a project in mind or just want to say hi? I'm always open to discussing new opportunities and ideas.
+                            {t('contact.message')}
                         </p>
                         <a
                             href="mailto:robinbaron@icloud.com"
                             className="inline-block bg-white text-slate-950 px-8 py-4 rounded-full font-bold hover:bg-slate-200 transition-colors"
                         >
-                            Say Hello
+                            {t('contact.cta')}
                         </a>
                     </div>
                 </div>
@@ -327,7 +351,7 @@ const Home = () => {
 
             {/* Footer */}
             <footer className="py-8 border-t border-white/5 text-center text-slate-500 text-sm">
-                <p>&copy; {new Date().getFullYear()} Robin Baron. All rights reserved.</p>
+                <p>&copy; {new Date().getFullYear()} Robin Baron. {t('footer.rights')}</p>
             </footer>
             {/* Back to Top */}
             <motion.button
