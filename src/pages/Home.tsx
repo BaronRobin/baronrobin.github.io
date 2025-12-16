@@ -198,18 +198,18 @@ const Home = () => {
                 <div className="container mx-auto px-6">
                     <SectionHeader title={t('about.title')} subtitle={t('about.subtitle')} />
 
-                    <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-16 items-start">
+                    <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-stretch">
                         {/* Profile Image - Placeholder */}
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
-                            className="relative w-full rounded-2xl overflow-hidden glass-card"
+                            className="relative w-full h-full rounded-2xl overflow-hidden glass-card min-h-[400px]"
                         >
                             <img
                                 src="/profile.webp?v=2"
                                 alt="Robin Baron"
-                                className="w-full h-auto"
+                                className="w-full h-full object-cover"
                                 onError={(e) => {
                                     // Fallback if image not found
                                     e.currentTarget.style.display = 'none';
@@ -219,29 +219,33 @@ const Home = () => {
                             />
                         </motion.div>
 
-                        <div className="space-y-8 text-slate-300 leading-relaxed text-sm md:text-base">
-                            <p>
-                                <Trans i18nKey="about.intro1">
-                                    I'm a passionate creator based in Germany, currently pursuing my Bachelor's degree at <a href="https://www.hs-kl.de/" target="_blank" rel="noopener noreferrer" className="text-white font-medium hover:text-purple-400 transition-colors">Hochschule Kaiserslautern</a>.
-                                </Trans>
-                            </p>
-                            <p>
-                                <Trans i18nKey="about.intro2">
-                                    Alongside my studies, I work at <a href="https://relticc.com/" target="_blank" rel="noopener noreferrer" className="text-white font-medium hover:text-purple-400 transition-colors">relticc GmbH</a>, where I apply my skills in real-world scenarios. My focus lies in the intersection of technical implementation and artistic expression.
-                                </Trans>
-                            </p>
-                            <p>
-                                {t('about.intro3')}
-                            </p>
-                        </div>
+                        <div className="flex flex-col gap-8 justify-between">
+                            <div className="space-y-8 text-slate-300 leading-relaxed text-sm md:text-base">
+                                <p>
+                                    <Trans
+                                        i18nKey="about.intro1"
+                                        components={{ 0: <a href="https://www.hs-kl.de/" target="_blank" rel="noopener noreferrer" className="text-white font-medium hover:text-purple-400 transition-colors" /> }}
+                                    />
+                                </p>
+                                <p>
+                                    <Trans
+                                        i18nKey="about.intro2"
+                                        components={{ 0: <a href="https://relticc.com/" target="_blank" rel="noopener noreferrer" className="text-white font-medium hover:text-purple-400 transition-colors" /> }}
+                                    />
+                                </p>
+                                <p>
+                                    {t('about.intro3')}
+                                </p>
+                            </div>
 
-                        <div className="glass-card p-6">
-                            <h3 className="text-xl font-semibold mb-4 text-white">{t('about.statusTitle')}</h3>
-                            <ul className="space-y-4">
-                                <StatusItem year="2025" title={t('about.status.student')} place="Hochschule Kaiserslautern" />
-                                <StatusItem year="Now" title={t('about.status.employee')} place="relticc GmbH" />
-                                <StatusItem year="Goal" title={t('about.status.goals')} place={t('about.status.goalsPlace')} />
-                            </ul>
+                            <div className="glass-card p-6">
+                                <h3 className="text-xl font-semibold mb-4 text-white">{t('about.statusTitle')}</h3>
+                                <ul className="space-y-4">
+                                    <StatusItem year="2025" title={t('about.status.student')} place="Hochschule Kaiserslautern" />
+                                    <StatusItem year="Now" title={t('about.status.employee')} place="relticc GmbH" />
+                                    <StatusItem year="Goal" title={t('about.status.goals')} place={t('about.status.goalsPlace')} />
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -290,6 +294,14 @@ const Home = () => {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     className="group relative aspect-square overflow-hidden rounded-2xl cursor-pointer"
+                                    onMouseEnter={(e) => {
+                                        const video = e.currentTarget.querySelector('video');
+                                        if (video) video.play();
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        const video = e.currentTarget.querySelector('video');
+                                        if (video) video.pause();
+                                    }}
                                 >
                                     <div className="absolute inset-0 w-full h-full transition-transform duration-500 group-hover:scale-110">
                                         {project.media[0]?.type === 'video' ? (
@@ -299,15 +311,13 @@ const Home = () => {
                                                 loop
                                                 playsInline
                                                 poster={project.media[0].thumbnail}
-                                                className="object-cover w-full h-full"
-                                                onMouseEnter={(e) => e.currentTarget.play()}
-                                                onMouseLeave={(e) => e.currentTarget.pause()}
+                                                className="object-cover w-full h-full pointer-events-none"
                                             />
                                         ) : (
                                             <img
                                                 src={project.media[0]?.url}
                                                 alt={t(`projects.${project.id}.title`)}
-                                                className="object-cover w-full h-full"
+                                                className="object-cover w-full h-full pointer-events-none"
                                             />
                                         )}
                                     </div>

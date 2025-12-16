@@ -42,17 +42,17 @@
             "description": "Ein umfassendes Designsystem für einen KI-Hub mit Fokus auf Klarheit und Nutzen.",
             "technicals": {
                 "col1": [
-                    "Postproduction inklusive Cryptomattes",
-                    "Color Correction"
+                    "Postproduktion inklusive Cryptomattes",
+                    "Farbkorrektur"
                 ],
                 "col2": [
                     "Level Sequencer",
                     "MovieRenderQueue",
-                    "Layout 3D",
+                    "3D-Layout",
                     "Rendering mit Passes",
                     "Kamera",
-                    "Lighting",
-                    "Materials",
+                    "Beleuchtung",
+                    "Materialien",
                     "PathTracing",
                     "Blueprint Coding"
                 ]
@@ -64,72 +64,72 @@
             "description": "Launch-Video für ein Firmen-Rebranding.",
             "technicals": {
                 "col1": [
-                    "Postproduction inklusive Cryptomattes",
-                    "Video-Schnitt",
+                    "Postproduktion inklusive Cryptomattes",
+                    "Videoschnitt",
                     "Text-Animation",
-                    "Masking",
+                    "Maskierung",
                     "Untertitel",
-                    "Color Correction"
+                    "Farbkorrektur"
                 ],
                 "col2": [
                     "Partikel-Simulation + Rendering (Eevee)",
-                    "3D Modeling"
+                    "3D-Modellierung"
                 ],
                 "col3": [
                     "Level Sequencer",
                     "MovieRenderQueue",
-                    "Layout 3D",
+                    "3D-Layout",
                     "Rendering mit Passes",
                     "Animation Ventilatoren",
                     "Kamera",
-                    "Lighting",
-                    "Materials"
+                    "Beleuchtung",
+                    "Materialien"
                 ]
             }
         },
         "03-gatti-interviews": {
             "title": "Gatti Interviews",
-            "category": "Video Production",
+            "category": "Videoproduktion",
             "description": "Schnitt und Color Grading einer Interview-Serie.",
             "technicals": {
                 "col1": [
-                    "Postproduction inklusive Cryptomattes",
-                    "Video-Schnitt",
+                    "Postproduktion inklusive Cryptomattes",
+                    "Videoschnitt",
                     "Text-Animation",
-                    "Masking",
+                    "Maskierung",
                     "Untertitel",
-                    "Color Correction"
+                    "Farbkorrektur"
                 ],
                 "col2": [
                     "Partikel-Simulation + Rendering (Eevee)",
-                    "3D Modeling",
+                    "3D-Modellierung",
                     "Real Life Aufnahmen mit Gimbal",
-                    "Shotlist Erstellung",
-                    "Audio Setup"
+                    "Shotlist-Erstellung",
+                    "Audio-Setup"
                 ],
                 "col3": [
                     "Level Sequencer",
                     "MovieRenderQueue",
-                    "Layout 3D",
+                    "3D-Layout",
                     "Rendering mit Passes",
                     "Animation Ventilatoren",
                     "Kamera",
-                    "Lighting",
-                    "Materials"
+                    "Beleuchtung",
+                    "Materialien"
                 ]
             }
         },
         "04-smart-city": {
             "title": "Smart City",
-            "category": "3D Visualisierung",
+            "category": "3D-Visualisierung",
             "description": "Punktwolke zu Unreal Mesh",
             "technicals": {
                 "col1": [
-                    "Postproduction inklusive Cryptomattes",
-                    "Video-Schnitt",
-                    "Transitions",
-                    "Masking",
-                    "Color Correction",
+                    "Postproduktion inklusive Cryptomattes",
+                    "Videoschnitt",
+                    "Übergänge",
+                    "Maskierung",
+                    "Farbkorrektur",
                     "Text-Animation",
                     "MoGraph"
                 ],
@@ -139,12 +139,12 @@
                 "col3": [
                     "Level Sequencer",
                     "MovieRenderQueue",
-                    "Layout 3D",
+                    "3D-Layout",
                     "Rendering mit Passes",
                     "Animation Straßenlaternen",
                     "Kamera",
-                    "Lighting",
-                    "Materials"
+                    "Beleuchtung",
+                    "Materialien"
                 ]
             }
         },
@@ -167,41 +167,41 @@
             "description": "Studien zu prozeduraler Generierung und Simulation in Houdini.",
             "technicals": {
                 "col1": [
-                    "Postproduction",
-                    "Video-Schnitt",
-                    "Transitions",
-                    "Masking",
-                    "Color Correction"
+                    "Postproduktion",
+                    "Videoschnitt",
+                    "Übergänge",
+                    "Maskierung",
+                    "Farbkorrektur"
                 ],
                 "col2": [
                     "Vellum Simulation",
                     "Rendering",
-                    "Lighting",
+                    "Beleuchtung",
                     "Kamera",
-                    "Materials & Stress-Parameter als Farbtreiber"
+                    "Materialien & Stress-Parameter als Farbtreiber"
                 ]
             }
         },
         "07-kitchen-visualisation": {
-            "title": "Küchen Visualisierung",
+            "title": "Küchen-Visualisierung",
             "category": "ArchViz",
             "description": "Fotorealistisches Küchen-Rendering und Licht-Setup.",
             "technicals": {
                 "col1": [
-                    "Postproduction inklusive Cryptomattes",
-                    "Video-Schnitt",
-                    "Transitions",
-                    "Masking",
-                    "Color Correction"
+                    "Postproduktion inklusive Cryptomattes",
+                    "Videoschnitt",
+                    "Übergänge",
+                    "Maskierung",
+                    "Farbkorrektur"
                 ],
                 "col2": [
                     "Level Sequencer",
                     "MovieRenderQueue",
-                    "Layout 3D",
+                    "3D-Layout",
                     "Rendering mit Passes",
                     "Kamera",
-                    "Lighting",
-                    "Materials",
+                    "Beleuchtung",
+                    "Materialien",
                     "PathTracing"
                 ]
             }
@@ -212,35 +212,35 @@
             "description": "Modulare Rechenzentrum-Visualisierung und Produktpräsentation.",
             "technicals": {
                 "col1": [
-                    "Studio Setup",
+                    "Studio-Setup",
                     "Rendering mit Passes",
-                    "Lighting",
-                    "Modulares Modeling"
+                    "Beleuchtung",
+                    "Modulares Modellieren"
                 ],
                 "col2": [
-                    "Postproduction",
-                    "Freisteller Workflow",
-                    "Color Correction",
+                    "Postproduktion",
+                    "Freisteller-Workflow",
+                    "Farbkorrektur",
                     "Retusche"
                 ]
             }
         },
         "09-fotogrammetrie": {
             "title": "Fotogrammetrie & Gaussians",
-            "category": "Personal Interest",
+            "category": "Persönliches Interesse",
             "description": "Forschung zu Photogrammetrie und 3D Gaussian Splatting Workflows.",
             "technicals": {
                 "col1": [
                     "Verarbeitung in Agisoft Metashape",
                     "High Poly Mesh Generierung",
-                    "Textur Projektion",
+                    "Textur-Projektion",
                     "Point Cloud Bereinigung"
                 ],
                 "col2": [
                     "Rendering in Blender",
                     "Cycles Engine",
                     "Gaussian Splatting Import",
-                    "Licht Setup"
+                    "Licht-Setup"
                 ],
                 "col3": [
                     "Unreal Engine 5",
