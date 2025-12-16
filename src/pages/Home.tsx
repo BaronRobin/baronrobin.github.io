@@ -263,7 +263,7 @@ const Home = () => {
                 <div className="container mx-auto px-6">
                     <SectionHeader title={t('skills.title')} subtitle={t('skills.subtitle')} />
 
-                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 max-w-6xl mx-auto">
+                    <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-6 max-w-6xl mx-auto">
                         {skills.map((skill, index) => (
                             <motion.a
                                 key={skill.name}
@@ -274,12 +274,12 @@ const Home = () => {
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.05 }}
-                                className="glass-card p-6 flex flex-col items-center justify-center gap-4 hover:bg-white/10 transition-colors group cursor-pointer"
+                                className="glass-card p-3 md:p-6 flex flex-col items-center justify-center gap-2 md:gap-4 hover:bg-white/10 transition-colors group cursor-pointer"
                             >
-                                <div className="w-10 h-10 transition-transform group-hover:scale-110" style={{ color: 'white' }}>
+                                <div className="w-8 h-8 md:w-10 md:h-10 transition-transform group-hover:scale-110" style={{ color: 'white' }}>
                                     <skill.icon className="w-full h-full" />
                                 </div>
-                                <span className="text-sm font-medium text-slate-300 text-center">{skill.name}</span>
+                                <span className="text-[10px] md:text-sm font-medium text-slate-300 text-center leading-tight">{skill.name}</span>
                             </motion.a>
                         ))}
                     </div>
