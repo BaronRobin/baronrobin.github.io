@@ -39,6 +39,7 @@ export const projects: Project[] = [
         description: 'A comprehensive AI hub design system focusing on clarity and utility.',
         folderName: '01_polarise',
         media: [
+            { type: 'image', url: '/projects/01_polarise/cover.webp' },
             { type: 'image', url: '/projects/01_polarise/01_Datacenter_Outdoor.jpg' },
             { type: 'video', url: '/projects/01_polarise/Polarise_1.webm' },
             { type: 'image', url: '/projects/01_polarise/02_PV_Anlage.jpg' },
@@ -167,8 +168,8 @@ export const projects: Project[] = [
         description: 'Point Cloud to Unreal Mesh',
         folderName: '04_smart_city',
         media: [
+            { type: 'video', url: '/projects/04_smart_city/demo.webm', thumbnail: '/projects/04_smart_city/cover.webp' },
             { type: 'image', url: '/projects/04_smart_city/cover.webp' },
-            { type: 'video', url: '/projects/04_smart_city/demo.webm' },
             { type: 'image', url: '/projects/04_smart_city/1.jpg' },
             { type: 'image', url: '/projects/04_smart_city/2.jpg' },
             { type: 'image', url: '/projects/04_smart_city/3.jpg' },
@@ -211,6 +212,7 @@ export const projects: Project[] = [
         folderName: '05_dashboard',
         media: [
             { type: 'video', url: '/projects/05_dashboard/relticc_Experience_Pro_Platform.webm' },
+            { type: 'video', url: '/projects/05_dashboard/Timeline_TeamVideo.mp4' },
             { type: 'image', url: '/projects/05_dashboard/01.jpg' },
             { type: 'image', url: '/projects/05_dashboard/02.jpg' },
             { type: 'image', url: '/projects/05_dashboard/03.jpg' },
@@ -238,11 +240,12 @@ export const projects: Project[] = [
         description: 'Procedural generation and simulation studies in Houdini.',
         folderName: '06_houdini',
         media: [
-            { type: 'video', url: '/projects/06_houdini/Houdini_1.webm' },
+            { type: 'video', url: '/projects/06_houdini/Houdini_1.webm', thumbnail: '/projects/06_houdini/cover.webp' },
             { type: 'image', url: '/projects/06_houdini/houd_01.webp' },
             { type: 'image', url: '/projects/06_houdini/houd_02.webp' },
             { type: 'image', url: '/projects/06_houdini/houd_03.webp' },
-            { type: 'image', url: '/projects/06_houdini/houd_04.webp' }
+            { type: 'image', url: '/projects/06_houdini/houd_04.webp' },
+            { type: 'image', url: '/projects/06_houdini/technical_breakdown.png' }
         ],
         technicals: {
             icons: [SiDavinciresolve, SiHoudini],
@@ -321,7 +324,8 @@ export const projects: Project[] = [
             { type: 'image', url: '/projects/08_freisteller/ND_MD_Rack_Single_Back.webp' },
             { type: 'image', url: '/projects/08_freisteller/ND_MD_Rackrow_Front.webp' },
             { type: 'image', url: '/projects/08_freisteller/ND_MD_OverallDC_perspective.webp' },
-            { type: 'image', url: '/projects/08_freisteller/ND_MD_Rack_Single_Front.webp' }
+            { type: 'image', url: '/projects/08_freisteller/ND_MD_Rack_Single_Front.webp' },
+            { type: 'image', url: '/projects/08_freisteller/technical_breakdown.png' }
         ],
         technicals: {
             icons: [SiUnrealengine, SiAdobeaftereffects, SiBlender],
@@ -388,7 +392,9 @@ export const projects: Project[] = [
         description: 'First steps in MadMapper.',
         folderName: '10_projection_mapping',
         media: [
-            { type: 'video', url: '/projects/10_projection_mapping/demo.webm' }
+            { type: 'video', url: '/projects/10_projection_mapping/demo.webm', thumbnail: '/projects/10_projection_mapping/cover.webp' },
+            { type: 'image', url: '/projects/10_projection_mapping/cover.webp' },
+            { type: 'image', url: '/projects/10_projection_mapping/technical_breakdown.png' }
         ],
         technicals: {
             icons: [SiAdobeaftereffects, Box],

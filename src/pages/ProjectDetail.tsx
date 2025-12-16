@@ -6,10 +6,14 @@ import { ArrowLeft, Menu, X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-re
 import { projects } from '../data/projects';
 
 const ProjectDetail = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const { id } = useParams<{ id: string }>();
     const project = projects.find((p) => p.id === id);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const changeLanguage = (lng: string) => {
+        i18n.changeLanguage(lng);
+    };
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -77,11 +81,19 @@ const ProjectDetail = () => {
                         </Link>
 
                         {/* Desktop Nav */}
-                        <div className="hidden md:flex space-x-6 text-sm font-medium text-slate-300">
+                        <div className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
                             <Link to="/" className="hover:text-white transition-colors">{t('nav.home')}</Link>
-                            <Link to="/" className="hover:text-white transition-colors">{t('nav.projects')}</Link>
-                            <Link to="/" className="hover:text-white transition-colors">{t('nav.about')}</Link>
-                            <Link to="/" className="hover:text-white transition-colors">{t('nav.contact')}</Link>
+                            <Link to="/#projects" className="hover:text-white transition-colors">{t('nav.projects')}</Link>
+                            <Link to="/#about" className="hover:text-white transition-colors">{t('nav.about')}</Link>
+                            <Link to="/#contact" className="hover:text-white transition-colors">{t('nav.contact')}</Link>
+
+                            <div className="flex gap-2 border-l border-white/10 pl-6 ml-2">
+                                <button onClick={() => changeLanguage('en')} className={`hover:text-white transition-colors ${i18n.language === 'en' ? 'text-white font-bold' : 'text-slate-400'}`}>EN</button>
+                                <span className="text-slate-600">/</span>
+                                <button onClick={() => changeLanguage('de')} className={`hover:text-white transition-colors ${i18n.language === 'de' ? 'text-white font-bold' : 'text-slate-400'}`}>DE</button>
+                                <span className="text-slate-600">/</span>
+                                <button onClick={() => changeLanguage('es')} className={`hover:text-white transition-colors ${i18n.language === 'es' ? 'text-white font-bold' : 'text-slate-400'}`}>ES</button>
+                            </div>
                         </div>
                     </div>
 
@@ -99,9 +111,17 @@ const ProjectDetail = () => {
                         className="md:hidden absolute top-20 left-0 w-full bg-slate-950 border-b border-white/10 py-4"
                     >
                         <Link to="/" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>{t('nav.home')}</Link>
-                        <Link to="/" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>{t('nav.projects')}</Link>
-                        <Link to="/" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>{t('nav.about')}</Link>
-                        <Link to="/" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>{t('nav.contact')}</Link>
+                        <Link to="/#projects" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>{t('nav.projects')}</Link>
+                        <Link to="/#about" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>{t('nav.about')}</Link>
+                        <Link to="/#contact" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>{t('nav.contact')}</Link>
+
+                        <div className="flex gap-4 px-6 py-3 border-t border-white/10 mt-2">
+                            <button onClick={() => changeLanguage('en')} className={`hover:text-white transition-colors ${i18n.language === 'en' ? 'text-white font-bold' : 'text-slate-400'}`}>EN</button>
+                            <span className="text-slate-600">/</span>
+                            <button onClick={() => changeLanguage('de')} className={`hover:text-white transition-colors ${i18n.language === 'de' ? 'text-white font-bold' : 'text-slate-400'}`}>DE</button>
+                            <span className="text-slate-600">/</span>
+                            <button onClick={() => changeLanguage('es')} className={`hover:text-white transition-colors ${i18n.language === 'es' ? 'text-white font-bold' : 'text-slate-400'}`}>ES</button>
+                        </div>
                     </motion.div>
                 )}
             </nav>
@@ -195,14 +215,14 @@ const ProjectDetail = () => {
 
             {/* Media Gallery */}
             <section className="pb-32 container mx-auto px-6">
-                <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                <div className="columns-1 md:columns-2 gap-8 max-w-6xl mx-auto space-y-8">
                     {processedMedia.map((item, index) => (
                         <motion.div
                             key={index}
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: index * 0.1 }}
-                            className="relative w-full cursor-pointer group"
+                            className="relative w-full cursor-pointer group break-inside-avoid mb-8"
                             onClick={() => openLightbox(index)}
                         >
                             {item.type !== 'video' && (
@@ -223,7 +243,7 @@ const ProjectDetail = () => {
                                 <img
                                     src={item.url}
                                     alt={`${t(`projects.${project.id}.title`)} - Media ${index + 1}`}
-                                    className="w-full h-auto object-contain"
+                                    className="w-full h-auto object-contain rounded-xl"
                                 />
                             )}
                         </motion.div>

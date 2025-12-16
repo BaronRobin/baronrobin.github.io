@@ -162,7 +162,7 @@ const Home = () => {
             </nav>
 
             {/* Hero Section */}
-            <section className="relative h-screen flex items-end justify-center overflow-hidden pb-20">
+            <section className="relative h-screen flex items-end justify-center overflow-hidden pb-10">
                 {/* Background Image */}
                 <div className="absolute inset-0 z-0">
                     <img
@@ -186,9 +186,9 @@ const Home = () => {
                 <motion.div
                     animate={{ y: [0, 15, 0] }}
                     transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-                    className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50 flex flex-col items-center gap-2"
+                    className="relative z-20 text-white/50 flex flex-col items-center gap-2"
                 >
-                    <span className="text-xs uppercase tracking-widest font-light">{t('hero.scroll')}</span>
+                    <span className="text-xs uppercase tracking-widest font-light pl-[0.1em]">{t('hero.scroll')}</span>
                     <ChevronDown size={32} />
                 </motion.div>
             </section>
@@ -288,50 +288,54 @@ const Home = () => {
 
                     <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                         {projects.map((project) => (
-                            <Link to={`/project/${project.id}`} key={project.id} className="block h-full">
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    className="group relative aspect-square overflow-hidden rounded-2xl cursor-pointer"
-                                    onMouseEnter={(e) => {
-                                        const video = e.currentTarget.querySelector('video');
-                                        if (video) video.play();
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        const video = e.currentTarget.querySelector('video');
-                                        if (video) video.pause();
-                                    }}
-                                >
-                                    <div className="absolute inset-0 w-full h-full transition-transform duration-500 group-hover:scale-110">
-                                        {project.media[0]?.type === 'video' ? (
-                                            <video
-                                                src={project.media[0].url}
-                                                muted
-                                                loop
-                                                playsInline
-                                                poster={project.media[0].thumbnail}
-                                                className="object-cover w-full h-full pointer-events-none"
-                                            />
-                                        ) : (
-                                            <img
-                                                src={project.media[0]?.url}
-                                                alt={t(`projects.${project.id}.title`)}
-                                                className="object-cover w-full h-full pointer-events-none"
-                                            />
-                                        )}
-                                    </div>
-                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity pointer-events-none" />
-
-                                    <div className="absolute bottom-0 left-0 p-8 w-full pointer-events-none">
-                                        <span className="text-purple-400 text-sm font-medium mb-2 block">{t(`projects.${project.id}.category`)}</span>
-                                        <h3 className="text-2xl font-bold mb-2">{t(`projects.${project.id}.title`)}</h3>
-                                        <p className="text-slate-300 text-sm opacity-100 transition-opacity duration-300">
-                                            {t(`projects.${project.id}.description`)}
-                                        </p>
-                                    </div>
-                                </motion.div>
-                            </Link>
+                            <motion.div
+                                key={project.id}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                className="group relative aspect-square overflow-hidden rounded-2xl cursor-pointer block h-full"
+                                onMouseEnter={(e) => {
+                                    const video = e.currentTarget.querySelector('video');
+                                    if (video) video.play();
+                                }}
+                                onMouseLeave={(e) => {
+                                    const video = e.currentTarget.querySelector('video');
+                                    if (video) video.pause();
+                                }}
+                            >
+                                <Link
+                                    to={`/project/${project.id}`}
+                                    className="absolute inset-0 z-20"
+                                    aria-label={t(`projects.${project.id}.title`)}
+                                />
+                                <div className="absolute inset-0 w-full h-full transition-transform duration-500 group-hover:scale-110">
+                                    {project.media[0]?.type === 'video' ? (
+                                        <video
+                                            src={project.media[0].url}
+                                            muted
+                                            loop
+                                            playsInline
+                                            poster={project.media[0].thumbnail}
+                                            className="object-cover w-full h-full pointer-events-none"
+                                        />
+                                    ) : (
+                                        <img
+                                            src={project.media[0]?.url}
+                                            alt={t(`projects.${project.id}.title`)}
+                                            className="object-cover w-full h-full pointer-events-none"
+                                        />
+                                    )}
+                                </div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80 z-10 pointer-events-none" />
+                                <div className="absolute bottom-0 left-0 p-6 z-10 pointer-events-none">
+                                    <span className="text-purple-400 text-xs font-bold uppercase tracking-wider mb-2 block">
+                                        {t(`projects.${project.id}.category`)}
+                                    </span>
+                                    <h3 className="text-xl font-bold text-white group-hover:text-purple-400 transition-colors">
+                                        {t(`projects.${project.id}.title`)}
+                                    </h3>
+                                </div>
+                            </motion.div>
                         ))}
                     </div>
 
