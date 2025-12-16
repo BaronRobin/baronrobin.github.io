@@ -432,7 +432,7 @@ const Home = () => {
                 <div className="container mx-auto px-6">
                     <SectionHeader title={t('social.title')} subtitle={t('social.subtitle')} />
 
-                    <div className="flex flex-col gap-4 max-w-xl mx-auto">
+                    <div className="flex flex-col gap-4 max-w-xs mx-auto">
                         <SocialCard
                             handle="@stuffmadebyrob"
                             label={t('social.maker.label')}
