@@ -287,7 +287,11 @@
         "title": "Ponte en Contacto",
         "subtitle": "Creemos algo juntos",
         "message": "¿Tienes un proyecto en mente o simplemente quieres saludar? Siempre estoy abierto a discutir nuevas oportunidades e ideas.",
-        "cta": "Di Hola"
+        "cta": "Di Hola",
+        "name": "Nombre",
+        "email": "Correo electrónico",
+        "messageLabel": "Mensaje",
+        "submit": "Enviar Mensaje"
     },
     "footer": {
         "rights": "Todos los derechos reservados."

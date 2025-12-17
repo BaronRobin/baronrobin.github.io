@@ -287,7 +287,11 @@
         "title": "Get in Touch",
         "subtitle": "Let's create something together",
         "message": "Have a project in mind or just want to say hi? I'm always open to discussing new opportunities and ideas.",
-        "cta": "Say Hello"
+        "cta": "Say Hello",
+        "name": "Name",
+        "email": "Email",
+        "messageLabel": "Message",
+        "submit": "Send Message"
     },
     "footer": {
         "rights": "All rights reserved."

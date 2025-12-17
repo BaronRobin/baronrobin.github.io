@@ -287,7 +287,11 @@
         "title": "Kontakt",
         "subtitle": "Lass uns etwas erschaffen",
         "message": "Hast du ein Projekt im Kopf oder möchtest einfach Hallo sagen? Ich bin immer offen für neue Möglichkeiten und Ideen.",
-        "cta": "Sag Hallo"
+        "cta": "Sag Hallo",
+        "name": "Name",
+        "email": "E-Mail",
+        "messageLabel": "Nachricht",
+        "submit": "Nachricht senden"
     },
     "footer": {
         "rights": "Alle Rechte vorbehalten."

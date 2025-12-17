@@ -471,16 +471,62 @@ const Home = () => {
                 <div className="container mx-auto px-6 text-center">
                     <SectionHeader title={t('contact.title')} subtitle={t('contact.subtitle')} />
 
-                    <div className="max-w-xl mx-auto glass-card p-12">
+                    <div className="max-w-xl mx-auto glass-card p-8 md:p-12">
                         <p className="text-xl text-slate-300 mb-8">
                             {t('contact.message')}
                         </p>
-                        <a
-                            href="mailto:robinbaron@icloud.com"
-                            className="inline-block bg-white text-slate-950 px-8 py-4 rounded-full font-bold hover:bg-slate-200 transition-colors"
+
+                        <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                const formData = new FormData(e.currentTarget);
+                                const name = formData.get('name');
+                                const email = formData.get('email');
+                                const message = formData.get('message');
+                                window.location.href = `mailto:robinbaron@icloud.com?subject=Contact from ${name}&body=${message}%0D%0A%0D%0AFrom: ${email}`;
+                            }}
+                            className="space-y-6 text-left"
                         >
-                            {t('contact.cta')}
-                        </a>
+                            <div>
+                                <label htmlFor="name" className="block text-sm font-medium text-slate-400 mb-2">{t('contact.name')}</label>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    id="name"
+                                    required
+                                    className="w-full bg-slate-950/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
+                                    placeholder={t('contact.name')}
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="email" className="block text-sm font-medium text-slate-400 mb-2">{t('contact.email')}</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    required
+                                    className="w-full bg-slate-950/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
+                                    placeholder={t('contact.email')}
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="message" className="block text-sm font-medium text-slate-400 mb-2">{t('contact.messageLabel')}</label>
+                                <textarea
+                                    name="message"
+                                    id="message"
+                                    required
+                                    rows={4}
+                                    className="w-full bg-slate-950/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors resize-none"
+                                    placeholder={t('contact.messageLabel')}
+                                />
+                            </div>
+                            <button
+                                type="submit"
+                                className="w-full bg-white text-slate-950 px-8 py-4 rounded-full font-bold hover:bg-slate-200 transition-colors mt-4"
+                            >
+                                {t('contact.submit')}
+                            </button>
+                        </form>
                     </div>
                 </div>
             </section>
