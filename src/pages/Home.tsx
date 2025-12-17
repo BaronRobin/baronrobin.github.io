@@ -9,7 +9,8 @@ import {
     Mail,
     ChevronDown,
     ArrowUp,
-    Target
+    Target,
+    Aperture
 } from 'lucide-react';
 import {
     SiUnrealengine,
@@ -24,7 +25,8 @@ import {
     SiAdobepremierepro,
     SiAdobexd,
     SiAdobeacrobatreader,
-    SiDavinciresolve
+    SiDavinciresolve,
+    SiAffinitydesigner
 } from 'react-icons/si';
 import { projects } from '../data/projects';
 
@@ -133,6 +135,8 @@ const skills: Skill[] = [
     { name: 'XD', icon: SiAdobexd, url: 'https://helpx.adobe.com/support/xd.html' },
     { name: 'Acrobat', icon: SiAdobeacrobatreader, url: 'https://www.adobe.com/acrobat.html' },
     { name: 'DaVinci Resolve', icon: SiDavinciresolve, url: 'https://www.blackmagicdesign.com/products/davinciresolve' },
+    { name: 'Affinity', icon: SiAffinitydesigner, url: 'https://affinity.serif.com' },
+    { name: 'Gyroflow', icon: Aperture, url: 'https://gyroflow.xyz' },
     { name: 'Quad & Drone Pilot', icon: Target, url: 'https://www.dji.com' },
 ];
 
