@@ -1,4 +1,3 @@
-import React from 'react';
 import {
     SiAdobeaftereffects,
     SiAdobepremierepro,
@@ -10,6 +9,7 @@ import {
     SiHoudini
 } from 'react-icons/si';
 import { Camera, Mail, Database, Box } from 'lucide-react';
+import type { ComponentType } from 'react';
 
 export interface ProjectMedia {
     type: 'image' | 'video';
@@ -26,7 +26,7 @@ export interface Project {
     folderName: string; // Helper for public folder path
     media: ProjectMedia[];
     technicals?: {
-        icons: React.ComponentType<{ className?: string }>[];
+        icons: ComponentType<{ className?: string }>[];
         columns: string[][];
     };
 }
