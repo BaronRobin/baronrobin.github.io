@@ -48,7 +48,7 @@ interface SocialLinkProps {
 interface StatusItemProps {
     year: string;
     title: string;
-    place: string;
+    place: React.ReactNode;
 }
 
 interface SocialCardProps {
@@ -325,8 +325,16 @@ const Home = () => {
                             <div className="glass-card p-6">
                                 <h3 className="text-xl font-semibold mb-4 text-white">{t('about.statusTitle')}</h3>
                                 <ul className="space-y-4">
-                                    <StatusItem year="2025" title={t('about.status.student')} place="Hochschule Kaiserslautern" />
-                                    <StatusItem year="Now" title={t('about.status.employee')} place="relticc GmbH" />
+                                    <StatusItem
+                                        year="2025"
+                                        title={t('about.status.student')}
+                                        place={<a href="https://www.hs-kl.de/" target="_blank" rel="noopener noreferrer" className="hover:text-purple-400 transition-colors">Hochschule Kaiserslautern</a>}
+                                    />
+                                    <StatusItem
+                                        year="Now"
+                                        title={t('about.status.employee')}
+                                        place={<a href="https://relticc.com/" target="_blank" rel="noopener noreferrer" className="hover:text-purple-400 transition-colors">relticc GmbH</a>}
+                                    />
                                     <StatusItem year="Goal" title={t('about.status.goals')} place={t('about.status.goalsPlace')} />
                                 </ul>
                             </div>
