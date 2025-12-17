@@ -1,73 +1,37 @@
-# React + TypeScript + Vite
+# https://baronrobin.github.io
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Website by Baron, Robin
 
-Currently, two official plugins are available:
+This is my portfolio website, featuring my Bachelor's Thesis on a digital pipeline for custom 3D dental grillz.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Description
 
-## React Compiler
+This portfolio website showcases my latest projects, provides insights into my background and skills, and includes a contact form for connecting with me directly.
+The centerpiece is an interactive showcase of a digital workflow for designing custom dental grillz, built with React, TypeScript, and Vite, featuring a premium, immersive user experience.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Getting Started
 
-## Expanding the ESLint configuration
+### Dependencies
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+*   Please use the latest version of any modern browser (Chrome, Safari, Firefox, Edge) to ensure the best viewing experience.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Development
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+To run this project locally:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1.  Clone the repository.
+2.  Run `npm install` to install dependencies.
+3.  Run `npm run dev` to start the development server.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Help
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+If you are experiencing problems or found any bugs, please get in touch through the contact form on the website:
+https://baronrobin.github.io/#contact
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Authors
+
+*   **Robin Baron** - [@phtorob](https://github.com/baronrobin)
+
+## Acknowledgments
+
+This website was developed as part of a university submission and continues to be updated with new projects and refinements.
