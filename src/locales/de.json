@@ -295,5 +295,11 @@
     },
     "footer": {
         "rights": "Alle Rechte vorbehalten."
+    },
+    "notFoundPage": {
+        "title": "404",
+        "subtitle": "Seite nicht gefunden",
+        "description": "Die von Ihnen gesuchte Seite wurde möglicherweise entfernt, umbenannt oder ist vorübergehend nicht verfügbar.",
+        "button": "Zurück zur Startseite"
     }
 }
