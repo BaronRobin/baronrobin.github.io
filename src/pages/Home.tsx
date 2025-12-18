@@ -10,7 +10,8 @@ import {
     ChevronDown,
     ArrowUp,
     Target,
-    Aperture
+    Aperture,
+    Flame
 } from 'lucide-react';
 import {
     SiUnrealengine,
@@ -26,14 +27,16 @@ import {
     SiAdobexd,
     SiAdobeacrobatreader,
     SiDavinciresolve,
-    SiAffinitydesigner
+    SiAffinitydesigner,
+    SiAutodesk
 } from 'react-icons/si';
 import { projects } from '../data/projects';
 
 // --- Data Types ---
 interface Skill {
     name: string;
-    icon: React.ComponentType<{ className?: string }>;
+    icon?: React.ComponentType<{ className?: string }>;
+    iconImage?: string;
     url: string;
 }
 
@@ -137,6 +140,13 @@ const skills: Skill[] = [
     { name: 'DaVinci Resolve', icon: SiDavinciresolve, url: 'https://www.blackmagicdesign.com/products/davinciresolve' },
     { name: 'Affinity', icon: SiAffinitydesigner, url: 'https://affinity.serif.com' },
     { name: 'Gyroflow', icon: Aperture, url: 'https://gyroflow.xyz' },
+    { name: 'V-Ray', iconImage: '/vray.svg', url: 'https://www.chaos.com/vray' },
+    { name: '3ds Max', icon: SiAutodesk, url: 'https://www.autodesk.com/products/3ds-max' },
+    { name: 'Chaos Phoenix', icon: Flame, url: 'https://www.chaos.com/phoenix' },
+    { name: 'tyFlow', iconImage: '/tyflow.svg', url: 'http://docs.tyflow.com/' },
+    { name: 'ZBrush', iconImage: '/zbrush.svg', url: 'https://www.maxon.net/en/zbrush' },
+    { name: 'MeshLab', iconImage: '/meshlab.svg', url: 'https://www.meshlab.net/' },
+    { name: 'MadMapper', iconImage: '/madmapper.svg', url: 'https://madmapper.com/' },
     { name: 'Quad & Drone Pilot', icon: Target, url: 'https://www.dji.com' },
 ];
 
@@ -365,8 +375,12 @@ const Home = () => {
                                 transition={{ delay: index * 0.05 }}
                                 className="glass-card p-3 md:p-6 flex flex-col items-center justify-center gap-2 md:gap-4 hover:bg-white/10 transition-colors group cursor-pointer"
                             >
-                                <div className="w-8 h-8 md:w-10 md:h-10 transition-transform group-hover:scale-110" style={{ color: 'white' }}>
-                                    <skill.icon className="w-full h-full" />
+                                <div className="w-8 h-8 md:w-10 md:h-10 transition-transform group-hover:scale-110 flex items-center justify-center" style={{ color: 'white' }}>
+                                    {skill.icon ? (
+                                        <skill.icon className="w-full h-full" />
+                                    ) : (
+                                        <img src={skill.iconImage} alt={skill.name} className="w-full h-full object-contain" />
+                                    )}
                                 </div>
                                 <span className="text-[10px] md:text-sm font-medium text-slate-300 text-center leading-tight">{skill.name}</span>
                             </motion.a>
