@@ -226,7 +226,7 @@
             }
         },
         "09-fotogrammetrie": {
-            "title": "Fotogrammetría y Gaussianas",
+            "title": "Photogrammetría y Gaussianas",
             "category": "Interés Personal",
             "description": "Investigación en flujos de trabajo de fotogrametría y 3D Gaussian Splatting.",
             "technicals": {

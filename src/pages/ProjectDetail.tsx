@@ -2,11 +2,14 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Menu, X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
+import { ArrowLeft, Menu, X, ChevronLeft, ChevronRight, ZoomIn, Sun, Moon } from 'lucide-react';
 import { projects } from '../data/projects';
+
+import { useTheme } from '../context/ThemeContext';
 
 const ProjectDetail = () => {
     const { t, i18n } = useTranslation();
+    const { theme, toggleTheme } = useTheme();
     const { id } = useParams<{ id: string }>();
     const project = projects.find((p) => p.id === id);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -62,32 +65,40 @@ const ProjectDetail = () => {
 
     if (!project) {
         return (
-            <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-white">
+            <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center text-slate-900 dark:text-white transition-colors">
                 <h2 className="text-2xl font-bold mb-4">{t('projects.notFound')}</h2>
-                <Link to="/" className="text-purple-400 hover:text-purple-300">{t('projects.backToHome')}</Link>
+                <Link to="/" className="text-purple-600 dark:text-purple-400 hover:text-purple-500 dark:hover:text-purple-300">{t('projects.backToHome')}</Link>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-slate-950 text-white font-sans selection:bg-purple-500/30">
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white font-sans selection:bg-purple-500/30 transition-colors duration-300">
 
             {/* Navigation */}
-            <nav className="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-md border-b border-white/5">
+            <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-white/5 transition-colors duration-300">
                 <div className="container mx-auto px-6 h-20 flex items-center justify-between">
-                    <Link to="/" className="text-2xl font-bold tracking-tighter hover:text-purple-400 transition-colors">
+                    <Link to="/" className="text-2xl font-bold tracking-tighter text-slate-900 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
                         BARON
                     </Link>
 
                     {/* Desktop Nav */}
-                    <div className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
-                        <Link to="/" className="hover:text-white transition-colors">{t('nav.home')}</Link>
-                        <Link to="/#projects" className="hover:text-white transition-colors">{t('nav.projects')}</Link>
-                        <Link to="/#about" className="hover:text-white transition-colors">{t('nav.about')}</Link>
-                        <Link to="/#skills" className="hover:text-white transition-colors">{t('nav.skills')}</Link>
-                        <Link to="/#contact" className="hover:text-white transition-colors">{t('nav.contact')}</Link>
+                    <div className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300">
+                        <Link to="/" className="hover:text-purple-600 dark:hover:text-white transition-colors">{t('nav.home')}</Link>
+                        <Link to="/#projects" className="hover:text-purple-600 dark:hover:text-white transition-colors">{t('nav.projects')}</Link>
+                        <Link to="/#about" className="hover:text-purple-600 dark:hover:text-white transition-colors">{t('nav.about')}</Link>
+                        <Link to="/#skills" className="hover:text-purple-600 dark:hover:text-white transition-colors">{t('nav.skills')}</Link>
+                        <Link to="/#contact" className="hover:text-purple-600 dark:hover:text-white transition-colors">{t('nav.contact')}</Link>
 
-                        <div className="flex gap-4 border-l border-white/10 pl-6 ml-2">
+                        <div className="flex gap-4 border-l border-slate-200 dark:border-white/10 pl-6 ml-2 items-center">
+                            <button
+                                onClick={toggleTheme}
+                                className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+                                aria-label="Toggle Theme"
+                            >
+                                {theme === 'dark' ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} className="text-slate-600" />}
+                            </button>
+                            <div className="w-px h-4 bg-slate-200 dark:bg-white/10" />
                             <button onClick={() => changeLanguage('en')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'en' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="English">🇺🇸</button>
                             <button onClick={() => changeLanguage('de')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'de' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="Deutsch">🇩🇪</button>
                             <button onClick={() => changeLanguage('es')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'es' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="Español">🇪🇸</button>
@@ -105,15 +116,23 @@ const ProjectDetail = () => {
                     <motion.div
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="md:hidden absolute top-20 left-0 w-full bg-slate-950 border-b border-white/10 py-4"
-                    >
-                        <Link to="/" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>{t('nav.home')}</Link>
-                        <Link to="/#projects" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>{t('nav.projects')}</Link>
-                        <Link to="/#about" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>{t('nav.about')}</Link>
-                        <Link to="/#skills" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>{t('nav.skills')}</Link>
-                        <Link to="/#contact" className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white" onClick={() => setIsMenuOpen(false)}>{t('nav.contact')}</Link>
 
-                        <div className="flex gap-6 px-6 py-3 border-t border-white/10 mt-2">
+                        className="md:hidden absolute top-20 left-0 w-full bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-white/10 py-4 shadow-xl"
+                    >
+                        <Link to="/" className="block w-full text-left px-6 py-3 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-purple-600 dark:hover:text-white transition-colors" onClick={() => setIsMenuOpen(false)}>{t('nav.home')}</Link>
+                        <Link to="/#projects" className="block w-full text-left px-6 py-3 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-purple-600 dark:hover:text-white transition-colors" onClick={() => setIsMenuOpen(false)}>{t('nav.projects')}</Link>
+                        <Link to="/#about" className="block w-full text-left px-6 py-3 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-purple-600 dark:hover:text-white transition-colors" onClick={() => setIsMenuOpen(false)}>{t('nav.about')}</Link>
+                        <Link to="/#skills" className="block w-full text-left px-6 py-3 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-purple-600 dark:hover:text-white transition-colors" onClick={() => setIsMenuOpen(false)}>{t('nav.skills')}</Link>
+                        <Link to="/#contact" className="block w-full text-left px-6 py-3 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-purple-600 dark:hover:text-white transition-colors" onClick={() => setIsMenuOpen(false)}>{t('nav.contact')}</Link>
+
+                        <div className="flex gap-6 px-6 py-3 border-t border-slate-200 dark:border-white/10 mt-2 items-center">
+                            <button
+                                onClick={toggleTheme}
+                                className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+                            >
+                                {theme === 'dark' ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} className="text-slate-600" />}
+                            </button>
+                            <div className="w-px h-6 bg-slate-200 dark:bg-white/10" />
                             <button onClick={() => changeLanguage('en')} className={`text-2xl transition-all ${i18n.language === 'en' ? 'opacity-100 scale-110' : 'opacity-50'}`}>🇺🇸</button>
                             <button onClick={() => changeLanguage('de')} className={`text-2xl transition-all ${i18n.language === 'de' ? 'opacity-100 scale-110' : 'opacity-50'}`}>🇩🇪</button>
                             <button onClick={() => changeLanguage('es')} className={`text-2xl transition-all ${i18n.language === 'es' ? 'opacity-100 scale-110' : 'opacity-50'}`}>🇪🇸</button>
@@ -124,7 +143,7 @@ const ProjectDetail = () => {
 
             {/* Back Button */}
             <div className="pt-32 container mx-auto px-6">
-                <Link to="/#projects" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-8 group">
+                <Link to="/#projects" className="inline-flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-purple-600 dark:hover:text-white transition-colors mb-8 group">
                     <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
                     <span>{t('projects.backToProjects')}</span>
                 </Link>
@@ -137,11 +156,11 @@ const ProjectDetail = () => {
                     animate={{ opacity: 1, y: 0 }}
                     className="max-w-4xl mx-auto text-center"
                 >
-                    <span className="text-purple-400 font-medium mb-4 block tracking-wide uppercase text-sm">
+                    <span className="text-purple-600 dark:text-purple-400 font-medium mb-4 block tracking-wide uppercase text-sm transition-colors">
                         {t(`projects.${project.id}.category`)}
                     </span>
-                    <h1 className="text-4xl md:text-6xl font-bold mb-8">{t(`projects.${project.id}.title`)}</h1>
-                    <p className="text-xl text-slate-300 leading-relaxed max-w-2xl mx-auto mb-8">
+                    <h1 className="text-4xl md:text-6xl font-bold mb-8 text-slate-900 dark:text-white transition-colors">{t(`projects.${project.id}.title`)}</h1>
+                    <p className="text-xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto mb-8 transition-colors">
                         {t(`projects.${project.id}.description`)}
                     </p>
 
@@ -165,9 +184,9 @@ const ProjectDetail = () => {
                 <section className="pb-16 container mx-auto px-6">
                     <div className="max-w-5xl mx-auto glass-card p-8 md:p-12">
                         {/* Icons */}
-                        <div className="flex flex-wrap justify-center gap-3 md:gap-6 mb-12 border-b border-white/5 pb-8">
+                        <div className="flex flex-wrap justify-center gap-3 md:gap-6 mb-12 border-b border-slate-200 dark:border-white/5 pb-8 transition-colors">
                             {project.technicals.icons.map((Icon, i) => (
-                                <div key={i} className="text-slate-300 bg-white/5 p-2.5 md:p-4 rounded-lg md:rounded-xl hover:bg-white/10 hover:text-white transition-all hover:scale-110">
+                                <div key={i} className="text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-white/5 p-2.5 md:p-4 rounded-lg md:rounded-xl hover:bg-slate-200 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white transition-all hover:scale-110">
                                     <Icon className="w-5 h-5 md:w-10 md:h-10" />
                                 </div>
                             ))}
@@ -195,8 +214,8 @@ const ProjectDetail = () => {
                                                     <span className="block">{item}</span>
                                                 ) : (
                                                     <>
-                                                        <span className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-2 shrink-0 opacity-50" />
-                                                        <span>{item}</span>
+                                                        <span className="w-1.5 h-1.5 rounded-full bg-purple-600 dark:bg-purple-500 mt-2 shrink-0 opacity-50" />
+                                                        <span className="text-slate-600 dark:text-slate-300 transition-colors">{item}</span>
                                                     </>
                                                 )}
                                             </motion.li>
@@ -295,7 +314,7 @@ const ProjectDetail = () => {
             </section>
 
             {/* Simple Footer */}
-            <footer className="py-8 border-t border-white/5 text-center text-slate-500 text-sm">
+            <footer className="py-8 border-t border-slate-200 dark:border-white/5 text-center text-slate-500 dark:text-slate-500 text-sm transition-colors">
                 <p>&copy; {new Date().getFullYear()} Robin Baron. {t('footer.rights')}</p>
             </footer>
         </div >

@@ -11,7 +11,9 @@ import {
     ArrowUp,
     Target,
     Aperture,
-    Flame
+    Flame,
+    Sun,
+    Moon,
 } from 'lucide-react';
 import {
     SiUnrealengine,
@@ -45,10 +47,7 @@ interface SectionHeaderProps {
     subtitle: string;
 }
 
-interface SocialLinkProps {
-    href: string;
-    icon: React.ReactNode;
-}
+
 
 interface StatusItemProps {
     year: string;
@@ -62,63 +61,66 @@ interface SocialCardProps {
     description: string;
     url: string;
     image: string;
+    previews: string[];
 }
 
 // --- Helper Components ---
 const SectionHeader = ({ title, subtitle }: SectionHeaderProps) => (
     <div className="mb-16 text-center">
-        <h2 className="text-3xl md:text-5xl font-bold mb-4">{title}</h2>
+        <h2 className="text-3xl md:text-5xl font-bold mb-4 text-slate-900 dark:text-white transition-colors">{title}</h2>
         <div className="w-12 h-1 bg-purple-500 mx-auto mb-4" />
-        <p className="text-slate-400">{subtitle}</p>
+        <p className="text-slate-600 dark:text-slate-400 transition-colors">{subtitle}</p>
     </div>
 );
 
-const SocialLink = ({ href, icon }: SocialLinkProps) => (
-    <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="p-3 bg-white/5 rounded-full hover:bg-white/10 hover:text-purple-400 transition-colors"
-    >
-        {icon}
-    </a>
-);
+
 
 const StatusItem = ({ year, title, place }: StatusItemProps) => (
     <li className="flex gap-4 items-start">
-        <span className="text-purple-400 font-mono text-sm pt-1 w-12 shrink-0">{year}</span>
+        <span className="text-purple-600 dark:text-purple-400 font-mono text-sm pt-1 w-12 shrink-0">{year}</span>
         <div>
-            <div className="font-semibold text-white">{title}</div>
-            <div className="text-sm text-slate-400">{place}</div>
+            <div className="font-semibold text-slate-900 dark:text-white transition-colors">{title}</div>
+            <div className="text-sm text-slate-600 dark:text-slate-400 transition-colors">{place}</div>
         </div>
     </li>
 );
 
-const SocialCard = ({ handle, label, description, url, image }: SocialCardProps) => (
+const SocialCard = ({ handle, label, description, url, image, previews }: SocialCardProps) => (
     <a
         href={url}
         target="_blank"
         rel="noopener noreferrer"
-        className="group relative overflow-hidden rounded-2xl flex items-center gap-6 p-4 glass-card hover:bg-white/10 transition-all duration-500 border border-white/5 hover:border-purple-500/30"
+        className="group relative overflow-hidden rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/5 hover:border-purple-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/10 flex flex-col h-full"
     >
-        {/* Profile Image - Circular preview */}
-        <div className="relative w-16 h-16 shrink-0 rounded-full overflow-hidden border-2 border-white/10 group-hover:border-purple-500/50 transition-colors">
-            <img src={image} alt={handle} className="w-full h-full object-cover" />
-        </div>
-
-        {/* Content */}
-        <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1 text-purple-400">
-                <Instagram size={14} />
-                <span className="text-[10px] font-bold tracking-wider uppercase">{label}</span>
+        {/* Header */}
+        <div className="p-6 flex items-center gap-4 border-b border-slate-100 dark:border-white/5">
+            <div className="relative w-12 h-12 shrink-0 rounded-full overflow-hidden border border-slate-200 dark:border-white/10 group-hover:border-purple-500/50 transition-colors">
+                <img src={image} alt={handle} className="w-full h-full object-cover" />
             </div>
-            <h3 className="text-lg font-bold text-white group-hover:text-purple-300 transition-colors">{handle}</h3>
-            <p className="text-sm text-slate-400 group-hover:text-slate-200 transition-colors">{description}</p>
+            <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-0.5 text-purple-600 dark:text-purple-400">
+                    <Instagram size={12} />
+                    <span className="text-[10px] font-bold tracking-wider uppercase">{label}</span>
+                </div>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">{handle}</h3>
+            </div>
+            <div className="text-slate-300 dark:text-slate-600 group-hover:text-purple-500 transition-colors">
+                <ArrowUp size={18} className="rotate-45" />
+            </div>
         </div>
 
-        {/* Arrow Hint */}
-        <div className="opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300 text-purple-400">
-            <Target size={20} className="rotate-[-45deg]" /> {/* Using Target as placeholder arrow, or just arrow */}
+        {/* 3x3 Filter Grid Preview */}
+        <div className="p-1 gap-0.5 grid grid-cols-3 bg-slate-50 dark:bg-black/20 flex-1">
+            {previews.map((src, i) => (
+                <div key={i} className="aspect-square relative overflow-hidden bg-slate-200 dark:bg-white/5">
+                    <img src={src} alt="" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                </div>
+            ))}
+        </div>
+
+        {/* Footer/Description */}
+        <div className="p-4 text-center border-t border-slate-100 dark:border-white/5 bg-white dark:bg-slate-900 relative z-10">
+            <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2">{description}</p>
         </div>
     </a>
 );
@@ -150,8 +152,11 @@ const skills: Skill[] = [
     { name: 'Quad & Drone Pilot', icon: Target, url: 'https://www.dji.com' },
 ];
 
+import { useTheme } from '../context/ThemeContext';
+
 const Home = () => {
     const { t, i18n } = useTranslation();
+    const { theme, toggleTheme } = useTheme();
     const location = useLocation();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -187,11 +192,15 @@ const Home = () => {
         }
     }, [location.hash]);
 
-    // Back to Top Logic
+    // Scroll Listener for Navbar & Back to Top
+    const [isScrolled, setIsScrolled] = useState(false);
     const [showBackToTop, setShowBackToTop] = useState(false);
+
     useEffect(() => {
         const handleScroll = () => {
-            setShowBackToTop(window.scrollY > 500);
+            const scrollY = window.scrollY;
+            setIsScrolled(scrollY > 50);
+            setShowBackToTop(scrollY > 500);
         };
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
@@ -199,39 +208,72 @@ const Home = () => {
 
     const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
+    // Reset URL to landing page
+    const handleLogoClick = () => {
+        window.history.pushState({}, '', '/');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Optional: Trigger a re-render or state update if needed, but router usually handles it
+    };
+
     return (
-        <div className="min-h-screen bg-slate-950 text-white font-sans selection:bg-purple-500/30">
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white font-sans selection:bg-purple-500/30 transition-colors duration-300">
 
             {/* Navigation */}
-            <nav className="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-md border-b border-white/5">
+            <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-white/5 py-0' : 'bg-transparent border-transparent py-4'}`}>
                 <div className="container mx-auto px-6 h-20 flex items-center justify-between">
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="text-2xl font-bold tracking-tighter"
                     >
-                        BARON
+                        <Link
+                            to="/"
+                            onClick={handleLogoClick}
+                            className={`text-2xl font-bold tracking-tighter transition-colors ${isScrolled ? 'text-slate-900 dark:text-white' : 'text-white'}`}
+                        >
+                            BARON
+                        </Link>
                     </motion.div>
 
-                    <div className="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+                    <div className="hidden md:flex items-center space-x-4 text-sm font-medium">
                         {['about', 'projects', 'skills', 'contact'].map((item) => (
                             <button
                                 key={item}
                                 onClick={() => scrollTo(item)}
-                                className="hover:text-white transition-colors capitalize"
+                                className={`px-4 py-2 rounded-full transition-all capitalize ${isScrolled
+                                    ? 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-purple-600 dark:hover:text-white'
+                                    : 'text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm'
+                                    }`}
                             >
                                 {t(`nav.${item}`)}
                             </button>
                         ))}
-                        <div className="flex gap-4 border-l border-white/10 pl-6 ml-2">
-                            <button onClick={() => changeLanguage('en')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'en' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="English">🇺🇸</button>
-                            <button onClick={() => changeLanguage('de')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'de' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="Deutsch">🇩🇪</button>
-                            <button onClick={() => changeLanguage('es')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'es' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="Español">🇪🇸</button>
+                        <div className={`flex gap-4 pl-6 ml-2 items-center border-l transition-colors ${isScrolled ? 'border-slate-200 dark:border-white/10' : 'border-white/20'}`}>
+                            <button
+                                onClick={toggleTheme}
+                                className={`p-2 rounded-full transition-colors ${isScrolled
+                                    ? 'hover:bg-slate-100 dark:hover:bg-white/10'
+                                    : 'bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white'
+                                    }`}
+                                aria-label="Toggle Theme"
+                            >
+                                {theme === 'dark' ? <Sun size={20} className={isScrolled ? "text-yellow-400" : "text-yellow-300"} /> : <Moon size={20} className={isScrolled ? "text-slate-600" : "text-white"} />}
+                            </button>
+                            <div className={`w-px h-4 ${isScrolled ? 'bg-slate-200 dark:bg-white/10' : 'bg-white/20'}`} />
+
+                            {/* Language Buttons with "pill" style when transparent */}
+                            <div className={`flex gap-2 ${!isScrolled && 'bg-white/10 backdrop-blur-sm rounded-full px-3 py-1'}`}>
+                                <button onClick={() => changeLanguage('en')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'en' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="English">🇺🇸</button>
+                                <button onClick={() => changeLanguage('de')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'de' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="Deutsch">🇩🇪</button>
+                                <button onClick={() => changeLanguage('es')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'es' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="Español">🇪🇸</button>
+                            </div>
                         </div>
                     </div>
 
                     {/* Mobile Menu Toggle */}
-                    <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                    <button
+                        className={`md:hidden p-2 rounded-full ${!isScrolled ? 'bg-white/10 backdrop-blur-md text-white' : 'text-slate-900 dark:text-white'}`}
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    >
                         {isMenuOpen ? <X /> : <Menu />}
                     </button>
                 </div>
@@ -241,18 +283,25 @@ const Home = () => {
                     <motion.div
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="md:hidden absolute top-20 left-0 w-full bg-slate-950 border-b border-white/10 py-4"
+                        className="md:hidden absolute top-20 left-0 w-full bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-white/10 py-4 shadow-xl"
                     >
                         {['about', 'projects', 'skills', 'contact'].map((item) => (
                             <button
                                 key={item}
                                 onClick={() => scrollTo(item)}
-                                className="block w-full text-left px-6 py-3 text-slate-300 hover:bg-white/5 hover:text-white capitalize"
+                                className="block w-full text-left px-6 py-3 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-purple-600 dark:hover:text-white capitalize transition-colors"
                             >
                                 {t(`nav.${item}`)}
                             </button>
                         ))}
-                        <div className="flex gap-4 border-l border-white/10 pl-6 ml-2">
+                        <div className="flex gap-4 border-l border-slate-200 dark:border-white/10 pl-6 ml-2 mt-4 items-center">
+                            <button
+                                onClick={toggleTheme}
+                                className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+                            >
+                                {theme === 'dark' ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} className="text-slate-600" />}
+                            </button>
+                            <div className="w-px h-4 bg-slate-200 dark:bg-white/10" />
                             <button onClick={() => changeLanguage('en')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'en' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="English">🇺🇸</button>
                             <button onClick={() => changeLanguage('de')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'de' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="Deutsch">🇩🇪</button>
                             <button onClick={() => changeLanguage('es')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'es' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="Español">🇪🇸</button>
@@ -264,12 +313,17 @@ const Home = () => {
             {/* Hero Section */}
             <section className="relative h-screen flex items-end justify-center overflow-hidden pb-10">
                 <div className="absolute inset-0 z-0">
-                    <img
-                        src="/hero.jpg"
-                        alt="Hero Background"
+                    <video
+                        src="/hero.webm"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
                         className="w-full h-full object-cover"
+                        poster="/hero.jpg"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b from-slate-950/30 via-slate-950/20 to-slate-950/90" />
+                    {/* Updated Gradient: Lighter in light mode as requested */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-slate-50/10 via-slate-50/5 to-slate-50/60 dark:from-slate-950/30 dark:via-slate-950/20 dark:to-slate-950/90 transition-colors duration-500" />
                 </div>
 
                 <motion.div
@@ -278,14 +332,27 @@ const Home = () => {
                     transition={{ duration: 0.8, delay: 0.4 }}
                     className="absolute bottom-10 right-6 md:right-10 flex gap-4 z-20"
                 >
-                    <SocialLink href="https://www.instagram.com/phtorob" icon={<Instagram />} />
-                    <SocialLink href="mailto:robinbaron@icloud.com" icon={<Mail />} />
+                    {/* Social Icons in Hero: Forced to glass/dark style even in light mode for subtlety */}
+                    <a
+                        href="https://www.instagram.com/phtorob"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-3 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 text-white transition-colors"
+                    >
+                        <Instagram />
+                    </a>
+                    <a
+                        href="mailto:robinbaron@icloud.com"
+                        className="p-3 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 text-white transition-colors"
+                    >
+                        <Mail />
+                    </a>
                 </motion.div>
 
                 <motion.div
                     animate={{ y: [0, 15, 0] }}
                     transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-                    className="relative z-20 text-white/50 flex flex-col items-center gap-2"
+                    className="relative z-20 text-slate-900 dark:text-white/50 flex flex-col items-center gap-2"
                 >
                     <span className="text-xs uppercase tracking-widest font-light pl-[0.1em]">{t('hero.scroll')}</span>
                     <ChevronDown size={32} />
@@ -293,7 +360,7 @@ const Home = () => {
             </section>
 
             {/* About Section */}
-            <section id="about" className="py-24 bg-slate-900/50">
+            <section id="about" className="py-24 bg-white/50 dark:bg-slate-900/50 transition-colors">
                 <div className="container mx-auto px-6">
                     <SectionHeader title={t('about.title')} subtitle={t('about.subtitle')} />
 
@@ -311,24 +378,24 @@ const Home = () => {
                                 className="w-full h-full object-cover"
                                 onError={(e) => {
                                     e.currentTarget.style.display = 'none';
-                                    e.currentTarget.parentElement!.classList.add('flex', 'items-center', 'justify-center', 'bg-slate-800', 'aspect-square');
+                                    e.currentTarget.parentElement!.classList.add('flex', 'items-center', 'justify-center', 'bg-slate-200', 'dark:bg-slate-800', 'aspect-square');
                                     e.currentTarget.parentElement!.innerHTML = '<span class="text-slate-500">profile.webp</span>';
                                 }}
                             />
                         </motion.div>
 
                         <div className="md:col-span-3 flex flex-col gap-8 justify-between">
-                            <div className="space-y-8 text-slate-300 leading-relaxed text-sm md:text-base">
+                            <div className="space-y-8 text-slate-600 dark:text-slate-300 leading-relaxed text-sm md:text-base transition-colors">
                                 <p>
                                     <Trans
                                         i18nKey="about.intro1"
-                                        components={{ 0: <a href="https://www.hs-kl.de/" target="_blank" rel="noopener noreferrer" className="text-white font-medium hover:text-purple-400 transition-colors" /> }}
+                                        components={{ 0: <a href="https://www.hs-kl.de/" target="_blank" rel="noopener noreferrer" className="text-slate-900 dark:text-white font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors" /> }}
                                     />
                                 </p>
                                 <p>
                                     <Trans
                                         i18nKey="about.intro2"
-                                        components={{ 0: <a href="https://relticc.com/" target="_blank" rel="noopener noreferrer" className="text-white font-medium hover:text-purple-400 transition-colors" /> }}
+                                        components={{ 0: <a href="https://relticc.com/" target="_blank" rel="noopener noreferrer" className="text-slate-900 dark:text-white font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors" /> }}
                                     />
                                 </p>
                                 <p>
@@ -337,17 +404,17 @@ const Home = () => {
                             </div>
 
                             <div className="glass-card p-6">
-                                <h3 className="text-xl font-semibold mb-4 text-white">{t('about.statusTitle')}</h3>
+                                <h3 className="text-xl font-semibold mb-4 text-slate-900 dark:text-white transition-colors">{t('about.statusTitle')}</h3>
                                 <ul className="space-y-4">
                                     <StatusItem
                                         year="2025"
                                         title={t('about.status.student')}
-                                        place={<a href="https://www.hs-kl.de/" target="_blank" rel="noopener noreferrer" className="hover:text-purple-400 transition-colors">Hochschule Kaiserslautern</a>}
+                                        place={<a href="https://www.hs-kl.de/" target="_blank" rel="noopener noreferrer" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Hochschule Kaiserslautern</a>}
                                     />
                                     <StatusItem
                                         year="Now"
                                         title={t('about.status.employee')}
-                                        place={<a href="https://relticc.com/" target="_blank" rel="noopener noreferrer" className="hover:text-purple-400 transition-colors">relticc GmbH</a>}
+                                        place={<a href="https://relticc.com/" target="_blank" rel="noopener noreferrer" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">relticc GmbH</a>}
                                     />
                                     <StatusItem year="Goal" title={t('about.status.goals')} place={t('about.status.goalsPlace')} />
                                 </ul>
@@ -373,24 +440,33 @@ const Home = () => {
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.05 }}
-                                className="glass-card p-3 md:p-6 flex flex-col items-center justify-center gap-2 md:gap-4 hover:bg-white/10 transition-colors group cursor-pointer"
+                                className="glass-card p-3 md:p-6 flex flex-col items-center justify-center gap-2 md:gap-4 hover:bg-slate-50 dark:hover:bg-white/10 transition-colors group cursor-pointer"
                             >
-                                <div className="w-8 h-8 md:w-10 md:h-10 transition-transform group-hover:scale-110 flex items-center justify-center" style={{ color: 'white' }}>
+                                <div className="w-8 h-8 md:w-10 md:h-10 transition-transform group-hover:scale-110 flex items-center justify-center text-slate-900 dark:text-white">
                                     {skill.icon ? (
                                         <skill.icon className="w-full h-full" />
                                     ) : (
-                                        <img src={skill.iconImage} alt={skill.name} className="w-full h-full object-contain" />
+                                        /* Custom inversion for specific icons requested by user */
+                                        <img
+                                            src={skill.iconImage}
+                                            alt={skill.name}
+                                            className={`w-full h-full object-contain transition-all ${['V-Ray', 'tyFlow', 'ZBrush', 'MadMapper'].includes(skill.name)
+                                                ? 'invert dark:invert-0'
+                                                : 'dark:invert'
+                                                }`}
+                                        />
                                     )}
                                 </div>
-                                <span className="text-[10px] md:text-sm font-medium text-slate-300 text-center leading-tight">{skill.name}</span>
+                                <span className="text-[10px] md:text-sm font-medium text-slate-600 dark:text-slate-300 text-center leading-tight transition-colors">{skill.name}</span>
                             </motion.a>
                         ))}
                     </div>
                 </div>
             </section>
 
+
             {/* Projects Section */}
-            <section id="projects" className="py-24 bg-slate-900/50">
+            <section id="projects" className="py-24 bg-white/50 dark:bg-slate-900/50 transition-colors">
                 <div className="container mx-auto px-6">
                     <SectionHeader title={t('projects.title')} subtitle={t('projects.subtitle')} />
 
@@ -434,12 +510,14 @@ const Home = () => {
                                         />
                                     )}
                                 </div>
-                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80 z-10 pointer-events-none" />
-                                <div className="absolute bottom-0 left-0 p-6 z-10 pointer-events-none">
-                                    <span className="text-purple-400 text-xs font-bold uppercase tracking-wider mb-2 block">
+                                {/* Gradient Overlay - Updated for subtlety */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none" />
+
+                                <div className="absolute bottom-0 left-0 p-6 z-10 pointer-events-none translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                                    <span className="text-purple-400 text-xs font-bold uppercase tracking-wider mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
                                         {t(`projects.${project.id}.category`)}
                                     </span>
-                                    <h3 className="text-xl font-bold text-white group-hover:text-purple-400 transition-colors">
+                                    <h3 className="text-xl font-bold text-white drop-shadow-md">
                                         {t(`projects.${project.id}.title`)}
                                     </h3>
                                 </div>
@@ -454,13 +532,18 @@ const Home = () => {
                 <div className="container mx-auto px-6">
                     <SectionHeader title={t('social.title')} subtitle={t('social.subtitle')} />
 
-                    <div className="flex flex-col gap-4 max-w-xs mx-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
                         <SocialCard
                             handle="@stuffmadebyrob"
                             label={t('social.maker.label')}
                             description={t('social.maker.description')}
                             url="https://instagram.com/stuffmadebyrob"
                             image="/stuffmadebyrob.jpeg"
+                            previews={[
+                                '/social/maker/1.jpg', '/social/maker/2.jpg', '/social/maker/3.jpg',
+                                '/social/maker/4.jpg', '/social/maker/5.jpg', '/social/maker/6.jpg',
+                                '/social/maker/7.jpg', '/social/maker/8.jpg', '/social/maker/9.jpg'
+                            ]}
                         />
                         <SocialCard
                             handle="@phtorob"
@@ -468,6 +551,11 @@ const Home = () => {
                             description={t('social.photo.description')}
                             url="https://instagram.com/phtorob"
                             image="/phtorob.jpeg"
+                            previews={[
+                                '/social/photo/1.jpg', '/social/photo/2.jpg', '/social/photo/3.jpg',
+                                '/social/photo/4.jpg', '/social/photo/5.jpg', '/social/photo/6.jpg',
+                                '/social/photo/7.jpg', '/social/photo/8.jpg', '/social/photo/9.jpg'
+                            ]}
                         />
                         <SocialCard
                             handle="@35mmfilmbyrob"
@@ -475,78 +563,39 @@ const Home = () => {
                             description={t('social.film.description')}
                             url="https://www.instagram.com/35mmfilmbyrob/"
                             image="/35mmfilmbyrob.jpeg"
+                            previews={[
+                                '/social/film/1.jpg', '/social/film/2.jpg', '/social/film/3.jpg',
+                                '/social/film/4.jpg', '/social/film/5.jpg', '/social/film/6.jpg',
+                                '/social/film/7.jpg', '/social/film/8.jpg', '/social/film/9.jpg'
+                            ]}
                         />
                     </div>
                 </div>
             </section>
 
             {/* Contact Section */}
-            <section id="contact" className="py-24 bg-slate-900/50">
+            <section id="contact" className="py-24 bg-white/50 dark:bg-slate-900/50 transition-colors">
                 <div className="container mx-auto px-6 text-center">
                     <SectionHeader title={t('contact.title')} subtitle={t('contact.subtitle')} />
 
                     <div className="max-w-xl mx-auto glass-card p-8 md:p-12">
-                        <p className="text-xl text-slate-300 mb-8">
+                        <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 transition-colors">
                             {t('contact.message')}
                         </p>
 
-                        <form
-                            onSubmit={(e) => {
-                                e.preventDefault();
-                                const formData = new FormData(e.currentTarget);
-                                const name = formData.get('name');
-                                const email = formData.get('email');
-                                const message = formData.get('message');
-                                window.location.href = `mailto:robinbaron@icloud.com?subject=Contact from ${name}&body=${message}%0D%0A%0D%0AFrom: ${email}`;
-                            }}
-                            className="space-y-6 text-left"
+                        <a
+                            href="mailto:robinbaron@icloud.com"
+                            className="inline-flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-950 px-8 py-4 rounded-full font-bold hover:bg-slate-700 dark:hover:bg-slate-200 transition-all transform hover:scale-105"
                         >
-                            <div>
-                                <label htmlFor="name" className="block text-sm font-medium text-slate-400 mb-2">{t('contact.name')}</label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    id="name"
-                                    required
-                                    className="w-full bg-slate-950/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
-                                    placeholder={t('contact.name')}
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-slate-400 mb-2">{t('contact.email')}</label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    id="email"
-                                    required
-                                    className="w-full bg-slate-950/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
-                                    placeholder={t('contact.email')}
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="message" className="block text-sm font-medium text-slate-400 mb-2">{t('contact.messageLabel')}</label>
-                                <textarea
-                                    name="message"
-                                    id="message"
-                                    required
-                                    rows={4}
-                                    className="w-full bg-slate-950/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors resize-none"
-                                    placeholder={t('contact.messageLabel')}
-                                />
-                            </div>
-                            <button
-                                type="submit"
-                                className="w-full bg-white text-slate-950 px-8 py-4 rounded-full font-bold hover:bg-slate-200 transition-colors mt-4"
-                            >
-                                {t('contact.submit')}
-                            </button>
-                        </form>
+                            <Mail size={20} />
+                            Get in Contact
+                        </a>
                     </div>
                 </div>
             </section>
 
             {/* Footer */}
-            <footer className="py-8 border-t border-white/5 text-center text-slate-500 text-sm">
+            <footer className="py-8 border-t border-slate-200 dark:border-white/5 text-center text-slate-500 dark:text-slate-500 text-sm transition-colors">
                 <p>&copy; {new Date().getFullYear()} Robin Baron. {t('footer.rights')}</p>
             </footer>
 

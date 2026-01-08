@@ -4,13 +4,13 @@
 
 @layer base {
   body {
-    @apply bg-slate-950 text-white overflow-x-hidden;
+    @apply bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white overflow-x-hidden transition-colors duration-300;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 }
 
 .glass-card {
-  @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl;
+  @apply bg-white/60 dark:bg-white/5 backdrop-blur-lg border border-slate-200 dark:border-white/10 rounded-2xl transition-all duration-300;
 }
 
 .text-gradient {
