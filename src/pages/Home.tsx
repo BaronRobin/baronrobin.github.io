@@ -379,7 +379,7 @@ const Home = () => {
                             initial={{ opacity: 0, scale: 0.9 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
-                            className="md:col-span-2 relative w-full h-full rounded-2xl overflow-hidden glass-card min-h-[400px]"
+                            className="md:col-span-2 relative w-40 aspect-[3/4] mx-auto md:w-full md:aspect-auto md:h-full rounded-2xl overflow-hidden glass-card md:min-h-[400px]"
                         >
                             <img
                                 src="/profile.webp?v=3"
