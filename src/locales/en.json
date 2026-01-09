@@ -287,8 +287,9 @@
     "contact": {
         "title": "Get in Touch",
         "subtitle": "Let's create something together",
-        "message": "Have a project in mind or just want to say hi? I'm always open to discussing new opportunities and ideas.",
-        "cta": "Say Hello",
+        "description": "Do not hesitate to get in touch with me. :) Either through email or social media DMs!",
+        "cta": "Shoot me a message",
+        "socialHint": "Or slide into my DMs ↘",
         "name": "Name",
         "email": "Email",
         "messageLabel": "Message",

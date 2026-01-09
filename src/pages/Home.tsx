@@ -571,18 +571,45 @@ const Home = () => {
             </section>
 
             {/* Contact Section */}
-            <section id="contact" className="py-24 bg-white/50 dark:bg-slate-900/50 transition-colors">
+            <section id="contact" className="py-32 bg-white/50 dark:bg-slate-900/50 transition-colors">
                 <div className="container mx-auto px-6 text-center">
-                    <h2 className="text-3xl font-bold mb-8 text-slate-900 dark:text-white">
-                        {t('contact.title')}
-                    </h2>
-                    <a
-                        href="mailto:robinbaron@icloud.com"
-                        className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full font-bold hover:scale-105 transition-transform"
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        className="max-w-2xl mx-auto"
                     >
-                        <Mail size={20} />
-                        {t('contact.button')}
-                    </a>
+                        <h2 className="text-4xl md:text-5xl font-bold mb-6 text-slate-900 dark:text-white tracking-tight">
+                            {t('contact.title')}
+                        </h2>
+                        <p className="text-xl text-slate-600 dark:text-slate-300 mb-10 leading-relaxed font-light">
+                            {t('contact.description')}
+                        </p>
+
+                        <div className="flex flex-col items-center gap-6">
+                            <a
+                                href="mailto:robinbaron@icloud.com"
+                                className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full font-bold hover:scale-105 transition-transform shadow-lg group"
+                            >
+                                <Mail size={20} className="group-hover:rotate-12 transition-transform" />
+                                {t('contact.cta')}
+                            </a>
+
+                            <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400 mt-4">
+                                <span>{t('contact.socialHint')}</span>
+                                <div className="flex gap-2">
+                                    <a
+                                        href="https://instagram.com/stuffmadebyrob"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="p-2 bg-white/50 dark:bg-white/5 rounded-full hover:bg-purple-100 dark:hover:bg-purple-900/30 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                                    >
+                                        <Instagram size={16} />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
                 </div>
             </section>
 
