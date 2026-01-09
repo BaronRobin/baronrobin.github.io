@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation, Trans } from 'react-i18next';
 import {
@@ -153,6 +153,15 @@ const skills: Skill[] = [
 ];
 
 import { useTheme } from '../context/ThemeContext';
+
+// --- Dynamic Social Images ---
+const makerImages = import.meta.glob('../assets/social/maker/*.{jpg,jpeg,png,webp}', { eager: true });
+const photoImages = import.meta.glob('../assets/social/photo/*.{jpg,jpeg,png,webp}', { eager: true });
+const filmImages = import.meta.glob('../assets/social/film/*.{jpg,jpeg,png,webp}', { eager: true });
+
+const getImages = (glob: Record<string, unknown>) => {
+    return Object.values(glob).map((mod: any) => mod.default).slice(0, 9);
+};
 
 const Home = () => {
     const { t, i18n } = useTranslation();
@@ -527,8 +536,8 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Social Hub - NEW SECTION */}
-            <section className="py-24">
+            {/* Social Hub */}
+            <section className="py-24 relative overflow-hidden">
                 <div className="container mx-auto px-6">
                     <SectionHeader title={t('social.title')} subtitle={t('social.subtitle')} />
 
@@ -539,11 +548,7 @@ const Home = () => {
                             description={t('social.maker.description')}
                             url="https://instagram.com/stuffmadebyrob"
                             image="/stuffmadebyrob.jpeg"
-                            previews={[
-                                '/social/maker/1.jpg', '/social/maker/2.jpg', '/social/maker/3.jpg',
-                                '/social/maker/4.jpg', '/social/maker/5.jpg', '/social/maker/6.jpg',
-                                '/social/maker/7.jpg', '/social/maker/8.jpg', '/social/maker/9.jpg'
-                            ]}
+                            previews={getImages(makerImages)}
                         />
                         <SocialCard
                             handle="@phtorob"
@@ -551,11 +556,7 @@ const Home = () => {
                             description={t('social.photo.description')}
                             url="https://instagram.com/phtorob"
                             image="/phtorob.jpeg"
-                            previews={[
-                                '/social/photo/1.jpg', '/social/photo/2.jpg', '/social/photo/3.jpg',
-                                '/social/photo/4.jpg', '/social/photo/5.jpg', '/social/photo/6.jpg',
-                                '/social/photo/7.jpg', '/social/photo/8.jpg', '/social/photo/9.jpg'
-                            ]}
+                            previews={getImages(photoImages)}
                         />
                         <SocialCard
                             handle="@35mmfilmbyrob"
@@ -563,11 +564,7 @@ const Home = () => {
                             description={t('social.film.description')}
                             url="https://www.instagram.com/35mmfilmbyrob/"
                             image="/35mmfilmbyrob.jpeg"
-                            previews={[
-                                '/social/film/1.jpg', '/social/film/2.jpg', '/social/film/3.jpg',
-                                '/social/film/4.jpg', '/social/film/5.jpg', '/social/film/6.jpg',
-                                '/social/film/7.jpg', '/social/film/8.jpg', '/social/film/9.jpg'
-                            ]}
+                            previews={getImages(filmImages)}
                         />
                     </div>
                 </div>
@@ -576,43 +573,39 @@ const Home = () => {
             {/* Contact Section */}
             <section id="contact" className="py-24 bg-white/50 dark:bg-slate-900/50 transition-colors">
                 <div className="container mx-auto px-6 text-center">
-                    <SectionHeader title={t('contact.title')} subtitle={t('contact.subtitle')} />
-
-                    <div className="max-w-xl mx-auto glass-card p-8 md:p-12">
-                        <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 transition-colors">
-                            {t('contact.message')}
-                        </p>
-
-                        <a
-                            href="mailto:robinbaron@icloud.com"
-                            className="inline-flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-950 px-8 py-4 rounded-full font-bold hover:bg-slate-700 dark:hover:bg-slate-200 transition-all transform hover:scale-105"
-                        >
-                            <Mail size={20} />
-                            Get in Contact
-                        </a>
-                    </div>
+                    <h2 className="text-3xl font-bold mb-8 text-slate-900 dark:text-white">
+                        {t('contact.title')}
+                    </h2>
+                    <a
+                        href="mailto:robin@baron.network"
+                        className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full font-bold hover:scale-105 transition-transform"
+                    >
+                        <Mail size={20} />
+                        {t('contact.button')}
+                    </a>
                 </div>
             </section>
 
             {/* Footer */}
-            <footer className="py-8 border-t border-slate-200 dark:border-white/5 text-center text-slate-500 dark:text-slate-500 text-sm transition-colors">
-                <p>&copy; {new Date().getFullYear()} Robin Baron. {t('footer.rights')}</p>
+            <footer className="py-8 text-center text-slate-500 dark:text-slate-400 text-sm">
+                <p>&copy; {new Date().getFullYear()} Baron. {t('footer.rights')}</p>
             </footer>
-
             {/* Back to Top */}
-            <motion.button
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: showBackToTop ? 1 : 0, scale: showBackToTop ? 1 : 0.8 }}
-                onClick={scrollToTop}
-                className="fixed bottom-8 right-8 bg-purple-600 text-white p-3 rounded-full shadow-lg hover:bg-purple-500 transition-colors z-40"
-            >
-                <ArrowUp size={24} />
-            </motion.button>
+            <AnimatePresence>
+                {showBackToTop && (
+                    <motion.button
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        onClick={scrollToTop}
+                        className="fixed bottom-8 right-8 p-3 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-lg z-50 transition-colors"
+                    >
+                        <ArrowUp size={24} />
+                    </motion.button>
+                )}
+            </AnimatePresence>
         </div>
     );
 };
 
-
-
 export default Home;
-
