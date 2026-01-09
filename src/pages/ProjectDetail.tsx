@@ -13,6 +13,15 @@ const ProjectDetail = () => {
     const { id } = useParams<{ id: string }>();
     const project = projects.find((p) => p.id === id);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 50);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng);
@@ -76,7 +85,7 @@ const ProjectDetail = () => {
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white font-sans selection:bg-purple-500/30 transition-colors duration-300">
 
             {/* Navigation */}
-            <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-white/5 transition-colors duration-300">
+            <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-white/5 py-0' : 'bg-transparent border-transparent py-4'}`}>
                 <div className="container mx-auto px-6 h-20 flex items-center justify-between">
                     <Link to="/" className="text-2xl font-bold tracking-tighter text-slate-900 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
                         BARON
@@ -152,24 +161,54 @@ const ProjectDetail = () => {
             </div>
 
             {/* Scroll Hint */}
-            <motion.div
+            <motion.button
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1 }}
-                className="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col items-center gap-4 text-slate-400 dark:text-slate-500 mix-blend-difference"
+                onClick={() => document.getElementById('technicals')?.scrollIntoView({ behavior: 'smooth' })}
+                className="fixed right-8 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col items-center gap-4 text-slate-400 dark:text-slate-500 hover:text-purple-600 dark:hover:text-purple-400 transition-colors cursor-pointer"
             >
-                <span className="writing-vertical text-xs tracking-widest uppercase font-light">{t('projects.scrollHint')}</span>
+                <span className="[writing-mode:vertical-rl] rotate-180 text-xs tracking-widest uppercase font-light">{t('projects.scrollHint')}</span>
                 <ArrowDown size={20} className="animate-bounce" />
-            </motion.div>
+            </motion.button>
 
-            {/* Media Gallery (Now at Top) */}
-            <section className="pb-16 container mx-auto px-6 pt-8">
+            {/* Hero Content (Details) */}
+            <div className="pt-32 pb-16 container mx-auto px-6">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="max-w-4xl mx-auto text-center"
+                >
+                    <span className="text-purple-600 dark:text-purple-400 font-medium mb-4 block tracking-wide uppercase text-sm transition-colors">
+                        {t(`projects.${project.id}.category`)}
+                    </span>
+                    <h1 className="text-4xl md:text-6xl font-bold mb-8 text-slate-900 dark:text-white transition-colors">{t(`projects.${project.id}.title`)}</h1>
+                    <p className="text-xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto mb-8 transition-colors">
+                        {t(`projects.${project.id}.description`)}
+                    </p>
+
+                    {project.link && (
+                        <a
+                            href={project.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-3 rounded-full font-medium transition-colors"
+                        >
+                            {t('projects.visitLive')}
+                        </a>
+                    )}
+                </motion.div>
+            </div>
+
+            {/* Media Gallery */}
+            <section className="pb-16 container mx-auto px-6">
                 <div className="columns-1 md:columns-2 gap-8 max-w-6xl mx-auto space-y-8">
                     {processedMedia.map((item, index) => (
                         <motion.div
                             key={index}
                             initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
                             transition={{ delay: index * 0.1 }}
                             className="relative w-full cursor-pointer group break-inside-avoid mb-8"
                             onClick={() => openLightbox(index)}
@@ -247,34 +286,54 @@ const ProjectDetail = () => {
                 )}
             </section>
 
-            {/* Hero Content (Details) */}
-            <div id="project-details" className="pb-16 container mx-auto px-6 scroll-mt-24">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="max-w-4xl mx-auto text-center"
-                >
-                    <span className="text-purple-600 dark:text-purple-400 font-medium mb-4 block tracking-wide uppercase text-sm transition-colors">
-                        {t(`projects.${project.id}.category`)}
-                    </span>
-                    <h1 className="text-4xl md:text-6xl font-bold mb-8 text-slate-900 dark:text-white transition-colors">{t(`projects.${project.id}.title`)}</h1>
-                    <p className="text-xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto mb-8 transition-colors">
-                        {t(`projects.${project.id}.description`)}
-                    </p>
+            {/* Technical Details (Restored) */}
+            {project.technicals && (
+                <section id="technicals" className="pb-32 container mx-auto px-6">
+                    <div className="max-w-5xl mx-auto glass-card p-8 md:p-12">
+                        {/* Icons */}
+                        <div className="flex flex-wrap justify-center gap-3 md:gap-6 mb-12 border-b border-slate-200 dark:border-white/5 pb-8 transition-colors">
+                            {project.technicals.icons.map((Icon, i) => (
+                                <div key={i} className="text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-white/5 p-2.5 md:p-4 rounded-lg md:rounded-xl hover:bg-slate-200 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white transition-all hover:scale-110">
+                                    <Icon className="w-5 h-5 md:w-10 md:h-10" />
+                                </div>
+                            ))}
+                        </div>
 
-                    {project.link && (
-                        <a
-                            href={project.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-3 rounded-full font-medium transition-colors"
-                        >
-                            {t('projects.visitLive')}
-                        </a>
-                    )}
-                </motion.div>
-            </div>
+                        {/* Columns */}
+                        <div className={`grid gap-8 ${project.technicals.columns.length === 1 ? 'place-items-center text-center' :
+                            project.technicals.columns.length === 2 ? 'md:grid-cols-2' :
+                                'md:grid-cols-3'
+                            }`}>
+                            {project.technicals.columns.map((_, colIndex) => {
+                                const items = t(`projects.${project.id}.technicals.col${colIndex + 1}`, { returnObjects: true }) as string[];
+                                return (
+                                    <ul key={colIndex} className="space-y-3">
+                                        {Array.isArray(items) && items.map((item, itemIndex) => (
+                                            <motion.li
+                                                key={itemIndex}
+                                                initial={{ opacity: 0, y: 10 }}
+                                                whileInView={{ opacity: 1, y: 0 }}
+                                                viewport={{ once: true }}
+                                                transition={{ delay: itemIndex * 0.05 }}
+                                                className="text-slate-600 dark:text-slate-300 font-light flex items-start gap-2"
+                                            >
+                                                {project.technicals!.columns.length === 1 ? (
+                                                    <span className="block">{item}</span>
+                                                ) : (
+                                                    <>
+                                                        <span className="w-1.5 h-1.5 rounded-full bg-purple-600 dark:bg-purple-500 mt-2 shrink-0 opacity-50" />
+                                                        <span className="text-slate-600 dark:text-slate-300 transition-colors">{item}</span>
+                                                    </>
+                                                )}
+                                            </motion.li>
+                                        ))}
+                                    </ul>
+                                )
+                            })}
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {/* Simple Footer */}
             <footer className="py-8 border-t border-slate-200 dark:border-white/5 text-center text-slate-500 dark:text-slate-500 text-sm transition-colors">
