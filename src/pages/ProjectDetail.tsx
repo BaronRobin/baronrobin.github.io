@@ -151,8 +151,8 @@ const ProjectDetail = () => {
             </nav>
 
             {/* Sticky Back Button */}
-            <div className="sticky top-20 z-40 pl-6 pointer-events-none">
-                <div className="container mx-auto">
+            <div className="sticky top-32 z-40 pointer-events-none">
+                <div className="container mx-auto px-6">
                     <Link to="/#projects" className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-900 dark:text-white hover:bg-white/20 hover:scale-105 transition-all pointer-events-auto shadow-lg group">
                         <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
                         <span>{t('projects.backToProjects')}</span>
