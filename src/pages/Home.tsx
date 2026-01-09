@@ -382,7 +382,7 @@ const Home = () => {
                             className="md:col-span-2 relative w-full h-full rounded-2xl overflow-hidden glass-card min-h-[400px]"
                         >
                             <img
-                                src="/profile.webp?v=2"
+                                src="/profile.webp?v=3"
                                 alt="Robin Baron"
                                 className="w-full h-full object-cover"
                                 onError={(e) => {
