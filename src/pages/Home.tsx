@@ -577,7 +577,7 @@ const Home = () => {
                         {t('contact.title')}
                     </h2>
                     <a
-                        href="mailto:robin@baron.network"
+                        href="mailto:robinbaron@icloud.com"
                         className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full font-bold hover:scale-105 transition-transform"
                     >
                         <Mail size={20} />
