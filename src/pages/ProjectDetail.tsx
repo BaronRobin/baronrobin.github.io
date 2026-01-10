@@ -166,7 +166,7 @@ const ProjectDetail = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1 }}
                 onClick={() => document.getElementById('technicals')?.scrollIntoView({ behavior: 'smooth' })}
-                className="fixed right-8 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col items-center gap-4 text-slate-400 dark:text-slate-500 hover:text-purple-600 dark:hover:text-purple-400 transition-colors cursor-pointer"
+                className="fixed right-4 md:right-8 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center gap-4 text-slate-400 dark:text-slate-500 hover:text-purple-600 dark:hover:text-purple-400 transition-colors cursor-pointer"
             >
                 <span className="[writing-mode:vertical-rl] rotate-180 text-xs tracking-widest uppercase font-light">{t('projects.scrollHint')}</span>
                 <ArrowDown size={20} className="animate-bounce" />

@@ -286,8 +286,9 @@
     "contact": {
         "title": "Ponte en Contacto",
         "subtitle": "Creemos algo juntos",
-        "message": "¿Tienes un proyecto en mente o simplemente quieres saludar? Siempre estoy abierto a discutir nuevas oportunidades e ideas.",
-        "cta": "Di Hola",
+        "description": "No dudes en ponerte en contacto conmigo. :) ¡Ya sea por correo electrónico o por DM en redes sociales!",
+        "cta": "Envíame un mensaje",
+        "socialHint": "O envíame un DM ↘",
         "name": "Nombre",
         "email": "Correo electrónico",
         "messageLabel": "Mensaje",
