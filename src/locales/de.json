@@ -12,15 +12,14 @@
     "about": {
         "title": "Über Mich",
         "subtitle": "Der bisherige Weg",
-        "intro1": "Ich bin ein passionierter Gestalter aus Deutschland und studiere derzeit an der <0>Hochschule Kaiserslautern</0>.",
-        "intro2": "Neben meinem Studium arbeite ich bei der <0>relticc GmbH</0>, wo ich meine Fähigkeiten in realen Szenarien anwende. Mein Fokus liegt auf der Schnittstelle zwischen technischer Umsetzung und künstlerischem Ausdruck.",
+        "intro1": "Ich bin ein passionierter Gestalter aus Deutschland. Meinen Bachelorabschluss habe ich an der <0>Hochschule Kaiserslautern</0> (2021–2026) gemacht und verfolge dort nun meinen Masterabschluss.",
+        "intro2": "Zwei Jahre lang arbeitete ich bei der <0>relticc GmbH</0> (2024–2026), wo ich meine Fähigkeiten in realen Szenarien anwandte. Mein Fokus liegt auf der Schnittstelle zwischen technischer Umsetzung und künstlerischem Ausdruck.",
         "intro3": "Ich „benutze“ Software nicht einfach nur; ich kombiniere Werkzeuge wie Unreal Engine, Houdini und die Adobe Suite, um immersive digitale Erlebnisse zu schaffen.",
         "statusTitle": "Aktueller Status",
         "status": {
-            "student": "Bachelor Student",
+            "master": "Masterstudent",
             "employee": "Angestellter",
-            "goals": "Horizonte erweitern",
-            "goalsPlace": "Offen für neue Herausforderungen"
+            "graduate": "Bachelorabschluss"
         }
     },
     "skills": {
@@ -265,7 +264,8 @@
                     "Mapping in der realen Welt"
                 ]
             }
-        }
+        },
+        "experienceAR": "In AR erleben"
     },
     "social": {
         "title": "Social Hub",

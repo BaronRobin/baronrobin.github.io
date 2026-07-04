@@ -17,11 +17,18 @@ export interface ProjectMedia {
     thumbnail?: string;
 }
 
+// Self-hosted WebAR viewer (github.com/BaronRobin/artivive), deployed separately.
+// A project's `ar` slug points at its artwork viewer: `${AR_BASE_URL}/ar/<slug>/`.
+export const AR_BASE_URL = 'https://baronrobin.github.io/artivive';
+
+export const arViewerUrl = (slug: string) => `${AR_BASE_URL}/ar/${slug}/`;
+
 export interface Project {
     id: string;
     title: string;
     category: string;
     link?: string;
+    ar?: string; // AR viewer slug — set once the artwork has a PersonalAR overlay
     description: string;
     folderName: string; // Helper for public folder path
     media: ProjectMedia[];

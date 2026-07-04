@@ -77,7 +77,7 @@ const SectionHeader = ({ title, subtitle }: SectionHeaderProps) => (
 
 const StatusItem = ({ year, title, place }: StatusItemProps) => (
     <li className="flex gap-4 items-start">
-        <span className="text-purple-600 dark:text-purple-400 font-mono text-sm pt-1 w-12 shrink-0">{year}</span>
+        <span className="text-purple-600 dark:text-purple-400 font-mono text-sm pt-1 w-20 shrink-0">{year}</span>
         <div>
             <div className="font-semibold text-slate-900 dark:text-white transition-colors">{title}</div>
             <div className="text-sm text-slate-600 dark:text-slate-400 transition-colors">{place}</div>
@@ -416,16 +416,20 @@ const Home = () => {
                                 <h3 className="text-xl font-semibold mb-4 text-slate-900 dark:text-white transition-colors">{t('about.statusTitle')}</h3>
                                 <ul className="space-y-4">
                                     <StatusItem
-                                        year="2025"
-                                        title={t('about.status.student')}
+                                        year="Now"
+                                        title={t('about.status.master')}
                                         place={<a href="https://www.hs-kl.de/" target="_blank" rel="noopener noreferrer" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Hochschule Kaiserslautern</a>}
                                     />
                                     <StatusItem
-                                        year="Now"
+                                        year="2024–2026"
                                         title={t('about.status.employee')}
                                         place={<a href="https://relticc.com/" target="_blank" rel="noopener noreferrer" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">relticc GmbH</a>}
                                     />
-                                    <StatusItem year="Goal" title={t('about.status.goals')} place={t('about.status.goalsPlace')} />
+                                    <StatusItem
+                                        year="2021–2026"
+                                        title={t('about.status.graduate')}
+                                        place={<a href="https://www.hs-kl.de/" target="_blank" rel="noopener noreferrer" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Hochschule Kaiserslautern</a>}
+                                    />
                                 </ul>
                             </div>
                         </div>

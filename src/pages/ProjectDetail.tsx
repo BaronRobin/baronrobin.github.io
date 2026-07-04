@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Menu, X, ChevronLeft, ChevronRight, ZoomIn, Sun, Moon, ArrowDown } from 'lucide-react';
-import { projects } from '../data/projects';
+import { ArrowLeft, Menu, X, ChevronLeft, ChevronRight, ZoomIn, Sun, Moon, ArrowDown, ScanLine } from 'lucide-react';
+import { projects, arViewerUrl } from '../data/projects';
 
 import { useTheme } from '../context/ThemeContext';
 
@@ -187,15 +187,30 @@ const ProjectDetail = () => {
                         {t(`projects.${project.id}.description`)}
                     </p>
 
-                    {project.link && (
-                        <a
-                            href={project.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-3 rounded-full font-medium transition-colors"
-                        >
-                            {t('projects.visitLive')}
-                        </a>
+                    {(project.link || project.ar) && (
+                        <div className="flex flex-wrap items-center justify-center gap-4">
+                            {project.link && (
+                                <a
+                                    href={project.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-3 rounded-full font-medium transition-colors"
+                                >
+                                    {t('projects.visitLive')}
+                                </a>
+                            )}
+                            {project.ar && (
+                                <a
+                                    href={arViewerUrl(project.ar)}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 border border-purple-600 dark:border-purple-500 text-purple-600 dark:text-purple-400 hover:bg-purple-600 hover:text-white dark:hover:bg-purple-500 dark:hover:text-white px-6 py-3 rounded-full font-medium transition-colors"
+                                >
+                                    <ScanLine className="w-5 h-5" />
+                                    {t('projects.experienceAR')}
+                                </a>
+                            )}
+                        </div>
                     )}
                 </motion.div>
             </div>

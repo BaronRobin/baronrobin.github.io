@@ -12,15 +12,14 @@
     "about": {
         "title": "About Me",
         "subtitle": "The journey so far",
-        "intro1": "I'm a passionate creator based in Germany, currently pursuing my Bachelor's degree at <0>Hochschule Kaiserslautern</0>.",
-        "intro2": "Alongside my studies, I work at <0>relticc GmbH</0>, where I apply my skills in real-world scenarios. My focus lies in the intersection of technical implementation and artistic expression.",
+        "intro1": "I'm a passionate creator based in Germany. I earned my Bachelor's degree at <0>Hochschule Kaiserslautern</0> (2021–2026) and am now pursuing my Master's degree there.",
+        "intro2": "For two years I worked at <0>relticc GmbH</0> (2024–2026), where I applied my skills in real-world scenarios. My focus lies in the intersection of technical implementation and artistic expression.",
         "intro3": "I don't just \"use\" software; I combine tools like Unreal Engine, Houdini, and the Adobe Suite to craft immersive digital experiences.",
         "statusTitle": "Current Status",
         "status": {
-            "student": "Bachelor Student",
+            "master": "Master's Student",
             "employee": "Employee",
-            "goals": "Expanding Horizons",
-            "goalsPlace": "Open to new challenges"
+            "graduate": "Bachelor's Degree"
         }
     },
     "skills": {
@@ -266,7 +265,8 @@
                     "Mapping in Real Life"
                 ]
             }
-        }
+        },
+        "experienceAR": "Experience in AR"
     },
     "social": {
         "title": "Social Hub",
