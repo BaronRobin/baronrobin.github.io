@@ -228,7 +228,7 @@ const Home = () => {
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white font-sans selection:bg-purple-500/30 transition-colors duration-300">
 
             {/* Navigation */}
-            <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-white/5 py-0' : 'bg-transparent border-transparent py-4'}`}>
+            <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled || isMenuOpen ? 'bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-white/5 py-0' : 'bg-transparent border-transparent py-4'}`}>
                 <div className="container mx-auto px-6 h-20 flex items-center justify-between">
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
@@ -237,7 +237,7 @@ const Home = () => {
                         <Link
                             to="/"
                             onClick={handleLogoClick}
-                            className={`text-2xl font-bold tracking-tighter transition-colors ${isScrolled ? 'text-slate-900 dark:text-white' : 'text-white'}`}
+                            className={`text-2xl font-bold tracking-tighter transition-colors ${isScrolled || isMenuOpen ? 'text-slate-900 dark:text-white' : 'text-white'}`}
                         >
                             BARON
                         </Link>
@@ -280,7 +280,7 @@ const Home = () => {
 
                     {/* Mobile Menu Toggle */}
                     <button
-                        className={`md:hidden p-2 rounded-full ${!isScrolled ? 'bg-white/10 backdrop-blur-md text-white' : 'text-slate-900 dark:text-white'}`}
+                        className={`md:hidden p-2 rounded-full ${!isScrolled && !isMenuOpen ? 'bg-white/10 backdrop-blur-md text-white' : 'text-slate-900 dark:text-white'}`}
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                     >
                         {isMenuOpen ? <X /> : <Menu />}

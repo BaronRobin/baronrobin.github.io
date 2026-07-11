@@ -10,5 +10,5 @@
 }
 
 .glass-card {
-  @apply bg-white/60 dark:bg-white/5 backdrop-blur-lg border border-slate-200 dark:border-white/10 rounded-2xl transition-all duration-300;
+  @apply bg-white/60 dark:bg-white/5 backdrop-blur-lg border border-slate-200 dark:border-white/10 rounded-2xl transition-colors duration-300;
 }
