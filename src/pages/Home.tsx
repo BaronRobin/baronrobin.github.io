@@ -625,7 +625,7 @@ const Home = () => {
             </section>
 
             {/* Contact Section */}
-            <section id="contact" className="pt-12 md:pt-16 pb-32 md:pb-48 bg-purple-50/70 dark:bg-purple-950/40 transition-colors">
+            <section id="contact" className="pt-12 md:pt-16 pb-32 md:pb-48 bg-slate-100/80 dark:bg-slate-900/80 transition-colors">
                 <div className="container mx-auto px-6 text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}

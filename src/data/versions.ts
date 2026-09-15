@@ -32,7 +32,7 @@ export interface SiteVersion {
 
 export const versions: SiteVersion[] = [
     { id: 'v2', label: '2.0', date: '2026-09', archive: null },
-    { id: 'v1', label: '1.0', date: '2026-07', archive: '/archive/v1/index.html' },
+    { id: 'v1', label: '1.0', date: '2025-12', archive: '/archive/v1/index.html' },
     { id: 'v0', label: '0.1', date: '2021-11', archive: '/archive/v0/index.html' },
 ];
 
