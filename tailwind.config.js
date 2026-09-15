@@ -7,6 +7,14 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        // `font-sans` is set on every page root, so this is what the site
+        // actually renders in — overriding it here rather than only on body,
+        // which those roots were shadowing.
+        sans: ['Figtree', 'system-ui', '-apple-system', 'sans-serif'],
+        // The wordmark only.
+        display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+      },
       colors: {
         // Site accent remapped from purple to a dark forest green.
         // Anchored on #072e07 (the deep primary/hover); lighter steps keep

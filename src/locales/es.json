@@ -4,31 +4,61 @@
         "projects": "Proyectos",
         "skills": "Habilidades",
         "contact": "Contacto",
-        "home": "Inicio"
+        "home": "Inicio",
+        "photography": "Fotografía"
     },
     "hero": {
         "scroll": "Desplazarse"
     },
     "about": {
         "title": "Sobre mí",
-        "subtitle": "El viaje hasta ahora",
-        "intro1": "Soy un creador apasionado con sede en Alemania. Obtuve mi licenciatura en la <0>Hochschule Kaiserslautern</0> (2021–2026) y ahora curso mi máster allí.",
-        "intro2": "Durante dos años trabajé en <0>relticc GmbH</0> (2024–2026), donde apliqué mis habilidades en escenarios del mundo real. Mi enfoque radica en la intersección de la implementación técnica y la expresión artística.",
-        "intro3": "No solo \"uso\" software; combino herramientas como Unreal Engine, Houdini y Adobe Suite para crear experiencias digitales inmersivas.",
-        "statusTitle": "Estado Actual",
-        "status": {
-            "master": "Estudiante de Máster",
-            "employee": "Empleado",
-            "graduate": "Licenciatura"
+        "intro1": "Soy generalista 3D, con base en Alemania, y curso el máster en <0>Virtual Design</0> en la Hochschule Kaiserslautern, donde también hice la carrera.",
+        "intro2": "La mayor parte del trabajo de abajo viene de <0>relticc GmbH</0>, donde pasé poco menos de dos años como generalista 3D en paralelo a los estudios. Antes fui ayudante de investigación en la universidad, trabajando en VR, captura de movimiento y fotogrametría.",
+        "intro3": "La mayor parte de lo que hago está entre departamentos: escaneo, procesamiento de metraje, limpieza, renderizado y composición. Me encanta entender las herramientas y combinarlas para obtener el mejor resultado. También fotografío mucho, analógico y digital."
+    },
+    "timeline": {
+        "title": "Trayectoria",
+        "now": "Ahora",
+        "expected": "previsto",
+        "tracks": {
+            "bachelor": {
+                "title": "Grado en Virtual Design",
+                "role": "Estudios de grado"
+            },
+            "hiwi-vr": {
+                "title": "Realidad virtual y captura de movimiento",
+                "role": "Asistente de investigación"
+            },
+            "hiwi-photo": {
+                "title": "Fotografía y fotogrametría",
+                "role": "Asistente de investigación"
+            },
+            "relticc-jr": {
+                "title": "Jr. 3D Generalist",
+                "role": "Prácticas"
+            },
+            "relticc": {
+                "title": "3D Generalist",
+                "role": "Estudiante trabajador"
+            },
+            "master": {
+                "title": "Máster en Virtual Design",
+                "role": "Estudios de máster"
+            }
         }
     },
     "skills": {
-        "title": "Arsenal Técnico",
-        "subtitle": "Herramientas que utilizo"
+        "title": "Herramientas",
+        "also": "También en la caja de herramientas ({{count}})",
+        "groups": {
+            "adobe": "Adobe",
+            "chaos": "3ds Max y Chaos",
+            "threeD": "3D y escaneo",
+            "other": "Otros"
+        }
     },
     "projects": {
-        "title": "Trabajos Seleccionados",
-        "subtitle": "Un vistazo a mi portafolio",
+        "title": "Trabajos seleccionados",
         "visitLive": "Ver Demo en Vivo",
         "backToProjects": "Volver a Proyectos",
         "notFound": "Proyecto no encontrado",
@@ -38,7 +68,7 @@
         "01-polarise": {
             "title": "Polarise - AI Hub",
             "category": "Arch Viz",
-            "description": "Un sistema de diseño integral para un centro de IA centrado en la claridad y la utilidad.",
+            "description": "Un centro de datos por dentro y por fuera, desde la instalación fotovoltaica hasta la refrigeración. Renderizado en Unreal con path tracing.",
             "technicals": {
                 "col1": [
                     "Postproducción incluyendo Cryptomattes",
@@ -60,7 +90,7 @@
         "02-3d-video": {
             "title": "Video 3D",
             "category": "Lanzamiento",
-            "description": "Video de lanzamiento del cambio de marca de la empresa.",
+            "description": "La película de lanzamiento de un rebranding. Partículas en Blender, el resto construido y renderizado en Unreal.",
             "technicals": {
                 "col1": [
                     "Postproducción incluyendo Cryptomattes",
@@ -89,7 +119,7 @@
         "03-gatti-interviews": {
             "title": "Entrevistas Gatti",
             "category": "Producción de Video",
-            "description": "Edición y etalonaje de series de entrevistas.",
+            "description": "Una serie de entrevistas, montada y etalonada a un mismo look.",
             "technicals": {
                 "col1": [
                     "Postproducción incluyendo Cryptomattes",
@@ -121,7 +151,7 @@
         "04-smart-city": {
             "title": "Smart City",
             "category": "Visualización 3D",
-            "description": "Nube de Puntos a Malla Unreal",
+            "description": "Una nube de puntos escaneada, reconstruida como geometría utilizable en Unreal.",
             "technicals": {
                 "col1": [
                     "Postproducción incluyendo Cryptomattes",
@@ -150,7 +180,7 @@
         "05-dashboard": {
             "title": "Dashboard",
             "category": "UI/UX",
-            "description": "Diseño de panel de visualización de datos para métricas empresariales.",
+            "description": "Diseño de interfaz para una plataforma de datos empresarial.",
             "technicals": {
                 "col1": [
                     "Construido con:",
@@ -163,7 +193,7 @@
         "06-houdini": {
             "title": "Exploraciones en Houdini",
             "category": "VFX / Simulación",
-            "description": "Generación procedimental y estudios de simulación en Houdini.",
+            "description": "Estudios de procedural y simulación. Sin briefing, sin cliente, solo averiguar qué hacen las herramientas.",
             "technicals": {
                 "col1": [
                     "Postproducción",
@@ -184,7 +214,7 @@
         "07-kitchen-visualisation": {
             "title": "Visualización de Cocina",
             "category": "ArchViz",
-            "description": "Renderizado fotorrealista de cocina y configuración de iluminación.",
+            "description": "Una cocina iluminada y renderizada hasta que dejó de parecer un render.",
             "technicals": {
                 "col1": [
                     "Postproducción incluyendo Cryptomattes",
@@ -265,42 +295,73 @@
                 ]
             }
         },
-        "experienceAR": "Experimentar en RA"
+        "experienceAR": "Experimentar en RA",
+        "scrollHint": "Detalles del proyecto abajo"
     },
-    "social": {
-        "title": "Centro Social",
-        "subtitle": "Sigue mi viaje creativo",
-        "maker": {
-            "label": "Portafolio Maker",
-            "description": "3D, Drones FPV y más"
+    "photography": {
+        "eyebrow": "Trabajos seleccionados",
+        "title": "Fotografía",
+        "subtitle": "35mm y digital, fotografiado entre estudios y viajes.",
+        "closeGallery": "Cerrar galería",
+        "backToIndex": "Todas las series",
+        "seriesNotFound": "Serie no encontrada",
+        "viewFull": "Ver a tamaño completo",
+        "navHint": "Usa ← → o desplaza para navegar",
+        "photoCount_one": "{{count}} foto",
+        "photoCount_other": "{{count}} fotos",
+        "meta": {
+            "camera": "Cámara",
+            "lens": "Objetivo",
+            "film": "Película",
+            "location": "Lugar",
+            "date": "Fecha"
         },
-        "photo": {
-            "label": "Fotografía",
-            "description": "Fotografía Digital"
-        },
-        "film": {
-            "label": "Película Analógica",
-            "description": "Olympus OM10"
+        "series": {
+            "analog-om10": {
+                "title": "Película analógica",
+                "category": "35mm · Olympus OM-10"
+            },
+            "digital": {
+                "title": "Digital",
+                "category": "Digital · Sony A7 III"
+            }
         }
     },
     "contact": {
-        "title": "Ponte en Contacto",
-        "subtitle": "Creemos algo juntos",
-        "description": "No dudes en ponerte en contacto conmigo. :) ¡Ya sea por correo electrónico o por DM en redes sociales!",
-        "cta": "Envíame un mensaje",
-        "socialHint": "O envíame un DM ↘",
-        "name": "Nombre",
-        "email": "Correo electrónico",
-        "messageLabel": "Mensaje",
-        "submit": "Enviar Mensaje"
+        "title": "Contacto",
+        "description": "El correo es la vía más rápida. Lo leo todo, también los DMs.",
+        "cta": "Escríbeme",
+        "socialHint": "O búscame aquí"
     },
     "footer": {
         "rights": "Todos los derechos reservados."
     },
+    "changelog": {
+        "title": "Registro de cambios",
+        "intro": "Todas las versiones que ha tenido esta web. Las anteriores siguen en línea.",
+        "view": "Ver esta versión",
+        "current": "Es la que estás viendo",
+        "close": "Cerrar",
+        "caveat": "Las versiones archivadas conservan el marcado y el código originales, pero cargan los medios de la biblioteca actual en lugar de llevar su propia copia, así que pueden faltar imágenes donde se han retirado proyectos.",
+        "versions": {
+            "v2": {
+                "title": "Relanzamiento",
+                "summary": "Nueva marca, una línea de tiempo interactiva, una sección de fotografía, herramientas agrupadas y una compilación mucho más ligera."
+            },
+            "v1": {
+                "title": "La reconstrucción en React",
+                "summary": "Del HTML escrito a mano a React y Vite, con modo oscuro, páginas de proyecto y tres idiomas."
+            },
+            "v0": {
+                "title": "La primera",
+                "summary": "HTML y Bootstrap escritos a mano, aprendiendo sobre la marcha. Aquí empezó todo."
+            }
+        }
+    },
     "notFoundPage": {
         "title": "404",
         "subtitle": "Página no encontrada",
-        "description": "La página que busca puede haber sido eliminada, haber cambiado de nombre o no estar disponible temporalmente.",
+        "description": "Esta página no existe, o ya no.",
         "button": "Volver al Inicio"
     }
 }

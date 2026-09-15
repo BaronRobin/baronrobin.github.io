@@ -3,26 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f9fafb" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#080a11" />
+
+    <!-- Figtree is the UI face; Space Grotesk is the wordmark only -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&family=Space+Grotesk:wght@400&display=swap" rel="stylesheet" />
+
     <!-- Primary Meta Tags -->
-    <title>Robin Baron | Digital Portfolio - Unreal Engine, VFX & Design</title>
+    <title>Robin Baron | 3D Generalist</title>
     <meta name="title" content="Robin Baron | Digital Portfolio - Unreal Engine, VFX & Design" />
-    <meta name="description" content="Exploring the intersection of technical implementation and artistic expression. Specialized in Unreal Engine, VFX, and immersive digital experiences." />
+    <meta name="description" content="3D generalist based in Germany. Unreal Engine, Houdini and real-time work, from architectural visualisation to VFX and live event tech." />
+    <meta name="author" content="Robin Baron" />
+    <link rel="canonical" href="https://baronrobin.github.io/" />
 
     <!-- Open Graph / Facebook / WhatsApp -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://baronrobin.github.io/" />
-    <meta property="og:title" content="Robin Baron | Digital Portfolio" />
-    <meta property="og:description" content="Immersive digital experiences & technical art. Check out my latest works in Unreal Engine, VFX, and 3D design." />
-    <meta property="og:image" content="https://baronrobin.github.io/hero.jpg" />
+    <meta property="og:site_name" content="Robin Baron" />
+    <meta property="og:title" content="Robin Baron | 3D Generalist" />
+    <meta property="og:description" content="3D generalist based in Germany. Unreal Engine, Houdini and real-time work, from architectural visualisation to VFX and live event tech." />
+    <!-- 1200x630 / ~112KB. Previously pointed at hero.jpg (4MB), which many scrapers time out on. -->
+    <meta property="og:image" content="https://baronrobin.github.io/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Robin Baron, 3D generalist" />
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://baronrobin.github.io/" />
-    <meta property="twitter:title" content="Robin Baron | Digital Portfolio" />
-    <meta property="twitter:description" content="Exploring the intersection of technical implementation and artistic expression. Specialized in Unreal Engine, VFX, and immersive digital experiences." />
-    <meta property="twitter:image" content="https://baronrobin.github.io/hero.jpg" />
+    <!-- Twitter (name=, not property=; the spec uses name) -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://baronrobin.github.io/" />
+    <meta name="twitter:title" content="Robin Baron | 3D Generalist" />
+    <meta name="twitter:description" content="3D generalist based in Germany. Unreal Engine, Houdini and real-time work, from architectural visualisation to VFX and live event tech." />
+    <meta name="twitter:image" content="https://baronrobin.github.io/og.jpg" />
+    <meta name="twitter:image:alt" content="Robin Baron, 3D generalist" />
   </head>
   <body>
     <div id="root"></div>

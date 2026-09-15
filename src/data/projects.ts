@@ -28,9 +28,16 @@ export interface Project {
     title: string;
     category: string;
     link?: string;
-    ar?: string; // AR viewer slug — set once the artwork has a PersonalAR overlay
+    ar?: string; // AR viewer slug, set once the artwork has a PersonalAR overlay
     description: string;
     folderName: string; // Helper for public folder path
+    /**
+     * Kept in the data but not shown anywhere: neither listed nor reachable by
+     * URL. For work that isn't ready to stand next to the rest yet. Flip this
+     * and move the folder back from _hidden_projects/ into public/projects/ to
+     * restore it.
+     */
+    hidden?: boolean;
     media: ProjectMedia[];
     technicals?: {
         icons: ComponentType<{ className?: string }>[];
@@ -46,9 +53,13 @@ export const projects: Project[] = [
         description: 'A comprehensive AI hub design system focusing on clarity and utility.',
         folderName: '01_polarise',
         media: [
-            { type: 'image', url: '/projects/01_polarise/cover.webp' },
+            { type: 'image', url: '/projects/01_polarise/cover.jpg' },
             { type: 'image', url: '/projects/01_polarise/01_Datacenter_Outdoor.jpg' },
-            { type: 'video', url: '/projects/01_polarise/Polarise_1.webm' },
+            {
+                type: 'video',
+                url: '/projects/01_polarise/Polarise_1.webm',
+                thumbnail: '/projects/01_polarise/Polarise_1.poster.jpg',
+            },
             { type: 'image', url: '/projects/01_polarise/02_PV_Anlage.jpg' },
             { type: 'image', url: '/projects/01_polarise/03_Office.jpg' },
             { type: 'image', url: '/projects/01_polarise/04_Kitchen.jpg' },
@@ -82,6 +93,90 @@ export const projects: Project[] = [
         }
     },
     {
+        id: '05-dashboard',
+        title: 'Dashboard',
+        category: 'UI/UX',
+        description: 'Data visualization dashboard design for enterprise metrics.',
+        link: 'https://apps.relticc.com/demo',
+        folderName: '05_dashboard',
+        media: [
+            {
+                type: 'video',
+                url: '/projects/05_dashboard/relticc_Experience_Pro_Platform.webm',
+                thumbnail: '/projects/05_dashboard/relticc_Experience_Pro_Platform.poster.jpg',
+            },
+            { type: 'image', url: '/projects/05_dashboard/01.jpg' },
+            { type: 'image', url: '/projects/05_dashboard/02.jpg' },
+            { type: 'image', url: '/projects/05_dashboard/03.jpg' },
+            { type: 'image', url: '/projects/05_dashboard/04.jpg' },
+            { type: 'image', url: '/projects/05_dashboard/05.jpg' },
+            { type: 'image', url: '/projects/05_dashboard/06.jpg' },
+            { type: 'image', url: '/projects/05_dashboard/07.jpg' }
+        ],
+        technicals: {
+            icons: [SiReact, Database, Mail],
+            columns: [
+                [
+                    'Gebaut mit:',
+                    'react (UI)',
+                    'sql (Daten)',
+                    'Postmark (Email-Verkehr)'
+                ]
+            ]
+        }
+    },
+    {
+        id: '07-kitchen-visualisation',
+        title: 'Kitchen Visualisation',
+        category: 'ArchViz',
+        description: 'Photorealistic kitchen rendering and lighting setup.',
+        folderName: '07_kitchen_visualisation',
+        media: [
+            { type: 'image', url: '/projects/07_kitchen_visualisation/cover.webp' },
+            {
+                type: 'video',
+                url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3_1.webm',
+                thumbnail: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3_1.poster.jpg',
+            },
+            {
+                type: 'video',
+                url: '/projects/07_kitchen_visualisation/relticc_3d_exp_pro_kitchen_1.webm',
+                thumbnail: '/projects/07_kitchen_visualisation/relticc_3d_exp_pro_kitchen_1.poster.jpg',
+            },
+            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;01;21).jpg' },
+            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;02;14).jpg' },
+            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;03;03).jpg' },
+            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;05;13).jpg' },
+            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;09;00).jpg' },
+            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;09;16).jpg' },
+            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;11;22).jpg' },
+            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;12;19).jpg' },
+            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;14;00).jpg' }
+        ],
+        technicals: {
+            icons: [SiUnrealengine, SiAdobeaftereffects],
+            columns: [
+                [
+                    'Postproduction inklusive Crypomattes',
+                    'Video Cutting',
+                    'Transitions',
+                    'Masking',
+                    'Color Correction'
+                ],
+                [
+                    'Level Sequencer',
+                    'MovieRenderQueue',
+                    'Layout 3D',
+                    'Rendering mit Passes',
+                    'Camera',
+                    'Lighting',
+                    'Materials',
+                    'PathTracing'
+                ]
+            ]
+        }
+    },
+    {
         id: '02-3d-video',
         title: '3D Video',
         category: 'Launch',
@@ -89,7 +184,11 @@ export const projects: Project[] = [
         folderName: '02_3d_video',
         media: [
             { type: 'image', url: '/projects/02_3d_video/cover.jpg' },
-            { type: 'video', url: '/projects/02_3d_video/Gatti_Lauch_3D_Video_1.webm' },
+            {
+                type: 'video',
+                url: '/projects/02_3d_video/Gatti_Lauch_3D_Video_1.webm',
+                thumbnail: '/projects/02_3d_video/Gatti_Lauch_3D_Video_1.poster.jpg',
+            },
             { type: 'image', url: '/projects/02_3d_video/01.jpg' },
             { type: 'image', url: '/projects/02_3d_video/02.jpg' },
             { type: 'image', url: '/projects/02_3d_video/03.jpg' },
@@ -127,15 +226,60 @@ export const projects: Project[] = [
         }
     },
     {
+        id: '06-houdini',
+        title: 'Houdini Explorations',
+        category: 'VFX / Simulation',
+        description: 'Procedural generation and simulation studies in Houdini.',
+        folderName: '06_houdini',
+        media: [
+            { type: 'video', url: '/projects/06_houdini/Houdini_1.webm', thumbnail: '/projects/06_houdini/cover.webp' },
+            { type: 'image', url: '/projects/06_houdini/houd_01.webp' },
+            { type: 'image', url: '/projects/06_houdini/houd_02.webp' },
+            { type: 'image', url: '/projects/06_houdini/houd_03.webp' },
+            { type: 'image', url: '/projects/06_houdini/houd_04.webp' }
+        ],
+        technicals: {
+            icons: [SiDavinciresolve, SiHoudini],
+            columns: [
+                [
+                    'Postproduction',
+                    'Video Cutting',
+                    'Transitions',
+                    'Masking',
+                    'Color Correction'
+                ],
+                [
+                    'Vellum Simulation',
+                    'Rendering',
+                    'Lighting',
+                    'Camera',
+                    'Materials & stress Parameter as color driver'
+                ]
+            ]
+        }
+    },
+    {
         id: '03-gatti-interviews',
         title: 'Gatti Interviews',
         category: 'Video Production',
         description: 'Interview series editing and color grading.',
         folderName: '03_gatti_interviews',
         media: [
-            { type: 'video', url: '/projects/03_gatti_interviews/2025-11-06_Gatti_People_Video_Christof_relticc_Soundtrack_1.webm' },
-            { type: 'video', url: '/projects/03_gatti_interviews/Timeline_TeamVideo.mp4' },
-            { type: 'video', url: '/projects/03_gatti_interviews/2025-11-06_Gatti_People_Video_Team_relticc_Soundtrack_1.webm' },
+            {
+                type: 'video',
+                url: '/projects/03_gatti_interviews/2025-11-06_Gatti_People_Video_Christof_relticc_Soundtrack_1.webm',
+                thumbnail: '/projects/03_gatti_interviews/2025-11-06_Gatti_People_Video_Christof_relticc_Soundtrack_1.poster.jpg',
+            },
+            {
+                type: 'video',
+                url: '/projects/03_gatti_interviews/Timeline_TeamVideo.mp4',
+                thumbnail: '/projects/03_gatti_interviews/Timeline_TeamVideo.poster.jpg',
+            },
+            {
+                type: 'video',
+                url: '/projects/03_gatti_interviews/2025-11-06_Gatti_People_Video_Team_relticc_Soundtrack_1.webm',
+                thumbnail: '/projects/03_gatti_interviews/2025-11-06_Gatti_People_Video_Team_relticc_Soundtrack_1.poster.jpg',
+            },
             { type: 'image', url: '/projects/03_gatti_interviews/timeline.jpg' }
         ],
         technicals: {
@@ -212,112 +356,8 @@ export const projects: Project[] = [
         }
     },
     {
-        id: '05-dashboard',
-        title: 'Dashboard',
-        category: 'UI/UX',
-        description: 'Data visualization dashboard design for enterprise metrics.',
-        link: 'https://apps.relticc.com/demo',
-        folderName: '05_dashboard',
-        media: [
-            { type: 'video', url: '/projects/05_dashboard/relticc_Experience_Pro_Platform.webm' },
-            { type: 'image', url: '/projects/05_dashboard/01.jpg' },
-            { type: 'image', url: '/projects/05_dashboard/02.jpg' },
-            { type: 'image', url: '/projects/05_dashboard/03.jpg' },
-            { type: 'image', url: '/projects/05_dashboard/04.jpg' },
-            { type: 'image', url: '/projects/05_dashboard/05.jpg' },
-            { type: 'image', url: '/projects/05_dashboard/06.jpg' },
-            { type: 'image', url: '/projects/05_dashboard/07.jpg' }
-        ],
-        technicals: {
-            icons: [SiReact, Database, Mail],
-            columns: [
-                [
-                    'Gebaut mit:',
-                    'react (UI)',
-                    'sql (Daten)',
-                    'Postmark (Email-Verkehr)'
-                ]
-            ]
-        }
-    },
-    {
-        id: '06-houdini',
-        title: 'Houdini Explorations',
-        category: 'VFX / Simulation',
-        description: 'Procedural generation and simulation studies in Houdini.',
-        folderName: '06_houdini',
-        media: [
-            { type: 'video', url: '/projects/06_houdini/Houdini_1.webm', thumbnail: '/projects/06_houdini/cover.webp' },
-            { type: 'image', url: '/projects/06_houdini/houd_01.webp' },
-            { type: 'image', url: '/projects/06_houdini/houd_02.webp' },
-            { type: 'image', url: '/projects/06_houdini/houd_03.webp' },
-            { type: 'image', url: '/projects/06_houdini/houd_04.webp' }
-        ],
-        technicals: {
-            icons: [SiDavinciresolve, SiHoudini],
-            columns: [
-                [
-                    'Postproduction',
-                    'Video Cutting',
-                    'Transitions',
-                    'Masking',
-                    'Color Correction'
-                ],
-                [
-                    'Vellum Simulation',
-                    'Rendering',
-                    'Lighting',
-                    'Camera',
-                    'Materials & stress Parameter as color driver'
-                ]
-            ]
-        }
-    },
-    {
-        id: '07-kitchen-visualisation',
-        title: 'Kitchen Visualisation',
-        category: 'ArchViz',
-        description: 'Photorealistic kitchen rendering and lighting setup.',
-        folderName: '07_kitchen_visualisation',
-        media: [
-            { type: 'image', url: '/projects/07_kitchen_visualisation/cover.webp' },
-            { type: 'video', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3_1.webm' },
-            { type: 'video', url: '/projects/07_kitchen_visualisation/relticc_3d_exp_pro_kitchen_1.webm' },
-            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;01;21).jpg' },
-            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;02;14).jpg' },
-            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;03;03).jpg' },
-            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;05;13).jpg' },
-            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;09;00).jpg' },
-            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;09;16).jpg' },
-            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;11;22).jpg' },
-            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;12;19).jpg' },
-            { type: 'image', url: '/projects/07_kitchen_visualisation/KitchenMakingOf_v3 (0;00;14;00).jpg' }
-        ],
-        technicals: {
-            icons: [SiUnrealengine, SiAdobeaftereffects],
-            columns: [
-                [
-                    'Postproduction inklusive Crypomattes',
-                    'Video Cutting',
-                    'Transitions',
-                    'Masking',
-                    'Color Correction'
-                ],
-                [
-                    'Level Sequencer',
-                    'MovieRenderQueue',
-                    'Layout 3D',
-                    'Rendering mit Passes',
-                    'Camera',
-                    'Lighting',
-                    'Materials',
-                    'PathTracing'
-                ]
-            ]
-        }
-    },
-    {
         id: '08-freisteller',
+        hidden: true,
         title: 'Freisteller Modular DC',
         category: 'Commercial',
         description: 'Modular data center visualization and product showcase.',
@@ -352,6 +392,7 @@ export const projects: Project[] = [
     },
     {
         id: '09-fotogrammetrie',
+        hidden: true,
         title: 'Fotogrammetrie & Gaussians',
         category: 'Personal Interest',
         description: 'Research into photogrammetry and 3D Gaussian Splatting workflows.',
@@ -392,6 +433,7 @@ export const projects: Project[] = [
     },
     {
         id: '10-projection-mapping',
+        hidden: true,
         title: 'Projection Mapping',
         category: 'Event Tech',
         description: 'First steps in MadMapper.',
@@ -414,5 +456,8 @@ export const projects: Project[] = [
                 ]
             ]
         }
-    }
+    },
 ];
+
+/** What actually gets listed and linked. */
+export const visibleProjects = projects.filter((p) => !p.hidden);

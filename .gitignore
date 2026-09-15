@@ -23,3 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 scripts/daily_update.sh
+
+# Local note on restoring hidden project media; the steps are also in the
+# `hidden` field's doc comment in src/data/projects.ts.
+_hidden_projects/README.md
+
+# Copy worksheet, regenerated on demand; the locale files are the source of truth.
+CONTENT.md

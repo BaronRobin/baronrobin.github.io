@@ -4,31 +4,61 @@
         "projects": "Projects",
         "skills": "Skills",
         "contact": "Contact",
-        "home": "Home"
+        "home": "Home",
+        "photography": "Photography"
     },
     "hero": {
         "scroll": "Scroll"
     },
     "about": {
-        "title": "About Me",
-        "subtitle": "The journey so far",
-        "intro1": "I'm a passionate creator based in Germany. I earned my Bachelor's degree at <0>Hochschule Kaiserslautern</0> (2021–2026) and am now pursuing my Master's degree there.",
-        "intro2": "For two years I worked at <0>relticc GmbH</0> (2024–2026), where I applied my skills in real-world scenarios. My focus lies in the intersection of technical implementation and artistic expression.",
-        "intro3": "I don't just \"use\" software; I combine tools like Unreal Engine, Houdini, and the Adobe Suite to craft immersive digital experiences.",
-        "statusTitle": "Current Status",
-        "status": {
-            "master": "Master's Student",
-            "employee": "Employee",
-            "graduate": "Bachelor's Degree"
+        "title": "About",
+        "intro1": "I'm a 3D generalist based in Germany, currently on the Master's course in <0>Virtual Design</0> at Hochschule Kaiserslautern, where I did my Bachelor's too.",
+        "intro2": "Most of the work below comes from <0>relticc GmbH</0>, where I spent a bit under two years as a 3D generalist alongside the degree. Before that I was a research assistant at the university, working on VR, motion capture, and photogrammetry.",
+        "intro3": "Most of what I do sits between departments: scanning, processing footage, cleaning, rendering and compositing. I love understanding the tools and combining them to get the best result. I also shoot a lot, analog and digital."
+    },
+    "timeline": {
+        "title": "Timeline",
+        "now": "Now",
+        "expected": "expected",
+        "tracks": {
+            "bachelor": {
+                "title": "BA Virtual Design",
+                "role": "Bachelor's degree"
+            },
+            "hiwi-vr": {
+                "title": "VR & Motion Capture",
+                "role": "Research assistant"
+            },
+            "hiwi-photo": {
+                "title": "Photography & Photogrammetry",
+                "role": "Research assistant"
+            },
+            "relticc-jr": {
+                "title": "Jr. 3D Generalist",
+                "role": "Internship"
+            },
+            "relticc": {
+                "title": "3D Generalist",
+                "role": "Working student"
+            },
+            "master": {
+                "title": "MA Virtual Design",
+                "role": "Master's degree"
+            }
         }
     },
     "skills": {
-        "title": "Technical Arsenal",
-        "subtitle": "Tools I execute with"
+        "title": "Tools",
+        "also": "Also in the toolkit ({{count}})",
+        "groups": {
+            "adobe": "Adobe",
+            "chaos": "3ds Max & Chaos",
+            "threeD": "3D & Scanning",
+            "other": "Other"
+        }
     },
     "projects": {
         "title": "Selected Works",
-        "subtitle": "A glimpse into my portfolio",
         "visitLive": "Visit Live Demo",
         "backToProjects": "Back to Projects",
         "scrollHint": "Project Details Below",
@@ -39,7 +69,7 @@
         "01-polarise": {
             "title": "Polarise - AI Hub",
             "category": "Arch Viz",
-            "description": "A comprehensive AI hub design system focusing on clarity and utility.",
+            "description": "A data centre shown inside and out, from the PV array to the cooling plant. Rendered in Unreal with path tracing.",
             "technicals": {
                 "col1": [
                     "Postproduction including Cryptomattes",
@@ -61,7 +91,7 @@
         "02-3d-video": {
             "title": "3D Video",
             "category": "Launch",
-            "description": "Launch video of Company Rebranding.",
+            "description": "The launch film for a company rebrand. Particle work in Blender, the rest built and rendered in Unreal.",
             "technicals": {
                 "col1": [
                     "Postproduction including Cryptomattes",
@@ -90,7 +120,7 @@
         "03-gatti-interviews": {
             "title": "Gatti Interviews",
             "category": "Video Production",
-            "description": "Interview series editing and color grading.",
+            "description": "An interview series, cut and graded to one consistent look.",
             "technicals": {
                 "col1": [
                     "Postproduction including Cryptomattes",
@@ -122,7 +152,7 @@
         "04-smart-city": {
             "title": "Smart City",
             "category": "3D Visualization",
-            "description": "Point Cloud to Unreal Mesh",
+            "description": "A scanned point cloud rebuilt into usable Unreal geometry.",
             "technicals": {
                 "col1": [
                     "Postproduction including Cryptomattes",
@@ -151,7 +181,7 @@
         "05-dashboard": {
             "title": "Dashboard",
             "category": "UI/UX",
-            "description": "Data visualization dashboard design for enterprise metrics.",
+            "description": "Interface design for an enterprise data platform.",
             "technicals": {
                 "col1": [
                     "Built with:",
@@ -164,7 +194,7 @@
         "06-houdini": {
             "title": "Houdini Explorations",
             "category": "VFX / Simulation",
-            "description": "Procedural generation and simulation studies in Houdini.",
+            "description": "Procedural and simulation studies. No brief, no client, just finding out what the tools do.",
             "technicals": {
                 "col1": [
                     "Postproduction",
@@ -185,7 +215,7 @@
         "07-kitchen-visualisation": {
             "title": "Kitchen Visualisation",
             "category": "ArchViz",
-            "description": "Photorealistic kitchen rendering and lighting setup.",
+            "description": "A kitchen lit and rendered until it stopped looking like a render.",
             "technicals": {
                 "col1": [
                     "Postproduction including Cryptomattes",
@@ -268,40 +298,70 @@
         },
         "experienceAR": "Experience in AR"
     },
-    "social": {
-        "title": "Social Hub",
-        "subtitle": "Follow my creative journey",
-        "maker": {
-            "label": "Maker Portfolio",
-            "description": "3d, fpv drone & more"
+    "photography": {
+        "eyebrow": "Selected Work",
+        "title": "Photography",
+        "subtitle": "35mm and digital, shot between studies and travels.",
+        "closeGallery": "Close Gallery",
+        "backToIndex": "All Series",
+        "seriesNotFound": "Series not found",
+        "viewFull": "View full size",
+        "navHint": "Use ← → or scroll to navigate",
+        "photoCount_one": "{{count}} photo",
+        "photoCount_other": "{{count}} photos",
+        "meta": {
+            "camera": "Camera",
+            "lens": "Lens",
+            "film": "Film",
+            "location": "Location",
+            "date": "Date"
         },
-        "photo": {
-            "label": "Photography",
-            "description": "Digital Photography"
-        },
-        "film": {
-            "label": "Analog Film",
-            "description": "Olympus OM10"
+        "series": {
+            "analog-om10": {
+                "title": "Analog Film",
+                "category": "35mm · Olympus OM-10"
+            },
+            "digital": {
+                "title": "Digital",
+                "category": "Digital · Sony A7 III"
+            }
         }
     },
     "contact": {
-        "title": "Get in Touch",
-        "subtitle": "Let's create something together",
-        "description": "Do not hesitate to get in touch with me. :) Either through email or social media DMs!",
+        "title": "Get in touch",
+        "description": "Email is the fastest way to reach me. I read everything, including the DMs.",
         "cta": "Shoot me a message",
-        "socialHint": "Or slide into my DMs ↘",
-        "name": "Name",
-        "email": "Email",
-        "messageLabel": "Message",
-        "submit": "Send Message"
+        "socialHint": "Or find me here"
     },
     "footer": {
         "rights": "All rights reserved."
     },
+    "changelog": {
+        "title": "Changelog",
+        "intro": "Every version this site has been. The older ones are still online.",
+        "view": "View this version",
+        "current": "You're looking at it",
+        "close": "Close",
+        "caveat": "Archived versions are the original markup and code, but they load media from the current library rather than carrying their own copy, so some images may be missing where projects have since been withdrawn.",
+        "versions": {
+            "v2": {
+                "title": "Relaunch",
+                "summary": "New wordmark, an interactive career timeline, a photography section, grouped tooling, and a build a fraction of the old weight."
+            },
+            "v1": {
+                "title": "The React rebuild",
+                "summary": "Moved off hand-written HTML to React and Vite, with dark mode, project detail pages and three languages."
+            },
+            "v0": {
+                "title": "The first one",
+                "summary": "Hand-written HTML and Bootstrap, built while learning. Where all of this started."
+            }
+        }
+    },
     "notFoundPage": {
         "title": "404",
         "subtitle": "Page Not Found",
-        "description": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
+        "description": "This page doesn't exist, or doesn't any more.",
         "button": "Back to Home"
     }
 }

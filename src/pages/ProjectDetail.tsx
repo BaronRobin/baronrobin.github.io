@@ -2,30 +2,18 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Menu, X, ChevronLeft, ChevronRight, ZoomIn, Sun, Moon, ArrowDown, ScanLine } from 'lucide-react';
-import { projects, arViewerUrl } from '../data/projects';
-
-import { useTheme } from '../context/ThemeContext';
+import { ArrowLeft, X, ChevronLeft, ChevronRight, ZoomIn, ArrowDown, ScanLine } from 'lucide-react';
+import { visibleProjects, arViewerUrl } from '../data/projects';
+import SiteNav from '../components/SiteNav';
+import useDocumentTitle from '../hooks/useDocumentTitle';
+import SiteFooter from '../components/SiteFooter';
 
 const ProjectDetail = () => {
-    const { t, i18n } = useTranslation();
-    const { theme, toggleTheme } = useTheme();
+    const { t } = useTranslation();
     const { id } = useParams<{ id: string }>();
-    const project = projects.find((p) => p.id === id);
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isScrolled, setIsScrolled] = useState(false);
+    const project = visibleProjects.find((p) => p.id === id);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50);
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    const changeLanguage = (lng: string) => {
-        i18n.changeLanguage(lng);
-    };
+    useDocumentTitle(project ? t(`projects.${project.id}.title`) : undefined);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -84,71 +72,7 @@ const ProjectDetail = () => {
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white font-sans selection:bg-purple-500/30 transition-colors duration-300">
 
-            {/* Navigation */}
-            <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-white/5 py-0' : 'bg-transparent border-transparent py-4'}`}>
-                <div className="container mx-auto px-6 h-20 flex items-center justify-between">
-                    <Link to="/" className="text-2xl font-bold tracking-tighter text-slate-900 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
-                        BARON
-                    </Link>
-
-                    {/* Desktop Nav */}
-                    <div className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300">
-                        <Link to="/" className="hover:text-purple-600 dark:hover:text-white transition-colors">{t('nav.home')}</Link>
-                        <Link to="/#projects" className="hover:text-purple-600 dark:hover:text-white transition-colors">{t('nav.projects')}</Link>
-                        <Link to="/#about" className="hover:text-purple-600 dark:hover:text-white transition-colors">{t('nav.about')}</Link>
-                        <Link to="/#skills" className="hover:text-purple-600 dark:hover:text-white transition-colors">{t('nav.skills')}</Link>
-                        <Link to="/#contact" className="hover:text-purple-600 dark:hover:text-white transition-colors">{t('nav.contact')}</Link>
-
-                        <div className="flex gap-4 border-l border-slate-200 dark:border-white/10 pl-6 ml-2 items-center">
-                            <button
-                                onClick={toggleTheme}
-                                className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
-                                aria-label="Toggle Theme"
-                            >
-                                {theme === 'dark' ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} className="text-slate-600" />}
-                            </button>
-                            <div className="w-px h-4 bg-slate-200 dark:bg-white/10" />
-                            <button onClick={() => changeLanguage('en')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'en' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="English">🇺🇸</button>
-                            <button onClick={() => changeLanguage('de')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'de' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="Deutsch">🇩🇪</button>
-                            <button onClick={() => changeLanguage('es')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'es' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="Español">🇪🇸</button>
-                        </div>
-                    </div>
-
-                    {/* Mobile Menu Toggle */}
-                    <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                        {isMenuOpen ? <X /> : <Menu />}
-                    </button>
-                </div>
-
-                {/* Mobile Menu */}
-                {isMenuOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-
-                        className="md:hidden absolute top-20 left-0 w-full bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-white/10 py-4 shadow-xl"
-                    >
-                        <Link to="/" className="block w-full text-left px-6 py-3 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-purple-600 dark:hover:text-white transition-colors" onClick={() => setIsMenuOpen(false)}>{t('nav.home')}</Link>
-                        <Link to="/#projects" className="block w-full text-left px-6 py-3 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-purple-600 dark:hover:text-white transition-colors" onClick={() => setIsMenuOpen(false)}>{t('nav.projects')}</Link>
-                        <Link to="/#about" className="block w-full text-left px-6 py-3 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-purple-600 dark:hover:text-white transition-colors" onClick={() => setIsMenuOpen(false)}>{t('nav.about')}</Link>
-                        <Link to="/#skills" className="block w-full text-left px-6 py-3 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-purple-600 dark:hover:text-white transition-colors" onClick={() => setIsMenuOpen(false)}>{t('nav.skills')}</Link>
-                        <Link to="/#contact" className="block w-full text-left px-6 py-3 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-purple-600 dark:hover:text-white transition-colors" onClick={() => setIsMenuOpen(false)}>{t('nav.contact')}</Link>
-
-                        <div className="flex gap-6 px-6 py-3 border-t border-slate-200 dark:border-white/10 mt-2 items-center">
-                            <button
-                                onClick={toggleTheme}
-                                className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
-                            >
-                                {theme === 'dark' ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} className="text-slate-600" />}
-                            </button>
-                            <div className="w-px h-6 bg-slate-200 dark:bg-white/10" />
-                            <button onClick={() => changeLanguage('en')} className={`text-2xl transition-all ${i18n.language === 'en' ? 'opacity-100 scale-110' : 'opacity-50'}`}>🇺🇸</button>
-                            <button onClick={() => changeLanguage('de')} className={`text-2xl transition-all ${i18n.language === 'de' ? 'opacity-100 scale-110' : 'opacity-50'}`}>🇩🇪</button>
-                            <button onClick={() => changeLanguage('es')} className={`text-2xl transition-all ${i18n.language === 'es' ? 'opacity-100 scale-110' : 'opacity-50'}`}>🇪🇸</button>
-                        </div>
-                    </motion.div>
-                )}
-            </nav>
+            <SiteNav />
 
             {/* Sticky Back Button */}
             <div className="sticky top-32 z-40 pointer-events-none">
@@ -238,6 +162,7 @@ const ProjectDetail = () => {
                                 <video
                                     src={item.url}
                                     controls
+                                    preload="none"
                                     className="w-full h-auto rounded-xl shadow-lg"
                                     poster={item.thumbnail}
                                     onClick={(e) => e.stopPropagation()} // Let underlying controls work
@@ -351,9 +276,7 @@ const ProjectDetail = () => {
             )}
 
             {/* Simple Footer */}
-            <footer className="py-8 border-t border-slate-200 dark:border-white/5 text-center text-slate-500 dark:text-slate-500 text-sm transition-colors">
-                <p>&copy; {new Date().getFullYear()} Robin Baron. {t('footer.rights')}</p>
-            </footer>
+            <SiteFooter />
         </div >
     );
 };
