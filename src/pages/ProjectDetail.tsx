@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, X, ChevronLeft, ChevronRight, ZoomIn, ArrowDown, ScanLine } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, ZoomIn, ArrowDown, ScanLine } from 'lucide-react';
 import { visibleProjects, arViewerUrl } from '../data/projects';
-import SiteNav from '../components/SiteNav';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import SiteFooter from '../components/SiteFooter';
+import ProjectTechnicals from '../components/ProjectTechnicals';
 
 const ProjectDetail = () => {
     const { t } = useTranslation();
@@ -71,18 +71,6 @@ const ProjectDetail = () => {
 
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white font-sans selection:bg-purple-500/30 transition-colors duration-300">
-
-            <SiteNav />
-
-            {/* Sticky Back Button */}
-            <div className="sticky top-32 z-40 pointer-events-none">
-                <div className="container mx-auto px-6">
-                    <Link to="/#projects" className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-900 dark:text-white hover:bg-white/20 hover:scale-105 transition-all pointer-events-auto shadow-lg group">
-                        <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-                        <span>{t('projects.backToProjects')}</span>
-                    </Link>
-                </div>
-            </div>
 
             {/* Scroll Hint */}
             <motion.button
@@ -227,53 +215,7 @@ const ProjectDetail = () => {
             </section>
 
             {/* Technical Details (Restored) */}
-            {project.technicals && (
-                <section id="technicals" className="pb-32 container mx-auto px-6">
-                    <div className="max-w-5xl mx-auto glass-card p-8 md:p-12">
-                        {/* Icons */}
-                        <div className="flex flex-wrap justify-center gap-3 md:gap-6 mb-12 border-b border-slate-200 dark:border-white/5 pb-8 transition-colors">
-                            {project.technicals.icons.map((Icon, i) => (
-                                <div key={i} className="text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-white/5 p-2.5 md:p-4 rounded-lg md:rounded-xl hover:bg-slate-200 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white transition-all hover:scale-110">
-                                    <Icon className="w-5 h-5 md:w-10 md:h-10" />
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Columns */}
-                        <div className={`grid gap-8 ${project.technicals.columns.length === 1 ? 'place-items-center text-center' :
-                            project.technicals.columns.length === 2 ? 'md:grid-cols-2' :
-                                'md:grid-cols-3'
-                            }`}>
-                            {project.technicals.columns.map((_, colIndex) => {
-                                const items = t(`projects.${project.id}.technicals.col${colIndex + 1}`, { returnObjects: true }) as string[];
-                                return (
-                                    <ul key={colIndex} className="space-y-3">
-                                        {Array.isArray(items) && items.map((item, itemIndex) => (
-                                            <motion.li
-                                                key={itemIndex}
-                                                initial={{ opacity: 0, y: 10 }}
-                                                whileInView={{ opacity: 1, y: 0 }}
-                                                viewport={{ once: true }}
-                                                transition={{ delay: itemIndex * 0.05 }}
-                                                className="text-slate-600 dark:text-slate-300 font-light flex items-start gap-2"
-                                            >
-                                                {project.technicals!.columns.length === 1 ? (
-                                                    <span className="block">{item}</span>
-                                                ) : (
-                                                    <>
-                                                        <span className="w-1.5 h-1.5 rounded-full bg-purple-600 dark:bg-purple-500 mt-2 shrink-0 opacity-50" />
-                                                        <span className="text-slate-600 dark:text-slate-300 transition-colors">{item}</span>
-                                                    </>
-                                                )}
-                                            </motion.li>
-                                        ))}
-                                    </ul>
-                                )
-                            })}
-                        </div>
-                    </div>
-                </section>
-            )}
+            <ProjectTechnicals project={project} />
 
             {/* Simple Footer */}
             <SiteFooter />

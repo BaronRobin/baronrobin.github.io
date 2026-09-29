@@ -5,6 +5,7 @@
         "skills": "Habilidades",
         "contact": "Contacto",
         "home": "Inicio",
+        "back": "Atrás",
         "photography": "Fotografía"
     },
     "hero": {
@@ -13,7 +14,7 @@
     "about": {
         "title": "Sobre mí",
         "intro1": "Soy generalista 3D, con base en Alemania, y curso el máster en <0>Virtual Design</0> en la Hochschule Kaiserslautern, donde también hice la carrera.",
-        "intro2": "La mayor parte del trabajo de abajo viene de <0>relticc GmbH</0>, donde pasé poco menos de dos años como generalista 3D en paralelo a los estudios. Antes fui ayudante de investigación en la universidad, trabajando en VR, captura de movimiento y fotogrametría.",
+        "intro2": "La mayor parte del trabajo de abajo viene de <0>relticc GmbH</0>, donde pasé poco menos de dos años como generalista 3D en paralelo a los estudios. Antes fui ayudante de investigación en la universidad, trabajando en VR, captura de movimiento y fotogrametría. Desde octubre de 2026 vuelvo a ser ayudante de investigación allí, convirtiendo escaneos 3D en nubes de puntos y visualizaciones en VR.",
         "intro3": "La mayor parte de lo que hago está entre departamentos: escaneo, procesamiento de metraje, limpieza, renderizado y composición. Me encanta entender las herramientas y combinarlas para obtener el mejor resultado. También fotografío mucho, analógico y digital."
     },
     "timeline": {
@@ -44,6 +45,10 @@
             "master": {
                 "title": "Máster en Virtual Design",
                 "role": "Estudios de máster"
+            },
+            "hiwi-scan": {
+                "title": "Escaneo 3D y VR",
+                "role": "Asistente de investigación"
             }
         }
     },
@@ -295,8 +300,51 @@
                 ]
             }
         },
+        "11-lautwasser": {
+            "title": "Lautwasser",
+            "category": "Instalación interactiva",
+            "description": "Grabaciones subacuáticas del Lauter, el río que da nombre a Kaiserslautern, convertidas en una visualización sonora interactiva. Hecho con Joel Rummer.",
+            "technicals": {
+                "col1": [
+                    "Grabaciones subacuáticas en los últimos tramos abiertos del Lauter",
+                    "Análisis espectral de audio: 24 frente a 32 bits",
+                    "El sonido como dato: frecuencia y nivel como parámetros"
+                ],
+                "col2": [
+                    "Visuales reactivos al sonido en TouchDesigner",
+                    "Efectos controlados por las grabaciones",
+                    "El Lauter como persona: voz, rostro y cinemáticas",
+                    "Estados de la instalación: interactivo, reposo, cinemática, transición"
+                ],
+                "col3": [
+                    "Regulador de volumen en una Raspberry Pi, enviado a TouchDesigner por OSC",
+                    "Estela impresa en 3D para el regulador",
+                    "Sala de exposición: moodboard, montaje e instalación"
+                ]
+            }
+        },
         "experienceAR": "Experimentar en RA",
-        "scrollHint": "Detalles del proyecto abajo"
+        "scrollHint": "Detalles del proyecto abajo",
+        "12-3d-printing": {
+            "title": "Impresión 3D",
+            "category": "Fabricación",
+            "description": "Una Bambu Lab P2S con AMS 2 Pro. Más de 650 horas de impresión hasta ahora, en PLA, PETG y TPU, con boquillas de 0,2, 0,4 y 0,6 mm.",
+            "technicals": {
+                "col1": [
+                    "Bambu Lab P2S",
+                    "AMS 2 Pro (multimaterial)"
+                ],
+                "col2": [
+                    "PLA",
+                    "PETG",
+                    "TPU"
+                ],
+                "col3": [
+                    "650+ horas de impresión (a septiembre de 2026)",
+                    "Boquillas: 0,2 / 0,4 / 0,6 mm"
+                ]
+            }
+        }
     },
     "photography": {
         "eyebrow": "Trabajos seleccionados",
@@ -344,6 +392,10 @@
         "close": "Cerrar",
         "caveat": "Las versiones archivadas conservan el marcado y el código originales, pero cargan los medios de la biblioteca actual en lugar de llevar su propia copia, así que pueden faltar imágenes donde se han retirado proyectos.",
         "versions": {
+            "v2-1": {
+                "title": "Lautwasser",
+                "summary": "Además, una línea de tiempo clicable y una cabecera más estable."
+            },
             "v2": {
                 "title": "Relanzamiento",
                 "summary": "Nueva marca, una línea de tiempo interactiva, una sección de fotografía, herramientas agrupadas y una compilación mucho más ligera."

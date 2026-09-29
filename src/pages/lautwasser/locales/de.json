@@ -1,0 +1,209 @@
+{
+    "lautwasser": {
+        "course": "M85 Experimenteller Raum",
+        "theme": "Lauter Geheimnisse",
+        "program": "Master Virtual Design",
+        "semester": "SoSe26",
+        "team": "Baron Robin / Rummer Joel",
+        "supervisors": "Prof. Christian Schmachtenberg / Paul Brenner",
+        "subtitle": "Interactive Sound-Visualizer",
+        "chapters": {
+            "titel": "Titel",
+            "herleitung": "Herleitung",
+            "casefilm": "Casefilm",
+            "konzept": "Konzept",
+            "prozess": "Prozess",
+            "ausstellung": "Ausstellung",
+            "fazit": "Fazit",
+            "outro": "Outro"
+        },
+        "display": {
+            "lautwasser": "LAUTWASSER",
+            "sound": "SOUND",
+            "konzept": "KONZEPT",
+            "prozess": "PROZESS",
+            "ausstellung": "AUSSTELLUNG",
+            "ausblick": "AUSBLICK",
+            "live": "LIVE Demo"
+        },
+        "slides": {
+            "titel": {
+                "topic": "Titel"
+            },
+            "intro": {
+                "topic": "Über das Projekt",
+                "title": "Lautwasser",
+                "body": "Die Lauter, einst namensgebender Fluss der Stadt Kaiserslautern, verläuft heute größtenteils unterirdisch und ist aus dem Stadtbild nahezu verschwunden. Doch was verstummt ist, hört deshalb noch nicht auf zu existieren. Lautwasser gibt der Lauter mittels Unterwasseraufnahmen an ihren letzten offenen Stationen eine Stimme zurück und übersetzt sie in eine interaktive Sound-Visualisierung. Über einen Lautstärkeregler tritt der Besucher in einen Dialog mit dem Gewässer: Er verändert ihre Stimme, verzerrt, verlangsamt oder verstärkt sie. Doch wie sehr lässt sich die Lauter formen, wenn man ihr einen Willen gibt? Das Steuern der Geräusche, das auch das Visuelle verändert, symbolisiert die Verbindung zwischen menschlichem Gestaltungswillen und der Eigenständigkeit eines natürlichen Gegenübers. Es verschmelzen die Grenzen zwischen Kontrolle und Entzug, zwischen dem Wunsch, ein Gewässer zu formen, und unserer eigenen Abhängigkeit. Lautwasser ist kein Raum, um die Lauter zu kontrollieren. Es ist ein Angebot, ihr zuzuhören.",
+                "space": "Experimenteller Raum"
+            },
+            "wellen": {
+                "topic": "Wellen"
+            },
+            "laerm": {
+                "topic": "Lärm"
+            },
+            "voegel": {
+                "topic": "Vögel",
+                "lead": "CIRCA 14 dB LAUTER",
+                "tail": "ALS IHRE ARTGENOSSEN",
+                "tail2": "IM WALD"
+            },
+            "casefilm": {
+                "topic": "Casefilm"
+            },
+            "idee": {
+                "topic": "Unsere Idee",
+                "steps": [
+                    "Aufnahmen",
+                    "Analysieren",
+                    "Visualisieren",
+                    "Steuerbarkeit"
+                ]
+            },
+            "datenvis": {
+                "topic": "Datenvisualisierung"
+            },
+            "stationen": {
+                "topic": "Stationen"
+            },
+            "aufnahmen": {
+                "topic": "Aufnahmen"
+            },
+            "spektral": {
+                "topic": "Audiospektralanalyse"
+            },
+            "td": {
+                "topic": "TouchDesigner"
+            },
+            "effekt": {
+                "topic": "Effekt"
+            },
+            "effekte": {
+                "topic": "Effekte"
+            },
+            "perspektive": {
+                "topic": "Perspektivwechsel",
+                "quote": "Nicht nur eine Stimme, sondern auch eine Persona"
+            },
+            "personifikation": {
+                "topic": "Personifikation"
+            },
+            "pi": {
+                "topic": "Raspberry Pi Setup"
+            },
+            "app": {
+                "topic": "Verworfene App-Idee"
+            },
+            "stele": {
+                "topic": "3D-Druck Stele"
+            },
+            "logik": {
+                "topic": "Logik",
+                "states": [
+                    "Interactive",
+                    "Idle",
+                    "Cutscene",
+                    "Transition"
+                ]
+            },
+            "moodboard": {
+                "topic": "Moodboard"
+            },
+            "aufbau": {
+                "topic": "Aufbau"
+            },
+            "umsetzung": {
+                "topic": "Umsetzung"
+            },
+            "raum": {
+                "topic": "Alternativer Ausstellungsraum",
+                "caption": "Rauminstallation"
+            },
+            "weitere": {
+                "topic": "Weitere Umsetzungen",
+                "ai": "KI-generiert · FLUX.2 Klein"
+            },
+            "outro": {
+                "topic": "Outro",
+                "sub": "Viel Spaß"
+            }
+        },
+        "decibels": {
+            "level": "Lautstärke",
+            "source": "Ursprung",
+            "sources": {
+                "rocket": "Raketenstart",
+                "jet": "Düsenflugzeug",
+                "takeoff": "Flugzeugstart",
+                "rock": "Rockkonzert",
+                "mower": "Rasenmäher",
+                "birds": "Vögel",
+                "traffic": "Verkehrslärm",
+                "tv": "Fernseher",
+                "talk": "Unterhaltung",
+                "river": "Gleichmäßig fließender Fluss",
+                "brook": "Kleiner Bach",
+                "clock": "Ticken einer Uhr",
+                "tap": "Tropfender Wasserhahn"
+            },
+            "credit": "Quelle: Variotherm, „Was hören wir wie laut?“"
+        },
+        "deck": {
+            "present": "Präsentieren",
+            "caseStudy": "Projektseite",
+            "sound": "Ton",
+            "soundOn": "Ton an",
+            "soundOff": "Ton aus",
+            "fullscreen": "Vollbild",
+            "exitFullscreen": "Vollbild beenden",
+            "notes": "Notizen",
+            "notesOn": "Notizen einblenden",
+            "notesOff": "Notizen ausblenden",
+            "counter": "Folie {{n}} von {{total}}",
+            "next": "Nächste Folie",
+            "previous": "Vorherige Folie",
+            "keys": "← → blättern · F Vollbild · M Ton",
+            "keysNotes": "N Notizen",
+            "rotate": "Handy drehen für Folien im Vollbild"
+        },
+        "study": {
+            "watchFilm": "Casefilm ansehen",
+            "listen": "Anhören",
+            "mute": "Stumm",
+            "play": "Abspielen",
+            "index": "Auf dieser Seite",
+            "tools": "Werkzeuge",
+            "credits": {
+                "team": "Robin Baron & Joel Rummer",
+                "supervised": "Betreut von Prof. Christian Schmachtenberg und Paul Brenner",
+                "course": "M85 Experimenteller Raum · Master Virtual Design · Hochschule Kaiserslautern · Sommersemester 2026"
+            },
+            "theme": "Semesterthema: Lauter Geheimnisse.",
+            "herleitung": {
+                "lead": "Am Anfang stand eine Frage: Was ist Sound, was ist Lärm, was sind Geräusche? Wir leben in einer Welt voller Lärm, und sie wird lauter.",
+                "birds": "Selbst Vögel passen sich an. Das Max-Planck-Institut für Ornithologie hat herausgefunden, dass Berliner Nachtigallen im Schnitt rund 14 Dezibel lauter singen als ihre Artgenossen im Wald.",
+                "question": "Doch was ist, wenn man gar keine Stimme hat?"
+            },
+            "casefilm": "Der Casefilm zeigt Lautwasser von der Aufnahme bis zum Raum.",
+            "konzept": {
+                "lead": "Die Idee in vier Schritten: die Lauter aufnehmen, die Aufnahmen analysieren, sie visualisieren und die Steuerung den Besuchern überlassen. Um die Lauter lauter zu machen.",
+                "data": "Geräusche geben uns sehr viele Parameter und Informationen. Man muss sie nur aufzeichnen und lesen können."
+            },
+            "prozess": {
+                "stations": "Deshalb sind wir an die verschiedensten Orte der Lauter gewandert, dorthin, wo sie noch offen zugänglich ist, und haben sie dort aufgenommen, über und unter Wasser.",
+                "spectral": "Oben die Wellenform, unten die Audiospektralanalyse: dieselben Aufnahmen in 24 und in 32 Bit, zum Ansehen und zum Anhören.",
+                "td": "In TouchDesigner werden die Informationen aus den Audios in Bilder umgewandelt. Frequenz und Pegel steuern die Effekte.",
+                "persona": "Perspektivwechsel: Die Lauter bekommt ein Gesicht und spricht in Cutscenes. Aus dem Besuch wird ein Dialog.",
+                "control": "Ein Lautstärkeregler am Raspberry Pi schickt seinen Wert per OSC an TouchDesigner.",
+                "app": "Ein früherer Entwurf verlegte die Steuerung in eine Handy-App. Wir haben ihn verworfen.",
+                "stele": "Der Regler sitzt in einer 3D-gedruckten Stele.",
+                "logic": "Die Installation wechselt zwischen vier Zuständen: Interactive, Idle, Cutscene und Transition."
+            },
+            "ausstellung": {
+                "mood": "Imperfektion, bewusst unterstrichen: Rauschen als visuelles Rauschen.",
+                "room": "Der Raum im Aufbau, der Raum als Turntable und ein alternativer Ausstellungsraum als Rauminstallation."
+            },
+            "ausblick": "Wie es weitergehen könnte: Live-Mikrofone an den Stationen in Kaiserslautern, Besucher, die die Lauter mit der eigenen Stimme beeinflussen, und Projection Mapping am Rathaus."
+        }
+    }
+}

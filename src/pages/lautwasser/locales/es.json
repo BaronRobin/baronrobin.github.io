@@ -1,0 +1,209 @@
+{
+    "lautwasser": {
+        "course": "M85 Espacio experimental",
+        "theme": "Lauter Geheimnisse",
+        "program": "Máster Virtual Design",
+        "semester": "Verano 26",
+        "team": "Robin Baron / Joel Rummer",
+        "supervisors": "Prof. Christian Schmachtenberg / Paul Brenner",
+        "subtitle": "Visualizador de sonido interactivo",
+        "chapters": {
+            "titel": "Título",
+            "herleitung": "Contexto",
+            "casefilm": "Vídeo",
+            "konzept": "Concepto",
+            "prozess": "Proceso",
+            "ausstellung": "Exposición",
+            "fazit": "Conclusión",
+            "outro": "Cierre"
+        },
+        "display": {
+            "lautwasser": "LAUTWASSER",
+            "sound": "SONIDO",
+            "konzept": "CONCEPTO",
+            "prozess": "PROCESO",
+            "ausstellung": "MUESTRA",
+            "ausblick": "PERSPECTIVAS",
+            "live": "DEMO EN VIVO"
+        },
+        "slides": {
+            "titel": {
+                "topic": "Título"
+            },
+            "intro": {
+                "topic": "Sobre el proyecto",
+                "title": "Lautwasser",
+                "body": "El Lauter, el río que dio nombre a la ciudad de Kaiserslautern, discurre hoy casi por completo bajo tierra y ha desaparecido prácticamente del paisaje urbano. Pero lo que ha enmudecido no deja por ello de existir. Lautwasser le devuelve la voz al Lauter mediante grabaciones subacuáticas en sus últimos tramos abiertos y la traduce en una visualización sonora interactiva. Con un regulador de volumen, el visitante entabla un diálogo con el agua: cambia su voz, la distorsiona, la ralentiza o la amplifica. Pero ¿hasta qué punto se deja moldear el Lauter cuando se le da voluntad propia? Controlar los sonidos, que también transforman lo visual, simboliza el vínculo entre el afán humano de dar forma y la autonomía de un interlocutor natural. Se difuminan los límites entre el control y la renuncia, entre el deseo de moldear un cuerpo de agua y nuestra propia dependencia de él. Lautwasser no es un espacio para controlar el Lauter. Es una invitación a escucharlo.",
+                "space": "Espacio experimental"
+            },
+            "wellen": {
+                "topic": "Ondas"
+            },
+            "laerm": {
+                "topic": "Ruido"
+            },
+            "voegel": {
+                "topic": "Aves",
+                "lead": "UNOS 14 dB MÁS ALTO",
+                "tail": "QUE SUS CONGÉNERES",
+                "tail2": "DEL BOSQUE"
+            },
+            "casefilm": {
+                "topic": "Vídeo del proyecto"
+            },
+            "idee": {
+                "topic": "Nuestra idea",
+                "steps": [
+                    "Grabar",
+                    "Analizar",
+                    "Visualizar",
+                    "Control"
+                ]
+            },
+            "datenvis": {
+                "topic": "Visualización de datos"
+            },
+            "stationen": {
+                "topic": "Estaciones"
+            },
+            "aufnahmen": {
+                "topic": "Grabaciones"
+            },
+            "spektral": {
+                "topic": "Análisis espectral de audio"
+            },
+            "td": {
+                "topic": "TouchDesigner"
+            },
+            "effekt": {
+                "topic": "Efecto"
+            },
+            "effekte": {
+                "topic": "Efectos"
+            },
+            "perspektive": {
+                "topic": "Cambio de perspectiva",
+                "quote": "No solo una voz, sino también un personaje"
+            },
+            "personifikation": {
+                "topic": "Personificación"
+            },
+            "pi": {
+                "topic": "Configuración de la Raspberry Pi"
+            },
+            "app": {
+                "topic": "Idea de app descartada"
+            },
+            "stele": {
+                "topic": "Estela impresa en 3D"
+            },
+            "logik": {
+                "topic": "Lógica",
+                "states": [
+                    "Interactivo",
+                    "Reposo",
+                    "Cinemática",
+                    "Transición"
+                ]
+            },
+            "moodboard": {
+                "topic": "Moodboard"
+            },
+            "aufbau": {
+                "topic": "Montaje"
+            },
+            "umsetzung": {
+                "topic": "Realización"
+            },
+            "raum": {
+                "topic": "Espacio expositivo alternativo",
+                "caption": "Instalación en la sala"
+            },
+            "weitere": {
+                "topic": "Otras aplicaciones",
+                "ai": "Generado con IA · FLUX.2 Klein"
+            },
+            "outro": {
+                "topic": "Cierre",
+                "sub": "¡A disfrutar!"
+            }
+        },
+        "decibels": {
+            "level": "Volumen",
+            "source": "Origen",
+            "sources": {
+                "rocket": "Lanzamiento de cohete",
+                "jet": "Avión a reacción",
+                "takeoff": "Despegue de avión",
+                "rock": "Concierto de rock",
+                "mower": "Cortacésped",
+                "birds": "Aves",
+                "traffic": "Ruido del tráfico",
+                "tv": "Televisión",
+                "talk": "Conversación",
+                "river": "Río de caudal constante",
+                "brook": "Arroyo pequeño",
+                "clock": "Tictac de un reloj",
+                "tap": "Grifo que gotea"
+            },
+            "credit": "Fuente: Variotherm, «Was hören wir wie laut?»"
+        },
+        "deck": {
+            "present": "Presentar",
+            "caseStudy": "Página del proyecto",
+            "sound": "Sonido",
+            "soundOn": "Activar sonido",
+            "soundOff": "Silenciar",
+            "fullscreen": "Pantalla completa",
+            "exitFullscreen": "Salir de pantalla completa",
+            "notes": "Notas",
+            "notesOn": "Mostrar notas",
+            "notesOff": "Ocultar notas",
+            "counter": "Diapositiva {{n}} de {{total}}",
+            "next": "Siguiente diapositiva",
+            "previous": "Diapositiva anterior",
+            "keys": "← → para navegar · F pantalla completa · M sonido",
+            "keysNotes": "N notas",
+            "rotate": "Gira el móvil para ver las diapositivas a pantalla completa"
+        },
+        "study": {
+            "watchFilm": "Ver el vídeo",
+            "listen": "Escuchar",
+            "mute": "Silenciar",
+            "play": "Reproducir",
+            "index": "En esta página",
+            "tools": "Herramientas",
+            "credits": {
+                "team": "Robin Baron y Joel Rummer",
+                "supervised": "Tutorizado por el Prof. Christian Schmachtenberg y Paul Brenner",
+                "course": "M85 Espacio experimental · Máster Virtual Design · Hochschule Kaiserslautern · Semestre de verano 2026"
+            },
+            "theme": "Tema del semestre: Lauter Geheimnisse, que en alemán se lee a la vez como «nada más que secretos», «secretos más fuertes» y «los secretos del Lauter».",
+            "herleitung": {
+                "lead": "Todo empezó con una pregunta: ¿qué es el sonido, qué es el ruido y qué es un simple sonido de fondo? Vivimos en un mundo lleno de ruido, y cada vez más alto.",
+                "birds": "Hasta las aves se adaptan. El Instituto Max Planck de Ornitología descubrió que los ruiseñores de Berlín cantan de media unos 14 decibelios más fuerte que sus congéneres del bosque.",
+                "question": "Pero ¿y si no tienes voz?"
+            },
+            "casefilm": "El vídeo sigue Lautwasser desde las grabaciones hasta la sala.",
+            "konzept": {
+                "lead": "La idea en cuatro pasos: grabar el Lauter, analizar las grabaciones, visualizarlas y dejar el control en manos del visitante. Para que el Lauter suene más fuerte.",
+                "data": "Los sonidos nos dan muchísimos parámetros e información. Solo hay que grabarlos y saber leerlos."
+            },
+            "prozess": {
+                "stations": "Por eso recorrimos a pie los lugares donde el Lauter aún corre al descubierto y lo grabamos allí, por encima y por debajo del agua.",
+                "spectral": "Arriba la forma de onda, abajo el análisis espectral: las mismas grabaciones a 24 y a 32 bits, para ver y para escuchar.",
+                "td": "En TouchDesigner, la información de las grabaciones se convierte en imagen. La frecuencia y el nivel controlan los efectos.",
+                "persona": "Un cambio de perspectiva: el Lauter recibe un rostro y habla en cinemáticas. La visita se convierte en un diálogo.",
+                "control": "Un regulador de volumen en una Raspberry Pi envía su valor a TouchDesigner por OSC.",
+                "app": "Un borrador anterior llevaba el control a una app de móvil. Lo descartamos.",
+                "stele": "El regulador va montado en una estela impresa en 3D.",
+                "logic": "La instalación alterna entre cuatro estados: interactivo, reposo, cinemática y transición."
+            },
+            "ausstellung": {
+                "mood": "Imperfecciones, subrayadas a propósito: el ruido como ruido visual.",
+                "room": "La sala durante el montaje, la sala como turntable y un espacio expositivo alternativo como instalación en la sala."
+            },
+            "ausblick": "Hacia dónde podría ir: micrófonos en directo en las estaciones de Kaiserslautern, visitantes que modifican el Lauter con su propia voz y un projection mapping sobre el ayuntamiento."
+        }
+    }
+}

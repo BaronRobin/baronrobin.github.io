@@ -1,10 +1,9 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useLayoutEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import {
     tracks,
     toMonths,
-    trackEndMonth,
     tracksAt,
     monthToDate,
     positionOf,
@@ -44,6 +43,24 @@ const RULE_H = 4;
 const CAP_H = 20;
 const CAP_OPEN_H = 32;
 
+/**
+ * The scale's labels, sized by arithmetic rather than measurement: they are
+ * monospace, whose glyphs are 0.6em wide, so a label's width follows from its
+ * text. Years are 12px; NOW is 11px, tracked out by 0.1em.
+ */
+const YEAR_PX = 12;
+const NOW_PX = 11;
+const NOW_TRACKING = 0.1;
+/** Clear ruler either side of a label. */
+const LABEL_GAP = 7;
+/** Least room between two labels before the lesser one gives way. */
+const LABEL_MIN_SPACE = 6;
+/** The arrowhead at the ruler's right end, which a label mustn't sit on. */
+const ARROW_W = 7;
+
+/** Half the width the ruler breaks for, around a label's centre. */
+const halfBreak = (text: string, px: number, tracking = 0) => (text.length * (0.6 + tracking) * px) / 2 + LABEL_GAP;
+
 const MONTHS = Array.from({ length: AXIS_SPAN + 1 }, (_, i) => AXIS_START + i);
 
 /**
@@ -53,9 +70,9 @@ const MONTHS = Array.from({ length: AXIS_SPAN + 1 }, (_, i) => AXIS_START + i);
  */
 const subLaneOf = (track: Track, lane: Track[]) => {
     const start = toMonths(track.start);
-    const end = trackEndMonth(track);
+    const end = projectedEndMonth(track);
     const taken = lane
-        .filter((o) => o !== track && toMonths(o.start) <= end && trackEndMonth(o) >= start)
+        .filter((o) => o !== track && toMonths(o.start) <= end && projectedEndMonth(o) >= start)
         .map((o) => lane.indexOf(o));
     let sub = 0;
     while (taken.includes(sub)) sub += 1;
@@ -67,11 +84,14 @@ interface SpanProps {
     index: number;
     subLane: number;
     open: boolean;
+    /** Clicked: stays open after the pointer leaves, so its links can be reached. */
+    pinned: boolean;
     dimmed: boolean;
     still: boolean;
     /** True when the previous span in this lane ends where this one starts. */
     joinLeft: boolean;
     onOpen: (id: TrackId | null) => void;
+    onPin: (id: TrackId) => void;
 }
 
 /**
@@ -82,7 +102,7 @@ interface SpanProps {
  * (string lengths differ per language, and a fraction-of-axis heuristic knows
  * nothing about pixels).
  */
-const Span = ({ track, index, subLane, open, dimmed, still, joinLeft, onOpen }: SpanProps) => {
+const Span = ({ track, index, subLane, open, pinned, dimmed, still, joinLeft, onOpen, onPin }: SpanProps) => {
     const { t, i18n } = useTranslation();
     const spanRef = useRef<HTMLButtonElement>(null);
     const labelRef = useRef<HTMLSpanElement>(null);
@@ -92,8 +112,10 @@ const Span = ({ track, index, subLane, open, dimmed, still, joinLeft, onOpen }: 
     const [left, solidRight] = spanOf(track);
     const projected = projectedSpanOf(track);
     const right = projected ? projected[1] : solidRight;
-    // Where the solid part ends, as a fraction of the button's own width.
-    const solidFraction = (solidRight - left) / (right - left);
+    // Where the solid part ends, as a fraction of the button's own width. A
+    // track that starts after today has no width yet, and 0/0 would write NaN
+    // into its style until the month comes round.
+    const solidFraction = right > left ? (solidRight - left) / (right - left) : 1;
 
     useEffect(() => {
         const el = spanRef.current;
@@ -155,12 +177,12 @@ const Span = ({ track, index, subLane, open, dimmed, still, joinLeft, onOpen }: 
             // then toggles it straight back shut.
             onFocus={(e) => { if (e.target.matches(':focus-visible')) onOpen(track.id); }}
             onBlur={() => { if (open) onOpen(null); }}
-            onClick={(e) => {
-                if (e.nativeEvent instanceof PointerEvent && e.nativeEvent.pointerType !== 'touch') return;
-                onOpen(open ? null : track.id);
-            }}
+            // Hover only previews; a click (or tap, or Enter) pins the span
+            // open, so the pointer can leave it for the links in the readout.
+            onClick={() => onPin(track.id)}
             aria-label={t(`timeline.tracks.${track.id}.title`)}
-            aria-expanded={open}
+            aria-pressed={pinned}
+            data-span
         >
             {/* The rule, only across what actually happened. Its weight is
                 constant in every state: a dimension line that thickens when you
@@ -230,10 +252,15 @@ const Span = ({ track, index, subLane, open, dimmed, still, joinLeft, onOpen }: 
 
 const CareerTimeline = () => {
     const { t, i18n } = useTranslation();
+    /** The span under the pointer or keyboard focus. */
     const [openTrack, setOpenTrack] = useState<TrackId | null>(null);
+    /** The span last clicked, shown whenever nothing else is being previewed. */
+    const [pinned, setPinned] = useState<TrackId | null>(null);
     const [focusedMonth, setFocusedMonth] = useState<number | null>(null);
     const [still, setStill] = useState(false);
     const [coarse, setCoarse] = useState(false);
+    /** The ruler's length in px: whether two labels fit side by side is a question of pixels. */
+    const [axisWidth, setAxisWidth] = useState(0);
     const lanesRef = useRef<HTMLDivElement>(null);
     /** Where a touch went down, so a drag can be told from a tap. */
     const touchStartX = useRef<number | null>(null);
@@ -252,7 +279,27 @@ const CareerTimeline = () => {
         };
     }, []);
 
+    // A layout effect so the observer is attached before first paint; its
+    // first report comes straight after, with the initial width.
+    useLayoutEffect(() => {
+        const el = lanesRef.current;
+        if (!el) return;
+        const observer = new ResizeObserver(() => setAxisWidth(el.clientWidth));
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, []);
+
     const openDash = useCallback((id: TrackId | null) => setOpenTrack(id), []);
+    const pin = useCallback((id: TrackId) => setPinned((current) => (current === id ? null : id)), []);
+    const release = useCallback(() => { setPinned(null); setOpenTrack(null); }, []);
+
+    // Escape lets go of a pinned span wherever focus happens to be.
+    useEffect(() => {
+        if (pinned === null) return;
+        const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') release(); };
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+    }, [pinned, release]);
 
     // Sweeping the timeline moves a playhead: whatever it crosses was running
     // at that moment, which is how concurrency becomes readable without having
@@ -268,9 +315,10 @@ const CareerTimeline = () => {
     const studyLane = tracks.filter((tr) => tr.kind === 'study');
     const workLane = tracks.filter((tr) => tr.kind === 'work');
 
-    const active = openTrack ? tracks.find((tr) => tr.id === openTrack) ?? null : null;
+    const activeId = openTrack ?? pinned;
+    const active = activeId ? tracks.find((tr) => tr.id === activeId) ?? null : null;
     const activeFrom = active ? toMonths(active.start) : 0;
-    const activeTo = active ? trackEndMonth(active) : 0;
+    const activeTo = active ? projectedEndMonth(active) : 0;
 
     // On a touch device the playhead rests at today even before anyone drags it,
     // so the handle is visible and obviously grabbable. Nothing dims until it
@@ -293,12 +341,52 @@ const CareerTimeline = () => {
     const years = Array.from(new Set(MONTHS.map((m) => Math.floor(m / 12))))
         .filter((y) => y * 12 >= AXIS_START && y * 12 <= AXIS_START + AXIS_SPAN);
 
+    // NOW outranks the years: a year that would touch it, or the year before
+    // it on a narrow screen, is left out rather than drawn on top. So is one
+    // that would hang off either end, or sit on the arrowhead.
+    const nowLabel = t('timeline.now');
+    const nowAt = positionOf(NOW_MONTH + 1);
+    const nowHalf = halfBreak(nowLabel, NOW_PX, NOW_TRACKING);
+    const yearHalf = halfBreak('0000', YEAR_PX);
+    const shownYears = years.reduce<number[]>((kept, year) => {
+        if (axisWidth === 0) return [...kept, year];
+        const x = positionOf(year * 12) * axisWidth;
+        // The text may reach a few px past the ruler's start, into the page's
+        // margin; nothing may reach the arrowhead.
+        const inside = x - (yearHalf - LABEL_GAP) >= -LABEL_GAP && x + yearHalf <= axisWidth - ARROW_W;
+        const clearOfNow = Math.abs(x - nowAt * axisWidth) >= yearHalf + nowHalf + LABEL_MIN_SPACE;
+        const last = kept[kept.length - 1];
+        const clearOfLast = last === undefined || x - positionOf(last * 12) * axisWidth >= 2 * yearHalf + LABEL_MIN_SPACE;
+        return inside && clearOfNow && clearOfLast ? [...kept, year] : kept;
+    }, []);
+
+    // The ruler breaks around each label. A mask rather than a patch of
+    // background behind the text: the section is translucent, so no solid
+    // colour matches it, and a mismatched patch reads as a box. Stops are
+    // positioned in % of the axis, widened by each label's half-width in px.
+    const breaks = [
+        ...shownYears.map((year) => [positionOf(year * 12), yearHalf] as const),
+        [nowAt, nowHalf] as const,
+    ].sort((a, b) => a[0] - b[0]);
+    const rulerMask = `linear-gradient(to right, ${[
+        '#000 0',
+        ...breaks.flatMap(([at, half]) => [
+            `#000 calc(${at * 100}% - ${half}px)`,
+            `transparent calc(${at * 100}% - ${half}px)`,
+            `transparent calc(${at * 100}% + ${half}px)`,
+            `#000 calc(${at * 100}% + ${half}px)`,
+        ]),
+        '#000 100%',
+    ].join(', ')})`;
+
     return (
         <div
             className="max-w-6xl mx-auto"
             onPointerLeave={(e) => { if (e.pointerType !== 'touch') openDash(null); }}
             onClick={(e) => {
-                if (!(e.target as HTMLElement).closest('button[aria-expanded]')) openDash(null);
+                // A click on empty timeline lets go of the pinned span; one on a
+                // link in the readout is what pinning was for, so it doesn't.
+                if (!(e.target as HTMLElement).closest('[data-span], a')) release();
             }}
         >
             {/* Readout, directly under the section heading. It replaced a static
@@ -307,7 +395,7 @@ const CareerTimeline = () => {
             <div className="mb-10 min-h-[5.5rem] text-center">
                 <div className="font-mono text-xs tracking-widest uppercase text-slate-400 dark:text-slate-600 mb-2">
                     {active
-                        ? `${monthName(toMonths(active.start))} – ${monthName(projectedEndMonth(active))}${active.end ? '' : ` (${t('timeline.expected')})`}`
+                        ? `${activeFrom === activeTo ? monthName(activeFrom) : `${monthName(activeFrom)} – ${monthName(activeTo)}`}${activeTo > NOW_MONTH ? ` (${t('timeline.expected')})` : ''}`
                         : monthToDate(focusedMonth ?? NOW_MONTH).toLocaleDateString(i18n.language, { year: 'numeric', month: 'long' })}
                 </div>
 
@@ -334,8 +422,9 @@ const CareerTimeline = () => {
                                 {/* The organisation is the longest part of the line and
                                     the least load-bearing; at 390px two concurrent
                                     entries with it wrapped to 128px and shoved the
-                                    whole timeline down. */}
-                                <span className="hidden sm:inline text-slate-500 dark:text-slate-400">
+                                    whole timeline down. With one entry (a pinned
+                                    span) it fits, and it is the link people pin for. */}
+                                <span className={`${readoutTracks.length === 1 ? 'inline' : 'hidden sm:inline'} text-slate-500 dark:text-slate-400`}>
                                     {' @ '}
                                     <a
                                         href={track.url}
@@ -368,7 +457,7 @@ const CareerTimeline = () => {
                     // A few px of slop so a tap on a span isn't read as a scrub.
                     if (!draggingRef.current && Math.abs(e.clientX - touchStartX.current) < 8) return;
                     draggingRef.current = true;
-                    setOpenTrack(null);
+                    release();
                     trackPointer(e.clientX);
                 }}
                 onPointerDown={(e) => {
@@ -387,13 +476,15 @@ const CareerTimeline = () => {
                             <Span
                                 key={track.id}
                                 track={track}
-                                joinLeft={i > 0 && toMonths(track.start) === trackEndMonth(studyLane[i - 1]) + 1}
+                                joinLeft={i > 0 && toMonths(track.start) === projectedEndMonth(studyLane[i - 1]) + 1}
                                 index={i}
                                 subLane={subLaneOf(track, studyLane)}
-                                open={openTrack === track.id}
+                                open={activeId === track.id}
+                                pinned={pinned === track.id}
                                 dimmed={anyLit && !isLit(track.id)}
                                 still={still}
                                 onOpen={openDash}
+                                onPin={pin}
                             />
                         ))}
                     </div>
@@ -408,45 +499,51 @@ const CareerTimeline = () => {
                     and the lit range below says the same thing in one mark. */}
                 <div className="absolute inset-x-0" style={{ top: LANE_H }}>
                     <div className="relative w-full">
-                        <div className="absolute inset-x-0 top-0 h-px bg-slate-300 dark:bg-white/20" />
+                        {/* The line, and the stretch of it an open span covers (one
+                            segment in place of the forty-odd ticks that used to
+                            light), both broken around the labels by the mask. The
+                            box is a few px tall because a mask also clips whatever
+                            hangs outside the element it is on. */}
+                        <div
+                            aria-hidden
+                            style={{ maskImage: rulerMask, WebkitMaskImage: rulerMask }}
+                            className="absolute inset-x-0 top-0 h-2 -translate-y-1/2"
+                        >
+                            <div className="absolute inset-x-0 top-1/2 h-px bg-slate-300 dark:bg-white/20" />
+                            {active !== null && (
+                                <div
+                                    data-lit-range
+                                    style={{
+                                        left: `${positionOf(activeFrom) * 100}%`,
+                                        width: `${(positionOf(activeTo + 1) - positionOf(activeFrom)) * 100}%`,
+                                    }}
+                                    className="absolute top-1/2 h-[3px] -translate-y-1/2 rounded-full bg-purple-500 dark:bg-purple-400 transition-all duration-200"
+                                />
+                            )}
+                        </div>
                         {/* Borders rather than an SVG: an arrowhead is three
                             numbers, and this way it inherits the line's colour. */}
                         <span
                             aria-hidden
-                            className="absolute right-0 top-0 -translate-y-1/2 w-0 h-0 border-y-4 border-y-transparent border-l-[7px] border-l-slate-300 dark:border-l-white/20"
+                            style={{ borderLeftWidth: ARROW_W }}
+                            className="absolute right-0 top-0 -translate-y-1/2 w-0 h-0 border-y-4 border-y-transparent border-l-slate-300 dark:border-l-white/20"
                         />
 
-                        {/* The stretch of axis an open span covers. One segment
-                            in place of the forty-odd ticks that used to light. */}
-                        {active !== null && (
-                            <div
-                                aria-hidden
-                                data-lit-range
-                                style={{
-                                    left: `${positionOf(activeFrom) * 100}%`,
-                                    width: `${(positionOf(activeTo + 1) - positionOf(activeFrom)) * 100}%`,
-                                }}
-                                className="absolute top-0 h-[3px] -translate-y-1/2 rounded-full bg-purple-500 dark:bg-purple-400 transition-all duration-200"
-                            />
-                        )}
-
-                        {/* The scale sits *on* the line: each label carries the page
-                            background, so the ruler reads as broken around it rather
-                            than running underneath. */}
-                        {years.map((year) => (
+                        {/* The scale sits *on* the line, in the gaps the mask leaves. */}
+                        {shownYears.map((year) => (
                             <span
                                 key={year}
                                 style={{ left: `${positionOf(year * 12) * 100}%` }}
-                                className="absolute top-0 -translate-x-1/2 -translate-y-1/2 px-2.5 bg-slate-50 dark:bg-slate-950 text-xs font-mono text-slate-400 dark:text-slate-500 z-10"
+                                className="absolute top-0 -translate-x-1/2 -translate-y-1/2 text-xs font-mono text-slate-400 dark:text-slate-500"
                             >
                                 {year}
                             </span>
                         ))}
                         <span
-                            style={{ left: `${positionOf(NOW_MONTH + 1) * 100}%` }}
-                            className="absolute top-0 -translate-x-1/2 -translate-y-1/2 px-2.5 bg-slate-50 dark:bg-slate-950 text-[11px] font-mono tracking-widest uppercase text-purple-500 dark:text-purple-400 z-10"
+                            style={{ left: `${nowAt * 100}%` }}
+                            className="absolute top-0 -translate-x-1/2 -translate-y-1/2 text-[11px] font-mono tracking-widest uppercase text-purple-500 dark:text-purple-400"
                         >
-                            {t('timeline.now')}
+                            {nowLabel}
                         </span>
                     </div>
                 </div>
@@ -458,23 +555,26 @@ const CareerTimeline = () => {
                             <Span
                                 key={track.id}
                                 track={track}
-                                joinLeft={i > 0 && toMonths(track.start) === trackEndMonth(workLane[i - 1]) + 1}
+                                joinLeft={i > 0 && toMonths(track.start) === projectedEndMonth(workLane[i - 1]) + 1}
                                 index={studyLane.length + i}
                                 subLane={subLaneOf(track, workLane)}
-                                open={openTrack === track.id}
+                                open={activeId === track.id}
+                                pinned={pinned === track.id}
                                 dimmed={anyLit && !isLit(track.id)}
                                 still={still}
                                 onOpen={openDash}
+                                onPin={pin}
                             />
                         ))}
                     </div>
                 </div>
                 {/* Today. Fixed and permanent, unlike the playhead, which is
-                    transient and follows the pointer. */}
+                    transient and follows the pointer. Drawn in two pieces that
+                    stop short of the ruler, so it doesn't run through NOW. */}
                 <span
                     aria-hidden
-                    style={{ left: `${positionOf(NOW_MONTH + 1) * 100}%` }}
-                    className="absolute inset-y-0 w-px -translate-x-1/2 bg-purple-500/25 dark:bg-purple-400/25 pointer-events-none"
+                    style={{ left: `${nowAt * 100}%`, height: LANE_H - 9 }}
+                    className="absolute top-0 w-px -translate-x-1/2 bg-purple-500/25 dark:bg-purple-400/25 pointer-events-none"
                 >
                     <motion.span
                         animate={still ? { opacity: 1 } : { opacity: [1, 0.35, 1] }}
@@ -482,21 +582,31 @@ const CareerTimeline = () => {
                         className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-purple-500 dark:bg-purple-400"
                     />
                 </span>
+                <span
+                    aria-hidden
+                    style={{ left: `${nowAt * 100}%`, top: LANE_H + 9 }}
+                    className="absolute bottom-0 w-px -translate-x-1/2 bg-purple-500/25 dark:bg-purple-400/25 pointer-events-none"
+                />
 
                 {playhead !== null && (
                     <span
                         aria-hidden
                         style={{ left: `${positionOf(playhead) * 100}%` }}
-                        // z-20: the year chips sit at z-10 so they can punch a hole
-                        // in the ruler, which also put them in front of the playhead.
-                        // The active indicator has to read over everything.
-                        className="absolute inset-y-0 w-px -translate-x-1/2 bg-purple-500 dark:bg-purple-400 pointer-events-none z-20"
+                        // z-20: the active indicator reads over everything.
+                        className="absolute inset-y-0 w-px -translate-x-1/2 pointer-events-none z-20"
                     >
+                        {/* In two pieces that stop short of the ruler, like today's
+                            line: at rest on a phone it stands right beside NOW. */}
+                        <span className="absolute top-0 inset-x-0 bg-purple-500 dark:bg-purple-400" style={{ height: LANE_H - 9 }} />
+                        <span className="absolute bottom-0 inset-x-0 bg-purple-500 dark:bg-purple-400" style={{ top: LANE_H + 9 }} />
                         {/* Grip, touch only. Purely an affordance; the drag is handled
                             on the container, so grabbing anywhere along the timeline
-                            works just as well as grabbing the handle itself. */}
+                            works just as well as grabbing the handle itself. It hangs
+                            from the foot of the playhead rather than sitting on the
+                            ruler, where at rest (today) it covered NOW and the year
+                            beside it. */}
                         {coarse && (
-                            <span className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-7 h-7 rounded-full bg-purple-500 dark:bg-purple-400 shadow-md" style={{ top: LANE_H }}>
+                            <span className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-7 h-7 rounded-full bg-purple-500 dark:bg-purple-400 shadow-md" style={{ top: '100%' }}>
                                 <span className="block w-3 h-3 border-x-2 border-white/80" />
                             </span>
                         )}

@@ -12,14 +12,18 @@ export type TrackId =
     | 'hiwi-photo'
     | 'relticc-jr'
     | 'relticc'
-    | 'master';
+    | 'master'
+    | 'hiwi-scan';
 
 export interface Track {
     id: TrackId;
     kind: 'study' | 'work';
     /** 'YYYY-MM', inclusive. */
     start: string;
-    /** 'YYYY-MM', inclusive. null means ongoing. */
+    /**
+     * 'YYYY-MM', inclusive. null means ongoing. An end still to come (a
+     * fixed-term job) is drawn as planned until the month has passed.
+     */
     end: string | null;
     /**
      * Planned finish for an ongoing track. Drawn as projection, never as
@@ -47,6 +51,10 @@ export const tracks: Track[] = [
     // Three semesters from an April 2026 start. Solid to today, projected from
     // there to the planned finish.
     { id: 'master', kind: 'study', start: '2026-04', end: null, expectedEnd: '2027-09', org: HS_KL, url: HS_KL_URL },
+
+    // Back at the university alongside the Master: 3D scanning, and the point
+    // clouds and VR visualisations built from it. One month, October 2026.
+    { id: 'hiwi-scan', kind: 'work', start: '2026-10', end: '2026-10', org: HS_KL, url: HS_KL_URL },
 ];
 
 /** Months since epoch, so spans and ticks share one integer axis. */
@@ -61,12 +69,15 @@ export const monthToDate = (months: number) =>
 const now = new Date();
 export const NOW_MONTH = now.getFullYear() * 12 + now.getMonth();
 
-/** Where a track actually got to. Today, for anything still running. */
-export const trackEndMonth = (t: Track) => (t.end ? toMonths(t.end) : NOW_MONTH);
+/**
+ * Where a track has actually got to: its end, or today, whichever comes first.
+ * Before a track has started this is earlier than its start: nothing yet.
+ */
+export const trackEndMonth = (t: Track) => Math.min(t.end ? toMonths(t.end) : NOW_MONTH, NOW_MONTH);
 
-/** Where it's expected to get to. The same thing unless a plan is recorded. */
+/** Where it's expected to get to: the plan if there is one, else its end, else today. */
 export const projectedEndMonth = (t: Track) =>
-    t.expectedEnd ? toMonths(t.expectedEnd) : trackEndMonth(t);
+    t.expectedEnd ? toMonths(t.expectedEnd) : t.end ? toMonths(t.end) : NOW_MONTH;
 
 export const AXIS_START = Math.min(...tracks.map((t) => toMonths(t.start)));
 /**
@@ -92,7 +103,7 @@ export const positionOf = (months: number) => (months - AXIS_START) / AXIS_SPAN;
  */
 export const spanOf = (t: Track): [number, number] => [
     positionOf(toMonths(t.start)),
-    positionOf(trackEndMonth(t) + 1),
+    positionOf(Math.max(trackEndMonth(t) + 1, toMonths(t.start))),
 ];
 
 /**
@@ -100,7 +111,7 @@ export const spanOf = (t: Track): [number, number] => [
  * planned beyond what already happened.
  */
 export const projectedSpanOf = (t: Track): [number, number] | null => {
-    const from = trackEndMonth(t) + 1;
+    const from = Math.max(trackEndMonth(t) + 1, toMonths(t.start));
     const to = projectedEndMonth(t) + 1;
     return to > from ? [positionOf(from), positionOf(to)] : null;
 };

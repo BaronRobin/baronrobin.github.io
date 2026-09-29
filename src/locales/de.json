@@ -5,6 +5,7 @@
         "skills": "Skills",
         "contact": "Kontakt",
         "home": "Home",
+        "back": "Zurück",
         "photography": "Fotografie"
     },
     "hero": {
@@ -13,7 +14,7 @@
     "about": {
         "title": "Über mich",
         "intro1": "Ich bin 3D Generalist aus Deutschland und studiere derzeit <0>Virtual Design</0> im Master an der Hochschule Kaiserslautern, wo ich auch meinen Bachelor absolviert habe.",
-        "intro2": "Die meisten Arbeiten unten stammen von der <0>relticc GmbH</0>, wo ich ein bisschen weniger als 2 Jahre lang neben dem Studium als 3D Generalist gearbeitet habe. Davor war ich wissenschaftliche Hilfskraft an der Hochschule, im Bereich VR, Motion Capture & Fotogrammetrie.",
+        "intro2": "Die meisten Arbeiten unten stammen von der <0>relticc GmbH</0>, wo ich ein bisschen weniger als 2 Jahre lang neben dem Studium als 3D Generalist gearbeitet habe. Davor war ich wissenschaftliche Hilfskraft an der Hochschule, im Bereich VR, Motion Capture & Fotogrammetrie. Seit Oktober 2026 bin ich dort wieder wissenschaftliche Hilfskraft und mache aus 3D-Scans Punktwolken und VR-Visualisierungen.",
         "intro3": "Das meiste, was ich mache, liegt zwischen den Gewerken: Scanning, Verarbeitung von Footage, Cleaning, Rendering & Compositing. Ich liebe es, die Werkzeuge zu verstehen und zu kombinieren, um das bestmögliche Ergebnis zu erzielen. Außerdem fotografiere ich gerne, analog und digital."
     },
     "timeline": {
@@ -44,6 +45,10 @@
             "master": {
                 "title": "MA Virtual Design",
                 "role": "Masterstudium"
+            },
+            "hiwi-scan": {
+                "title": "3D-Scanning & VR",
+                "role": "Wissenschaftliche Hilfskraft"
             }
         }
     },
@@ -295,8 +300,51 @@
                 ]
             }
         },
+        "11-lautwasser": {
+            "title": "Lautwasser",
+            "category": "Interaktive Installation",
+            "description": "Unterwasseraufnahmen der Lauter, des Flusses, nach dem Kaiserslautern benannt ist, übersetzt in eine interaktive Sound-Visualisierung. Entstanden mit Joel Rummer.",
+            "technicals": {
+                "col1": [
+                    "Unterwasseraufnahmen an den letzten offenen Stellen der Lauter",
+                    "Audiospektralanalyse, 24 gegen 32 Bit",
+                    "Geräusche als Daten: Frequenz und Pegel als Parameter"
+                ],
+                "col2": [
+                    "Soundreaktive Visuals in TouchDesigner",
+                    "Effekte, gesteuert von den Aufnahmen",
+                    "Die Lauter als Persona: Stimme, Gesicht und Cutscenes",
+                    "Zustände der Installation: Interactive, Idle, Cutscene, Transition"
+                ],
+                "col3": [
+                    "Lautstärkeregler am Raspberry Pi, per OSC an TouchDesigner",
+                    "3D-gedruckte Stele für den Regler",
+                    "Ausstellungsraum: Moodboard, Aufbau und Einrichtung"
+                ]
+            }
+        },
         "experienceAR": "In AR erleben",
-        "scrollHint": "Projektdetails unten"
+        "scrollHint": "Projektdetails unten",
+        "12-3d-printing": {
+            "title": "3D-Druck",
+            "category": "Fertigung",
+            "description": "Ein Bambu Lab P2S mit AMS 2 Pro. Über 650 Druckstunden bisher, in PLA, PETG und TPU, mit Düsen von 0,2, 0,4 und 0,6 mm.",
+            "technicals": {
+                "col1": [
+                    "Bambu Lab P2S",
+                    "AMS 2 Pro (Multi-Material)"
+                ],
+                "col2": [
+                    "PLA",
+                    "PETG",
+                    "TPU"
+                ],
+                "col3": [
+                    "650+ Druckstunden (Stand September 2026)",
+                    "Düsen: 0,2 / 0,4 / 0,6 mm"
+                ]
+            }
+        }
     },
     "photography": {
         "eyebrow": "Ausgewählte Arbeiten",
@@ -344,6 +392,10 @@
         "close": "Schließen",
         "caveat": "Die archivierten Versionen sind das ursprüngliche Markup und der ursprüngliche Code, laden Medien aber aus der aktuellen Bibliothek statt einer eigenen Kopie. Wo Projekte inzwischen zurückgezogen wurden, können Bilder fehlen.",
         "versions": {
+            "v2-1": {
+                "title": "Lautwasser",
+                "summary": "Dazu eine klickbare Timeline und ein ruhigerer Header."
+            },
             "v2": {
                 "title": "Relaunch",
                 "summary": "Neue Wortmarke, eine interaktive Timeline, ein Fotografie-Bereich, gruppierte Werkzeuge und ein deutlich leichterer Build."

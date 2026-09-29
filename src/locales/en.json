@@ -5,6 +5,7 @@
         "skills": "Skills",
         "contact": "Contact",
         "home": "Home",
+        "back": "Back",
         "photography": "Photography"
     },
     "hero": {
@@ -13,7 +14,7 @@
     "about": {
         "title": "About",
         "intro1": "I'm a 3D generalist based in Germany, currently on the Master's course in <0>Virtual Design</0> at Hochschule Kaiserslautern, where I did my Bachelor's too.",
-        "intro2": "Most of the work below comes from <0>relticc GmbH</0>, where I spent a bit under two years as a 3D generalist alongside the degree. Before that I was a research assistant at the university, working on VR, motion capture, and photogrammetry.",
+        "intro2": "Most of the work below comes from <0>relticc GmbH</0>, where I spent a bit under two years as a 3D generalist alongside the degree. Before that I was a research assistant at the university, working on VR, motion capture, and photogrammetry. Since October 2026 I'm back there as a research assistant, turning 3D scans into point clouds and VR visualisations.",
         "intro3": "Most of what I do sits between departments: scanning, processing footage, cleaning, rendering and compositing. I love understanding the tools and combining them to get the best result. I also shoot a lot, analog and digital."
     },
     "timeline": {
@@ -44,6 +45,10 @@
             "master": {
                 "title": "MA Virtual Design",
                 "role": "Master's degree"
+            },
+            "hiwi-scan": {
+                "title": "3D Scanning & VR",
+                "role": "Research assistant"
             }
         }
     },
@@ -296,7 +301,50 @@
                 ]
             }
         },
-        "experienceAR": "Experience in AR"
+        "11-lautwasser": {
+            "title": "Lautwasser",
+            "category": "Interactive Installation",
+            "description": "Underwater recordings of the Lauter, the river Kaiserslautern is named after, turned into an interactive sound visualisation. Made with Joel Rummer.",
+            "technicals": {
+                "col1": [
+                    "Underwater recordings at the Lauter's last open stretches",
+                    "24-bit against 32-bit audio spectral analysis",
+                    "Sound as data: frequency and level as parameters"
+                ],
+                "col2": [
+                    "Sound-reactive visuals in TouchDesigner",
+                    "Effects driven by the recordings",
+                    "The Lauter as a persona: voice, face and cutscenes",
+                    "Installation states: interactive, idle, cutscene, transition"
+                ],
+                "col3": [
+                    "Volume knob on a Raspberry Pi, sent to TouchDesigner over OSC",
+                    "3D-printed stele for the knob",
+                    "Exhibition room: moodboard, build and set-up"
+                ]
+            }
+        },
+        "experienceAR": "Experience in AR",
+        "12-3d-printing": {
+            "title": "3D Printing",
+            "category": "Fabrication",
+            "description": "A Bambu Lab P2S with an AMS 2 Pro. More than 650 print hours so far, in PLA, PETG and TPU, experimenting with 0.2, 0.4 and 0.6 mm nozzles.",
+            "technicals": {
+                "col1": [
+                    "Bambu Lab P2S",
+                    "AMS 2 Pro (multi-material)"
+                ],
+                "col2": [
+                    "PLA",
+                    "PETG",
+                    "TPU"
+                ],
+                "col3": [
+                    "650+ print hours (as of September 2026)",
+                    "Nozzles: 0.2 / 0.4 / 0.6 mm"
+                ]
+            }
+        }
     },
     "photography": {
         "eyebrow": "Selected Work",
@@ -344,6 +392,10 @@
         "close": "Close",
         "caveat": "Archived versions are the original markup and code, but they load media from the current library rather than carrying their own copy, so some images may be missing where projects have since been withdrawn.",
         "versions": {
+            "v2-1": {
+                "title": "Lautwasser",
+                "summary": "Plus a clickable timeline and a steadier header."
+            },
             "v2": {
                 "title": "Relaunch",
                 "summary": "New wordmark, an interactive career timeline, a photography section, grouped tooling, and a build a fraction of the old weight."

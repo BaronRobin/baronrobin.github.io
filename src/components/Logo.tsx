@@ -41,20 +41,18 @@ const Logo = ({ variant = 'solid', className = '' }: LogoProps) => {
     const still = typeof window !== 'undefined'
         && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
-    // Over the hero every other nav item sits in a translucent pill; a bare mark
-    // there reads as orphaned. Once scrolled the links drop their pills, so the
-    // mark drops its own too, matching whatever its siblings are doing.
-    // The pill's padding also lands the mark's ink at the same inset as the
-    // flag cluster's, which bare text at the container edge did not.
+    // Bare type in every state, like the words beside it: only the colour
+    // changes, so nothing about the mark moves when the nav does. Over the
+    // hero it goes white, with the same soft shadow as the links.
     const skin = variant === 'onHero'
-        ? 'text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full'
+        ? 'text-white [text-shadow:0_1px_10px_rgb(0_0_0/0.35)]'
         : 'text-slate-900 dark:text-white';
 
     return (
         <span
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
-            className={`inline-flex items-center h-10 select-none font-display text-3xl/none sm:text-4xl/none tracking-tight transition-all duration-300 ${skin} ${className}`}
+            className={`inline-flex items-center h-10 select-none font-display text-3xl/none sm:text-4xl/none tracking-tight transition-colors duration-300 ${skin} ${className}`}
         >
             <span className="shrink-0">r</span>
             <Reveal show={hovered} still={still}>obin&nbsp;</Reveal>

@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, ChevronLeft, ChevronRight, X, Maximize2 } from 'lucide-react';
 import { photoSeries, photoUrl } from '../data/photos';
-import SiteNav from '../components/SiteNav';
 import PhotoFrame from '../components/PhotoFrame';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 
@@ -170,7 +169,6 @@ const PhotoSeriesPage = () => {
 
     return (
         <div className="min-h-screen md:h-screen md:overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white font-sans selection:bg-purple-500/30 transition-colors duration-300">
-            <SiteNav active="photography" />
 
             {/* pt-28 clears the nav at its tallest: un-scrolled it carries py-4
                 on top of the h-20 row, and this page doesn't scroll on desktop

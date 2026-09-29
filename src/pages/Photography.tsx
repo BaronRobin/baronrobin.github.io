@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { ArrowRight } from 'lucide-react';
 import { photoSeries, photoUrl } from '../data/photos';
-import SiteNav from '../components/SiteNav';
 import PhotoFrame from '../components/PhotoFrame';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import SiteFooter from '../components/SiteFooter';
@@ -20,7 +19,6 @@ const Photography = () => {
 
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white font-sans selection:bg-purple-500/30 transition-colors duration-300">
-            <SiteNav active="photography" />
 
             {/* Header */}
             <div className="pt-32 pb-16 container mx-auto px-6">

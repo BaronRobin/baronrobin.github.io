@@ -14,6 +14,8 @@ export default {
         sans: ['Figtree', 'system-ui', '-apple-system', 'sans-serif'],
         // The wordmark only.
         display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+        // The Lautwasser page, standing in for the deck's Nexa (desktop licence only).
+        lw: ['Outfit', 'system-ui', 'sans-serif'],
       },
       colors: {
         // Site accent remapped from purple to a dark forest green.
@@ -48,6 +50,14 @@ export default {
           800: '#262b33',
           900: '#161a23',
           950: '#080a11',
+        },
+        // The Lautwasser deck's palette, taken from the presentation file.
+        lw: {
+          blue: '#0044FD',    // display titles
+          ink: '#0051F3',     // small labels
+          magenta: '#EC02FA', // the birds on the noise chart
+          line: '#121212',    // hairlines over black
+          paper: '#F3F3F3',
         },
       },
     },

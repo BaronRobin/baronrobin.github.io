@@ -6,10 +6,14 @@ import {
     SiBlender,
     SiReact,
     SiDavinciresolve,
-    SiHoudini
+    SiHoudini,
+    SiAdobeaudition,
+    SiRaspberrypi,
+    SiBambulab
 } from 'react-icons/si';
-import { Camera, Mail, Database, Box } from 'lucide-react';
+import { Camera, Mail, Database, Box, Mic, Printer, Layers } from 'lucide-react';
 import type { ComponentType } from 'react';
+import TouchDesignerIcon from '../components/TouchDesignerIcon';
 
 export interface ProjectMedia {
     type: 'image' | 'video';
@@ -22,6 +26,9 @@ export interface ProjectMedia {
 export const AR_BASE_URL = 'https://baronrobin.github.io/artivive';
 
 export const arViewerUrl = (slug: string) => `${AR_BASE_URL}/ar/${slug}/`;
+
+/** The one project with a page of its own (src/pages/lautwasser) instead of the gallery. */
+export const LAUTWASSER_ID = '11-lautwasser';
 
 export interface Project {
     id: string;
@@ -46,6 +53,44 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+    {
+        // Has its own page (src/pages/lautwasser), which recreates the deck it
+        // was presented with; the route in App.tsx outranks /project/:id. Only
+        // the grid tile and the tools card read this entry.
+        id: LAUTWASSER_ID,
+        title: 'Lautwasser',
+        category: 'Interactive Installation',
+        description: 'Underwater recordings of the Lauter turned into an interactive sound visualisation.',
+        folderName: '11_lautwasser',
+        media: [
+            {
+                type: 'video',
+                url: '/projects/11_lautwasser/title.webm',
+                thumbnail: '/projects/11_lautwasser/title.poster.jpg',
+            },
+        ],
+        technicals: {
+            icons: [TouchDesignerIcon, SiAdobeaudition, SiRaspberrypi, Mic, Printer],
+            columns: [
+                [
+                    'Unterwasseraufnahmen an den offenen Stationen der Lauter',
+                    'Audiospektralanalyse 24 vs. 32 Bit',
+                    'Geräusche als Daten'
+                ],
+                [
+                    'Soundreaktive Visuals in TouchDesigner',
+                    'Effekte aus den Aufnahmen',
+                    'Die Lauter als Persona',
+                    'Zustände der Installation'
+                ],
+                [
+                    'Lautstärkeregler am Raspberry Pi, per OSC',
+                    '3D-gedruckte Stele',
+                    'Ausstellungsraum'
+                ]
+            ]
+        }
+    },
     {
         id: '01-polarise',
         title: 'Polarise - AI Hub',
@@ -97,7 +142,6 @@ export const projects: Project[] = [
         title: 'Dashboard',
         category: 'UI/UX',
         description: 'Data visualization dashboard design for enterprise metrics.',
-        link: 'https://apps.relticc.com/demo',
         folderName: '05_dashboard',
         media: [
             {
@@ -454,6 +498,35 @@ export const projects: Project[] = [
                 [
                     'Mapping in Echtwelt'
                 ]
+            ]
+        }
+    },
+    {
+        // A skeleton to fill in, hidden until it is. The six pictures in
+        // _hidden_projects/12_3d_printing/ are placeholders, each named for the
+        // photo that replaces it: save the photos over 01.jpg to 06.jpg (01 is
+        // also the grid tile), move the folder back to public/projects/ and
+        // drop `hidden`. Nothing else here needs to change.
+        id: '12-3d-printing',
+        hidden: true,
+        title: '3D Printing',
+        category: 'Fabrication',
+        description: 'Bambu Lab P2S with AMS 2 Pro: PLA, PETG and TPU on 0.2, 0.4 and 0.6 mm nozzles.',
+        folderName: '12_3d_printing',
+        media: [
+            { type: 'image', url: '/projects/12_3d_printing/01.jpg' },
+            { type: 'image', url: '/projects/12_3d_printing/02.jpg' },
+            { type: 'image', url: '/projects/12_3d_printing/03.jpg' },
+            { type: 'image', url: '/projects/12_3d_printing/04.jpg' },
+            { type: 'image', url: '/projects/12_3d_printing/05.jpg' },
+            { type: 'image', url: '/projects/12_3d_printing/06.jpg' }
+        ],
+        technicals: {
+            icons: [SiBambulab, Printer, Layers],
+            columns: [
+                ['Bambu Lab P2S', 'AMS 2 Pro'],
+                ['PLA', 'PETG', 'TPU'],
+                ['650+ Druckstunden', 'Düsen: 0,2 / 0,4 / 0,6 mm']
             ]
         }
     },

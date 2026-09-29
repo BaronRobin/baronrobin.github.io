@@ -1,0 +1,384 @@
+{
+    "title": {
+        "src": "/projects/11_lautwasser/title.webm",
+        "w": 1280,
+        "h": 720,
+        "poster": "/projects/11_lautwasser/title.poster.jpg",
+        "duration": 14.01,
+        "audio": true,
+        "volume": 0.2
+    },
+    "outro": {
+        "src": "/projects/11_lautwasser/outro.webm",
+        "w": 1280,
+        "h": 720,
+        "poster": "/projects/11_lautwasser/outro.poster.jpg",
+        "duration": 10.01,
+        "audio": true,
+        "volume": 0.2
+    },
+    "overlay": {
+        "src": "/projects/11_lautwasser/overlay.jpg",
+        "w": 960,
+        "h": 540
+    },
+    "intro-wave": {
+        "src": "/projects/11_lautwasser/intro-wave.jpg",
+        "w": 1600,
+        "h": 830
+    },
+    "sound": {
+        "src": "/projects/11_lautwasser/sound.webm",
+        "w": 1280,
+        "h": 560,
+        "poster": "/projects/11_lautwasser/sound.poster.jpg",
+        "duration": 12.01,
+        "audio": true,
+        "volume": 0.5
+    },
+    "bird-drawing": {
+        "src": "/projects/11_lautwasser/bird-drawing.jpg",
+        "w": 380,
+        "h": 446
+    },
+    "bird": {
+        "src": "/projects/11_lautwasser/bird.webm",
+        "w": 500,
+        "h": 536,
+        "poster": "/projects/11_lautwasser/bird.poster.jpg",
+        "duration": 10.6
+    },
+    "bird-wave": {
+        "src": "/projects/11_lautwasser/bird-wave.webm",
+        "w": 180,
+        "h": 1150,
+        "poster": "/projects/11_lautwasser/bird-wave.poster.jpg",
+        "duration": 8.0
+    },
+    "casefilm": {
+        "src": "/projects/11_lautwasser/casefilm.webm",
+        "w": 1280,
+        "h": 720,
+        "poster": "/projects/11_lautwasser/casefilm.poster.jpg",
+        "duration": 149.17,
+        "audio": true,
+        "volume": 0.8
+    },
+    "step-record": {
+        "src": "/projects/11_lautwasser/step-record.webm",
+        "w": 480,
+        "h": 476,
+        "poster": "/projects/11_lautwasser/step-record.poster.jpg",
+        "duration": 2.87
+    },
+    "step-analyse": {
+        "src": "/projects/11_lautwasser/step-analyse.webm",
+        "w": 480,
+        "h": 476,
+        "poster": "/projects/11_lautwasser/step-analyse.poster.jpg",
+        "duration": 3.37
+    },
+    "step-visualise": {
+        "src": "/projects/11_lautwasser/step-visualise.webm",
+        "w": 480,
+        "h": 482,
+        "poster": "/projects/11_lautwasser/step-visualise.poster.jpg",
+        "duration": 8.97
+    },
+    "step-control": {
+        "src": "/projects/11_lautwasser/step-control.webm",
+        "w": 480,
+        "h": 480,
+        "poster": "/projects/11_lautwasser/step-control.poster.jpg",
+        "duration": 3.23
+    },
+    "datavis": {
+        "src": "/projects/11_lautwasser/datavis.webm",
+        "w": 1280,
+        "h": 860,
+        "poster": "/projects/11_lautwasser/datavis.poster.jpg",
+        "duration": 11.17
+    },
+    "bubbles": {
+        "src": "/projects/11_lautwasser/bubbles.webm",
+        "w": 400,
+        "h": 948,
+        "poster": "/projects/11_lautwasser/bubbles.poster.jpg",
+        "duration": 11.17
+    },
+    "stations-map": {
+        "src": "/projects/11_lautwasser/stations-map.jpg",
+        "w": 2400,
+        "h": 1050
+    },
+    "rec-main": {
+        "src": "/projects/11_lautwasser/rec-main.webm",
+        "w": 720,
+        "h": 716,
+        "poster": "/projects/11_lautwasser/rec-main.poster.jpg",
+        "duration": 12.0
+    },
+    "rec-left": {
+        "src": "/projects/11_lautwasser/rec-left.webm",
+        "w": 400,
+        "h": 908,
+        "poster": "/projects/11_lautwasser/rec-left.poster.jpg",
+        "duration": 11.4
+    },
+    "rec-right": {
+        "src": "/projects/11_lautwasser/rec-right.webm",
+        "w": 400,
+        "h": 918,
+        "poster": "/projects/11_lautwasser/rec-right.poster.jpg",
+        "duration": 12.0
+    },
+    "spectral-24": {
+        "src": "/projects/11_lautwasser/spectral-24.webm",
+        "w": 860,
+        "h": 444,
+        "poster": "/projects/11_lautwasser/spectral-24.poster.jpg",
+        "duration": 4.0,
+        "audio": true,
+        "volume": 0.8
+    },
+    "spectral-32": {
+        "src": "/projects/11_lautwasser/spectral-32.webm",
+        "w": 860,
+        "h": 446,
+        "poster": "/projects/11_lautwasser/spectral-32.poster.jpg",
+        "duration": 20.01,
+        "audio": true,
+        "volume": 0.8
+    },
+    "listen-32": {
+        "src": "/projects/11_lautwasser/listen-32.webm",
+        "w": 1280,
+        "h": 768,
+        "poster": "/projects/11_lautwasser/listen-32.poster.jpg",
+        "duration": 6.71,
+        "audio": true,
+        "volume": 0.8
+    },
+    "listen-24": {
+        "src": "/projects/11_lautwasser/listen-24.webm",
+        "w": 1280,
+        "h": 742,
+        "poster": "/projects/11_lautwasser/listen-24.poster.jpg",
+        "duration": 6.71,
+        "audio": true,
+        "volume": 0.8
+    },
+    "td-network": {
+        "src": "/projects/11_lautwasser/td-network.webm",
+        "w": 1280,
+        "h": 664,
+        "poster": "/projects/11_lautwasser/td-network.poster.jpg",
+        "duration": 12.01,
+        "audio": true,
+        "volume": 0.2
+    },
+    "td-effect": {
+        "src": "/projects/11_lautwasser/td-effect.webm",
+        "w": 1280,
+        "h": 664,
+        "poster": "/projects/11_lautwasser/td-effect.poster.jpg",
+        "duration": 12.01,
+        "audio": true,
+        "volume": 0.2
+    },
+    "effect": {
+        "src": "/projects/11_lautwasser/effect.webm",
+        "w": 1280,
+        "h": 720,
+        "poster": "/projects/11_lautwasser/effect.poster.jpg",
+        "duration": 12.01,
+        "audio": true,
+        "volume": 0.2
+    },
+    "fx-a": {
+        "src": "/projects/11_lautwasser/fx-a.webm",
+        "w": 480,
+        "h": 804,
+        "poster": "/projects/11_lautwasser/fx-a.poster.jpg",
+        "duration": 8.63
+    },
+    "fx-b": {
+        "src": "/projects/11_lautwasser/fx-b.webm",
+        "w": 480,
+        "h": 804,
+        "poster": "/projects/11_lautwasser/fx-b.poster.jpg",
+        "duration": 10.0
+    },
+    "fx-c": {
+        "src": "/projects/11_lautwasser/fx-c.webm",
+        "w": 480,
+        "h": 804,
+        "poster": "/projects/11_lautwasser/fx-c.poster.jpg",
+        "duration": 10.0
+    },
+    "persona-phone": {
+        "src": "/projects/11_lautwasser/persona-phone.jpg",
+        "w": 1920,
+        "h": 968
+    },
+    "persona-face": {
+        "src": "/projects/11_lautwasser/persona-face.webm",
+        "w": 1280,
+        "h": 720,
+        "poster": "/projects/11_lautwasser/persona-face.poster.jpg",
+        "duration": 11.27
+    },
+    "persona-fx": {
+        "src": "/projects/11_lautwasser/persona-fx.webm",
+        "w": 800,
+        "h": 900,
+        "poster": "/projects/11_lautwasser/persona-fx.poster.jpg",
+        "duration": 12.0
+    },
+    "pi-board": {
+        "src": "/projects/11_lautwasser/pi-board.jpg",
+        "w": 1100,
+        "h": 1242
+    },
+    "pi-knob": {
+        "src": "/projects/11_lautwasser/pi-knob.jpg",
+        "w": 500,
+        "h": 588
+    },
+    "pi-pc": {
+        "src": "/projects/11_lautwasser/pi-pc.jpg",
+        "w": 1600,
+        "h": 1398
+    },
+    "pi-phone": {
+        "src": "/projects/11_lautwasser/pi-phone.jpg",
+        "w": 900,
+        "h": 1456
+    },
+    "pi-sketch": {
+        "src": "/projects/11_lautwasser/pi-sketch.png",
+        "w": 1100,
+        "h": 1184
+    },
+    "app-ui": {
+        "src": "/projects/11_lautwasser/app-ui.webm",
+        "w": 576,
+        "h": 1248,
+        "poster": "/projects/11_lautwasser/app-ui.poster.jpg",
+        "duration": 13.9
+    },
+    "stele-print": {
+        "src": "/projects/11_lautwasser/stele-print.png",
+        "w": 1112,
+        "h": 532
+    },
+    "state-interactive": {
+        "src": "/projects/11_lautwasser/state-interactive.webm",
+        "w": 480,
+        "h": 480,
+        "poster": "/projects/11_lautwasser/state-interactive.poster.jpg",
+        "duration": 10.0
+    },
+    "state-idle": {
+        "src": "/projects/11_lautwasser/state-idle.webm",
+        "w": 480,
+        "h": 480,
+        "poster": "/projects/11_lautwasser/state-idle.poster.jpg",
+        "duration": 7.8
+    },
+    "state-cutscene": {
+        "src": "/projects/11_lautwasser/state-cutscene.webm",
+        "w": 480,
+        "h": 478,
+        "poster": "/projects/11_lautwasser/state-cutscene.poster.jpg",
+        "duration": 7.67
+    },
+    "state-transition": {
+        "src": "/projects/11_lautwasser/state-transition.webm",
+        "w": 480,
+        "h": 480,
+        "poster": "/projects/11_lautwasser/state-transition.poster.jpg",
+        "duration": 4.93
+    },
+    "mood-sea": {
+        "src": "/projects/11_lautwasser/mood-sea.jpg",
+        "w": 736,
+        "h": 1228
+    },
+    "mood-wave": {
+        "src": "/projects/11_lautwasser/mood-wave.jpg",
+        "w": 736,
+        "h": 520
+    },
+    "mood-knobs": {
+        "src": "/projects/11_lautwasser/mood-knobs.jpg",
+        "w": 736,
+        "h": 1308
+    },
+    "mood-poster": {
+        "src": "/projects/11_lautwasser/mood-poster.jpg",
+        "w": 900,
+        "h": 724
+    },
+    "mood-headphones": {
+        "src": "/projects/11_lautwasser/mood-headphones.jpg",
+        "w": 640,
+        "h": 640
+    },
+    "mood-turntable": {
+        "src": "/projects/11_lautwasser/mood-turntable.jpg",
+        "w": 800,
+        "h": 1422
+    },
+    "mood-ripple": {
+        "src": "/projects/11_lautwasser/mood-ripple.jpg",
+        "w": 736,
+        "h": 1308
+    },
+    "mood-installation": {
+        "src": "/projects/11_lautwasser/mood-installation.jpg",
+        "w": 720,
+        "h": 754
+    },
+    "mood-oscylator": {
+        "src": "/projects/11_lautwasser/mood-oscylator.jpg",
+        "w": 564,
+        "h": 558
+    },
+    "build": {
+        "src": "/projects/11_lautwasser/build.webm",
+        "w": 1280,
+        "h": 664,
+        "poster": "/projects/11_lautwasser/build.poster.jpg",
+        "duration": 12.03
+    },
+    "room": {
+        "src": "/projects/11_lautwasser/room.webm",
+        "w": 1280,
+        "h": 666,
+        "poster": "/projects/11_lautwasser/room.poster.jpg",
+        "duration": 13.9
+    },
+    "showcase": {
+        "src": "/projects/11_lautwasser/showcase.webm",
+        "w": 1280,
+        "h": 662,
+        "poster": "/projects/11_lautwasser/showcase.poster.jpg",
+        "duration": 12.0
+    },
+    "outlook-projection": {
+        "src": "/projects/11_lautwasser/outlook-projection.jpg",
+        "w": 1920,
+        "h": 436
+    },
+    "outlook-mics": {
+        "src": "/projects/11_lautwasser/outlook-mics.jpg",
+        "w": 752,
+        "h": 246
+    },
+    "outlook-rathaus": {
+        "src": "/projects/11_lautwasser/outlook-rathaus.jpg",
+        "w": 1400,
+        "h": 702
+    }
+}

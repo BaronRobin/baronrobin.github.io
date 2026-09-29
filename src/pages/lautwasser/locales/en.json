@@ -1,0 +1,209 @@
+{
+    "lautwasser": {
+        "course": "M85 Experimental Space",
+        "theme": "Lauter Geheimnisse",
+        "program": "Master Virtual Design",
+        "semester": "Summer 26",
+        "team": "Robin Baron / Joel Rummer",
+        "supervisors": "Prof. Christian Schmachtenberg / Paul Brenner",
+        "subtitle": "Interactive Sound-Visualizer",
+        "chapters": {
+            "titel": "Title",
+            "herleitung": "Background",
+            "casefilm": "Case film",
+            "konzept": "Concept",
+            "prozess": "Process",
+            "ausstellung": "Exhibition",
+            "fazit": "Conclusion",
+            "outro": "Outro"
+        },
+        "display": {
+            "lautwasser": "LAUTWASSER",
+            "sound": "SOUND",
+            "konzept": "CONCEPT",
+            "prozess": "PROCESS",
+            "ausstellung": "EXHIBITION",
+            "ausblick": "OUTLOOK",
+            "live": "LIVE Demo"
+        },
+        "slides": {
+            "titel": {
+                "topic": "Title"
+            },
+            "intro": {
+                "topic": "About the project",
+                "title": "Lautwasser",
+                "body": "The Lauter, the river that gave Kaiserslautern its name, now runs mostly underground and has all but disappeared from the city. But what has fallen silent has not stopped existing. Lautwasser gives the Lauter its voice back through underwater recordings made at its last open stretches, and translates them into an interactive sound visualisation. With a volume knob, visitors enter into a dialogue with the water: they change its voice, distort it, slow it down or amplify it. But how far can the Lauter be shaped once it is given a will of its own? Steering the sounds, which also changes the visuals, stands for the link between the human urge to shape things and the independence of a natural counterpart. The lines blur between control and letting go, between the wish to shape a body of water and our own dependence on it. Lautwasser is not a space for controlling the Lauter. It is an invitation to listen to it.",
+                "space": "Experimental Space"
+            },
+            "wellen": {
+                "topic": "Waves"
+            },
+            "laerm": {
+                "topic": "Noise"
+            },
+            "voegel": {
+                "topic": "Birds",
+                "lead": "ABOUT 14 dB LOUDER",
+                "tail": "THAN THEIR KIND",
+                "tail2": "IN THE FOREST"
+            },
+            "casefilm": {
+                "topic": "Case film"
+            },
+            "idee": {
+                "topic": "Our idea",
+                "steps": [
+                    "Recording",
+                    "Analysing",
+                    "Visualising",
+                    "Control"
+                ]
+            },
+            "datenvis": {
+                "topic": "Data visualisation"
+            },
+            "stationen": {
+                "topic": "Stations"
+            },
+            "aufnahmen": {
+                "topic": "Recordings"
+            },
+            "spektral": {
+                "topic": "Audio spectral analysis"
+            },
+            "td": {
+                "topic": "TouchDesigner"
+            },
+            "effekt": {
+                "topic": "Effect"
+            },
+            "effekte": {
+                "topic": "Effects"
+            },
+            "perspektive": {
+                "topic": "Change of perspective",
+                "quote": "Not just a voice, but a persona"
+            },
+            "personifikation": {
+                "topic": "Personification"
+            },
+            "pi": {
+                "topic": "Raspberry Pi setup"
+            },
+            "app": {
+                "topic": "Discarded app idea"
+            },
+            "stele": {
+                "topic": "3D-printed stele"
+            },
+            "logik": {
+                "topic": "Logic",
+                "states": [
+                    "Interactive",
+                    "Idle",
+                    "Cutscene",
+                    "Transition"
+                ]
+            },
+            "moodboard": {
+                "topic": "Moodboard"
+            },
+            "aufbau": {
+                "topic": "Build"
+            },
+            "umsetzung": {
+                "topic": "Implementation"
+            },
+            "raum": {
+                "topic": "Alternative exhibition space",
+                "caption": "Room installation"
+            },
+            "weitere": {
+                "topic": "Further applications",
+                "ai": "AI-generated · FLUX.2 Klein"
+            },
+            "outro": {
+                "topic": "Outro",
+                "sub": "Have fun"
+            }
+        },
+        "decibels": {
+            "level": "Volume",
+            "source": "Source",
+            "sources": {
+                "rocket": "Rocket launch",
+                "jet": "Jet aircraft",
+                "takeoff": "Aeroplane take-off",
+                "rock": "Rock concert",
+                "mower": "Lawn mower",
+                "birds": "Birds",
+                "traffic": "Traffic noise",
+                "tv": "Television",
+                "talk": "Conversation",
+                "river": "Steadily flowing river",
+                "brook": "Small brook",
+                "clock": "Ticking clock",
+                "tap": "Dripping tap"
+            },
+            "credit": "Source: Variotherm, “Was hören wir wie laut?”"
+        },
+        "deck": {
+            "present": "Present",
+            "caseStudy": "Project page",
+            "sound": "Sound",
+            "soundOn": "Sound on",
+            "soundOff": "Sound off",
+            "fullscreen": "Full screen",
+            "exitFullscreen": "Exit full screen",
+            "notes": "Notes",
+            "notesOn": "Show notes",
+            "notesOff": "Hide notes",
+            "counter": "Slide {{n}} of {{total}}",
+            "next": "Next slide",
+            "previous": "Previous slide",
+            "keys": "← → to navigate · F full screen · M sound",
+            "keysNotes": "N notes",
+            "rotate": "Turn your phone for full-screen slides"
+        },
+        "study": {
+            "watchFilm": "Watch the case film",
+            "listen": "Listen",
+            "mute": "Mute",
+            "play": "Play",
+            "index": "On this page",
+            "tools": "Tools",
+            "credits": {
+                "team": "Robin Baron & Joel Rummer",
+                "supervised": "Supervised by Prof. Christian Schmachtenberg and Paul Brenner",
+                "course": "M85 Experimental Space · Master Virtual Design · Hochschule Kaiserslautern · Summer semester 2026"
+            },
+            "theme": "Semester theme: Lauter Geheimnisse, which reads in German as “nothing but secrets”, “louder secrets” and “the Lauter's secrets” all at once.",
+            "herleitung": {
+                "lead": "It started with a question: what is sound, what is noise, and what is just a sound in the background? We live in a world full of noise, and it is getting louder.",
+                "birds": "Even birds adapt. The Max Planck Institute for Ornithology found that nightingales in Berlin sing about 14 decibels louder than their counterparts in the forest.",
+                "question": "But what if you have no voice at all?"
+            },
+            "casefilm": "The case film follows Lautwasser from the recordings to the room.",
+            "konzept": {
+                "lead": "The idea in four steps: record the Lauter, analyse the recordings, visualise them, and hand the controls to the visitor. To make the Lauter louder.",
+                "data": "Sounds carry a great many parameters and a lot of information. You only have to record them and learn to read them."
+            },
+            "prozess": {
+                "stations": "So we walked to the places along the Lauter where it still runs in the open, and recorded it there, above and below the surface.",
+                "spectral": "Waveform on top, spectral analysis below: the same recordings at 24 and at 32 bit, to watch and to listen to.",
+                "td": "In TouchDesigner the information in the recordings becomes image. Frequency and level drive the effects.",
+                "persona": "A change of perspective: the Lauter gets a face and speaks in cutscenes. The visit becomes a dialogue.",
+                "control": "A volume knob on a Raspberry Pi sends its value to TouchDesigner over OSC.",
+                "app": "An earlier draft moved the controls into a phone app. We dropped it.",
+                "stele": "The knob sits in a 3D-printed stele.",
+                "logic": "The installation moves between four states: interactive, idle, cutscene and transition."
+            },
+            "ausstellung": {
+                "mood": "Imperfections, emphasised on purpose: noise as visual noise.",
+                "room": "The room during the build, the room as a turntable, and an alternative exhibition space as a room installation."
+            },
+            "ausblick": "Where it could go next: live microphones at the stations in Kaiserslautern, visitors changing the Lauter with their own voices, and projection mapping on the town hall."
+        }
+    }
+}

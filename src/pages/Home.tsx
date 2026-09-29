@@ -1,18 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigationType } from 'react-router-dom';
 import { useTranslation, Trans } from 'react-i18next';
 import {
-    Menu,
-    X,
     Instagram,
     Mail,
     ChevronDown,
     ArrowUp,
     Target,
     Flame,
-    Sun,
-    Moon,
 } from 'lucide-react';
 import {
     SiUnrealengine,
@@ -27,11 +23,12 @@ import {
     SiAdobepremierepro,
     SiAdobexd,
     SiDavinciresolve,
-    SiAutodesk
+    SiAutodesk,
+    SiAdobeaudition,
+    SiRaspberrypi,
+    SiBambulab
 } from 'react-icons/si';
 import { visibleProjects } from '../data/projects';
-import { PHOTOGRAPHY_IN_NAV } from '../data/photos';
-import Logo from '../components/Logo';
 import CareerTimeline from '../components/CareerTimeline';
 import ProfileMedia from '../components/ProfileMedia';
 import useDocumentTitle from '../hooks/useDocumentTitle';
@@ -154,6 +151,7 @@ const skills: Skill[] = [
     { name: 'InDesign', icon: SiAdobeindesign, url: 'https://www.adobe.com/products/indesign.html', tier: 'occasional', group: 'adobe' },
     { name: 'Lightroom', icon: SiAdobelightroomclassic, url: 'https://www.adobe.com/products/photoshop-lightroom.html', tier: 'occasional', group: 'adobe' },
     { name: 'XD', icon: SiAdobexd, url: 'https://helpx.adobe.com/support/xd.html', tier: 'occasional', group: 'adobe' },
+    { name: 'Audition', icon: SiAdobeaudition, url: 'https://www.adobe.com/products/audition.html', tier: 'occasional', group: 'adobe' },
 
     { name: '3ds Max', icon: SiAutodesk, url: 'https://www.autodesk.com/products/3ds-max', tier: 'occasional', group: 'chaos' },
     { name: 'V-Ray', iconInvert: 'light', iconImage: '/vray.svg', url: 'https://www.chaos.com/vray', tier: 'occasional', group: 'chaos' },
@@ -171,6 +169,8 @@ const skills: Skill[] = [
     { name: 'Affinity', iconImage: '/affinity.svg', iconInvert: 'mono', url: 'https://affinity.serif.com', tier: 'occasional', group: 'other' },
     { name: 'MadMapper', iconInvert: 'light', iconImage: '/madmapper.svg', url: 'https://madmapper.com/', tier: 'occasional', group: 'other' },
     { name: 'Gyroflow', iconImage: '/gyroflow.svg', iconInvert: 'light', url: 'https://gyroflow.xyz', tier: 'occasional', group: 'other' },
+    { name: 'Raspberry Pi', icon: SiRaspberrypi, url: 'https://www.raspberrypi.com/', tier: 'occasional', group: 'other' },
+    { name: 'Bambu Lab', icon: SiBambulab, url: 'https://bambulab.com/', tier: 'occasional', group: 'other' },
     { name: 'Quad & Drone Pilot', icon: Target, url: 'https://www.dji.com', tier: 'occasional', group: 'other' },
 ];
 
@@ -198,177 +198,69 @@ const SkillIcon = ({ skill, className }: { skill: Skill; className?: string }) =
         />
     );
 
-import { useTheme } from '../context/ThemeContext';
-
-// `to` marks the items that leave Home; the rest scroll to a section id.
-const NAV_ITEMS: { key: string; to?: string }[] = [
-    { key: 'about' },
-    { key: 'skills' },
-    ...(PHOTOGRAPHY_IN_NAV ? [{ key: 'photography', to: '/photography' }] : []),
-    { key: 'projects' },
-    { key: 'contact' },
-];
+/** Where Home was scrolled to when you left it, for when you come back. */
+const SCROLL_KEY = 'home-scroll';
+/** Any of these means the visitor is scrolling themselves. */
+const USER_SCROLL = ['wheel', 'touchstart', 'keydown', 'pointerdown'] as const;
 
 const Home = () => {
-    const { t, i18n } = useTranslation();
-    const { theme, toggleTheme } = useTheme();
+    const { t } = useTranslation();
     const location = useLocation();
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const navigationType = useNavigationType();
     const [showMoreSkills, setShowMoreSkills] = useState(false);
 
     useDocumentTitle('Robin Baron');
 
-    const changeLanguage = (lng: string) => {
-        i18n.changeLanguage(lng);
-    };
-
-    // Smooth scroll
-    const scrollTo = (id: string) => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-            setIsMenuOpen(false);
-        }
-    };
-
-    // Scroll to hash on mount
-    useEffect(() => {
-        if (location.hash) {
-            const scrollToHash = () => {
-                const element = document.getElementById(location.hash.substring(1));
-                if (element) {
-                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+    // Arriving at Home, before it is painted: back (or forward) to it lands
+    // where you left it; a link to one of its sections from another page lands
+    // on that section; anything else starts at the top. No smooth scrolling:
+    // the page used to load at the top and then glide down to the section.
+    useLayoutEffect(() => {
+        const section = (location.state as { section?: string } | null)?.section ?? location.hash.slice(1);
+        const saved = Number(sessionStorage.getItem(SCROLL_KEY));
+        if (navigationType === 'POP' && saved) {
+            window.scrollTo({ top: saved, behavior: 'instant' });
+            if (Math.abs(window.scrollY - saved) <= 1) return;
+            // Pictures above that haven't loaded yet can leave the page too
+            // short to scroll that far. Keep at it while it grows, for a
+            // moment, unless someone starts scrolling for themselves.
+            const until = performance.now() + 1500;
+            let frame = 0;
+            const stop = () => {
+                cancelAnimationFrame(frame);
+                for (const type of USER_SCROLL) window.removeEventListener(type, stop);
             };
-            scrollToHash();
-            setTimeout(scrollToHash, 100);
-            setTimeout(scrollToHash, 500);
+            const retry = () => {
+                window.scrollTo({ top: saved, behavior: 'instant' });
+                if (Math.abs(window.scrollY - saved) > 1 && performance.now() < until) frame = requestAnimationFrame(retry);
+                else stop();
+            };
+            for (const type of USER_SCROLL) window.addEventListener(type, stop, { passive: true });
+            frame = requestAnimationFrame(retry);
+            return stop;
         }
-    }, [location.hash]);
+        if (section) document.getElementById(section)?.scrollIntoView({ behavior: 'instant', block: 'start' });
+        else window.scrollTo({ top: 0, behavior: 'instant' });
+    }, [location.key, location.state, location.hash, navigationType]);
 
-    // Scroll Listener for Navbar & Back to Top
-    const [isScrolled, setIsScrolled] = useState(false);
+    // Remember the position on the way out. The cleanup of a layout effect
+    // runs before the page is taken down, while the scroll is still Home's.
+    useLayoutEffect(() => () => sessionStorage.setItem(SCROLL_KEY, String(window.scrollY)), []);
+
+    // Scroll listener for the back-to-top button
     const [showBackToTop, setShowBackToTop] = useState(false);
 
     useEffect(() => {
-        const handleScroll = () => {
-            const scrollY = window.scrollY;
-            setIsScrolled(scrollY > 50);
-            setShowBackToTop(scrollY > 500);
-        };
+        const handleScroll = () => setShowBackToTop(window.scrollY > 500);
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Give the nav its solid/frosted look whenever it's scrolled OR the mobile
-    // menu is open, so the header row and the dropdown share one background
-    // instead of a transparent strip floating above an opaque panel.
-    const solidNav = isScrolled || isMenuOpen;
-
-    // The <Link to="/"> already handles the route; this just returns you to the
-    // top. (It used to also call history.pushState('/') directly, which tore
-    // the hash out from under HashRouter.)
-    const handleLogoClick = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white font-sans selection:bg-purple-500/30 transition-colors duration-300">
 
-            {/* Navigation */}
-            <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${solidNav ? 'bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-white/5 py-0' : 'bg-transparent border-transparent py-4'}`}>
-                <div className="container mx-auto px-6 h-20 flex items-center justify-between">
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                    >
-                        <Link to="/" onClick={handleLogoClick} className="inline-flex" aria-label="Robin Baron, home">
-                            <Logo variant={solidNav ? 'solid' : 'onHero'} />
-                        </Link>
-                    </motion.div>
-
-                    <div className="hidden md:flex items-center space-x-4 text-sm font-medium">
-                        {NAV_ITEMS.map(({ key, to }) => {
-                            const className = `px-4 py-2 rounded-full transition-all capitalize ${isScrolled
-                                ? 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-purple-600 dark:hover:text-white'
-                                : 'text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm'
-                                }`;
-                            // Photography is its own route; everything else scrolls in-page.
-                            return to ? (
-                                <Link key={key} to={to} className={className}>{t(`nav.${key}`)}</Link>
-                            ) : (
-                                <button key={key} onClick={() => scrollTo(key)} className={className}>
-                                    {t(`nav.${key}`)}
-                                </button>
-                            );
-                        })}
-                        <div className={`flex gap-4 pl-6 ml-2 items-center border-l transition-colors ${isScrolled ? 'border-slate-200 dark:border-white/10' : 'border-white/20'}`}>
-                            <button
-                                onClick={toggleTheme}
-                                className={`p-2 rounded-full transition-colors ${isScrolled
-                                    ? 'hover:bg-slate-100 dark:hover:bg-white/10'
-                                    : 'bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white'
-                                    }`}
-                                aria-label="Toggle Theme"
-                            >
-                                {theme === 'dark' ? <Sun size={20} className={isScrolled ? "text-yellow-400" : "text-yellow-300"} /> : <Moon size={20} className={isScrolled ? "text-slate-600" : "text-white"} />}
-                            </button>
-                            <div className={`w-px h-4 ${isScrolled ? 'bg-slate-200 dark:bg-white/10' : 'bg-white/20'}`} />
-
-                            {/* Language Buttons with "pill" style when transparent */}
-                            <div className={`flex gap-2 ${!isScrolled && 'bg-white/10 backdrop-blur-sm rounded-full px-3 py-1'}`}>
-                                <button onClick={() => changeLanguage('en')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'en' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="English">🇺🇸</button>
-                                <button onClick={() => changeLanguage('de')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'de' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="Deutsch">🇩🇪</button>
-                                <button onClick={() => changeLanguage('es')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'es' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="Español">🇪🇸</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Mobile Menu Toggle */}
-                    <button
-                        className={`md:hidden p-2 rounded-full transition-colors ${!solidNav ? 'bg-white/10 backdrop-blur-md text-white' : 'text-slate-900 dark:text-white'}`}
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    >
-                        {isMenuOpen ? <X /> : <Menu />}
-                    </button>
-                </div>
-
-                {/* Mobile Menu */}
-                {isMenuOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="md:hidden absolute top-20 left-0 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-white/5 rounded-b-2xl py-4 shadow-xl"
-                    >
-                        {NAV_ITEMS.map(({ key, to }) => {
-                            const className = "block w-full text-left px-6 py-3 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-purple-600 dark:hover:text-white capitalize transition-colors";
-                            return to ? (
-                                <Link key={key} to={to} className={className} onClick={() => setIsMenuOpen(false)}>
-                                    {t(`nav.${key}`)}
-                                </Link>
-                            ) : (
-                                <button key={key} onClick={() => scrollTo(key)} className={className}>
-                                    {t(`nav.${key}`)}
-                                </button>
-                            );
-                        })}
-                        <div className="flex gap-4 border-l border-slate-200 dark:border-white/10 pl-6 ml-2 mt-4 items-center">
-                            <button
-                                onClick={toggleTheme}
-                                className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
-                            >
-                                {theme === 'dark' ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} className="text-slate-600" />}
-                            </button>
-                            <div className="w-px h-4 bg-slate-200 dark:bg-white/10" />
-                            <button onClick={() => changeLanguage('en')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'en' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="English">🇺🇸</button>
-                            <button onClick={() => changeLanguage('de')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'de' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="Deutsch">🇩🇪</button>
-                            <button onClick={() => changeLanguage('es')} className={`text-xl hover:scale-110 transition-transform ${i18n.language === 'es' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-100'}`} title="Español">🇪🇸</button>
-                        </div>
-                    </motion.div>
-                )}
-            </nav>
 
             {/* Hero Section */}
             <section className="relative h-screen flex items-end justify-center overflow-hidden pb-10">
@@ -384,6 +276,9 @@ const Home = () => {
                     />
                     {/* Updated Gradient: Lighter in light mode as requested */}
                     <div className="absolute inset-0 bg-gradient-to-b from-slate-50/10 via-slate-50/5 to-slate-50/60 dark:from-slate-950/30 dark:via-slate-950/20 dark:to-slate-950/90 transition-colors duration-500" />
+                    {/* A faint shade under the header: its words are white over the
+                        video, and in the light theme the sky behind them is too. */}
+                    <div aria-hidden className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-black/30 to-transparent" />
                 </div>
 
                 <motion.div
