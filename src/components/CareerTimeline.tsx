@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useLayoutEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import {
     tracks,
@@ -14,6 +14,7 @@ import {
     AXIS_START,
     AXIS_SPAN,
     NOW_MONTH,
+    NOW_POINT,
     type Track,
     type TrackId,
 } from '../data/timeline';
@@ -301,6 +302,15 @@ const CareerTimeline = () => {
         return () => window.removeEventListener('keydown', onKey);
     }, [pinned, release]);
 
+    /**
+     * The playhead's position, 0–1 along the axis. A motion value rather than
+     * state: the line follows the pointer continuously, written straight to its
+     * style, while the timeline only re-renders when it crosses into another
+     * month. Snapping the line to months moved it in 15px jumps.
+     */
+    const playheadAt = useMotionValue(0);
+    const playheadLeft = useTransform(playheadAt, (f) => `${f * 100}%`);
+
     // Sweeping the timeline moves a playhead: whatever it crosses was running
     // at that moment, which is how concurrency becomes readable without having
     // to hover each span in turn.
@@ -309,8 +319,12 @@ const CareerTimeline = () => {
         if (!box || box.width === 0) return;
         const f = (clientX - box.left) / box.width;
         if (f < 0 || f > 1) { setFocusedMonth(null); return; }
-        setFocusedMonth(Math.min(AXIS_START + Math.round(f * AXIS_SPAN), AXIS_START + AXIS_SPAN));
-    }, []);
+        playheadAt.set(f);
+        // Floored, not rounded: months are widths on the ruler, so a point
+        // anywhere inside one is that month, and a span lights exactly as the
+        // line crosses its cap.
+        setFocusedMonth(Math.min(AXIS_START + Math.floor(f * AXIS_SPAN), AXIS_START + AXIS_SPAN - 1));
+    }, [playheadAt]);
 
     const studyLane = tracks.filter((tr) => tr.kind === 'study');
     const workLane = tracks.filter((tr) => tr.kind === 'work');
@@ -323,8 +337,8 @@ const CareerTimeline = () => {
     // On a touch device the playhead rests at today even before anyone drags it,
     // so the handle is visible and obviously grabbable. Nothing dims until it
     // actually moves, though; see `anyLit`.
-    const playhead = active !== null ? null : focusedMonth ?? (coarse ? NOW_MONTH : null);
-    const atPlayhead = playhead !== null ? tracksAt(playhead) : [];
+    const showPlayhead = active === null && (focusedMonth !== null || coarse);
+    const atPlayhead = showPlayhead ? tracksAt(focusedMonth ?? NOW_MONTH) : [];
     const isLit = (id: TrackId) =>
         active ? active.id === id : atPlayhead.some((tr) => tr.id === id);
     const anyLit = active !== null || focusedMonth !== null;
@@ -345,7 +359,7 @@ const CareerTimeline = () => {
     // it on a narrow screen, is left out rather than drawn on top. So is one
     // that would hang off either end, or sit on the arrowhead.
     const nowLabel = t('timeline.now');
-    const nowAt = positionOf(NOW_MONTH + 1);
+    const nowAt = positionOf(NOW_POINT);
     const nowHalf = halfBreak(nowLabel, NOW_PX, NOW_TRACKING);
     const yearHalf = halfBreak('0000', YEAR_PX);
     const shownYears = years.reduce<number[]>((kept, year) => {
@@ -588,15 +602,16 @@ const CareerTimeline = () => {
                     className="absolute bottom-0 w-px -translate-x-1/2 bg-purple-500/25 dark:bg-purple-400/25 pointer-events-none"
                 />
 
-                {playhead !== null && (
-                    <span
+                {showPlayhead && (
+                    <motion.span
                         aria-hidden
-                        style={{ left: `${positionOf(playhead) * 100}%` }}
+                        // At rest (touch, not yet dragged) it stands on today.
+                        style={{ left: focusedMonth !== null ? playheadLeft : `${nowAt * 100}%` }}
                         // z-20: the active indicator reads over everything.
                         className="absolute inset-y-0 w-px -translate-x-1/2 pointer-events-none z-20"
                     >
                         {/* In two pieces that stop short of the ruler, like today's
-                            line: at rest on a phone it stands right beside NOW. */}
+                            line, which at rest on a phone it covers exactly. */}
                         <span className="absolute top-0 inset-x-0 bg-purple-500 dark:bg-purple-400" style={{ height: LANE_H - 9 }} />
                         <span className="absolute bottom-0 inset-x-0 bg-purple-500 dark:bg-purple-400" style={{ top: LANE_H + 9 }} />
                         {/* Grip, touch only. Purely an affordance; the drag is handled
@@ -610,7 +625,7 @@ const CareerTimeline = () => {
                                 <span className="block w-3 h-3 border-x-2 border-white/80" />
                             </span>
                         )}
-                    </span>
+                    </motion.span>
                 )}
             </div>
 
