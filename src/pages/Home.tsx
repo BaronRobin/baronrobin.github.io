@@ -14,14 +14,13 @@ import {
     SiUnrealengine,
     SiHoudini,
     SiBlender,
-    SiAdobe,
+    SiAdobecreativecloud,
     SiAdobephotoshop,
     SiAdobeillustrator,
     SiAdobeindesign,
     SiAdobelightroomclassic,
     SiAdobeaftereffects,
     SiAdobepremierepro,
-    SiAdobexd,
     SiDavinciresolve,
     SiAutodesk,
     SiAdobeaudition,
@@ -135,22 +134,21 @@ const INSTAGRAM = [
 // --- Data ---
 const skills: Skill[] = [
     // The tools the work is actually made with, per the project technicals.
-    { name: 'Unreal Engine 5', icon: SiUnrealengine, url: 'https://www.unrealengine.com', tier: 'core' },
+    { name: 'Unreal Engine', icon: SiUnrealengine, url: 'https://www.unrealengine.com', tier: 'core' },
     { name: 'Blender', icon: SiBlender, url: 'https://www.blender.org', tier: 'core' },
     { name: 'After Effects', icon: SiAdobeaftereffects, url: 'https://www.adobe.com/products/aftereffects.html', tier: 'core' },
     { name: 'Premiere Pro', icon: SiAdobepremierepro, url: 'https://www.adobe.com/products/premiere.html', tier: 'core' },
-    { name: 'DaVinci Resolve', icon: SiDavinciresolve, url: 'https://www.blackmagicdesign.com/products/davinciresolve', tier: 'core' },
     { name: 'Photoshop', icon: SiAdobephotoshop, url: 'https://www.adobe.com/products/photoshop.html', tier: 'core' },
     // Glyph cropped out of Derivative's official square logo; the wordmark that
     // came with it is unreadable at tile size and the tile is labelled anyway.
     { name: 'TouchDesigner', iconImage: '/touchdesigner.png', url: 'https://derivative.ca/', tier: 'core' },
+    { name: 'DaVinci Resolve', icon: SiDavinciresolve, url: 'https://www.blackmagicdesign.com/products/davinciresolve', tier: 'core' },
 
     // Reached for when a job needs them, clustered by what they belong with.
-    { name: 'Adobe Suite', icon: SiAdobe, url: 'https://www.adobe.com/creativecloud.html', tier: 'occasional', group: 'adobe' },
+    { name: 'Creative Cloud', icon: SiAdobecreativecloud, url: 'https://www.adobe.com/creativecloud.html', tier: 'occasional', group: 'adobe' },
     { name: 'Illustrator', icon: SiAdobeillustrator, url: 'https://www.adobe.com/products/illustrator.html', tier: 'occasional', group: 'adobe' },
     { name: 'InDesign', icon: SiAdobeindesign, url: 'https://www.adobe.com/products/indesign.html', tier: 'occasional', group: 'adobe' },
     { name: 'Lightroom', icon: SiAdobelightroomclassic, url: 'https://www.adobe.com/products/photoshop-lightroom.html', tier: 'occasional', group: 'adobe' },
-    { name: 'XD', icon: SiAdobexd, url: 'https://helpx.adobe.com/support/xd.html', tier: 'occasional', group: 'adobe' },
     { name: 'Audition', icon: SiAdobeaudition, url: 'https://www.adobe.com/products/audition.html', tier: 'occasional', group: 'adobe' },
 
     { name: '3ds Max', icon: SiAutodesk, url: 'https://www.autodesk.com/products/3ds-max', tier: 'occasional', group: 'chaos' },

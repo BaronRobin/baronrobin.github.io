@@ -70,10 +70,21 @@ const now = new Date();
 export const NOW_MONTH = now.getFullYear() * 12 + now.getMonth();
 
 /**
+ * Today as a point on the axis: the current month plus how far through it we
+ * are. Months are widths on the ruler (see `spanOf`), and putting today at the
+ * month's right edge called a job starting this month done on the 3rd.
+ */
+const daysThisMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+export const NOW_POINT = NOW_MONTH + now.getDate() / daysThisMonth;
+
+/**
  * Where a track has actually got to: its end, or today, whichever comes first.
  * Before a track has started this is earlier than its start: nothing yet.
  */
 export const trackEndMonth = (t: Track) => Math.min(t.end ? toMonths(t.end) : NOW_MONTH, NOW_MONTH);
+
+/** The same, as a right edge on the axis: the month after its end, or today. */
+const doneEdge = (t: Track) => Math.min(t.end ? toMonths(t.end) + 1 : NOW_POINT, NOW_POINT);
 
 /** Where it's expected to get to: the plan if there is one, else its end, else today. */
 export const projectedEndMonth = (t: Track) =>
@@ -103,7 +114,7 @@ export const positionOf = (months: number) => (months - AXIS_START) / AXIS_SPAN;
  */
 export const spanOf = (t: Track): [number, number] => [
     positionOf(toMonths(t.start)),
-    positionOf(Math.max(trackEndMonth(t) + 1, toMonths(t.start))),
+    positionOf(Math.max(doneEdge(t), toMonths(t.start))),
 ];
 
 /**
@@ -111,7 +122,7 @@ export const spanOf = (t: Track): [number, number] => [
  * planned beyond what already happened.
  */
 export const projectedSpanOf = (t: Track): [number, number] | null => {
-    const from = Math.max(trackEndMonth(t) + 1, toMonths(t.start));
+    const from = Math.max(doneEdge(t), toMonths(t.start));
     const to = projectedEndMonth(t) + 1;
     return to > from ? [positionOf(from), positionOf(to)] : null;
 };
