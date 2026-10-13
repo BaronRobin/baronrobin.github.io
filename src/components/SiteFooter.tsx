@@ -75,9 +75,12 @@ const SiteFooter = ({ bordered = true }: { bordered?: boolean }) => {
                                             <span className="font-medium text-slate-900 dark:text-white">{t(`changelog.versions.${v.id}.title`)}</span>
                                             <span className="font-mono text-[11px] text-slate-400 dark:text-slate-600">{monthYear(v.date)}</span>
                                         </div>
-                                        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
-                                            {t(`changelog.versions.${v.id}.summary`)}
-                                        </p>
+                                        {/* What changed, as a list of facts. */}
+                                        <ul className="mt-1.5 pl-4 list-disc marker:text-slate-300 dark:marker:text-slate-600 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                                            {(t(`changelog.versions.${v.id}.points`, { returnObjects: true }) as string[]).map((point) => (
+                                                <li key={point}>{point}</li>
+                                            ))}
+                                        </ul>
                                         {v.archive ? (
                                             <a
                                                 href={v.archive} target="_blank" rel="noopener noreferrer"

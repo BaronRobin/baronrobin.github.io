@@ -460,23 +460,48 @@
         "versions": {
             "v2-1-1": {
                 "title": "Gaussian Splats",
-                "summary": "Places I scanned, to look around in right in the browser. Switch to blueprint, or drop in a scan of your own. Plus a timeline that knows what day it is."
+                "points": [
+                    "Gaussian splat viewer, 3 scans",
+                    "Blueprint mode: section cut, streaks, turntable, pulse",
+                    "Open your own .ply / .spz",
+                    "Timeline marks today",
+                    "Mobile menu sits in the header",
+                    "Tools list updated"
+                ]
             },
             "v2-1": {
                 "title": "Lautwasser",
-                "summary": "Plus a clickable timeline and a steadier header."
+                "points": [
+                    "Lautwasser: project page and all 29 slides",
+                    "Timeline entries open on click",
+                    "One header on every page, with a back arrow"
+                ]
             },
             "v2": {
                 "title": "Relaunch",
-                "summary": "New wordmark, an interactive career timeline, a photography section, grouped tooling, and a build a fraction of the old weight."
+                "points": [
+                    "New rb. wordmark",
+                    "Interactive career timeline",
+                    "Photography section",
+                    "Tools in groups",
+                    "Build a fraction of the old weight"
+                ]
             },
             "v1": {
                 "title": "The React rebuild",
-                "summary": "Moved off hand-written HTML to React and Vite, with dark mode, project detail pages and three languages."
+                "points": [
+                    "React and Vite instead of hand-written HTML",
+                    "Dark mode",
+                    "Project detail pages",
+                    "Three languages"
+                ]
             },
             "v0": {
                 "title": "The first one",
-                "summary": "Hand-written HTML and Bootstrap, built while learning. Where all of this started."
+                "points": [
+                    "Hand-written HTML and Bootstrap",
+                    "Built while learning"
+                ]
             }
         }
     },

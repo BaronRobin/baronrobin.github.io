@@ -460,23 +460,48 @@
         "versions": {
             "v2-1-1": {
                 "title": "Gaussian Splats",
-                "summary": "Orte, die ich gescannt habe, zum Umschauen direkt im Browser. Auf Bauplan umschalten oder einen eigenen Scan reinziehen. Dazu eine Timeline, die weiß, welcher Tag heute ist."
+                "points": [
+                    "Gaussian-Splat-Viewer, 3 Scans",
+                    "Bauplan-Modus: Schnitt, Schlieren, Drehteller, Puls",
+                    "Eigene .ply / .spz öffnen",
+                    "Timeline zeigt heute",
+                    "Mobiles Menü sitzt im Header",
+                    "Werkzeugliste aktualisiert"
+                ]
             },
             "v2-1": {
                 "title": "Lautwasser",
-                "summary": "Dazu eine klickbare Timeline und ein ruhigerer Header."
+                "points": [
+                    "Lautwasser: Projektseite und alle 29 Folien",
+                    "Timeline-Einträge öffnen per Klick",
+                    "Ein Header für alle Seiten, mit Zurück-Pfeil"
+                ]
             },
             "v2": {
                 "title": "Relaunch",
-                "summary": "Neue Wortmarke, eine interaktive Timeline, ein Fotografie-Bereich, gruppierte Werkzeuge und ein deutlich leichterer Build."
+                "points": [
+                    "Neue Wortmarke rb.",
+                    "Interaktive Timeline",
+                    "Fotografie-Bereich",
+                    "Werkzeuge in Gruppen",
+                    "Deutlich leichterer Build"
+                ]
             },
             "v1": {
                 "title": "Der React-Umbau",
-                "summary": "Weg von handgeschriebenem HTML hin zu React und Vite, mit Dark Mode, Projektseiten und drei Sprachen."
+                "points": [
+                    "React und Vite statt handgeschriebenem HTML",
+                    "Dark Mode",
+                    "Projektseiten",
+                    "Drei Sprachen"
+                ]
             },
             "v0": {
                 "title": "Die erste",
-                "summary": "Handgeschriebenes HTML und Bootstrap, nebenbei gelernt. Hier hat alles angefangen."
+                "points": [
+                    "Handgeschriebenes HTML und Bootstrap",
+                    "Nebenbei gelernt"
+                ]
             }
         }
     },

@@ -460,23 +460,48 @@
         "versions": {
             "v2-1-1": {
                 "title": "Gaussian Splats",
-                "summary": "Lugares que he escaneado, para recorrerlos en el navegador. Cambia a plano o suelta un escaneo tuyo. Además, una línea de tiempo que sabe qué día es hoy."
+                "points": [
+                    "Visor de Gaussian splats, 3 escaneos",
+                    "Modo plano: corte, estelas, giro, pulso",
+                    "Abre tus propios .ply / .spz",
+                    "La línea de tiempo marca el día de hoy",
+                    "El menú móvil va dentro de la cabecera",
+                    "Lista de herramientas actualizada"
+                ]
             },
             "v2-1": {
                 "title": "Lautwasser",
-                "summary": "Además, una línea de tiempo clicable y una cabecera más estable."
+                "points": [
+                    "Lautwasser: página de proyecto y las 29 diapositivas",
+                    "Las entradas de la línea de tiempo se abren con un clic",
+                    "Una sola cabecera en todas las páginas, con flecha de volver"
+                ]
             },
             "v2": {
                 "title": "Relanzamiento",
-                "summary": "Nueva marca, una línea de tiempo interactiva, una sección de fotografía, herramientas agrupadas y una compilación mucho más ligera."
+                "points": [
+                    "Nueva marca rb.",
+                    "Línea de tiempo interactiva",
+                    "Sección de fotografía",
+                    "Herramientas agrupadas",
+                    "Compilación mucho más ligera"
+                ]
             },
             "v1": {
                 "title": "La reconstrucción en React",
-                "summary": "Del HTML escrito a mano a React y Vite, con modo oscuro, páginas de proyecto y tres idiomas."
+                "points": [
+                    "React y Vite en lugar de HTML escrito a mano",
+                    "Modo oscuro",
+                    "Páginas de proyecto",
+                    "Tres idiomas"
+                ]
             },
             "v0": {
                 "title": "La primera",
-                "summary": "HTML y Bootstrap escritos a mano, aprendiendo sobre la marcha. Aquí empezó todo."
+                "points": [
+                    "HTML y Bootstrap escritos a mano",
+                    "Hecha mientras aprendía"
+                ]
             }
         }
     },
