@@ -1,4 +1,5 @@
 import i18n from '../../i18n';
+import '../../deck/strings';
 import de from './locales/de.json';
 import en from './locales/en.json';
 import es from './locales/es.json';

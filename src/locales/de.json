@@ -70,6 +70,28 @@
         "backToHome": "Zurück zur Startseite",
         "mediaComingSoon": "Medien für dieses Projekt folgen in Kürze.",
         "checkBackLater": "Schau später nochmal vorbei!",
+        "00-bachelor": {
+            "title": "3D Grillz",
+            "category": "Bachelorarbeit",
+            "description": "Eine digitale Pipeline für Custom Dental Grillz, vom Scan eines Gebisses bis zum gussfertigen Stück.",
+            "technicals": {
+                "col1": [
+                    "Intraoralscan beim Zahnarzt, als STL",
+                    "Blender-Einheiten in Millimetern, STL-Import mit Skalierung 0,001",
+                    "Datenaufbereitung: schwebende Vertices entfernt, kaputte Zähne repariert"
+                ],
+                "col2": [
+                    "Mask, Extract, Sculpt in ZBrush",
+                    "Boolean in Blender",
+                    "FDM-Prototyp: 3 g Filament, 30 Minuten, 101 % gegen PLA-Schrumpfung"
+                ],
+                "col3": [
+                    "Rendering in Unreal Engine: Licht-Setup, Grillz-Viewer, Material Node Tree",
+                    "Echtwelt-Materialien: Gold, Sterling Silber, Titan, Rosegold (ISO 10993)",
+                    "Guss: Resin-Druck, Gussform, Guss, Post-Processing"
+                ]
+            }
+        },
         "01-polarise": {
             "title": "Polarise - AI Hub",
             "category": "Arch Viz",

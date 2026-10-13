@@ -1,0 +1,23 @@
+{
+    "deck": {
+        "present": "Present",
+        "caseStudy": "Project page",
+        "sound": "Sound",
+        "soundOn": "Sound on",
+        "soundOff": "Sound off",
+        "fullscreen": "Full screen",
+        "exitFullscreen": "Exit full screen",
+        "notes": "Notes",
+        "notesOn": "Show notes",
+        "notesOff": "Hide notes",
+        "counter": "Slide {{n}} of {{total}}",
+        "keys": "← → to navigate · F full screen · M sound",
+        "keysSilent": "← → to navigate · F full screen",
+        "keysNotes": "N notes",
+        "rotate": "Turn your phone for full-screen slides",
+        "play": "Play",
+        "mute": "Mute",
+        "listen": "Listen",
+        "index": "On this page"
+    }
+}

@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 import {
     BAR_HEX, BAR_TEXT, IDEA_STEPS, NOISE, NOISE_SOURCE_URL, PALETTE, STATES, STATION_DOT, STATIONS, STATIONS_MAP_AT, type ChapterId,
 } from './data';
-import { at, pt, type Rect } from './geometry';
+import { at, pt, type Rect } from '../../deck/geometry';
+import type { SlideProps } from '../../deck/types';
 import type { MediaId } from './media';
 import { Clip, CornerLabel, DisplayTitle, HeaderBar, Hairlines, Label, Place, Stage, Still, TextBox } from './parts';
 
@@ -548,7 +549,8 @@ const OscArrow = ({ w, h }: { w: number; h: number }) => {
     );
 };
 
-export const PiApp = ({ phase = 0 }: { phase?: 0 | 1 }) => {
+export const PiApp = ({ phase: at = 0 }: SlideProps) => {
+    const phase = at === 1 ? 1 : 0;
     const { t } = useTranslation();
     const reduce = useReducedMotion();
     return (

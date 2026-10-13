@@ -27,8 +27,9 @@ export const AR_BASE_URL = 'https://baronrobin.github.io/artivive';
 
 export const arViewerUrl = (slug: string) => `${AR_BASE_URL}/ar/${slug}/`;
 
-/** The one project with a page of its own (src/pages/lautwasser) instead of the gallery. */
+/** The projects with a page of their own instead of the gallery, each recreating its deck. */
 export const LAUTWASSER_ID = '11-lautwasser';
+export const BACHELOR_ID = '00-bachelor';
 
 export interface Project {
     id: string;
@@ -43,6 +44,10 @@ export interface Project {
      * URL. For work that isn't ready to stand next to the rest yet. Flip this
      * and move the folder back from _hidden_projects/ into public/projects/ to
      * restore it.
+     *
+     * A project with a page of its own (see BACHELOR_ID) is only unlisted by
+     * this: its route in App.tsx still answers a direct link, so its media
+     * stays in public/projects/.
      */
     hidden?: boolean;
     media: ProjectMedia[];
@@ -87,6 +92,47 @@ export const projects: Project[] = [
                     'Lautstärkeregler am Raspberry Pi, per OSC',
                     '3D-gedruckte Stele',
                     'Ausstellungsraum'
+                ]
+            ]
+        }
+    },
+    {
+        // The Bachelor thesis, with its own page (src/pages/bachelor) like
+        // Lautwasser's: the deck, read out of the presentation, and a project
+        // page. Only the grid tile and the tools card read this entry.
+        //
+        // Unlisted until the page and the deck have been reviewed: no tile in
+        // the grid, but /project/00-bachelor and its slides still open by
+        // direct link. Drop `hidden` to list it.
+        id: BACHELOR_ID,
+        hidden: true,
+        title: '3D Grillz',
+        category: 'Bachelor Thesis',
+        description: 'A digital pipeline for custom dental grillz, from the scan of a set of teeth to a piece ready for casting.',
+        folderName: '00_bachelor',
+        media: [
+            {
+                type: 'image',
+                url: '/projects/00_bachelor/image116.jpg',
+            },
+        ],
+        technicals: {
+            icons: [SiBlender, SiUnrealengine, SiBambulab, Printer],
+            columns: [
+                [
+                    'Intraoralscan beim Zahnarzt, als STL',
+                    'Blender-Einheiten in Millimetern, STL-Import mit Skalierung 0,001',
+                    'Datenaufbereitung: schwebende Vertices entfernt, kaputte Zähne repariert'
+                ],
+                [
+                    'Mask, Extract, Sculpt in ZBrush',
+                    'Boolean in Blender',
+                    'FDM-Prototyp: 3 g Filament, 30 Minuten, 101 % gegen PLA-Schrumpfung'
+                ],
+                [
+                    'Rendering in Unreal Engine: Licht-Setup, Grillz-Viewer, Material Node Tree',
+                    'Echtwelt-Materialien: Gold, Sterling Silber, Titan, Rosegold (ISO 10993)',
+                    'Guss: Resin-Druck, Gussform, Guss, Post-Processing'
                 ]
             ]
         }

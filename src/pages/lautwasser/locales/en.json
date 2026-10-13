@@ -148,30 +148,8 @@
             },
             "credit": "Source: Variotherm, “Was hören wir wie laut?”"
         },
-        "deck": {
-            "present": "Present",
-            "caseStudy": "Project page",
-            "sound": "Sound",
-            "soundOn": "Sound on",
-            "soundOff": "Sound off",
-            "fullscreen": "Full screen",
-            "exitFullscreen": "Exit full screen",
-            "notes": "Notes",
-            "notesOn": "Show notes",
-            "notesOff": "Hide notes",
-            "counter": "Slide {{n}} of {{total}}",
-            "next": "Next slide",
-            "previous": "Previous slide",
-            "keys": "← → to navigate · F full screen · M sound",
-            "keysNotes": "N notes",
-            "rotate": "Turn your phone for full-screen slides"
-        },
         "study": {
             "watchFilm": "Watch the case film",
-            "listen": "Listen",
-            "mute": "Mute",
-            "play": "Play",
-            "index": "On this page",
             "tools": "Tools",
             "credits": {
                 "team": "Robin Baron & Joel Rummer",

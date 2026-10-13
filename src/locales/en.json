@@ -71,6 +71,28 @@
         "backToHome": "Back to Home",
         "mediaComingSoon": "Media for this project is coming soon.",
         "checkBackLater": "Check back later!",
+        "00-bachelor": {
+            "title": "3D Grillz",
+            "category": "Bachelor Thesis",
+            "description": "A digital pipeline for custom dental grillz, from the scan of a set of teeth to a piece ready for casting.",
+            "technicals": {
+                "col1": [
+                    "Intraoral scan at the dentist, delivered as STL",
+                    "Blender units in millimetres, STL imported at a scale of 0.001",
+                    "Data preparation: floating vertices removed, broken teeth repaired"
+                ],
+                "col2": [
+                    "Mask, extract, sculpt in ZBrush",
+                    "Boolean in Blender",
+                    "FDM prototype: 3 g of filament, 30 minutes, scaled to 101% for PLA shrinkage"
+                ],
+                "col3": [
+                    "Rendering in Unreal Engine: light setup, grillz viewer, material node tree",
+                    "Real-world materials: gold, sterling silver, titanium, rose gold (ISO 10993)",
+                    "Casting: resin print, mould, cast, post-processing"
+                ]
+            }
+        },
         "01-polarise": {
             "title": "Polarise - AI Hub",
             "category": "Arch Viz",

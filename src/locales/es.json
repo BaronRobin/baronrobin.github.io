@@ -70,6 +70,28 @@
         "backToHome": "Volver al Inicio",
         "mediaComingSoon": "Los medios para este proyecto estarán disponibles pronto.",
         "checkBackLater": "¡Vuelve más tarde!",
+        "00-bachelor": {
+            "title": "3D Grillz",
+            "category": "Trabajo de fin de grado",
+            "description": "Un pipeline digital para grillz dentales a medida, desde el escaneo de una dentadura hasta una pieza lista para fundir.",
+            "technicals": {
+                "col1": [
+                    "Escaneo intraoral en el dentista, en STL",
+                    "Unidades de Blender en milímetros, STL importado con escala 0,001",
+                    "Preparación de datos: vértices sueltos eliminados, dientes rotos reparados"
+                ],
+                "col2": [
+                    "Mask, extract, sculpt en ZBrush",
+                    "Booleano en Blender",
+                    "Prototipo FDM: 3 g de filamento, 30 minutos, escalado al 101 % por la contracción del PLA"
+                ],
+                "col3": [
+                    "Render en Unreal Engine: iluminación, visor de grillz, árbol de nodos de material",
+                    "Materiales reales: oro, plata de ley, titanio, oro rosa (ISO 10993)",
+                    "Fundición: impresión en resina, molde, fundición, acabado"
+                ]
+            }
+        },
         "01-polarise": {
             "title": "Polarise - AI Hub",
             "category": "Arch Viz",

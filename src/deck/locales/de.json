@@ -1,0 +1,23 @@
+{
+    "deck": {
+        "present": "Präsentieren",
+        "caseStudy": "Projektseite",
+        "sound": "Ton",
+        "soundOn": "Ton an",
+        "soundOff": "Ton aus",
+        "fullscreen": "Vollbild",
+        "exitFullscreen": "Vollbild beenden",
+        "notes": "Notizen",
+        "notesOn": "Notizen einblenden",
+        "notesOff": "Notizen ausblenden",
+        "counter": "Folie {{n}} von {{total}}",
+        "keys": "← → blättern · F Vollbild · M Ton",
+        "keysSilent": "← → blättern · F Vollbild",
+        "keysNotes": "N Notizen",
+        "rotate": "Handy drehen für Folien im Vollbild",
+        "play": "Abspielen",
+        "mute": "Stumm",
+        "listen": "Anhören",
+        "index": "Auf dieser Seite"
+    }
+}

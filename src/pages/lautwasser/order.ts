@@ -1,5 +1,5 @@
-import type { ComponentType } from 'react';
-import { COVER, FADE, IDEA_STEPS, PULL_RIGHT, PULL_UP, PUSH_UP, STATES, type ChapterId, type Transition } from './data';
+import type { SlideDef } from '../../deck/types';
+import { COVER, FADE, IDEA_STEPS, PULL_RIGHT, PULL_UP, PUSH_UP, STATES, type ChapterId } from './data';
 import type { MediaId } from './media';
 import {
     Aufbau, Aufnahmen, Casefilm, Datenvis, Effekt, Effekte, Idee, Intro, Laerm, Logik, Moodboard, Outro,
@@ -7,30 +7,13 @@ import {
     Titel, Umsetzung, Vergleich, Voegel, Weitere, Wellen,
 } from './slides';
 
-export interface SlideDef {
-    /** Unique in the deck. Its speaker notes, once written, are lautwasser.notes.<id>. */
-    id: string;
-    /** Its key under lautwasser.slides, where that isn't the id: slides 11-13 share one, as do 14 and 17. */
-    topic?: string;
-    chapter: ChapterId;
-    /** How the slide arrives, from the deck. Going back plays it in reverse. */
-    transition: Transition;
-    /** The clip that speaks once sound is switched on. */
-    lead?: MediaId;
-    /**
-     * Slides that are one picture in two states, the deck's morph from 20 to
-     * 21: they share a group, so the stage keeps them mounted between each
-     * other, and Render animates to the phase it is given.
-     */
-    group?: string;
-    phase?: 0 | 1;
-    /** Stills and posters to fetch before the slide comes up. */
-    media: MediaId[];
-    Render: ComponentType<{ phase?: 0 | 1 }>;
-}
+/*
+ * Slides 11-13 share one topic under lautwasser.slides, as do 14 and 17.
+ * Slides 20 and 21 are the deck's morph: one group, two phases.
+ */
 
 /** The presentation in order, numbered as in the deck. */
-export const SLIDES: SlideDef[] = [
+export const SLIDES: SlideDef<ChapterId, MediaId>[] = [
     /* 1 */ { id: 'titel', chapter: 'titel', transition: FADE, lead: 'title', media: ['title'], Render: Titel },
     /* 2 */ { id: 'intro', chapter: 'titel', transition: PULL_UP, media: ['intro-wave'], Render: Intro },
     /* 3 */ { id: 'wellen', chapter: 'herleitung', transition: COVER, lead: 'sound', media: ['sound'], Render: Wellen },

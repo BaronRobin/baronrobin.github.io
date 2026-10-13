@@ -1,4 +1,5 @@
-import type { Rect } from './geometry';
+import type { Transition } from '../../deck/types';
+import type { Rect } from '../../deck/geometry';
 import type { MediaId } from './media';
 
 /*
@@ -11,16 +12,7 @@ export type ChapterId = 'titel' | 'herleitung' | 'casefilm' | 'konzept' | 'proze
 /** Deck order, for the progress rail. */
 export const CHAPTERS: ChapterId[] = ['titel', 'herleitung', 'casefilm', 'konzept', 'prozess', 'ausstellung', 'fazit', 'outro'];
 
-/**
- * How a slide arrives. `dir` is the way the movement goes, as PowerPoint names
- * it: push "u" means the new slide comes up from below and pushes the old one
- * out of the top.
- */
-export interface Transition {
-    type: 'push' | 'pull' | 'cover' | 'fade';
-    dir: 'u' | 'd' | 'l' | 'r';
-}
-
+/** How slides arrive; see Transition in src/deck/Deck.tsx. */
 export const PUSH_UP: Transition = { type: 'push', dir: 'u' };
 export const COVER: Transition = { type: 'cover', dir: 'l' };
 export const PULL_RIGHT: Transition = { type: 'pull', dir: 'r' };

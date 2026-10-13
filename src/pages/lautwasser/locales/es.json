@@ -148,30 +148,8 @@
             },
             "credit": "Fuente: Variotherm, «Was hören wir wie laut?»"
         },
-        "deck": {
-            "present": "Presentar",
-            "caseStudy": "Página del proyecto",
-            "sound": "Sonido",
-            "soundOn": "Activar sonido",
-            "soundOff": "Silenciar",
-            "fullscreen": "Pantalla completa",
-            "exitFullscreen": "Salir de pantalla completa",
-            "notes": "Notas",
-            "notesOn": "Mostrar notas",
-            "notesOff": "Ocultar notas",
-            "counter": "Diapositiva {{n}} de {{total}}",
-            "next": "Siguiente diapositiva",
-            "previous": "Diapositiva anterior",
-            "keys": "← → para navegar · F pantalla completa · M sonido",
-            "keysNotes": "N notas",
-            "rotate": "Gira el móvil para ver las diapositivas a pantalla completa"
-        },
         "study": {
             "watchFilm": "Ver el vídeo",
-            "listen": "Escuchar",
-            "mute": "Silenciar",
-            "play": "Reproducir",
-            "index": "En esta página",
             "tools": "Herramientas",
             "credits": {
                 "team": "Robin Baron y Joel Rummer",

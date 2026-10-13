@@ -21,12 +21,12 @@ and libopus.
 """
 
 import json
-import struct
-import subprocess
 import sys
 import tempfile
 import zipfile
 from pathlib import Path
+
+from deckmedia import entry_url, probe, run
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / 'public/projects/11_lautwasser'
@@ -146,26 +146,6 @@ ROWS = [
 ]
 
 
-def entry_url(deck: Path, archive: zipfile.ZipFile, name: str) -> str:
-    """ffmpeg URL for a stored zip entry, read in place."""
-    info = archive.getinfo(f'ppt/media/{name}')
-    if info.compress_type != zipfile.ZIP_STORED:
-        raise SystemExit(f'{name} is compressed inside the deck; extract it first')
-    with open(deck, 'rb') as f:
-        f.seek(info.header_offset)
-        header = f.read(30)
-    name_len, extra_len = struct.unpack('<HH', header[26:30])
-    start = info.header_offset + 30 + name_len + extra_len
-    return f'subfile,,start,{start},end,{start + info.compress_size},,:{deck}'
-
-
-def probe(url: str) -> dict:
-    out = subprocess.run(
-        ['ffprobe', '-v', 'error', '-print_format', 'json', '-show_streams', '-show_format', url],
-        capture_output=True, text=True, check=True)
-    return json.loads(out.stdout)
-
-
 def geometry(row: dict, src_w: int, src_h: int) -> list[str]:
     """Crop (and pad, for negative crops), flip, turn and scale, as ffmpeg filters."""
     l, t, r, b = (v / 100 for v in row['crop'])
@@ -181,12 +161,6 @@ def geometry(row: dict, src_w: int, src_h: int) -> list[str]:
     filters += {0: [], 90: ['transpose=1'], 180: ['transpose=1', 'transpose=1'], 270: ['transpose=2']}[row['turn']]
     filters.append(f"scale={row['width']}:-2:flags=lanczos")
     return filters
-
-
-def run(cmd: list[str]) -> None:
-    result = subprocess.run(cmd, capture_output=True, text=True)
-    if result.returncode:
-        raise SystemExit(f"ffmpeg failed:\n{' '.join(cmd)}\n{result.stderr[-2000:]}")
 
 
 def poster(url: str, row: dict, geo: list[str]) -> None:

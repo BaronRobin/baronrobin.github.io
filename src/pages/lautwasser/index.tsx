@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { LAUTWASSER_ID } from '../../data/projects';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 import CaseStudy from './CaseStudy';
-import Deck from './Deck';
+import Presentation from './Presentation';
 
 /**
  * Lautwasser's own page, in two views of one deck: the project page (the
@@ -22,7 +22,7 @@ const Lautwasser = () => {
         <div className="dark [color-scheme:dark]">
             <Routes>
                 <Route index element={<CaseStudy />} />
-                <Route path="slides/:n?" element={<Deck />} />
+                <Route path="slides/:n?" element={<Presentation />} />
             </Routes>
         </div>
     );

@@ -6,7 +6,7 @@ import { ArrowLeft, Menu, X, Sun, Moon } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import Logo from './Logo';
 import { PHOTOGRAPHY_IN_NAV } from '../data/photos';
-import { LAUTWASSER_ID } from '../data/projects';
+import { BACHELOR_ID, LAUTWASSER_ID } from '../data/projects';
 
 /**
  * The site header. There is one, rendered by App outside the routes, so it
@@ -34,9 +34,11 @@ const ITEMS: { key: string; to?: string }[] = [
 
 const LAUTWASSER = `/project/${LAUTWASSER_ID}`;
 
+/** The pages with a deck, whose slides are a full-screen player with their own controls. */
+const DECKS = [LAUTWASSER, `/project/${BACHELOR_ID}`];
 const SiteNav = () => {
     const { t, i18n } = useTranslation();
-    const { theme, toggleTheme } = useTheme();
+    const { theme, toggleTheme, forced } = useTheme();
     const { pathname, key } = useLocation();
     const navigate = useNavigate();
     const reduce = useReducedMotion();
@@ -57,19 +59,20 @@ const SiteNav = () => {
         setIsMenuOpen(false);
     }
 
-    // The Lautwasser slides are a full-screen player with their own controls.
-    if (pathname.startsWith(`${LAUTWASSER}/slides`)) return null;
+    if (DECKS.some((deck) => pathname.startsWith(`${deck}/slides`))) return null;
 
     const home = pathname === '/';
-    // Lautwasser's page is black whatever the theme: the bar follows it, and
-    // its theme switch, which would change nothing there, keeps its place
-    // without being shown so the flags beside it don't move.
+    // Lautwasser's page is black whatever the theme: the bar follows it. There,
+    // and on a page that forces the theme (the Bachelor deck's white), the
+    // theme switch would change nothing, so it keeps its place without being
+    // shown and the flags beside it don't move.
     const forcedDark = pathname.startsWith(LAUTWASSER);
+    const fixedTheme = forcedDark || forced !== null;
     const active = pathname.startsWith('/photography') ? 'photography' : pathname.startsWith('/project/') ? 'projects' : undefined;
 
-    // Frost the bar whenever it's scrolled OR the mobile menu is open, so the
-    // header row and the dropdown share one background instead of a
-    // transparent strip floating above an opaque panel.
+    // Frost the bar whenever it's scrolled OR the mobile menu is open: the
+    // menu is part of the bar (see below), so they are one sheet rather than
+    // a transparent strip floating above a panel.
     const solid = isScrolled || isMenuOpen;
     const onHero = home && !solid;
 
@@ -121,10 +124,10 @@ const SiteNav = () => {
         <button
             type="button"
             onClick={toggleTheme}
-            className={`${className} ${forcedDark ? 'invisible' : ''}`}
+            className={`${className} ${fixedTheme ? 'invisible' : ''}`}
             aria-label="Toggle Theme"
-            aria-hidden={forcedDark || undefined}
-            tabIndex={forcedDark ? -1 : undefined}
+            aria-hidden={fixedTheme || undefined}
+            tabIndex={fixedTheme ? -1 : undefined}
         >
             {theme === 'dark'
                 ? <Sun size={20} className={onHero ? 'text-yellow-300' : 'text-yellow-400'} />
@@ -133,7 +136,8 @@ const SiteNav = () => {
     );
 
     const bar = (
-        <nav className={`fixed top-0 w-full z-50 border-b transition-colors duration-300 ${solid ? 'bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-slate-200 dark:border-white/5' : 'bg-transparent border-transparent'}`}>
+        // The frost and the open menu's shadow come and go with the tint, not at once.
+        <nav className={`fixed top-0 w-full z-50 border-b transition-[background-color,border-color,box-shadow,backdrop-filter,-webkit-backdrop-filter] duration-300 ${solid ? 'bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-slate-200 dark:border-white/5' : 'bg-transparent border-transparent'} ${isMenuOpen ? 'shadow-xl md:shadow-none' : ''}`}>
             <div className="container mx-auto px-6 h-20 flex items-center justify-between">
                 <div className="relative flex items-center">
                     {/* The back arrow's slot, clipped at the mark's left edge, so the
@@ -194,21 +198,27 @@ const SiteNav = () => {
                 </button>
             </div>
 
-            {/* Mobile menu */}
-            {isMenuOpen && (
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="md:hidden absolute top-20 left-0 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-white/5 rounded-b-2xl py-4 shadow-xl"
-                >
-                    {ITEMS.map((entry) => item(entry, menuRow(entry.key === active)))}
-                    <div className="flex gap-6 px-6 py-3 border-t border-slate-200 dark:border-white/10 mt-2 items-center">
-                        {themeButton('p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 transition-colors')}
-                        <div className="w-px h-6 bg-slate-200 dark:bg-white/10" />
-                        {flags('text-2xl')}
+            {/* Mobile menu. The bar itself grows to hold it, square-cornered like
+                the bar. A panel of its own hanging under the bar could not
+                frost the page: a backdrop filter inside a backdrop filter only
+                sees its parent, so the page showed through it sharp.
+                It unrolls from the bar and rolls back up on the bar's own
+                transition, and in CSS on purpose: to animate a height of
+                `auto`, framer-motion measures it and then puts the page back
+                where it was, which cancelled the scroll a menu item had just
+                started. Closed, it stays mounted, hidden and out of reach. */}
+            <div className={`md:hidden grid transition-[grid-template-rows,opacity,visibility] duration-300 motion-reduce:transition-none ${isMenuOpen ? 'grid-rows-[1fr] opacity-100 visible' : 'grid-rows-[0fr] opacity-0 invisible'}`}>
+                <div className="overflow-hidden">
+                    <div className="pb-4">
+                        {ITEMS.map((entry) => item(entry, menuRow(entry.key === active)))}
+                        <div className="flex gap-6 px-6 py-3 border-t border-slate-200 dark:border-white/10 mt-2 items-center">
+                            {themeButton('p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 transition-colors')}
+                            <div className="w-px h-6 bg-slate-200 dark:bg-white/10" />
+                            {flags('text-2xl')}
+                        </div>
                     </div>
-                </motion.div>
-            )}
+                </div>
+            </div>
         </nav>
     );
 

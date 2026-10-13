@@ -1,0 +1,23 @@
+{
+    "deck": {
+        "present": "Presentar",
+        "caseStudy": "Página del proyecto",
+        "sound": "Sonido",
+        "soundOn": "Activar sonido",
+        "soundOff": "Silenciar",
+        "fullscreen": "Pantalla completa",
+        "exitFullscreen": "Salir de pantalla completa",
+        "notes": "Notas",
+        "notesOn": "Mostrar notas",
+        "notesOff": "Ocultar notas",
+        "counter": "Diapositiva {{n}} de {{total}}",
+        "keys": "← → para navegar · F pantalla completa · M sonido",
+        "keysSilent": "← → para navegar · F pantalla completa",
+        "keysNotes": "N notas",
+        "rotate": "Gira el móvil para ver las diapositivas a pantalla completa",
+        "play": "Reproducir",
+        "mute": "Silenciar",
+        "listen": "Escuchar",
+        "index": "En esta página"
+    }
+}

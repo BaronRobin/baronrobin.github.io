@@ -1,13 +1,10 @@
-import { useContext, useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
-import { useReducedMotion } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
-import { Play, Volume2, VolumeX } from 'lucide-react';
+import type { ComponentProps, CSSProperties, ReactNode } from 'react';
+import { Clip as DeckClip } from '../../deck/Clip';
+import { at, pt, type Rect } from '../../deck/geometry';
 import wordsJson from './displayWords.json';
-import { at, pt, type Rect } from './geometry';
 import { clipMedia, stillMedia, type MediaId } from './media';
-import { PlaybackContext } from './playback';
 
-/* The building blocks both views are made of. See geometry.ts for the units. */
+/* The building blocks both views are made of. See src/deck/geometry.ts for the units. */
 
 /** A text box, with PowerPoint's default insets (0.1in across, 0.05in down). */
 export const TextBox = ({
@@ -216,106 +213,12 @@ export const DisplayTitle = ({ rect, text, align = 'left' }: { rect: Rect; text:
 /* ---------------------------------------------------------------- playback */
 
 /**
- * A video from the deck. Loops play silently and only while they can be seen;
- * the case film has controls and never starts itself on the case study.
- * Nothing is fetched until the clip comes near the viewport. By default it
- * fills its nearest positioned parent, which is how every slide places media.
+ * A video from the deck, on the shared player (src/deck/Clip), with its
+ * buttons in the deck's own type.
  */
-export const Clip = ({ id, fit = 'cover', film = false, className = 'absolute inset-0', style }: {
-    id: MediaId;
-    fit?: 'cover' | 'contain';
-    film?: boolean;
-    className?: string;
-    style?: CSSProperties;
-}) => {
-    const { t } = useTranslation();
-    const media = clipMedia(id);
-    const { active, sound, solo, setSolo } = useContext(PlaybackContext);
-    const reduced = useReducedMotion();
-    const ref = useRef<HTMLVideoElement>(null);
-    const [near, setNear] = useState(active !== null);
-    const [inView, setInView] = useState(false);
-    // With reduced motion nothing starts on its own; this is the explicit ask.
-    const [asked, setAsked] = useState(false);
-
-    useEffect(() => {
-        if (active !== null) return;
-        const el = ref.current;
-        if (!el) return;
-        const nearObserver = new IntersectionObserver(([entry]) => {
-            if (entry.isIntersecting) setNear(true);
-        }, { rootMargin: '600px 0px' });
-        const viewObserver = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0.2 });
-        nearObserver.observe(el);
-        viewObserver.observe(el);
-        return () => {
-            nearObserver.disconnect();
-            viewObserver.disconnect();
-        };
-    }, [active]);
-
-    const visible = active ?? inView;
-    const starts = (film ? active === true : true) && (!reduced || asked);
-
-    useEffect(() => {
-        const video = ref.current;
-        if (!video || !near) return;
-        if (!visible) video.pause();
-        else if (starts) video.play().catch(() => { /* refused: the poster stays up */ });
-    }, [visible, starts, near]);
-
-    const hasAudio = Boolean(media.audio);
-    const audible = hasAudio && (film
-        ? active === null || sound
-        : solo === id && (active === null || sound));
-
-    useEffect(() => {
-        const video = ref.current;
-        if (!video) return;
-        video.muted = !audible;
-        video.volume = media.volume ?? 1;
-    }, [audible, media.volume]);
-
-    // In the deck the speaker only means something once sound is on.
-    const showSpeaker = hasAudio && !film && (active === null || sound);
-
-    return (
-        <div className={`overflow-hidden ${className}`} style={style}>
-            <video
-                ref={ref}
-                src={near ? media.src : undefined}
-                poster={near ? media.poster : undefined}
-                muted
-                loop={!film}
-                playsInline
-                preload={film ? 'metadata' : 'none'}
-                controls={film}
-                className={`absolute inset-0 w-full h-full ${fit === 'cover' ? 'object-cover' : 'object-contain'}`}
-            />
-            {reduced && !asked && !film && (
-                <button
-                    type="button"
-                    onClick={(e) => { e.stopPropagation(); setAsked(true); }}
-                    className="absolute inset-0 flex items-center justify-center text-lw-paper/80 hover:text-lw-paper"
-                    aria-label={t('lautwasser.study.play')}
-                >
-                    <Play className="w-[12%] min-w-6 h-auto" />
-                </button>
-            )}
-            {showSpeaker && (
-                <button
-                    type="button"
-                    onClick={(e) => { e.stopPropagation(); setSolo(audible ? null : id); }}
-                    className="absolute bottom-2 right-2 z-10 inline-flex items-center gap-1.5 rounded-full bg-black/60 backdrop-blur-sm px-2.5 py-1.5 font-lw text-[11px] uppercase tracking-wider text-lw-paper hover:bg-black/80 transition-colors"
-                    aria-pressed={audible}
-                >
-                    {audible ? <Volume2 size={14} /> : <VolumeX size={14} />}
-                    <span>{audible ? t('lautwasser.study.mute') : t('lautwasser.study.listen')}</span>
-                </button>
-            )}
-        </div>
-    );
-};
+export const Clip = ({ id, ...props }: { id: MediaId } & Omit<ComponentProps<typeof DeckClip>, 'id' | 'media' | 'chrome'>) => (
+    <DeckClip id={id} media={clipMedia(id)} chrome="font-lw text-lw-paper" {...props} />
+);
 
 const OBJECT_FIT = { cover: 'object-cover', contain: 'object-contain', fill: 'object-fill' } as const;
 

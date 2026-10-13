@@ -11,8 +11,8 @@ import {
 } from './data';
 import { aspectOf, ratioOf, type MediaId } from './media';
 import { Clip, DisplayWord, Still } from './parts';
-import { PlaybackContext } from './playback';
-import SectionIndex from './SectionIndex';
+import { PlaybackContext } from '../../deck/playback';
+import SectionIndex from '../../deck/SectionIndex';
 
 /*
  * The project page: the deck's look, regrouped for reading. Chapters follow
@@ -221,7 +221,7 @@ const PhoneWithApp = () => (
 
 const CaseStudy = () => {
     const { t } = useTranslation();
-    const [solo, setSolo] = useState<MediaId | null>(null);
+    const [solo, setSolo] = useState<string | null>(null);
     const playback = useMemo(() => ({ active: null, sound: false, solo, setSolo }), [solo]);
     const steps = t('lautwasser.slides.idee.steps', { returnObjects: true }) as string[];
     const states = t('lautwasser.slides.logik.states', { returnObjects: true }) as string[];
@@ -269,7 +269,7 @@ const CaseStudy = () => {
                                 className="inline-flex items-center gap-2 rounded-full bg-lw-blue hover:bg-lw-ink px-6 py-3 text-sm uppercase tracking-wider text-white transition-colors"
                             >
                                 <Play size={16} className="fill-current" />
-                                {t('lautwasser.deck.present')}
+                                {t('deck.present')}
                             </Link>
                             <button
                                 type="button"

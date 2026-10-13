@@ -1,0 +1,137 @@
+{
+    "bachelor": {
+        "chapters": {
+            "titel": "Título",
+            "grillz": "Grillz",
+            "idee": "La idea",
+            "scan": "Escaneo",
+            "wissen": "Bases",
+            "modell": "Modelado",
+            "prototyp": "Prototipo",
+            "rendering": "Render",
+            "material": "Materiales",
+            "guss": "Fundición",
+            "fazit": "Pipeline"
+        },
+        "study": {
+            "kicker": "Trabajo de fin de grado · Virtual Design · Hochschule Kaiserslautern · 2026",
+            "subtitle": "Un pipeline digital para grillz dentales a medida",
+            "slides": "Diapositivas {{from}}–{{to}}",
+            "source": "Fuente",
+            "tools": "Herramientas",
+            "heroAlt": "Render del grill abierto en oro sobre los dientes",
+            "grillz": {
+                "heading": "¿Qué son los grillz?",
+                "body": [
+                    "Joyería para los dientes: un accesorio, una pieza de moda, una declaración, un símbolo de estatus, una inversión, y uno que se pone y se quita.",
+                    "Los dientes cambian de una persona a otra. Un anillo se puede pasar a otra persona, que lo lleva igual que tú, quizá no en el mismo dedo. Un grill encaja en una sola dentadura. Es una pieza única: una forma individual y única de expresarse."
+                ]
+            },
+            "idee": {
+                "heading": "¿De dónde salió la idea?",
+                "body": [
+                    "El molde de mis dientes lleva años en mi escritorio. El ortodoncista me lo dio al terminar el tratamiento; si no, lo habrían tirado.",
+                    "Y mi serie favorita es Breaking Bad, donde uno de los personajes guarda un grill en un bloque de resina epoxi."
+                ],
+                "ring": "Diseño de joyería, quinto semestre."
+            },
+            "scan": {
+                "heading": "¿Por dónde empiezo?",
+                "body": [
+                    "Por un escaneo de mis dientes, claro. El molde del ortodoncista tiene ya unos años y no quería depender solo de él.",
+                    "Por mi madre sabía que mi dentista en Dansenberg tiene un escáner intraoral. Unos correos después había cita para escanear. Los escaneos me llegaron como archivos STL."
+                ],
+                "credit": "Escaneado en Go-Dent Zahnärzte Kaiserslautern, Dr. Gehardt y Dr. Otter-Lorenz."
+            },
+            "wissen": {
+                "heading": "¿Qué necesito saber?",
+                "body": [
+                    "También hablé con mi dentista: qué le parecía, a qué había que prestar atención y cómo seguir.",
+                    "La fotogrametría quedaba descartada."
+                ],
+                "learning": "Hay que trabajar con limpieza, porque los dientes son valiosos."
+            },
+            "modell": {
+                "heading": "¿Y ahora qué?",
+                "body": [
+                    "Primero los datos. En Blender, la unidad de longitud pasa a milímetros y el STL se importa con una escala de 0,001. Después se limpia el escaneo: vértices sueltos eliminados, dientes rotos reparados.",
+                    "Luego el grill, en tres pasos: mask, extract, sculpt."
+                ],
+                "cleanup": "El escaneo antes y después de limpiarlo.",
+                "zbrush": "Las mandíbulas en ZBrush.",
+                "sculpt": "Mask, extract, sculpt.",
+                "boolean": "En Blender, con un booleano contra la mandíbula."
+            },
+            "prototyp": {
+                "heading": "Una primera impresión",
+                "body": [
+                    "Antes de cualquier metal, una impresión FDM: 3 g de filamento y 30 minutos de impresión. En el laminador el modelo se escala al 101 % para compensar la contracción del PLA."
+                ],
+                "slicer": "Escalado en el laminador: 101 % por la contracción del PLA.",
+                "print": "La impresión, vista por la cámara de la impresora."
+            },
+            "rendering": {
+                "heading": "Render",
+                "body": [
+                    "Los renders salen de Unreal Engine: una iluminación, un visor de grillz hecho como Blueprint, un árbol de nodos de material y tres metales, plata, oro rosa y oro, con escamas en la superficie."
+                ],
+                "setup": "La iluminación y el visor de grillz.",
+                "metals": "Plata, oro rosa, oro."
+            },
+            "material": {
+                "heading": "Materiales reales",
+                "metals": [
+                    "Oro (Au)",
+                    "Plata de ley (Ag 925)",
+                    "Titanio (Ti)",
+                    "Oro rosa: aleación de oro y cobre (Au y Cu)"
+                ],
+                "lead": "No solo una cuestión estética, sino médicamente aceptable y conforme a la norma:",
+                "properties": [
+                    "Químicamente estable",
+                    "Resistente a la corrosión",
+                    "Sin efecto citotóxico",
+                    "Ya establecido y probado en medicina"
+                ]
+            },
+            "guss": {
+                "heading": "Fundición",
+                "body": [
+                    "Del archivo al metal:"
+                ],
+                "steps": [
+                    "Impresión en resina",
+                    "Un molde de fundición hecho con la impresión en resina",
+                    "La fundición",
+                    "El acabado de la pieza fundida"
+                ]
+            },
+            "fazit": {
+                "heading": "El pipeline final",
+                "steps": [
+                    "Escaneo",
+                    "Preparación de datos",
+                    "Esculpido / modelado",
+                    "Prototipo FDM",
+                    "Ronda de correcciones con el cliente",
+                    "Impresión 3D en resina",
+                    "Molde de fundición hecho con la impresión en resina",
+                    "Acabado a mano de la fundición",
+                    "Entrega al cliente"
+                ]
+            }
+        },
+        "notes": {
+            "s04": "Un accesorio, una pieza de moda, una declaración, un símbolo de estatus, una inversión, y uno que se pone y se quita.",
+            "s11": "Los dientes cambian de una persona a otra. Un anillo se puede pasar a otra persona, que lo lleva igual que tú, quizá no en el mismo dedo. Un grill es una pieza única.",
+            "s13": "El molde de mis dientes lleva años en mi escritorio. El ortodoncista me lo dio al terminar el tratamiento; si no, lo habrían tirado.",
+            "s15": "Mi serie favorita es Breaking Bad, donde uno de los personajes guarda un grill en un bloque de resina epoxi.",
+            "s19": "Por un escaneo de mis dientes, claro. El molde del ortodoncista tiene ya unos años y no quería depender solo de él.",
+            "s20": "Por mi madre sabía que mi dentista en Dansenberg tiene un escáner intraoral. Unos correos después había cita para escanear.",
+            "s23": "Los escaneos me llegaron como archivos STL.",
+            "s26": "También hablé con mi dentista: qué le parecía, a qué había que prestar atención y cómo seguir.",
+            "s31": "Preparar los datos: vértices sueltos eliminados, dientes rotos reparados.",
+            "s39": "3 g de filamento, 30 minutos de impresión."
+        }
+    }
+}

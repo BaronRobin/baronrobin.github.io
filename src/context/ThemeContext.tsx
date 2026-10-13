@@ -5,6 +5,13 @@ type Theme = 'dark' | 'light';
 interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
+  /**
+   * A page that has one look whatever the theme (the Bachelor deck is white)
+   * forces it while it's open. The saved choice stays as it was, and comes
+   * back when the page lets go (force(null)).
+   */
+  forced: Theme | null;
+  force: (theme: Theme | null) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -23,19 +30,24 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     return 'light';
   });
 
+  const [forced, setForced] = useState<Theme | null>(null);
+
+  useEffect(() => {
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
   useEffect(() => {
     const root = window.document.documentElement;
     root.classList.remove('light', 'dark');
-    root.classList.add(theme);
-    localStorage.setItem('theme', theme);
-  }, [theme]);
+    root.classList.add(forced ?? theme);
+  }, [theme, forced]);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme, forced, force: setForced }}>
       {children}
     </ThemeContext.Provider>
   );

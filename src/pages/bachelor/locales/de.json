@@ -1,0 +1,137 @@
+{
+    "bachelor": {
+        "chapters": {
+            "titel": "Titel",
+            "grillz": "Grillz",
+            "idee": "Die Idee",
+            "scan": "Scan",
+            "wissen": "Grundlagen",
+            "modell": "Modellierung",
+            "prototyp": "Prototyp",
+            "rendering": "Rendering",
+            "material": "Materialien",
+            "guss": "Guss",
+            "fazit": "Pipeline"
+        },
+        "study": {
+            "kicker": "Bachelorarbeit · Virtual Design · Hochschule Kaiserslautern · 2026",
+            "subtitle": "Digitale Pipeline für Custom Dental Grillz",
+            "slides": "Folien {{from}}–{{to}}",
+            "source": "Quelle",
+            "tools": "Werkzeuge",
+            "heroAlt": "Render des offenen Grills in Gold auf den Zähnen",
+            "grillz": {
+                "heading": "Was sind überhaupt „Grillz“?",
+                "body": [
+                    "Schmuck für die Zähne: Accessoire, Modestück, Statement, Statussymbol, Wertanlage – und zum Ein- und Ausziehen.",
+                    "Zähne sind von Mensch zu Mensch unterschiedlich. Einen Ring kann man weitergeben, und die nächste Person trägt ihn wie du, vielleicht nicht am gleichen Finger. Ein Grill passt nur auf ein Gebiss. Er ist ein Einzelstück: individuelle und einzigartige Selbstdarstellung."
+                ]
+            },
+            "idee": {
+                "heading": "Woher kam die Idee?",
+                "body": [
+                    "Auf meinem Schreibtisch steht seit Jahren das Abdruckmodell meiner Zähne. Der Kieferorthopäde hat es mir nach der Behandlung mitgegeben, sonst wäre es weggeworfen worden.",
+                    "Und meine Lieblingsserie ist Breaking Bad; einer der Charaktere hat einen Grill in einem Epoxidharzblock."
+                ],
+                "ring": "Schmuckdesign, 5. Semester."
+            },
+            "scan": {
+                "heading": "Wo fange ich an?",
+                "body": [
+                    "Natürlich mit einem Scan meiner Zähne. Der Abdruck vom Kieferorthopäden liegt einige Jahre zurück, darauf allein wollte ich mich nicht verlassen.",
+                    "Durch meine Mutter wusste ich, dass meine Zahnärztin in Dansenberg einen Intraoralscanner hat. Nach ein paar Mails war ein Termin zum Scannen ausgemacht. Die Scans habe ich als STL-Dateien bekommen."
+                ],
+                "credit": "Gescannt bei Go-Dent Zahnärzte Kaiserslautern, Dr. Gehardt und Dr. Otter-Lorenz."
+            },
+            "wissen": {
+                "heading": "Was muss ich wissen?",
+                "body": [
+                    "Mit meiner Zahnärztin habe ich mich auch darüber unterhalten, was sie davon hält, worauf man achten sollte und wie man weiter vorgeht.",
+                    "Photogrammetrie kam nicht in Frage."
+                ],
+                "learning": "Man muss sauber arbeiten, denn Zähne sind wertvoll."
+            },
+            "modell": {
+                "heading": "Wie geht es weiter?",
+                "body": [
+                    "Zuerst die Daten. In Blender steht die Längeneinheit auf Millimeter, und das STL wird mit der Skalierung 0,001 importiert. Dann wird der Scan aufbereitet: schwebende Vertices entfernt, kaputte Zähne repariert.",
+                    "Dann der Grill selbst, in drei Schritten: Mask, Extract, Sculpt."
+                ],
+                "cleanup": "Der Scan vor und nach der Aufbereitung.",
+                "zbrush": "Die Kiefer in ZBrush.",
+                "sculpt": "Mask, Extract, Sculpt.",
+                "boolean": "In Blender, mit einem Boolean gegen den Kiefer."
+            },
+            "prototyp": {
+                "heading": "Ein erster Druck",
+                "body": [
+                    "Vor jedem Metall ein FDM-Druck: 3 g Filament, 30 Minuten Druckzeit. Im Slicer wird das Modell auf 101 % skaliert, um die Schrumpfung von PLA einzuberechnen."
+                ],
+                "slicer": "Skalierung im Slicer: 101 % für die PLA-Schrumpfung.",
+                "print": "Der Druck, durch die Kamera des Druckers."
+            },
+            "rendering": {
+                "heading": "Rendering",
+                "body": [
+                    "Die Renderings kommen aus der Unreal Engine: ein Licht-Setup, ein Grillz-Viewer als Blueprint, ein Material Node Tree und drei Metalle, Silber, Rosegold und Gold, mit Flakes in der Oberfläche."
+                ],
+                "setup": "Das Licht-Setup und der Grillz-Viewer.",
+                "metals": "Silber, Rosegold, Gold."
+            },
+            "material": {
+                "heading": "Echtwelt-Materialien",
+                "metals": [
+                    "Gold (Au)",
+                    "Sterling Silber (Ag 925)",
+                    "Titan (Ti)",
+                    "Rosegold: Gold-Kupferlegierung (Au & Cu)"
+                ],
+                "lead": "Nicht nur ästhetisch, sondern auch medizinisch vertretbar und normgerecht:",
+                "properties": [
+                    "Chemische Stabilität",
+                    "Korrosionsresistent",
+                    "Keine zytotoxische Wirkung",
+                    "In der Medizin bereits etabliert und getestet"
+                ]
+            },
+            "guss": {
+                "heading": "Guss",
+                "body": [
+                    "Von der Datei zum Metall:"
+                ],
+                "steps": [
+                    "Resin-Druck",
+                    "Gussform mit dem Resin-Druck",
+                    "Guss anfertigen",
+                    "Guss-Post-Processing"
+                ]
+            },
+            "fazit": {
+                "heading": "Die finale Pipeline",
+                "steps": [
+                    "Scan",
+                    "Datenaufbereitung",
+                    "Sculpting / Modeling",
+                    "FDM-Prototyping",
+                    "Korrekturschleife mit Kunde",
+                    "Resin-3D-Druck",
+                    "Gussform erstellen mit Resin-Druck",
+                    "Physische Verarbeitung vom Guss",
+                    "Auslieferung an Kunde"
+                ]
+            }
+        },
+        "notes": {
+            "s04": "Accessoire, Modestück, Statement, Statussymbol, Wertanlage – und zum Ein- und Ausziehen.",
+            "s11": "Zähne sind von Mensch zu Mensch unterschiedlich. Einen Ring kann man weitergeben, und die nächste Person trägt ihn wie du, vielleicht nicht am gleichen Finger. Ein Grill ist ein Einzelstück.",
+            "s13": "Auf meinem Schreibtisch steht seit Jahren das Abdruckmodell meiner Zähne. Der Kieferorthopäde hat es mir nach der Behandlung mitgegeben, sonst wäre es weggeworfen worden.",
+            "s15": "Meine Lieblingsserie ist Breaking Bad; einer der Charaktere hat einen Grill in einem Epoxidharzblock.",
+            "s19": "Natürlich mit einem Scan meiner Zähne. Der Abdruck vom Kieferorthopäden liegt einige Jahre zurück, darauf allein wollte ich mich nicht verlassen.",
+            "s20": "Durch meine Mutter wusste ich, dass meine Zahnärztin in Dansenberg einen Intraoralscanner hat. Nach ein paar Mails war ein Termin zum Scannen ausgemacht.",
+            "s23": "Die Scans habe ich als STL-Dateien bekommen.",
+            "s26": "Mit meiner Zahnärztin habe ich mich auch darüber unterhalten, was sie davon hält, worauf man achten sollte und wie man weiter vorgeht.",
+            "s31": "Daten aufbereitet: schwebende Vertices entfernt, kaputte Zähne repariert.",
+            "s39": "3 g Filament, 30 Minuten Druckzeit."
+        }
+    }
+}

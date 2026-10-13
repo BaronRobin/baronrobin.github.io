@@ -1,0 +1,137 @@
+{
+    "bachelor": {
+        "chapters": {
+            "titel": "Title",
+            "grillz": "Grillz",
+            "idee": "The idea",
+            "scan": "Scan",
+            "wissen": "Groundwork",
+            "modell": "Modelling",
+            "prototyp": "Prototype",
+            "rendering": "Rendering",
+            "material": "Materials",
+            "guss": "Casting",
+            "fazit": "Pipeline"
+        },
+        "study": {
+            "kicker": "Bachelor thesis · Virtual Design · Hochschule Kaiserslautern · 2026",
+            "subtitle": "A digital pipeline for custom dental grillz",
+            "slides": "Slides {{from}}–{{to}}",
+            "source": "Source",
+            "tools": "Tools",
+            "heroAlt": "A render of the open gold grill on the teeth",
+            "grillz": {
+                "heading": "What are grillz, anyway?",
+                "body": [
+                    "Jewellery for the teeth: an accessory, a fashion piece, a statement, a status symbol, an investment, and one you put in and take out again.",
+                    "Teeth differ from one person to the next. A ring can be passed on, and the next person wears it just as you did, if perhaps not on the same finger. A grill fits one set of teeth only. It is a one-off: individual and unique self-expression."
+                ]
+            },
+            "idee": {
+                "heading": "Where did the idea come from?",
+                "body": [
+                    "The cast of my teeth has stood on my desk for years. The orthodontist gave it to me when my treatment was over; otherwise it would have been thrown away.",
+                    "And my favourite series is Breaking Bad, where one of the characters keeps a grill in a block of epoxy resin."
+                ],
+                "ring": "Jewellery design, fifth semester."
+            },
+            "scan": {
+                "heading": "Where do I start?",
+                "body": [
+                    "With a scan of my teeth, of course. The orthodontist's cast is some years old, and I didn't want to rely on it alone.",
+                    "Through my mother I knew that my dentist in Dansenberg has an intraoral scanner. A few emails later, there was an appointment to scan. The scans came back as STL files."
+                ],
+                "credit": "Scanned at Go-Dent Zahnärzte Kaiserslautern, Dr. Gehardt and Dr. Otter-Lorenz."
+            },
+            "wissen": {
+                "heading": "What do I need to know?",
+                "body": [
+                    "I also talked to my dentist: what she thinks of it, what to look out for, how to go on from there.",
+                    "Photogrammetry was out of the question."
+                ],
+                "learning": "You have to work cleanly, because teeth are precious."
+            },
+            "modell": {
+                "heading": "What comes next?",
+                "body": [
+                    "First the data. In Blender, the length unit is set to millimetres and the STL is imported at a scale of 0.001. Then the scan is cleaned up: floating vertices removed, broken teeth repaired.",
+                    "Then the grill itself, in three steps: mask, extract, sculpt."
+                ],
+                "cleanup": "The scan before and after its clean-up.",
+                "zbrush": "The jaws in ZBrush.",
+                "sculpt": "Mask, extract, sculpt.",
+                "boolean": "In Blender, with a Boolean against the jaw."
+            },
+            "prototyp": {
+                "heading": "A first print",
+                "body": [
+                    "Before any metal, an FDM print: 3 g of filament and 30 minutes of printing. In the slicer the model is scaled to 101%, to make up for the shrinkage of PLA."
+                ],
+                "slicer": "Scaling in the slicer: 101% for PLA shrinkage.",
+                "print": "The print, under the printer's camera."
+            },
+            "rendering": {
+                "heading": "Rendering",
+                "body": [
+                    "The renders come from Unreal Engine: a light setup, a grillz viewer built as a Blueprint, a material node tree, and three metals, silver, rose gold and gold, with flakes in the surface."
+                ],
+                "setup": "The light setup, and the grillz viewer.",
+                "metals": "Silver, rose gold, gold."
+            },
+            "material": {
+                "heading": "Real-world materials",
+                "metals": [
+                    "Gold (Au)",
+                    "Sterling silver (Ag 925)",
+                    "Titanium (Ti)",
+                    "Rose gold: a gold-copper alloy (Au & Cu)"
+                ],
+                "lead": "Not only a matter of looks, but medically justifiable and up to standard:",
+                "properties": [
+                    "Chemically stable",
+                    "Corrosion-resistant",
+                    "Not cytotoxic",
+                    "Already established and tested in medicine"
+                ]
+            },
+            "guss": {
+                "heading": "Casting",
+                "body": [
+                    "From the file to metal:"
+                ],
+                "steps": [
+                    "Resin print",
+                    "A casting mould, made with the resin print",
+                    "The casting",
+                    "Post-processing the cast"
+                ]
+            },
+            "fazit": {
+                "heading": "The final pipeline",
+                "steps": [
+                    "Scan",
+                    "Data preparation",
+                    "Sculpting / modelling",
+                    "FDM prototyping",
+                    "Correction loop with the customer",
+                    "Resin 3D print",
+                    "Casting mould made with the resin print",
+                    "Finishing the cast by hand",
+                    "Delivery to the customer"
+                ]
+            }
+        },
+        "notes": {
+            "s04": "An accessory, a fashion piece, a statement, a status symbol, an investment, and one you put in and take out again.",
+            "s11": "Teeth differ from one person to the next. A ring can be passed on, and the next person wears it just as you did, if perhaps not on the same finger. A grill is a one-off.",
+            "s13": "The cast of my teeth has stood on my desk for years. The orthodontist gave it to me when my treatment was over; otherwise it would have been thrown away.",
+            "s15": "My favourite series is Breaking Bad, where one of the characters keeps a grill in a block of epoxy resin.",
+            "s19": "With a scan of my teeth, of course. The orthodontist's cast is some years old, and I didn't want to rely on it alone.",
+            "s20": "Through my mother I knew that my dentist in Dansenberg has an intraoral scanner. A few emails later, there was an appointment to scan.",
+            "s23": "The scans came back as STL files.",
+            "s26": "I also talked to my dentist: what she thinks of it, what to look out for, how to go on from there.",
+            "s31": "Preparing the data: floating vertices removed, broken teeth repaired.",
+            "s39": "3 g of filament, 30 minutes of printing."
+        }
+    }
+}

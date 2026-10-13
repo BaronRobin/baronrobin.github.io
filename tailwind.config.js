@@ -16,6 +16,8 @@ export default {
         display: ['Space Grotesk', 'system-ui', 'sans-serif'],
         // The Lautwasser page, standing in for the deck's Nexa (desktop licence only).
         lw: ['Outfit', 'system-ui', 'sans-serif'],
+        // The Bachelor deck (3D Grillz): Helvetica, with Arial's matching metrics elsewhere.
+        grillz: ['Helvetica', '"Helvetica Neue"', 'Arial', 'sans-serif'],
       },
       colors: {
         // Site accent remapped from purple to a dark forest green.
@@ -58,6 +60,10 @@ export default {
           magenta: '#EC02FA', // the birds on the noise chart
           line: '#121212',    // hairlines over black
           paper: '#F3F3F3',
+        },
+        // The Bachelor deck's one accent: PowerPoint's pure red, on white.
+        grillz: {
+          red: '#FF0000',
         },
       },
     },
