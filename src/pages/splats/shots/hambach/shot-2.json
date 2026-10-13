@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "scan": "hambach",
+  "name": "shot-2",
+  "duration": 8,
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "superXY": 2,
+    "format": "mp4",
+    "sharpen": 2
+  },
+  "tracks": {
+    "camera": [],
+    "focal": [],
+    "focus": [],
+    "aperture": [],
+    "blueprint": [
+      {
+        "t": 0,
+        "value": 0,
+        "interp": "smooth"
+      },
+      {
+        "t": 0.6333333333333333,
+        "value": 1,
+        "interp": "ease"
+      }
+    ],
+    "cut": [
+      {
+        "t": 0.4,
+        "value": 0,
+        "interp": "smooth"
+      },
+      {
+        "t": 0.6333333333333333,
+        "value": 0,
+        "interp": "ease"
+      }
+    ],
+    "depth": [
+      {
+        "t": 0.4,
+        "value": 1,
+        "interp": "smooth"
+      },
+      {
+        "t": 0.6333333333333333,
+        "value": 0.025,
+        "interp": "ease"
+      }
+    ]
+  }
+}

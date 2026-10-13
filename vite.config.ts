@@ -1,5 +1,6 @@
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
+import { splatStudio } from './scripts/vite-splat-studio'
 
 // https://vite.dev/config/
 /**
@@ -23,7 +24,8 @@ const serveArchiveIndex = (): Plugin => ({
 })
 
 export default defineConfig({
-  plugins: [react(), serveArchiveIndex()],
+  // splatStudio: dev-only endpoints for the splat viewer's ?tune and ?create tools.
+  plugins: [react(), serveArchiveIndex(), splatStudio()],
   base: '/', // GitHub Pages user site deploys from root
   build: {
     rollupOptions: {

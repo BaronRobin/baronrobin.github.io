@@ -15,7 +15,7 @@ interface LogoProps {
      * `onHero` is the state over Home's transparent nav, where the hero video
      * plays behind and the mark needs to stay white regardless of theme.
      */
-    variant?: 'solid' | 'onHero';
+    variant?: 'solid' | 'onHero' | 'ink';
     className?: string;
 }
 
@@ -44,9 +44,12 @@ const Logo = ({ variant = 'solid', className = '' }: LogoProps) => {
     // Bare type in every state, like the words beside it: only the colour
     // changes, so nothing about the mark moves when the nav does. Over the
     // hero it goes white, with the same soft shadow as the links.
+    // Over the splat viewer it's in whatever ink the bar is given there (--ink).
     const skin = variant === 'onHero'
         ? 'text-white [text-shadow:0_1px_10px_rgb(0_0_0/0.35)]'
-        : 'text-slate-900 dark:text-white';
+        : variant === 'ink'
+            ? 'text-[color:var(--ink)]'
+            : 'text-slate-900 dark:text-white';
 
     return (
         <span

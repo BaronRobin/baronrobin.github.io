@@ -1,0 +1,56 @@
+{
+  "id": "hambach-inside",
+  "view": {
+    "position": [
+      1.94,
+      0.997,
+      12.894
+    ],
+    "target": [
+      1.112,
+      0.175,
+      2.834
+    ]
+  },
+  "level": [
+    0,
+    0,
+    0
+  ],
+  "sky": null,
+  "crop": null,
+  "height": null,
+  "maxSize": 0.1895,
+  "maxNeedle": 9.5,
+  "lonely": null,
+  "views": {
+    "front": {
+      "cut": 0.632,
+      "depth": 0.972
+    },
+    "top": {
+      "cut": 0,
+      "depth": 0.165
+    },
+    "bottom": {
+      "cut": 0.187,
+      "depth": 0.069
+    },
+    "left": {
+      "cut": -0.444,
+      "depth": 0.215
+    },
+    "back": {
+      "cut": -0.593,
+      "depth": 0.191
+    },
+    "right": {
+      "cut": -0.371,
+      "depth": 0.226
+    }
+  },
+  "sharpen": 2,
+  "erased": 0,
+  "kept": 2124814,
+  "total": 2134829
+}

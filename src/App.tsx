@@ -5,12 +5,14 @@ import SiteNav from './components/SiteNav';
 import './i18n';
 import { ThemeProvider } from './context/ThemeContext';
 import useHtmlLang from './hooks/useHtmlLang';
-import { LAUTWASSER_ID } from './data/projects';
+import { LAUTWASSER_ID, SPLATS_ID } from './data/projects';
 
 // Home is the landing route, so it stays in the main chunk; lazy-loading it
 // would just add a round trip before first paint. The rest are split out.
 const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
 const Lautwasser = lazy(() => import('./pages/lautwasser'));
+// three.js and Spark only load with this route.
+const Splats = lazy(() => import('./pages/splats'));
 const Photography = lazy(() => import('./pages/Photography'));
 const PhotoSeries = lazy(() => import('./pages/PhotoSeries'));
 const NotFound = lazy(() => import('./pages/NotFound'));
@@ -55,6 +57,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             {/* Its own page and its slides; the static segment outranks :id. */}
             <Route path={`/project/${LAUTWASSER_ID}/*`} element={<Lautwasser />} />
+            <Route path={`/project/${SPLATS_ID}`} element={<Splats />} />
             <Route path="/project/:id" element={<ProjectDetail />} />
             <Route path="/photography" element={<Photography />} />
             <Route path="/photography/:seriesId" element={<PhotoSeries />} />

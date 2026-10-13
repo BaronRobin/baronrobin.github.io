@@ -30,6 +30,9 @@ export const arViewerUrl = (slug: string) => `${AR_BASE_URL}/ar/${slug}/`;
 /** The one project with a page of its own (src/pages/lautwasser) instead of the gallery. */
 export const LAUTWASSER_ID = '11-lautwasser';
 
+/** Also its own page (src/pages/splats): the live viewer is the whole project. */
+export const SPLATS_ID = '13-splats';
+
 export interface Project {
     id: string;
     title: string;
@@ -90,6 +93,16 @@ export const projects: Project[] = [
                 ]
             ]
         }
+    },
+    {
+        // Its own page (src/pages/splats), routed ahead of /project/:id like
+        // Lautwasser. Only the grid tile reads this entry.
+        id: SPLATS_ID,
+        title: 'Gaussian Splats',
+        category: 'Interactive 3D',
+        description: 'Places scanned from photos and trained as Gaussian splats, to look around in the browser.',
+        folderName: '13_splats',
+        media: [{ type: 'image', url: '/projects/13_splats/cover.webp' }],
     },
     {
         id: '01-polarise',

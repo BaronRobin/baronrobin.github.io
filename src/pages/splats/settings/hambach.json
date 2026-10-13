@@ -1,0 +1,41 @@
+{
+  "id": "hambach",
+  "view": {
+    "position": [
+      -2.626,
+      0.236,
+      0.053
+    ],
+    "target": [
+      0.127,
+      -0.062,
+      0.541
+    ]
+  },
+  "level": [
+    3,
+    2.2,
+    0
+  ],
+  "sky": {
+    "radius": 138.718
+  },
+  "crop": null,
+  "height": null,
+  "maxSize": null,
+  "maxNeedle": 63.14,
+  "lonely": {
+    "cell": 1.041,
+    "minNeighbours": 8
+  },
+  "views": {
+    "back": {
+      "cut": 0,
+      "depth": 1
+    }
+  },
+  "sharpen": 2,
+  "erased": 0,
+  "kept": 1054018,
+  "total": 1062592
+}

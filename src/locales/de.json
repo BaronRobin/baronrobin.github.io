@@ -52,6 +52,45 @@
             }
         }
     },
+    "splats": {
+        "loading": "Lädt",
+        "detail": "Lädt Details",
+        "scans": "Scans",
+        "help": "So bewegst du dich",
+        "hintReset": "Doppelklick setzt einen Regler zurück",
+        "failed": "Dieser Scan ließ sich nicht laden",
+        "hint": "Ziehen zum Drehen · Scrollen zum Zoomen · Rechts ziehen zum Verschieben",
+        "hintTouch": "Ziehen zum Drehen · Zwei Finger zum Zoomen und Verschieben",
+        "blueprint": "Bauplan",
+        "cut": "Schnitt",
+        "depth": "Tiefe",
+        "streaks": "Schlieren",
+        "mapToggle": "Karte",
+        "pulseClear": "Puls stoppen",
+        "hintPulse": "Puls im Takt antippen, er antwortet",
+        "turntable": "Drehteller",
+        "rpm": "U/min",
+        "pulse": "Puls",
+        "bpm": "BPM",
+        "less": "Weniger",
+        "more": "Mehr",
+        "tabView": "Ansicht",
+        "tabMotion": "Bewegung",
+        "open": "Datei öffnen…",
+        "drop": "Zum Öffnen ablegen",
+        "notSplat": "Keine Splat-Datei: .ply, .spz, .splat, .ksplat oder .sog",
+        "map": "Lage des Schnitts",
+        "hintBlueprint": "Über die Kante ziehen zum Drehen · Scrollen zum Zoomen · Rechts ziehen zum Verschieben",
+        "hintBlueprintTouch": "Über die Kante ziehen zum Drehen · Zwei Finger zum Zoomen und Verschieben",
+        "views": {
+            "top": "Oben",
+            "front": "Vorne",
+            "right": "Rechts",
+            "back": "Hinten",
+            "left": "Links",
+            "bottom": "Unten"
+        }
+    },
     "skills": {
         "title": "Werkzeuge",
         "also": "Außerdem im Werkzeugkasten ({{count}})",
@@ -322,6 +361,11 @@
                     "Ausstellungsraum: Moodboard, Aufbau und Einrichtung"
                 ]
             }
+        },
+        "13-splats": {
+            "title": "Gaussian Splats",
+            "category": "Interaktives 3D",
+            "description": "Orte, aus Fotos gescannt und als Gaussian Splats trainiert, zum Umsehen im Browser."
         },
         "experienceAR": "In AR erleben",
         "scrollHint": "Projektdetails unten",

@@ -1,0 +1,37 @@
+{
+  "id": "burg-lichtenberg",
+  "view": {
+    "position": [
+      -0.364,
+      -0.182,
+      0.102
+    ],
+    "target": [
+      -0.128,
+      -0.22,
+      -0.14
+    ]
+  },
+  "level": [
+    -6.7,
+    0,
+    0
+  ],
+  "sky": null,
+  "crop": null,
+  "height": {
+    "min": null,
+    "max": -0.129
+  },
+  "maxSize": 0.1136,
+  "maxNeedle": 34.45,
+  "lonely": {
+    "cell": 0.2077,
+    "minNeighbours": 36
+  },
+  "views": {},
+  "sharpen": 2,
+  "erased": 171996,
+  "kept": 3149948,
+  "total": 3608227
+}

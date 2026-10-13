@@ -52,6 +52,45 @@
             }
         }
     },
+    "splats": {
+        "loading": "Loading",
+        "detail": "Loading detail",
+        "scans": "Scans",
+        "help": "How to move around",
+        "hintReset": "Double-click a slider to reset it",
+        "failed": "Couldn't load this scan",
+        "hint": "Drag to orbit · Scroll to zoom · Right-drag to pan",
+        "hintTouch": "Drag to orbit · Pinch to zoom · Two fingers to pan",
+        "blueprint": "Blueprint",
+        "cut": "Cut",
+        "depth": "Depth",
+        "streaks": "Streaks",
+        "mapToggle": "Map",
+        "pulseClear": "Stop the pulse",
+        "hintPulse": "Tap Pulse to a beat and it answers",
+        "turntable": "Turntable",
+        "rpm": "RPM",
+        "pulse": "Pulse",
+        "bpm": "BPM",
+        "less": "Less",
+        "more": "More",
+        "tabView": "View",
+        "tabMotion": "Motion",
+        "open": "Open file…",
+        "drop": "Drop to open",
+        "notSplat": "Not a splat file: .ply, .spz, .splat, .ksplat or .sog",
+        "map": "Where the cut is",
+        "hintBlueprint": "Pull past the edge to turn · Scroll to zoom · Right-drag to pan",
+        "hintBlueprintTouch": "Pull past the edge to turn · Pinch to zoom · Two fingers to pan",
+        "views": {
+            "top": "Top",
+            "front": "Front",
+            "right": "Right",
+            "back": "Back",
+            "left": "Left",
+            "bottom": "Bottom"
+        }
+    },
     "skills": {
         "title": "Tools",
         "also": "Also in the toolkit ({{count}})",
@@ -323,6 +362,11 @@
                     "Exhibition room: moodboard, build and set-up"
                 ]
             }
+        },
+        "13-splats": {
+            "title": "Gaussian Splats",
+            "category": "Interactive 3D",
+            "description": "Places scanned from photos and trained as Gaussian splats, to look around in the browser."
         },
         "experienceAR": "Experience in AR",
         "12-3d-printing": {

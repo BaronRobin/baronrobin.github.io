@@ -52,6 +52,45 @@
             }
         }
     },
+    "splats": {
+        "loading": "Cargando",
+        "detail": "Cargando detalle",
+        "scans": "Escaneos",
+        "help": "Cómo moverse",
+        "hintReset": "Doble clic para restablecer un control",
+        "failed": "No se pudo cargar este escaneo",
+        "hint": "Arrastra para girar · Rueda para zoom · Botón derecho para mover",
+        "hintTouch": "Arrastra para girar · Pellizca para zoom · Dos dedos para mover",
+        "blueprint": "Plano",
+        "cut": "Corte",
+        "depth": "Profundidad",
+        "streaks": "Estelas",
+        "mapToggle": "Mapa",
+        "pulseClear": "Detener el pulso",
+        "hintPulse": "Toca Pulso a un ritmo y responde",
+        "turntable": "Giro",
+        "rpm": "RPM",
+        "pulse": "Pulso",
+        "bpm": "BPM",
+        "less": "Menos",
+        "more": "Más",
+        "tabView": "Vista",
+        "tabMotion": "Movimiento",
+        "open": "Abrir archivo…",
+        "drop": "Suelta para abrir",
+        "notSplat": "No es un archivo de splats: .ply, .spz, .splat, .ksplat o .sog",
+        "map": "Dónde está el corte",
+        "hintBlueprint": "Arrastra más allá del borde para girar · Rueda para zoom · Botón derecho para mover",
+        "hintBlueprintTouch": "Arrastra más allá del borde para girar · Pellizca para zoom · Dos dedos para mover",
+        "views": {
+            "top": "Arriba",
+            "front": "Frente",
+            "right": "Derecha",
+            "back": "Detrás",
+            "left": "Izquierda",
+            "bottom": "Abajo"
+        }
+    },
     "skills": {
         "title": "Herramientas",
         "also": "También en la caja de herramientas ({{count}})",
@@ -322,6 +361,11 @@
                     "Sala de exposición: moodboard, montaje e instalación"
                 ]
             }
+        },
+        "13-splats": {
+            "title": "Gaussian Splats",
+            "category": "3D interactivo",
+            "description": "Lugares escaneados a partir de fotos y entrenados como Gaussian splats, para recorrerlos en el navegador."
         },
         "experienceAR": "Experimentar en RA",
         "scrollHint": "Detalles del proyecto abajo",
