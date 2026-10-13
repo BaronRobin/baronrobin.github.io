@@ -458,6 +458,10 @@
         "close": "Close",
         "caveat": "Archived versions are the original markup and code, but they load media from the current library rather than carrying their own copy, so some images may be missing where projects have since been withdrawn.",
         "versions": {
+            "v2-1-1": {
+                "title": "Gaussian Splats",
+                "summary": "Places I scanned, to look around in right in the browser. Switch to blueprint, or drop in a scan of your own. Plus a timeline that knows what day it is."
+            },
             "v2-1": {
                 "title": "Lautwasser",
                 "summary": "Plus a clickable timeline and a steadier header."

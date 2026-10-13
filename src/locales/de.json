@@ -458,6 +458,10 @@
         "close": "Schließen",
         "caveat": "Die archivierten Versionen sind das ursprüngliche Markup und der ursprüngliche Code, laden Medien aber aus der aktuellen Bibliothek statt einer eigenen Kopie. Wo Projekte inzwischen zurückgezogen wurden, können Bilder fehlen.",
         "versions": {
+            "v2-1-1": {
+                "title": "Gaussian Splats",
+                "summary": "Orte, die ich gescannt habe, zum Umschauen direkt im Browser. Auf Bauplan umschalten oder einen eigenen Scan reinziehen. Dazu eine Timeline, die weiß, welcher Tag heute ist."
+            },
             "v2-1": {
                 "title": "Lautwasser",
                 "summary": "Dazu eine klickbare Timeline und ein ruhigerer Header."

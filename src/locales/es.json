@@ -458,6 +458,10 @@
         "close": "Cerrar",
         "caveat": "Las versiones archivadas conservan el marcado y el código originales, pero cargan los medios de la biblioteca actual en lugar de llevar su propia copia, así que pueden faltar imágenes donde se han retirado proyectos.",
         "versions": {
+            "v2-1-1": {
+                "title": "Gaussian Splats",
+                "summary": "Lugares que he escaneado, para recorrerlos en el navegador. Cambia a plano o suelta un escaneo tuyo. Además, una línea de tiempo que sabe qué día es hoy."
+            },
             "v2-1": {
                 "title": "Lautwasser",
                 "summary": "Además, una línea de tiempo clicable y una cabecera más estable."
