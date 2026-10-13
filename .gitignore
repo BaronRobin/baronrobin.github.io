@@ -30,3 +30,8 @@ _hidden_projects/README.md
 
 # Copy worksheet, regenerated on demand; the locale files are the source of truth.
 CONTENT.md
+
+# splat-drafts/ holds scans not picked for the site yet: in the repo, but outside public/, so the
+# dev server shows them (scripts/vite-splat-studio.ts) and the build doesn't ship them.
+# This one shows people, and the repo is public: it stays on this machine until they have agreed.
+/splat-drafts/lilli*

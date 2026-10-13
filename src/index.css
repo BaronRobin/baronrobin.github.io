@@ -12,3 +12,72 @@
 .glass-card {
   @apply bg-white/60 dark:bg-white/5 backdrop-blur-lg border border-slate-200 dark:border-white/10 rounded-2xl transition-colors duration-300;
 }
+/*
+ * The scan wheel on a phone (pages/splats/Wheel.tsx): a window with feathered
+ * edges, opened and closed by two lengths. Registered, so they can be eased.
+ */
+@property --wheel-open {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 18px;
+}
+
+@property --wheel-feather {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 30px;
+}
+
+.wheel-mask {
+  --wheel-window: linear-gradient(to bottom,
+      transparent calc(50% - var(--wheel-open) - var(--wheel-feather)),
+      black calc(50% - var(--wheel-open)),
+      black calc(50% + var(--wheel-open)),
+      transparent calc(50% + var(--wheel-open) + var(--wheel-feather)));
+  -webkit-mask-image: var(--wheel-window);
+  mask-image: var(--wheel-window);
+  transition: --wheel-open 350ms cubic-bezier(0.65, 0, 0.35, 1), --wheel-feather 350ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wheel-mask {
+    transition: none;
+  }
+}
+
+/*
+ * The splat viewer's type (pages/splats/ui.ts): set in an ink, the theme's by
+ * default; a group straight on the scan, and each label in it, is told dark
+ * or light by what's under it (ink.ts). Registered as a colour, so a change
+ * of ink is eased.
+ */
+@property --ink {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #fff;
+}
+
+.splat-ink {
+  --ink: #080a11;
+  color: var(--ink);
+  transition: --ink 300ms ease-in-out;
+}
+
+.dark .splat-ink,
+.splat-ink[data-ink='light'] {
+  --ink: #fff;
+}
+
+.splat-ink[data-ink='dark'],
+.splat-ink [data-ink='dark'] {
+  --ink: #080a11;
+}
+
+/* A label inside a group, with an ink of its own. */
+.splat-ink [data-ink='light'] {
+  --ink: #fff;
+}
+
+.splat-ink [data-ink-part] {
+  transition: --ink 300ms ease-in-out;
+}
