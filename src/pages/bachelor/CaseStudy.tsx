@@ -97,13 +97,37 @@ const Paragraphs = ({ k }: { k: string }) => {
     );
 };
 
-/** A chapter: the deck's red label, the question it asked, the way into its slides. */
-const Chapter = ({ id, children }: { id: ChapterId; children: ReactNode }) => {
+/*
+ * The page runs the width of the window. The margin keeps clear of the
+ * section dots on the right (right-2, xl:right-6).
+ * From lg up the hero and each chapter are a 12-column grid: the words on the
+ * left at a reading measure, the pictures beside them.
+ */
+const FRAME = 'px-6 md:px-10 xl:px-14';
+const GRID = 'lg:grid lg:grid-cols-12 lg:gap-x-8 xl:gap-x-10 2xl:gap-x-12';
+const WORDS = 'lg:col-span-6 xl:col-span-5 2xl:col-span-4';
+const PICTURES = 'lg:col-span-6 xl:col-span-7 2xl:col-span-8';
+
+/**
+ * A chapter: the deck's red label, the question it asked, the way into its slides.
+ * On wide screens the heading and `text` stay in view on the left while the
+ * pictures (`children`) pass beside them, if the window is tall enough to
+ * hold them; `wide` runs the full width underneath. On a phone it all
+ * stacks, in that order.
+ */
+const Chapter = ({ id, text, children, wide, side = '' }: {
+    id: ChapterId;
+    text?: ReactNode;
+    children?: ReactNode;
+    wide?: ReactNode;
+    /** Extra classes for the pictures' column, e.g. how it sits against the words. */
+    side?: string;
+}) => {
     const { t } = useTranslation();
     const [from, to] = chapterSlides(id);
     return (
         <section id={id} className="scroll-mt-24 border-t border-black/10">
-            <div className="container mx-auto max-w-6xl px-6 py-16 md:py-24">
+            <div className={`${FRAME} py-16 md:py-20`}>
                 <div className="flex items-baseline justify-between gap-6 text-xs uppercase tracking-[0.2em]">
                     <span className="text-grillz-red">{t(`bachelor.chapters.${id}`)}</span>
                     <Link to={`slides/${from}`} className="group inline-flex items-center gap-1.5 text-black/45 hover:text-black transition-colors">
@@ -111,8 +135,18 @@ const Chapter = ({ id, children }: { id: ChapterId; children: ReactNode }) => {
                         <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
                     </Link>
                 </div>
-                <h2 className="mt-6 mb-10 md:mb-12 text-3xl md:text-5xl leading-tight tracking-tight">{t(`bachelor.study.${id}.heading`)}</h2>
-                {children}
+                <div className={`mt-6 ${GRID}`}>
+                    <div className={`${WORDS} lg:self-start lg:[@media(min-height:640px)]:sticky lg:top-28`}>
+                        <h2 className="text-3xl md:text-5xl leading-tight tracking-tight text-balance">{t(`bachelor.study.${id}.heading`)}</h2>
+                        {text && <div className="mt-10 md:mt-12 lg:mt-8">{text}</div>}
+                    </div>
+                    {children && (
+                        <div className={`${text ? 'mt-14' : 'mt-10 md:mt-12'} lg:mt-0 ${PICTURES} space-y-10 md:space-y-14 lg:space-y-10 ${side}`}>
+                            {children}
+                        </div>
+                    )}
+                </div>
+                {wide && <div className="mt-10 md:mt-14">{wide}</div>}
             </div>
         </section>
     );
@@ -141,28 +175,29 @@ const CaseStudy = () => {
             <SectionIndex entries={index} tone="light" font="font-grillz" />
 
             {/* 1-2: the title slides as a hero */}
-            <header id="top" className="container mx-auto max-w-6xl px-6 pt-36 md:pt-44 pb-12 md:pb-16">
-                <p className="text-xs uppercase tracking-[0.2em] text-black/50">{t('bachelor.study.kicker')}</p>
-                <h1 className="mt-6 text-6xl md:text-8xl tracking-tight">{t(`projects.${BACHELOR_ID}.title`)}</h1>
-                <p className="mt-5 max-w-3xl text-xl md:text-3xl leading-snug text-black/70">{t('bachelor.study.subtitle')}</p>
-                <div className="mt-10 flex flex-wrap items-center gap-3">
-                    <Link
-                        to="slides/1"
-                        className="inline-flex items-center gap-2 rounded-full bg-black hover:bg-grillz-red px-6 py-3 text-sm uppercase tracking-wider text-white transition-colors"
-                    >
-                        <Play size={16} className="fill-current" />
-                        {t('deck.present')}
-                    </Link>
+            <header id="top" className={`${FRAME} pt-36 md:pt-44 lg:pt-36 pb-20 md:pb-28 lg:pb-20 ${GRID} lg:items-end`}>
+                <div className={WORDS}>
+                    <p className="text-xs uppercase tracking-[0.2em] text-balance text-black/50">{t('bachelor.study.kicker')}</p>
+                    <h1 className="mt-6 text-6xl md:text-8xl tracking-tight">{t(`projects.${BACHELOR_ID}.title`)}</h1>
+                    <p className="mt-5 max-w-3xl text-xl md:text-3xl leading-snug text-balance text-black/70">{t('bachelor.study.subtitle')}</p>
+                    <div className="mt-10 flex flex-wrap items-center gap-3">
+                        <Link
+                            to="slides/1"
+                            className="inline-flex items-center gap-2 rounded-full bg-black hover:bg-grillz-red px-6 py-3 text-sm uppercase tracking-wider text-white transition-colors"
+                        >
+                            <Play size={16} className="fill-current" />
+                            {t('deck.present')}
+                        </Link>
+                    </div>
                 </div>
+                <figure className={`mt-12 md:mt-16 lg:mt-0 ${PICTURES}`}>
+                    <Picture name="image116" alt={t('bachelor.study.heroAlt')} />
+                </figure>
             </header>
-            <figure className="container mx-auto max-w-6xl px-6 pb-20 md:pb-28">
-                <Picture name="image116" alt={t('bachelor.study.heroAlt')} />
-            </figure>
 
             {/* 3-11 */}
-            <Chapter id="grillz">
-                <Paragraphs k="bachelor.study.grillz.body" />
-                <figure className="mt-14">
+            <Chapter id="grillz" text={<Paragraphs k="bachelor.study.grillz.body" />}>
+                <figure>
                     <Row names={['image61', 'image62', 'image63']} />
                     <div className="mt-3 grid gap-1">
                         <Source href="https://de.wikipedia.org/wiki/Grill_(Schmuck)#/media/Datei:Ancient_Egypt_Dentistry2.jpg" />
@@ -172,47 +207,50 @@ const CaseStudy = () => {
                 </figure>
             </Chapter>
 
-            {/* 12-18 */}
-            <Chapter id="idee">
-                <Paragraphs k="bachelor.study.idee.body" />
-                <figure className="mt-14">
-                    <Row names={['image69', 'image70']} />
-                </figure>
-                <figure className="mt-10 md:mt-14 max-w-md">
-                    <Video name="media1" />
-                    <Caption>{t('bachelor.study.idee.ring')}</Caption>
-                </figure>
+            {/*
+              * 12-18. On wide screens the two 4:3 photos stack beside the square
+              * ring, their column as wide as makes the stack exactly as tall as
+              * the ring: 2 × ¾a + gap = width − gap − a.
+              */}
+            <Chapter id="idee" text={<Paragraphs k="bachelor.study.idee.body" />}>
+                <div className="lg:grid lg:grid-cols-[calc((100%-40px)/2.5)_1fr] lg:gap-5 lg:items-start">
+                    <figure className="grid grid-cols-2 lg:grid-cols-1 gap-3 md:gap-5">
+                        <Picture name="image69" />
+                        <Picture name="image70" />
+                    </figure>
+                    <figure className="mt-10 md:mt-14 lg:mt-0 max-w-md lg:max-w-none">
+                        <Video name="media1" />
+                        <Caption>{t('bachelor.study.idee.ring')}</Caption>
+                    </figure>
+                </div>
             </Chapter>
 
             {/* 19-25 */}
-            <Chapter id="scan">
-                <Paragraphs k="bachelor.study.scan.body" />
-                <figure className="mt-14">
+            <Chapter id="scan" text={<Paragraphs k="bachelor.study.scan.body" />}>
+                <figure>
                     <Video name="media2" />
                 </figure>
-                <figure className="mt-10 md:mt-14">
+                <figure>
                     <Row names={['image81', 'image85']} />
                     <Caption>{t('bachelor.study.scan.credit')}</Caption>
                 </figure>
             </Chapter>
 
             {/* 26-29 */}
-            <Chapter id="wissen">
-                <Paragraphs k="bachelor.study.wissen.body" />
-                <blockquote className="mt-14 border-l-2 border-grillz-red pl-6 md:pl-8">
+            <Chapter id="wissen" text={<Paragraphs k="bachelor.study.wissen.body" />} side="lg:self-center">
+                <blockquote className="border-l-2 border-grillz-red pl-6 md:pl-8">
                     <p className="text-xs uppercase tracking-[0.2em] text-black/50">Learning</p>
                     <p className="mt-3 text-2xl md:text-4xl leading-snug">{t('bachelor.study.wissen.learning')}</p>
                 </blockquote>
             </Chapter>
 
             {/* 30-38 */}
-            <Chapter id="modell">
-                <Paragraphs k="bachelor.study.modell.body" />
-                <figure className="mt-14">
+            <Chapter id="modell" text={<Paragraphs k="bachelor.study.modell.body" />}>
+                <figure>
                     <Row names={['image87', 'image90']} />
                     <Caption>{t('bachelor.study.modell.cleanup')}</Caption>
                 </figure>
-                <div className="mt-10 md:mt-14 grid md:grid-cols-2 gap-3 md:gap-5">
+                <div className="grid md:grid-cols-2 gap-3 md:gap-5">
                     <figure>
                         <Video name="media3" />
                         <Caption>{t('bachelor.study.modell.zbrush')}</Caption>
@@ -222,16 +260,15 @@ const CaseStudy = () => {
                         <Caption>{t('bachelor.study.modell.sculpt')}</Caption>
                     </figure>
                 </div>
-                <figure className="mt-10 md:mt-14">
+                <figure>
                     <Picture name="image95" />
                     <Caption>{t('bachelor.study.modell.boolean')}</Caption>
                 </figure>
             </Chapter>
 
             {/* 39-42 */}
-            <Chapter id="prototyp">
-                <Paragraphs k="bachelor.study.prototyp.body" />
-                <div className="mt-14 grid md:grid-cols-2 gap-3 md:gap-5">
+            <Chapter id="prototyp" text={<Paragraphs k="bachelor.study.prototyp.body" />}>
+                <div className="grid md:grid-cols-2 gap-3 md:gap-5">
                     <figure>
                         <Picture name="image98" />
                         <Caption>{t('bachelor.study.prototyp.slicer')}</Caption>
@@ -243,46 +280,52 @@ const CaseStudy = () => {
                 </div>
             </Chapter>
 
-            {/* 43-55 */}
-            <Chapter id="rendering">
-                <Paragraphs k="bachelor.study.rendering.body" />
-                <figure className="mt-14">
+            {/* 43-55: the renders run the full width under the setup */}
+            <Chapter
+                id="rendering"
+                text={<Paragraphs k="bachelor.study.rendering.body" />}
+                wide={
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
+                        {['image112', 'image110', 'image111', 'image113', 'image114', 'image115'].map((n) => (
+                            <Picture key={n} name={n} />
+                        ))}
+                    </div>
+                }
+            >
+                <figure>
                     <Row names={['image101', 'image102']} />
                     <Caption>{t('bachelor.study.rendering.setup')}</Caption>
                 </figure>
-                <figure className="mt-10 md:mt-14 max-w-2xl">
+                <figure className="max-w-2xl">
                     <Row names={['image108', 'image106', 'image107']} />
                     <Caption>{t('bachelor.study.rendering.metals')}</Caption>
                 </figure>
-                <div className="mt-10 md:mt-14 grid sm:grid-cols-2 gap-3 md:gap-5">
-                    {['image112', 'image110', 'image111', 'image113', 'image114', 'image115'].map((n) => (
-                        <Picture key={n} name={n} />
-                    ))}
-                </div>
             </Chapter>
 
-            {/* 56-58 */}
-            <Chapter id="material">
-                <div className="grid md:grid-cols-2 gap-12 md:gap-16">
+            {/* 56-58: the metals under the heading, what they have to meet beside them */}
+            <Chapter
+                id="material"
+                text={
                     <ul className="space-y-4 text-2xl md:text-3xl leading-snug">
                         {materials.map((m) => <li key={m}>{m}</li>)}
                     </ul>
-                    <div>
-                        <p className="text-lg md:text-xl leading-relaxed text-black/80">{t('bachelor.study.material.lead')}</p>
-                        <ul className="mt-6 space-y-2 text-lg text-black/80">
-                            {properties.map((p) => (
-                                <li key={p} className="flex gap-3"><span aria-hidden className="text-grillz-red">•</span>{p}</li>
-                            ))}
-                        </ul>
-                        <p className="mt-8 text-2xl">ISO 10993</p>
-                    </div>
+                }
+                side="max-w-3xl"
+            >
+                <div>
+                    <p className="text-lg md:text-xl leading-relaxed text-black/80">{t('bachelor.study.material.lead')}</p>
+                    <ul className="mt-6 space-y-2 text-lg text-black/80">
+                        {properties.map((p) => (
+                            <li key={p} className="flex gap-3"><span aria-hidden className="text-grillz-red">•</span>{p}</li>
+                        ))}
+                    </ul>
+                    <p className="mt-8 text-2xl">ISO 10993</p>
                 </div>
             </Chapter>
 
             {/* 59-60 */}
-            <Chapter id="guss">
-                <Paragraphs k="bachelor.study.guss.body" />
-                <ol className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-black/10 border border-black/10">
+            <Chapter id="guss" text={<Paragraphs k="bachelor.study.guss.body" />}>
+                <ol className="grid sm:grid-cols-2 2xl:grid-cols-4 gap-px bg-black/10 border border-black/10">
                     {casting.map((step, i) => (
                         <li key={step} className="bg-white p-6">
                             <span className="text-xs tabular-nums text-grillz-red">{String(i + 1).padStart(2, '0')}</span>
