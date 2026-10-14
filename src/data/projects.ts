@@ -208,13 +208,13 @@ export const projects: Project[] = [
                 url: '/projects/05_dashboard/relticc_Experience_Pro_Platform.webm',
                 thumbnail: '/projects/05_dashboard/relticc_Experience_Pro_Platform.poster.jpg',
             },
-            { type: 'image', url: '/projects/05_dashboard/01.jpg' },
-            { type: 'image', url: '/projects/05_dashboard/02.jpg' },
-            { type: 'image', url: '/projects/05_dashboard/03.jpg' },
-            { type: 'image', url: '/projects/05_dashboard/04.jpg' },
-            { type: 'image', url: '/projects/05_dashboard/05.jpg' },
-            { type: 'image', url: '/projects/05_dashboard/06.jpg' },
-            { type: 'image', url: '/projects/05_dashboard/07.jpg' }
+            { type: 'image', url: '/projects/05_dashboard/01.webp' },
+            { type: 'image', url: '/projects/05_dashboard/02.webp' },
+            { type: 'image', url: '/projects/05_dashboard/03.webp' },
+            { type: 'image', url: '/projects/05_dashboard/04.webp' },
+            { type: 'image', url: '/projects/05_dashboard/05.webp' },
+            { type: 'image', url: '/projects/05_dashboard/06.webp' },
+            { type: 'image', url: '/projects/05_dashboard/07.webp' }
         ],
         technicals: {
             icons: [SiReact, Database, Mail],

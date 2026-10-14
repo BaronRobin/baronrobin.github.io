@@ -8,10 +8,27 @@ import useDocumentTitle from '../hooks/useDocumentTitle';
 import SiteFooter from '../components/SiteFooter';
 import ProjectTechnicals from '../components/ProjectTechnicals';
 
+/**
+ * Projects whose stills are screens cut out of their background: transparent
+ * WebP with the drop shadow baked in. They get one wide column instead of the
+ * masonry, no rounded corners or added shadow, and a zoom hint that leaves the
+ * screen alone. Every other project renders exactly as before.
+ */
+const CUTOUT_IDS = new Set(['05-dashboard']);
+
+/** Eased in and out, no overshoot. */
+const reveal = {
+    initial: { opacity: 0, y: 24 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: '0px 0px -10% 0px' },
+    transition: { duration: 0.4, ease: 'easeInOut' },
+} as const;
+
 const ProjectDetail = () => {
     const { t } = useTranslation();
     const { id } = useParams<{ id: string }>();
     const project = visibleProjects.find((p) => p.id === id);
+    const cutout = project ? CUTOUT_IDS.has(project.id) : false;
 
     useDocumentTitle(project ? t(`projects.${project.id}.title`) : undefined);
 
@@ -129,6 +146,41 @@ const ProjectDetail = () => {
 
             {/* Media Gallery */}
             <section className="pb-16 container mx-auto px-6">
+                {cutout ? (
+                <div className="max-w-5xl mx-auto">
+                    {processedMedia.map((item, index) => item.type === 'video' ? (
+                        <motion.video
+                            key={index}
+                            {...reveal}
+                            src={item.url}
+                            controls
+                            preload="none"
+                            poster={item.thumbnail}
+                            className="block w-full max-w-2xl h-auto mx-auto mb-16 rounded-xl shadow-lg"
+                        />
+                    ) : (
+                        // The transparent margin round each screen (its shadow) already spaces them.
+                        <motion.button
+                            key={index}
+                            {...reveal}
+                            type="button"
+                            onClick={() => openLightbox(index)}
+                            className="group relative block w-full cursor-zoom-in focus:outline-none"
+                        >
+                            <img
+                                src={item.url}
+                                alt={`${t(`projects.${project.id}.title`)} - Media ${index + 1}`}
+                                className="block w-full h-auto"
+                            />
+                            <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-300 ease-in-out pointer-events-none">
+                                <span className="rounded-full bg-black/60 p-3 ring-1 ring-white/20">
+                                    <ZoomIn className="text-white w-6 h-6" />
+                                </span>
+                            </span>
+                        </motion.button>
+                    ))}
+                </div>
+                ) : (
                 <div className="columns-1 md:columns-2 gap-8 max-w-6xl mx-auto space-y-8">
                     {processedMedia.map((item, index) => (
                         <motion.div
@@ -165,6 +217,7 @@ const ProjectDetail = () => {
                         </motion.div>
                     ))}
                 </div>
+                )}
 
                 {/* Lightbox Overlay */}
                 {lightboxIndex !== null && (
@@ -195,7 +248,9 @@ const ProjectDetail = () => {
                                 <img
                                     src={processedMedia[lightboxIndex].url}
                                     alt="Enlarged view"
-                                    className="max-w-full max-h-[90vh] object-contain mx-auto rounded-lg shadow-2xl"
+                                    className={cutout
+                                        ? 'max-w-full max-h-[90vh] object-contain mx-auto'
+                                        : 'max-w-full max-h-[90vh] object-contain mx-auto rounded-lg shadow-2xl'}
                                 />
                             )}
                             <div className="text-center text-slate-400 mt-4 font-mono text-sm">
