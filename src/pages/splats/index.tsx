@@ -1,7 +1,7 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
-import { DraftingCompass, Pencil, X } from 'lucide-react';
+import { Clapperboard, DraftingCompass, Pencil, X } from 'lucide-react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { SparkRenderer, SplatMesh } from '@sparkjsdev/spark';
@@ -26,7 +26,8 @@ import { SharpenPass } from './sharpen';
 import { placeSky, SKY_LAYER, skyRadius } from './sky';
 import Stepper from './Stepper';
 import { Streaks } from './streaks';
-import { INK, LABEL, OFF, ON, toggle } from './ui';
+import { setToolOpen } from './tools';
+import { INK, LABEL, OFF, ON, toggle, TUNE_WIDTH, usePresence } from './ui';
 import { SNAP_MS, VIEW_NAMES, ViewSnapper, type ViewName } from './views';
 import Wheel, { type WheelItem } from './Wheel';
 
@@ -125,12 +126,37 @@ interface Loaded extends Stage {
     scan: Scan;
 }
 
-// Tuning panel: on the live site too, but only behind ?tune, and only loaded once opened.
+// The tools, behind ?tools: the tuning panel and the creation tool (keyframes,
+// screenshots, and on the dev server renders). On the live site too, but
+// mentioned nowhere, and each only loaded once it's switched on.
 const Tune = lazy(() => import('./Tune'));
-// Dev-only creation tool (?create): keyframes and renders. Same deal.
-const Create = import.meta.env.DEV ? lazy(() => import('./create/Create')) : null;
-/** Room the site nav (top), the creation tool's inspector (right) and its timeline (bottom) take from the canvas. */
+const Create = lazy(() => import('./create/Create'));
+/** Room the site nav (top), the creation tool's inspector (right) and its timeline (bottom) take over the canvas. */
 const CREATE_INSETS = { top: 80, right: 340, bottom: 280 };
+
+/**
+ * What "?" says in the tools. In English, like the rest of them: they're
+ * mentioned nowhere on the site, so they stay out of its translations.
+ */
+const TUNE_HELP = [
+    'Hover a section title for what it does',
+    'Double-click a slider to reset it',
+    'B or the brush icon: brush on and off',
+    'Drag to paint · ⌥-drag to unpaint',
+    '[ and ] size it · hold Space to orbit',
+    '⌘Z undo · ⇧⌘Z redo',
+    import.meta.env.DEV ? 'Save writes the settings for this scan' : 'Save downloads the settings for this scan',
+];
+const CREATE_HELP = [
+    'Fly the camera, then I or ◆ keys it',
+    'Alt-click the scan to focus there',
+    'Space plays · ← → step a frame',
+    'Shift-click keys to pick several · ⌘A all',
+    '⌘C ⌘V copy, paste at the playhead · Del removes',
+    'Double-click a slider to reset it',
+    ...(import.meta.env.DEV ? ['⌘S saves the shot'] : []),
+    'Esc or the clapperboard closes',
+];
 
 /** Splats are fill-rate bound; past this the cost grows and the picture doesn't. */
 const MAX_PIXEL_RATIO = 1.5;
@@ -201,11 +227,24 @@ const Splats = () => {
     // before the reload disposes it.
     const ready = loaded?.scan === current ? loaded : null;
     const [params] = useSearchParams();
-    const creating = Create !== null && params.has('create');
-    // ?tune puts a pencil under blueprint; it opens the panel. The tools save by scan, so not on a file opened from disk.
-    const tunable = params.has('tune') && !creating && !current.file;
-    const [tuneOpen, setTuneOpen] = useState(false);
-    const tuning = tunable && tuneOpen;
+    // ?tools puts a switch for each tool under blueprint; one tool at a time.
+    const tools = params.has('tools');
+    const [tool, setTool] = useState<'tune' | 'create' | null>(null);
+    const flip = (which: 'tune' | 'create') => setTool((t) => (t === which ? null : which));
+    // Tuning saves by scan, so not on a file opened from disk.
+    const tunable = tools && !current.file;
+    const tuning = tunable && tool === 'tune';
+    const creating = tools && tool === 'create';
+    // Each tool's panels slide in, and out again before they go.
+    const tunePanel = usePresence(tuning);
+    /** Where the tuning panel's toggles go, as icons: along the foot, beside the panel. */
+    const [toolSlot, setToolSlot] = useState<HTMLDivElement | null>(null);
+    // The site's bar takes the panels' dark while a tool is open.
+    useEffect(() => {
+        setToolOpen(tuning || creating);
+        return () => setToolOpen(false);
+    }, [tuning, creating]);
+    const createPanels = usePresence(creating);
     // The page follows the theme; the creation tool's panels are dark, and so is it under them.
     const { theme } = useTheme();
     const light = theme === 'light' && !creating;
@@ -235,6 +274,7 @@ const Splats = () => {
     const [tempo, setTempo] = useState<number | null>(null);
     /** The section's map, for anyone who'd rather have the room. */
     const [mapOn, setMapOn] = useState(true);
+    const mapFade = usePresence(mapOn, 300);
     /** On a phone: which of the blueprint's groups is open, and whether the scan wheel is, which they make way for. */
     const [tab, setTab] = useState<Tab>('view');
     const [wheelOpen, setWheelOpen] = useState(false);
@@ -562,6 +602,16 @@ const Splats = () => {
         const stage = stageRef.current;
         if (stage) stage.idleOff = tuning || creating;
     }, [tuning, creating]);
+    // Esc closes the creation tool, as its × does.
+    useEffect(() => {
+        if (!creating) return;
+        const escape = (e: KeyboardEvent) => {
+            const tag = (e.target as HTMLElement).tagName;
+            if (e.key === 'Escape' && tag !== 'INPUT' && tag !== 'SELECT' && tag !== 'TEXTAREA') setTool(null);
+        };
+        window.addEventListener('keydown', escape);
+        return () => window.removeEventListener('keydown', escape);
+    }, [creating]);
 
     // The theme, on the canvas: its ground, and the blueprint's ink, light on black or dark on paper.
     useEffect(() => {
@@ -741,12 +791,13 @@ const Splats = () => {
     const help = (
         <Help
             label={t('splats.help')}
-            lines={[
+            lines={tuning ? TUNE_HELP : [
                 ...t(`splats.${blueprint ? 'hintBlueprint' : 'hint'}${coarse ? 'Touch' : ''}`).split(' · '),
-                ...(blueprint ? [t('splats.hintPulse'), t('splats.hintReset')] : []),
+                ...(blueprint ? [t('splats.hintViews'), t('splats.hintRings'), t('splats.hintMap'), t('splats.hintPulse'), t('splats.hintReset')] : []),
             ]}
         />
     );
+    const createHelp = <Help label={t('splats.help')} lines={CREATE_HELP} />;
     /** The scan's numbers, once the full file is in: how many splats, how big, in what, and what one costs. */
     const stats = (() => {
         if (!ready) return null;
@@ -764,6 +815,21 @@ const Splats = () => {
             ...(ready.bytes && count ? [t('splats.stats.perSplat', { bytes: n(ready.bytes / count, 1) })] : []),
         ];
     })();
+    // The creation tool's switch: in the rail, and on its own beside the tool's panel while it's open, to close it again.
+    const createSwitch = tools && (
+        <button
+            type="button"
+            data-ink-part
+            onClick={() => flip('create')}
+            aria-pressed={creating}
+            aria-label="Create"
+            title={creating ? 'Close (Esc)' : 'Create'}
+            className={`flex flex-col items-center gap-1.5 transition-colors ${creating ? ON : OFF}`}
+        >
+            <Clapperboard size={20} strokeWidth={1.75} />
+            <span aria-hidden className={`h-px w-5 bg-current transition-opacity ${creating ? 'opacity-100' : 'opacity-0'}`} />
+        </button>
+    );
     const viewButtons = VIEW_NAMES.map((name) => {
         // The view a drag is pulling towards brightens as it nears the edge; none is the view while the turntable runs.
         const lean = pullTowards === name ? pull : 0;
@@ -802,19 +868,27 @@ const Splats = () => {
             {t('splats.mapToggle')}
         </button>
     );
-    const map = mapOn && cloud && ready && (
-        <SectionMap
-            points={cloud}
-            camera={ready.rig.ortho}
-            target={ready.controls.target}
-            centre={ready.centre}
-            extent={ready.radius * MAP_REACH}
-            reach={ready.reach}
-            cut={cut}
-            depth={depth}
-            size={phone ? 136 : low ? 112 : 172}
-            label={t('splats.map')}
-        />
+    // Its room is kept whether it's on or not, so turning it on and off moves nothing else; it fades in and out in place.
+    const mapSize = phone ? 136 : low ? 112 : 172;
+    const map = (
+        <div className="relative shrink-0" style={{ width: mapSize, height: mapSize }}>
+            {mapFade.mounted && cloud && ready && (
+                <div className={`absolute inset-0 transition-opacity duration-300 ease-in-out motion-reduce:transition-none ${mapFade.shown ? 'opacity-100' : 'opacity-0'}`}>
+                    <SectionMap
+                        points={cloud}
+                        camera={ready.rig.ortho}
+                        target={ready.controls.target}
+                        centre={ready.centre}
+                        extent={ready.radius * MAP_REACH}
+                        reach={ready.reach}
+                        cut={cut}
+                        depth={depth}
+                        size={mapSize}
+                        label={t('splats.map')}
+                    />
+                </div>
+            )}
+        </div>
     );
     // A toggle, and beside it, while it's on, how fast.
     const paired = phone ? 'flex items-center justify-between gap-4' : 'flex flex-row-reverse items-center gap-3';
@@ -890,11 +964,11 @@ const Splats = () => {
                     openFile(e.dataTransfer.files[0]);
                 }}
             >
-                {/* In the creation tool the canvas keeps clear of its panels, so the frame guide sits in the middle of what's visible. */}
-                <div ref={hostRef} className="absolute inset-0" style={creating ? CREATE_INSETS : undefined} />
+                {/* The scan fills the window in every mode; the tools' panels are see-through, over it. */}
+                <div ref={hostRef} className="absolute inset-0" />
 
                 {/* Up from the start, so its panels are in place while the scan loads. */}
-                {creating && Create && (
+                {createPanels.mounted && (
                     <Suspense fallback={null}>
                         <Create
                             key={current.id}
@@ -902,6 +976,8 @@ const Splats = () => {
                             scans={scans}
                             onShow={show}
                             insets={CREATE_INSETS}
+                            shown={createPanels.shown}
+                            onClose={() => setTool(null)}
                             stage={ready}
                             loading={{ progress, detail, building, failed }}
                             setBeforeRender={(fn) => { if (stageRef.current) stageRef.current.beforeRender = fn; }}
@@ -911,10 +987,12 @@ const Splats = () => {
                     </Suspense>
                 )}
 
-                {tuning && ready && (
+                {tunePanel.mounted && ready && (
                     <Suspense fallback={null}>
                         <Tune
                             key={current.id}
+                            shown={tunePanel.shown}
+                            icons={toolSlot}
                             scan={current}
                             mesh={ready.mesh}
                             scene={ready.scene}
@@ -956,6 +1034,22 @@ const Splats = () => {
                     insets={creating ? CREATE_INSETS : undefined}
                 />
 
+                {/* While tuning, the panel's toggles: stacked at the foot, on the rail's axis. */}
+                {tuning && (
+                    <div ref={inks.watch} className={`absolute bottom-8 z-10 ${INK}`} style={{ right: TUNE_WIDTH + 16 }}>
+                        <div ref={setToolSlot} className="flex w-10 flex-col items-center gap-6 md:w-6" />
+                    </div>
+                )}
+
+                {/* While creating, its switch stays: left of the panel, where the rail would be. */}
+                {creating && (
+                    <div ref={inks.watch} className={`absolute top-[4.25rem] z-10 flex w-6 flex-col items-center gap-6 ${INK}`} style={{ right: CREATE_INSETS.right + 16 }}>
+                        <span aria-hidden className="h-px w-5 bg-current opacity-50" />
+                        <div data-ink-part>{createHelp}</div>
+                        {createSwitch}
+                    </div>
+                )}
+
                 {!creating && (
                     <>
                         <h1 className="sr-only">{current.title}</h1>
@@ -977,9 +1071,9 @@ const Splats = () => {
                           * phone, the last flag otherwise): a rule, then help, then
                           * blueprint as a mark of its own. Clear of the tuning panel.
                           */}
-                        <div className={`absolute top-[4.25rem] z-10 pointer-events-none ${tuning ? 'right-[320px]' : 'inset-x-0'}`}>
+                        <div className={`absolute top-[4.25rem] z-10 pointer-events-none ${tuning ? '' : 'inset-x-0'}`} style={tuning ? { right: TUNE_WIDTH + 16 } : undefined}>
                             <div className={tuning ? '' : 'flex justify-end px-6'}>
-                                <div ref={inks.watch} className={`pointer-events-auto flex w-10 flex-col items-center gap-4 md:w-6 ${INK}`}>
+                                <div ref={inks.watch} className={`pointer-events-auto flex w-10 flex-col items-center gap-6 md:w-6 ${INK}`}>
                                     <span aria-hidden className="h-px w-5 bg-current opacity-50" />
                                     <div data-ink-part>{help}</div>
                                     <button
@@ -1001,17 +1095,18 @@ const Splats = () => {
                                         <button
                                             type="button"
                                             data-ink-part
-                                            onClick={() => setTuneOpen((o) => !o)}
+                                            onClick={() => flip('tune')}
                                             disabled={!ready}
-                                            aria-pressed={tuneOpen}
+                                            aria-pressed={tuning}
                                             aria-label="Tune"
                                             title="Tune"
-                                            className={`flex flex-col items-center gap-1.5 transition-colors disabled:opacity-30 ${tuneOpen ? ON : OFF}`}
+                                            className={`flex flex-col items-center gap-1.5 transition-colors disabled:opacity-30 ${tuning ? ON : OFF}`}
                                         >
                                             <Pencil size={20} strokeWidth={1.75} />
-                                            <span aria-hidden className={`h-px w-5 bg-current transition-opacity ${tuneOpen ? 'opacity-100' : 'opacity-0'}`} />
+                                            <span aria-hidden className={`h-px w-5 bg-current transition-opacity ${tuning ? 'opacity-100' : 'opacity-0'}`} />
                                         </button>
                                     )}
+                                    {createSwitch}
                                 </div>
                             </div>
                         </div>
@@ -1074,19 +1169,19 @@ const Splats = () => {
                                     <div aria-hidden className={`absolute inset-y-0 right-0 pointer-events-none bg-gradient-to-l from-slate-50/90 via-slate-50/60 to-transparent dark:from-black/90 dark:via-black/60 ${low ? 'w-[28rem]' : 'w-80'}`} />
                                 )}
                                 {inBlueprint && (
-                                    <div className={`absolute top-[calc(50%+4rem)] -translate-y-1/2 z-10 flex items-center gap-6 ${LABEL} ${tuning ? 'right-[304px]' : 'right-0'} ${INK}`}>
+                                    <div className={`absolute top-1/2 -translate-y-1/2 z-10 flex items-center gap-6 ${LABEL} ${tuning ? '' : 'right-0'} ${INK}`} style={tuning ? { right: TUNE_WIDTH - 16 } : undefined}>
                                         <div className="flex flex-col items-end gap-1.5">
                                             {viewButtons}
                                             <div className="mt-5 flex flex-col items-end gap-2.5">{motion}</div>
                                         </div>
-                                        {/* The map over the rings, or beside them where there's no height for that. */}
-                                        <div className={`flex items-center gap-4 ${low ? '' : 'flex-col'}`}>
-                                            <div className="flex flex-col items-center gap-3">
-                                                {mapToggle}
-                                                {map}
-                                            </div>
-                                            <div className="flex">{rings}</div>
-                                        </div>
+                                        <div className="flex">{rings}</div>
+                                    </div>
+                                )}
+                                {/* The map in the corner, over the scan's numbers; beside the tuning panel's toggles while it's open. */}
+                                {inBlueprint && (
+                                    <div className={`absolute bottom-16 z-10 flex flex-col items-center gap-3 ${LABEL} ${INK}`} style={{ right: tuning ? TUNE_WIDTH + 72 : 24 }}>
+                                        {mapToggle}
+                                        {map}
                                     </div>
                                 )}
                             </>

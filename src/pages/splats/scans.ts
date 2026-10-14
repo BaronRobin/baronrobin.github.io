@@ -47,7 +47,7 @@ export const localScan = (file: File): Scan => ({
 });
 
 /**
- * What the dev-only tuning panel (?tune) saves, one file per scan in
+ * What the tuning panel (?tools, the pencil) saves, one file per scan in
  * ./settings. The view applies straight away; the crop and the streak filter
  * are baked into the files, since the viewer can't drop splats it never got.
  * All in world space, i.e. after the scan's rotation.

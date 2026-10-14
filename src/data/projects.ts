@@ -148,7 +148,8 @@ export const projects: Project[] = [
         category: 'Interactive 3D',
         description: 'Places scanned from photos and trained as Gaussian splats, to look around in the browser.',
         folderName: '13_splats',
-        media: [{ type: 'image', url: '/projects/13_splats/cover.webp' }],
+        // The splat, then its points: the poster is the video's first frame, so the hover picks up where the still is.
+        media: [{ type: 'video', url: '/projects/13_splats/hero.webm', thumbnail: '/projects/13_splats/hero.webp' }],
     },
     {
         id: '01-polarise',

@@ -1,5 +1,5 @@
 /**
- * A shot: a timeline of keyframed tracks for the creation tool (?create), and
+ * A shot: a timeline of keyframed tracks for the creation tool (?tools), and
  * how to read a value at any moment of it. Pure arithmetic, no three.js, so
  * Node can test it as is.
  *

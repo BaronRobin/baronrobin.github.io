@@ -6,7 +6,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
 import type { Plugin } from 'vite'
 
 /**
- * Dev-only endpoints for the splat viewer's tools (?tune, ?create), mounted at
+ * Dev-only endpoints for the splat viewer's tools (?tools), mounted at
  * /__splats. Registered for `vite` only (apply: 'serve'), so none of this
  * exists in the built site.
  *

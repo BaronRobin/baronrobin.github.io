@@ -1,0 +1,24 @@
+{
+  "id": "baumstamm",
+  "level": [
+    0,
+    0,
+    0
+  ],
+  "sky": {
+    "radius": 103.015
+  },
+  "crop": null,
+  "height": null,
+  "maxSize": null,
+  "maxNeedle": null,
+  "lonely": {
+    "cell": 0.36,
+    "minNeighbours": 7
+  },
+  "views": {},
+  "sharpen": 2,
+  "erased": 0,
+  "kept": 1032233,
+  "total": 1131890
+}

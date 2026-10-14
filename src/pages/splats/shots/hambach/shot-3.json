@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "scan": "hambach",
+  "name": "shot-3",
+  "duration": 3,
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "superXY": 2,
+    "format": "mp4",
+    "sharpen": 2
+  },
+  "tracks": {
+    "camera": [],
+    "focal": [
+      {
+        "t": 0,
+        "value": 79.99422721342998,
+        "interp": "smooth"
+      }
+    ],
+    "focus": [],
+    "aperture": [
+      {
+        "t": 0,
+        "value": 0.433,
+        "interp": "smooth"
+      }
+    ],
+    "blueprint": [
+      {
+        "t": 0,
+        "value": 0,
+        "interp": "smooth"
+      },
+      {
+        "t": 1.0333333333333334,
+        "value": 0.989,
+        "interp": "ease"
+      },
+      {
+        "t": 2,
+        "value": 0.986,
+        "interp": "smooth"
+      },
+      {
+        "t": 3,
+        "value": 0,
+        "interp": "smooth"
+      }
+    ],
+    "cut": [],
+    "depth": [
+      {
+        "t": 0,
+        "value": 1,
+        "interp": "smooth"
+      },
+      {
+        "t": 0.9666666666666667,
+        "value": 0.02,
+        "interp": "ease"
+      },
+      {
+        "t": 2.066666666666667,
+        "value": 0.02,
+        "interp": "ease"
+      },
+      {
+        "t": 3,
+        "value": 1,
+        "interp": "smooth"
+      }
+    ],
+    "streaks": [],
+    "pulse": []
+  }
+}

@@ -57,7 +57,7 @@
         "detail": "Loading detail",
         "scans": "Scans",
         "help": "How to move around",
-        "hintReset": "Double-click a slider to reset it",
+        "hintReset": "Double-click a ring to reset it",
         "failed": "Couldn't load this scan",
         "hint": "Drag to orbit · Scroll to zoom · Right-drag to pan",
         "hintTouch": "Drag to orbit · Pinch to zoom · Two fingers to pan",
@@ -96,7 +96,10 @@
             "size": "{{mb}} MB",
             "format": "{{format}} · SH degree {{sh}}",
             "perSplat": "{{bytes}} bytes per splat"
-        }
+        },
+        "hintViews": "Pick a view and the camera glides there",
+        "hintRings": "Turn a ring to set cut and depth",
+        "hintMap": "The map shows where the cut is"
     },
     "skills": {
         "title": "Tools",

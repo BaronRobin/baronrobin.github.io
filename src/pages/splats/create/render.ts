@@ -71,15 +71,13 @@ const settle = async (spark: SparkRenderer, scene: THREE.Scene, camera: THREE.Ca
     }
 };
 
-export const renderShot = async ({ shot, live, scene, look, dotScale, sharpen, signal, onProgress }: Job): Promise<RenderResult> => {
-    const { width, height, fps, format } = shot.output;
+/**
+ * What draws a shot's frames offscreen at its output size: one per render or
+ * still, disposed after.
+ */
+const frameDrawer = ({ shot, live, scene, look, dotScale, sharpen }: Omit<Job, 'signal' | 'onProgress'>) => {
+    const { width, height } = shot.output;
     const superXY = Math.min(shot.output.superXY, maxSuperXY(width, height));
-    const frames = Math.max(1, Math.round(shot.duration * fps));
-
-    const { id } = await post(`${API}/render/start`, JSON.stringify({
-        name: `${shot.scan} – ${shot.name}`, format, width, height, fps,
-    }));
-
     // Plain 8-bit storage, flagged as an XR target: then Spark and three.js
     // draw into it exactly as they draw on screen. An ordinary render target
     // makes Spark blend the splats in linear light, not in sRGB as on the
@@ -91,23 +89,41 @@ export const renderShot = async ({ shot, live, scene, look, dotScale, sharpen, s
     const sharpened = sharpen > 0 ? new Uint8Array(width * height * 4) : null;
     const cams = { perspective: new THREE.PerspectiveCamera(), ortho: new THREE.OrthographicCamera() };
     const size = new THREE.Vector2(width * superXY, height * superXY);
-    const started = performance.now();
-
-    try {
-        for (let i = 0; i < frames; i++) {
-            if (signal.aborted) throw new DOMException('Render cancelled', 'AbortError');
-            const values = evaluate(shot, i / fps, live);
+    return {
+        /** The frame at `time` seconds, as RGBA rows from the bottom up. */
+        draw: async (time: number) => {
+            const values = evaluate(shot, time, live);
             const camera = applyFrame(values, cams, renderLook, {
                 aspect: width / height,
                 outAspect: width / height,
                 scale: 1,
                 dotScale: dotScale * superXY,
-            }, { time: i / fps, bpm: shot.bpm ?? PULSE_BPM, size });
+            }, { time, bpm: shot.bpm ?? PULSE_BPM, size });
             await settle(spark, scene, camera);
             const pixels = await spark.renderReadTarget({ scene, camera });
             // The buffer is reused for the next frame, and may be longer than this one.
-            const frame = sharpened ? sharpenPixels(pixels, width, height, sharpen, sharpened) : pixels.slice(0, width * height * 4);
-            await post(`${API}/render/${id}/frame`, frame);
+            return sharpened ? sharpenPixels(pixels, width, height, sharpen, sharpened) : pixels.slice(0, width * height * 4);
+        },
+        dispose: () => spark.dispose(),
+    };
+};
+
+export const renderShot = async ({ signal, onProgress, ...job }: Job): Promise<RenderResult> => {
+    const { shot } = job;
+    const { width, height, fps, format } = shot.output;
+    const frames = Math.max(1, Math.round(shot.duration * fps));
+
+    const { id } = await post(`${API}/render/start`, JSON.stringify({
+        name: `${shot.scan} – ${shot.name}`, format, width, height, fps,
+    }));
+
+    const drawer = frameDrawer(job);
+    const started = performance.now();
+
+    try {
+        for (let i = 0; i < frames; i++) {
+            if (signal.aborted) throw new DOMException('Render cancelled', 'AbortError');
+            await post(`${API}/render/${id}/frame`, await drawer.draw(i / fps));
             const elapsed = (performance.now() - started) / 1000;
             onProgress({ frame: i + 1, frames, eta: ((frames - i - 1) * elapsed) / (i + 1) });
         }
@@ -116,7 +132,28 @@ export const renderShot = async ({ shot, live, scene, look, dotScale, sharpen, s
         await post(`${API}/render/${id}/cancel`).catch(() => {});
         throw error;
     } finally {
-        spark.dispose();
+        drawer.dispose();
+    }
+};
+
+/**
+ * One frame, the one at `time`, drawn as a render draws it (output size,
+ * supersampling, sharpening, no UI) and handed back as a PNG.
+ */
+export const renderStill = async (job: Omit<Job, 'signal' | 'onProgress'>, time: number): Promise<Blob> => {
+    const { width, height } = job.shot.output;
+    const drawer = frameDrawer(job);
+    try {
+        const pixels = await drawer.draw(time);
+        // The target's rows run bottom up (ffmpeg flips them with vflip); a PNG's top down.
+        const flipped = new Uint8ClampedArray(width * height * 4);
+        const row = width * 4;
+        for (let y = 0; y < height; y++) flipped.set(pixels.subarray((height - 1 - y) * row, (height - y) * row), y * row);
+        const canvas = new OffscreenCanvas(width, height);
+        canvas.getContext('2d')!.putImageData(new ImageData(flipped, width, height), 0, 0);
+        return await canvas.convertToBlob({ type: 'image/png' });
+    } finally {
+        drawer.dispose();
     }
 };
 

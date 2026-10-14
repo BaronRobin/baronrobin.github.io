@@ -57,7 +57,7 @@
         "detail": "Cargando detalle",
         "scans": "Escaneos",
         "help": "Cómo moverse",
-        "hintReset": "Doble clic para restablecer un control",
+        "hintReset": "Doble clic para restablecer un anillo",
         "failed": "No se pudo cargar este escaneo",
         "hint": "Arrastra para girar · Rueda para zoom · Botón derecho para mover",
         "hintTouch": "Arrastra para girar · Pellizca para zoom · Dos dedos para mover",
@@ -96,7 +96,10 @@
             "size": "{{mb}} MB",
             "format": "{{format}} · SH de grado {{sh}}",
             "perSplat": "{{bytes}} bytes por splat"
-        }
+        },
+        "hintViews": "Elige una vista y la cámara se desliza hasta ella",
+        "hintRings": "Gira un anillo para el corte y la profundidad",
+        "hintMap": "El mapa muestra dónde está el corte"
     },
     "skills": {
         "title": "Herramientas",

@@ -29,17 +29,50 @@ class InkReader {
     private turn = 0;
     private last = 0;
     private bytes = new Uint8Array(0);
+    /** What's laid over the canvas and darkens it, and how much of the light under it gets through. */
+    private shades: { el: HTMLElement; keep: number }[] = [];
 
     /** A ref for a group of controls: from now on its ink follows what's under it. */
     watch = (el: HTMLElement | null) => {
         if (el && !this.groups.includes(el)) this.groups.push(el);
     };
 
+    /**
+     * A ref for something drawn over the canvas that darkens it, a tool's
+     * panel or the dim around its frame: the canvas doesn't have it, so
+     * whatever sits on it reads as `keep` times as bright as the canvas says.
+     */
+    shade = (keep: number) => {
+        // Remembered, so the shade goes when the ref lets go, even of an element that stays.
+        let mine: HTMLElement | null = null;
+        return (el: HTMLElement | null) => {
+            if (el) {
+                mine = el;
+                if (!this.shades.some((s) => s.el === el)) this.shades.push({ el, keep });
+            } else if (mine) {
+                const gone = mine;
+                this.shades = this.shades.filter((s) => s.el !== gone);
+                mine = null;
+            }
+        };
+    };
+
+    /** How much of the canvas's light reaches the eye at this point of the page. */
+    private through(x: number, y: number) {
+        let keep = 1;
+        for (const { el, keep: k } of this.shades) {
+            const r = el.getBoundingClientRect();
+            if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) keep *= k;
+        }
+        return keep;
+    }
+
     /** Once a frame, straight after drawing it, while the picture is still there to read. */
     read(renderer: THREE.WebGLRenderer, time: number) {
         if (time - this.last < EVERY_MS) return;
         this.last = time;
         this.groups = this.groups.filter((el) => el.isConnected);
+        this.shades = this.shades.filter((s) => s.el.isConnected);
         if (!this.groups.length) return;
         const el = this.groups[this.turn++ % this.groups.length];
         const gl = renderer.getContext();
@@ -54,18 +87,18 @@ class InkReader {
         if (w < 1 || h < 1 || x < 0 || y < 0 || x + w > gl.drawingBufferWidth || y + h > gl.drawingBufferHeight) return;
         if (this.bytes.length < w * h * 4) this.bytes = new Uint8Array(w * h * 4);
         gl.readPixels(x, y, w, h, gl.RGBA, gl.UNSIGNED_BYTE, this.bytes);
-        this.set(el, 0, 0, w, h, w);
+        this.set(el, 0, 0, w, h, w, this.through((box.left + box.right) / 2, (box.top + box.bottom) / 2));
         // Its labels, each from its own patch of the same reading.
         for (const part of el.querySelectorAll<HTMLElement>('[data-ink-part]')) {
             const at = part.getBoundingClientRect();
             const left = Math.max(0, Math.round((at.left - canvas.left) * k) - x), right = Math.min(w, Math.round((at.right - canvas.left) * k) - x);
             const bottom = Math.max(0, Math.round((canvas.bottom - at.bottom) * k) - y), top = Math.min(h, Math.round((canvas.bottom - at.top) * k) - y);
-            if (right > left && top > bottom) this.set(part, left, bottom, right, top, w);
+            if (right > left && top > bottom) this.set(part, left, bottom, right, top, w, this.through((at.left + at.right) / 2, (at.top + at.bottom) / 2));
         }
     }
 
-    /** Give an element the ink for a patch of the reading, `stride` pixels to a row. */
-    private set(el: HTMLElement, left: number, bottom: number, right: number, top: number, stride: number) {
+    /** Give an element the ink for a patch of the reading, `stride` pixels to a row, `keep` of it seen through what's over it. */
+    private set(el: HTMLElement, left: number, bottom: number, right: number, top: number, stride: number, keep: number) {
         // Every other pixel of every other row is plenty for an average.
         let sum = 0, n = 0;
         for (let row = bottom; row < top; row += 2) {
@@ -74,7 +107,7 @@ class InkReader {
             }
         }
         if (!n) return;
-        const light = sum / n / 255;
+        const light = (sum / n / 255) * keep;
         const now = el.dataset.ink;
         if (light > TO_DARK || (!now && light > 0.5)) el.dataset.ink = 'dark';
         else if (light < TO_LIGHT || !now) el.dataset.ink = 'light';

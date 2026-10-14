@@ -57,7 +57,7 @@
         "detail": "Lädt Details",
         "scans": "Scans",
         "help": "So bewegst du dich",
-        "hintReset": "Doppelklick setzt einen Regler zurück",
+        "hintReset": "Doppelklick setzt einen Ring zurück",
         "failed": "Dieser Scan ließ sich nicht laden",
         "hint": "Ziehen zum Drehen · Scrollen zum Zoomen · Rechts ziehen zum Verschieben",
         "hintTouch": "Ziehen zum Drehen · Zwei Finger zum Zoomen und Verschieben",
@@ -96,7 +96,10 @@
             "size": "{{mb}} MB",
             "format": "{{format}} · SH-Grad {{sh}}",
             "perSplat": "{{bytes}} Byte pro Splat"
-        }
+        },
+        "hintViews": "Ansicht wählen, die Kamera gleitet hin",
+        "hintRings": "Ring drehen für Schnitt und Tiefe",
+        "hintMap": "Die Karte zeigt die Lage des Schnitts"
     },
     "skills": {
         "title": "Werkzeuge",

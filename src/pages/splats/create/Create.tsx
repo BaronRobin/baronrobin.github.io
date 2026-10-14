@@ -7,18 +7,22 @@ import { BPM, Pulse } from '../pulse';
 import { Streaks } from '../streaks';
 import type { Scan } from '../scans';
 import { applyFrame, resetLook, type Look } from './apply';
-import { estimateBytes, freeSpace, maxSuperXY, renderShot, reveal, type RenderProgress, type RenderResult } from './render';
+import { estimateBytes, freeSpace, maxSuperXY, renderShot, renderStill, reveal, type RenderProgress, type RenderResult } from './render';
 import {
     copyKeys, evaluate, FOCAL_MAX, FOCAL_MIN, focalFromFov, INTERPS, keyIndexAt, moveKey, newShot, pasteKeys, removeKey, removeKeys, setInterps, setKey, toFrame,
     PULSE_BPM, TRACK_IDS, TRACK_LABELS, valueAt, withAllTracks,
     type CameraValue, type Clip, type Interp, type RenderFormat, type Shot, type TrackId, type Values, type Vec3,
 } from './shot';
 import Timeline, { type Selection } from './Timeline';
+import { inks } from '../ink';
+import { LABEL, PANEL_BG, PANEL_KEEP, PANEL_TEXT, SLIDE, useEntered } from '../ui';
 
 /**
- * The creation tool (?create): keyframe a shot of a scan and render it.
- * Dev-only, like the tuning panel; index.tsx imports it behind
- * import.meta.env.DEV, so none of it is in the built site.
+ * The creation tool: keyframe a shot of a scan, render it or take a still.
+ * Switched on under blueprint once ?tools is in the URL, like the tuning
+ * panel; its panels slide in over the scan, which keeps the whole window.
+ * On the live site there's no dev server, so no renders and no saved shots:
+ * the preview and screenshots only.
  *
  * You fly the navigation camera as usual (OrbitControls); I or the camera
  * row's diamond keys where it is. Scrubbing or playing puts it back on the
@@ -39,6 +43,8 @@ import Timeline, { type Selection } from './Timeline';
  */
 
 const API = '/__splats';
+/** Renders, shots on disk and Finder go through the dev server (scripts/vite-splat-studio.ts). */
+const SERVER = import.meta.env.DEV;
 /** The frame guide fills this much of the canvas; the dimmed rest is what's just out of shot. */
 const MARGIN = 0.86;
 /** The navigation camera's field of view, which the starting focal length is matched to. */
@@ -87,6 +93,9 @@ interface Props {
     onShow: (scan: Scan) => void;
     /** Room the nav, inspector and timeline take, which the canvas already keeps clear of. */
     insets: Insets;
+    /** Slid in; false while they slide out, before they go. */
+    shown: boolean;
+    onClose: () => void;
     /** Null while the scan loads. */
     stage: CreateStage | null;
     /** How far the load is: the preview (0–1, then 1 while it decodes, null once up), then the full scan, then its swap. */
@@ -117,7 +126,7 @@ const clock = (s: number) => (s >= 60 ? `${Math.floor(s / 60)}m ${Math.round(s %
 
 const Create = (props: Props) => (props.stage ? <Editor {...props} stage={props.stage} /> : <Waiting {...props} />);
 
-const Editor = ({ scan, scans, onShow, insets, stage, setBeforeRender, setPaused, setSharpen }: Props & { stage: CreateStage }) => {
+const Editor = ({ scan, scans, onShow, insets, shown, onClose, stage, setBeforeRender, setPaused, setSharpen }: Props & { stage: CreateStage }) => {
     const { mesh, renderer, scene, camera, controls, rig, ink, meshes, reach, centre, radius, sky } = stage;
     // --- The shot --------------------------------------------------------------
     const [shot, setShotState] = useState<Shot>(() => newShot(scan.id, 'shot-1'));
@@ -142,13 +151,10 @@ const Editor = ({ scan, scans, onShow, insets, stage, setBeforeRender, setPaused
     const [unkeyed, setUnkeyed] = useState(false);
 
     // --- The view ---------------------------------------------------------------
-    const [view, setView] = useState({ w: renderer.domElement.clientWidth, h: renderer.domElement.clientHeight });
-    useEffect(() => {
-        const el = renderer.domElement;
-        const observer = new ResizeObserver(() => setView({ w: el.clientWidth, h: el.clientHeight }));
-        observer.observe(el);
-        return () => observer.disconnect();
-    }, [renderer]);
+    // The canvas fills the window; the shot is framed in what the panels leave of it.
+    const view = useArea(insets);
+    const viewRef = useRef(view);
+    useEffect(() => { viewRef.current = view; });
     const outAspect = shot.output.width / shot.output.height;
     const box = frameBox(view.w, view.h, outAspect);
     const boxRef = useRef(box);
@@ -157,7 +163,7 @@ const Editor = ({ scan, scans, onShow, insets, stage, setBeforeRender, setPaused
     // --- Values for tracks without keys ---------------------------------------
     const [live, setLive] = useState<Scalars>(() => {
         // Start on the focal length that frames what the navigation camera shows now.
-        const start = frameBox(renderer.domElement.clientWidth, renderer.domElement.clientHeight, 16 / 9);
+        const start = frameBox(window.innerWidth - insets.right, window.innerHeight - insets.top - insets.bottom, 16 / 9);
         const fovOut = 2 * THREE.MathUtils.radToDeg(Math.atan(Math.tan(THREE.MathUtils.degToRad(NAV_FOV / 2)) / start.scale));
         return {
             focal: Math.round(focalFromFov(fovOut, 16 / 9)),
@@ -235,11 +241,15 @@ const Editor = ({ scan, scans, onShow, insets, stage, setBeforeRender, setPaused
             else v.camera = navPose();
             if (v.blueprint > 0) ensurePoints();
             const b = boxRef.current;
-            rig.active.current = applyFrame(
+            const cam = applyFrame(
                 v, cams, look(),
                 { aspect: b.aspect, outAspect: s.output.width / s.output.height, scale: b.scale, dotScale: 1 },
                 { time: timeRef.current, bpm: s.bpm ?? PULSE_BPM },
-            );
+            ) as THREE.PerspectiveCamera | THREE.OrthographicCamera;
+            // Framed for the free area, drawn on the whole canvas: the scan runs on under the panels.
+            const area = viewRef.current, el = renderer.domElement;
+            cam.setViewOffset(area.w, area.h, 0, -insets.top, el.clientWidth, el.clientHeight);
+            rig.active.current = cam;
         };
         setBeforeRender(frame);
         return () => {
@@ -248,7 +258,7 @@ const Editor = ({ scan, scans, onShow, insets, stage, setBeforeRender, setPaused
             resetLook(look());
             camera.updateProjectionMatrix();
         };
-    }, [setBeforeRender, rig, camera, cams, look, navPose, setNav, ensurePoints, stop]);
+    }, [setBeforeRender, rig, camera, cams, look, navPose, setNav, ensurePoints, stop, renderer, insets]);
 
     // Leave nothing behind.
     useEffect(() => () => {
@@ -388,6 +398,7 @@ const Editor = ({ scan, scans, onShow, insets, stage, setBeforeRender, setPaused
 
     // --- Shots on disk -----------------------------------------------------------
     useEffect(() => {
+        if (!SERVER) return;
         let alive = true;
         (async () => {
             const list: string[] = await (await fetch(`${API}/shots/${scan.id}`)).json();
@@ -402,6 +413,7 @@ const Editor = ({ scan, scans, onShow, insets, stage, setBeforeRender, setPaused
     }, [scan.id, updateShot]);
 
     const save = useCallback(async () => {
+        if (!SERVER) return;
         const s = { ...shotRef.current, name: slug(shotRef.current.name) };
         const res = await fetch(`${API}/shots/${scan.id}/${s.name}`, { method: 'POST', body: JSON.stringify(s) });
         if (!res.ok) return;
@@ -431,7 +443,7 @@ const Editor = ({ scan, scans, onShow, insets, stage, setBeforeRender, setPaused
     // --- Render -------------------------------------------------------------------
     const [job, setJob] = useState<{ progress: RenderProgress | null; result?: RenderResult; error?: string; controller: AbortController } | null>(null);
     const [disk, setDisk] = useState<number | null>(null);
-    useEffect(() => { freeSpace().then((d) => setDisk(d.free)).catch(() => {}); }, []);
+    useEffect(() => { if (SERVER) freeSpace().then((d) => setDisk(d.free)).catch(() => {}); }, []);
     const estimate = estimateBytes(shot);
     const fits = disk === null || estimate < disk - 500e6;
 
@@ -470,6 +482,38 @@ const Editor = ({ scan, scans, onShow, insets, stage, setBeforeRender, setPaused
         } finally {
             setPaused(false);
             freeSpace().then((d) => setDisk(d.free)).catch(() => {});
+        }
+    };
+
+    /** The frame under the playhead, drawn like a render's frames, as a PNG download. */
+    const [still, setStill] = useState<string | null>(null);
+    const takeStill = async () => {
+        stop();
+        const s = shotRef.current;
+        const at = timeRef.current;
+        if (liveRef.current.blueprint > 0 || s.tracks.blueprint.some((k) => k.value > 0)) ensurePoints();
+        setStill('Rendering…');
+        setPaused(true);
+        try {
+            const blob = await renderStill({
+                // What the preview shows while stopped: your own view, not the camera keys.
+                shot: { ...s, tracks: { ...s.tracks, camera: [] } },
+                live: { ...liveRef.current, camera: navPose() },
+                scene,
+                look: look(),
+                dotScale: s.output.height / (boxRef.current.h * renderer.getPixelRatio()),
+                sharpen,
+            }, at);
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `${s.scan} – ${s.name} – ${Math.round(at * s.output.fps)}.png`;
+            a.click();
+            setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+            setStill(null);
+        } catch (error) {
+            setStill(String((error as Error).message ?? error));
+        } finally {
+            setPaused(false);
         }
     };
 
@@ -516,20 +560,23 @@ const Editor = ({ scan, scans, onShow, insets, stage, setBeforeRender, setPaused
         <>
             <Guide insets={insets} box={box} label={`${shot.output.width} × ${shot.output.height} · ${fps} fps · Alt-click to focus`} />
 
-            <Inspector insets={insets} scan={scan} scans={scans} onShow={onShow}>
+            <Inspector insets={insets} shown={shown} onClose={onClose} scan={scan} scans={scans} onShow={onShow}>
                 <Section title="Shot">
                     <div className="flex gap-2">
                         <input className={`${field} flex-1`} value={shot.name} onChange={(e) => updateShot((s) => ({ ...s, name: e.target.value }))} />
-                        <button type="button" className={btn} onClick={save}>Save{dirty ? ' ●' : ''}</button>
+                        {SERVER && <button type="button" className={btn} onClick={save}>Save{dirty ? ' ●' : ''}</button>}
+                        {!SERVER && <button type="button" className={btn} onClick={fresh}>New</button>}
                     </div>
-                    <div className="flex gap-2 mt-2">
-                        <select className={`${field} flex-1`} value="" onChange={(e) => e.target.value && open(e.target.value)}>
-                            <option value="">Open a saved shot…</option>
-                            {names.map((n) => <option key={n} value={n}>{n}</option>)}
-                        </select>
-                        <button type="button" className={btn} onClick={fresh}>New</button>
-                    </div>
-                    <label className="flex items-center justify-between mt-2 text-[11px] text-slate-400">
+                    {SERVER && (
+                        <div className="flex gap-2 mt-2">
+                            <select className={`${field} flex-1`} value="" onChange={(e) => e.target.value && open(e.target.value)}>
+                                <option value="">Open a saved shot…</option>
+                                {names.map((n) => <option key={n} value={n}>{n}</option>)}
+                            </select>
+                            <button type="button" className={btn} onClick={fresh}>New</button>
+                        </div>
+                    )}
+                    <label className="flex items-center justify-between mt-2 text-[11px] text-white/60">
                         Duration
                         <input
                             type="number" min={1} max={120} step={0.5} className={`${field} w-20 text-right`} value={shot.duration}
@@ -556,7 +603,7 @@ const Editor = ({ scan, scans, onShow, insets, stage, setBeforeRender, setPaused
                         <button type="button" className={btn} onClick={() => edit('focus', controls.target.toArray() as Vec3)}>Focus on orbit point</button>
                         <Diamond keyed={keyedHere('focus')} onClick={() => toggleKey('focus')} />
                     </div>
-                    <div className="text-[11px] text-slate-400 mt-1">Or Alt-click the scan. Focus is {focusDistance.toFixed(2)} away.</div>
+                    <div className="text-[11px] text-white/60 mt-1">Or Alt-click the scan. Focus is {focusDistance.toFixed(2)} away.</div>
                     <Control label="Aperture" value={now.aperture === 0 ? 'off' : `${Math.round(now.aperture * 100)}%`} keyed={keyedHere('aperture')} onKey={() => toggleKey('aperture')} t={now.aperture} onT={(t) => edit('aperture', t)} onReset={() => edit('aperture', 0)} />
                 </Section>
 
@@ -567,10 +614,10 @@ const Editor = ({ scan, scans, onShow, insets, stage, setBeforeRender, setPaused
                 </Section>
 
                 <Section title="Blueprint effects">
-                    <div className="text-[11px] text-slate-400">On the points, so only where Blueprint is up.</div>
+                    <div className="text-[11px] text-white/60">On the points, so only where Blueprint is up.</div>
                     <Control label="Streaks" value={now.streaks === 0 ? 'off' : `${Math.round(now.streaks * 100)}%`} keyed={keyedHere('streaks')} onKey={() => toggleKey('streaks')} t={now.streaks} onT={(t) => edit('streaks', t)} onReset={() => edit('streaks', 0)} />
                     <Control label="Pulse" value={now.pulse === 0 ? 'off' : `${Math.round(now.pulse * 100)}%`} keyed={keyedHere('pulse')} onKey={() => toggleKey('pulse')} t={now.pulse} onT={(t) => edit('pulse', t)} onReset={() => edit('pulse', 0)} />
-                    <label className="flex items-center justify-between mt-2 text-[11px] text-slate-400">
+                    <label className="flex items-center justify-between mt-2 text-[11px] text-white/60">
                         Pulse, beats a minute
                         <input
                             type="number" min={BPM.min} max={BPM.max} step={1} className={`${field} w-20 text-right`} value={shot.bpm ?? PULSE_BPM}
@@ -593,7 +640,7 @@ const Editor = ({ scan, scans, onShow, insets, stage, setBeforeRender, setPaused
                             ))}
                             <button type="button" className={`${btn} text-red-300`} onClick={deleteSelected}>Delete</button>
                         </div>
-                        <div className="text-[11px] text-slate-400 mt-1">How it moves from {selectedKeys.length === 1 ? 'this key' : 'each key'} to the next.</div>
+                        <div className="text-[11px] text-white/60 mt-1">How it moves from {selectedKeys.length === 1 ? 'this key' : 'each key'} to the next.</div>
                     </Section>
                 )}
 
@@ -602,7 +649,7 @@ const Editor = ({ scan, scans, onShow, insets, stage, setBeforeRender, setPaused
                         <button type="button" className={`${btn} disabled:opacity-40`} disabled={!selectedKeys.length} onClick={copy}>Copy (⌘C)</button>
                         <button type="button" className={`${btn} flex-1 disabled:opacity-40`} disabled={!hasClip} onClick={paste}>Paste at playhead (⌘V)</button>
                     </div>
-                    <div className="text-[11px] text-slate-400 mt-1">{note ?? 'Shift-click diamonds to pick several, ⌘A for all. They paste with their spacing kept.'}</div>
+                    <div className="text-[11px] text-white/60 mt-1">{note ?? 'Shift-click diamonds to pick several, ⌘A for all. They paste with their spacing kept.'}</div>
                 </Section>
 
                 <Section title="Output">
@@ -626,38 +673,48 @@ const Editor = ({ scan, scans, onShow, insets, stage, setBeforeRender, setPaused
                     </div>
                     <div className="mt-3">
                         <div className="flex items-center gap-2 text-[11px]">
-                            <span className="text-slate-300">Sharpen</span>
-                            <span className="ml-auto font-mono text-slate-400">
+                            <span className="text-white/80">Sharpen</span>
+                            <span className="ml-auto font-mono text-white/60">
                                 {sharpen ? sharpen.toFixed(2) : 'off'}{shot.output.sharpen === undefined ? ' · the scan’s' : ''}
                             </span>
                         </div>
                         <input
-                            type="range" min={0} max={1} step={0.001} value={sharpen / SHARPEN_MAX} className="w-full"
+                            type="range" min={0} max={1} step={0.001} value={sharpen / SHARPEN_MAX} className="w-full accent-white"
                             onChange={(e) => setOutput({ sharpen: Number((Number(e.target.value) * SHARPEN_MAX).toFixed(2)) })}
                             onDoubleClick={() => setOutput({ sharpen: undefined })}
                             title="Double-click for the scan's own"
                         />
                     </div>
-                    <div className={`text-[11px] mt-2 ${fits ? 'text-slate-400' : 'text-red-300'}`}>
-                        About {mb(estimate)}{disk !== null && ` · ${mb(disk)} free`}{!fits && ': not enough room'}
-                    </div>
+                    {SERVER && (
+                        <div className={`text-[11px] mt-2 ${fits ? 'text-white/60' : 'text-red-300'}`}>
+                            About {mb(estimate)}{disk !== null && ` · ${mb(disk)} free`}{!fits && ': not enough room'}
+                        </div>
+                    )}
 
                     {rendering ? (
                         <div className="mt-3">
                             <div className="h-1 bg-white/10 rounded"><div className="h-full bg-amber-300 rounded" style={{ width: `${((job.progress?.frame ?? 0) / (job.progress?.frames ?? 1)) * 100}%` }} /></div>
-                            <div className="flex justify-between mt-1 text-[11px] text-slate-400 font-mono">
+                            <div className="flex justify-between mt-1 text-[11px] text-white/60 font-mono">
                                 <span>{job.progress ? `frame ${job.progress.frame} / ${job.progress.frames}` : 'starting…'}</span>
                                 <span>{job.progress?.eta != null ? `${clock(job.progress.eta)} left` : ''}</span>
                             </div>
                             <button type="button" className={`${btn} mt-2`} onClick={() => job.controller.abort()}>Cancel</button>
                         </div>
                     ) : (
-                        <button type="button" disabled={!fits} className={`${btn} mt-3 w-full bg-amber-300 text-black border-amber-300 disabled:opacity-40`} onClick={startRender}>
-                            Render {Math.round(shot.duration * fps)} frames
-                        </button>
+                        <div className="flex gap-2 mt-3">
+                            {SERVER && (
+                                <button type="button" disabled={!fits || still === 'Rendering…'} className={`${btn} flex-1 bg-amber-300 text-black border-amber-300 disabled:opacity-40`} onClick={startRender}>
+                                    Render {Math.round(shot.duration * fps)} frames
+                                </button>
+                            )}
+                            <button type="button" disabled={still === 'Rendering…'} className={`${btn} disabled:opacity-40`} onClick={takeStill} title="This frame, at the output size, without any UI">
+                                Screenshot
+                            </button>
+                        </div>
                     )}
+                    {still && <div className="mt-2 text-[11px] text-white/60">{still}</div>}
                     {job?.result && (
-                        <div className="mt-2 text-[11px] text-slate-300">
+                        <div className="mt-2 text-[11px] text-white/80">
                             Done: {mb(job.result.bytes)}.{' '}
                             <button type="button" className="underline" onClick={() => reveal(job.result!.path)}>Show in Finder</button>
                         </div>
@@ -666,7 +723,7 @@ const Editor = ({ scan, scans, onShow, insets, stage, setBeforeRender, setPaused
                 </Section>
             </Inspector>
 
-            <Dock insets={insets}>
+            <Dock insets={insets} shown={shown}>
                 <Timeline
                     shot={shot}
                     time={time}
@@ -705,7 +762,7 @@ const noop = () => {};
  * While the scan loads: the tool's panels and frame guide already where they
  * will be, so the view doesn't sit alone in a corner, and how far along it is.
  */
-const Waiting = ({ scan, scans, onShow, insets, loading }: Props) => {
+const Waiting = ({ scan, scans, onShow, insets, shown, onClose, loading }: Props) => {
     const blank = useMemo(() => newShot(scan.id, ''), [scan.id]);
     const area = useArea(insets);
     const { progress, detail, building, failed } = loading;
@@ -718,18 +775,18 @@ const Waiting = ({ scan, scans, onShow, insets, loading }: Props) => {
     return (
         <>
             <Guide insets={insets} box={frameBox(area.w, area.h, 16 / 9)} label="Loading…" />
-            <Inspector insets={insets} scan={scan} scans={scans} onShow={onShow}>
+            <Inspector insets={insets} shown={shown} onClose={onClose} scan={scan} scans={scans} onShow={onShow}>
                 <Section title="Loading">
-                    <div className={`font-mono text-[11px] ${failed ? 'text-red-300' : 'text-slate-300'}`}>{status}</div>
+                    <div className={`font-mono text-[11px] ${failed ? 'text-red-300' : 'text-white/80'}`}>{status}</div>
                     {!failed && (
                         <div className="mt-2 h-px bg-white/10">
                             <div className="h-full bg-amber-300 transition-[width] duration-200" style={{ width: `${share * 100}%` }} />
                         </div>
                     )}
-                    <div className="text-[11px] text-slate-400 mt-2">The editor opens once the full scan is in: focus picking and renders need all of it.</div>
+                    <div className="text-[11px] text-white/60 mt-2">The editor opens once the full scan is in: focus picking and renders need all of it.</div>
                 </Section>
             </Inspector>
-            <Dock insets={insets}>
+            <Dock insets={insets} shown={shown}>
                 <div className="h-full opacity-40 pointer-events-none" aria-hidden>
                     <Timeline
                         shot={blank} time={0} playing={false} loop selected={[]} unkeyedCamera={false}
@@ -741,47 +798,73 @@ const Waiting = ({ scan, scans, onShow, insets, loading }: Props) => {
     );
 };
 
-/** The output frame over the canvas, with what's just outside it dimmed. */
+/** How dark the dim outside the frame is. */
+const DIM = 0.55;
+
+/** The output frame over the canvas, with what's just outside it dimmed, under the bar (which has the panels' dark). */
 const Guide = ({ insets, box, label }: { insets: Insets; box: ReturnType<typeof frameBox>; label: string }) => (
-    <div className="absolute left-0 overflow-hidden pointer-events-none" style={{ top: insets.top, right: insets.right, bottom: insets.bottom }}>
+    <div ref={inks.shade(1 - DIM)} className="absolute left-0 overflow-hidden pointer-events-none" style={{ top: insets.top, right: insets.right, bottom: insets.bottom }}>
         <div
             className="absolute outline outline-1 outline-white/40"
-            style={{ left: box.x, top: box.y, width: box.w, height: box.h, boxShadow: '0 0 0 9999px rgba(0,0,0,0.55)' }}
+            style={{ left: box.x, top: box.y, width: box.w, height: box.h, boxShadow: `0 0 0 9999px rgba(0,0,0,${DIM})` }}
         >
-            <span className="absolute -top-5 left-0 font-mono text-[10px] text-slate-400">{label}</span>
+            <span className="absolute -top-5 left-0 font-mono text-[10px] text-white/60">{label}</span>
         </div>
     </div>
 );
 
-/** The panel on the right: the tool, the scan, and whatever the moment needs. */
-const Inspector = ({ insets, scan, scans, onShow, children }: { insets: Insets; scan: Scan; scans: Scan[]; onShow: (scan: Scan) => void; children: React.ReactNode }) => (
-    <aside
-        className="absolute right-0 top-0 bottom-0 overflow-y-auto border-l border-white/10 bg-slate-950/95 px-4 pt-24 pb-6 text-sm text-white"
-        style={{ width: insets.right }}
-    >
-        <div className="flex items-baseline justify-between mb-4">
-            <div className="font-semibold">Create</div>
-            <select className={field} value={scan.id} onChange={(e) => onShow(scans.find((x) => x.id === e.target.value)!)}>
-                {scans.map((x) => <option key={x.id} value={x.id}>{x.title}</option>)}
-            </select>
+/**
+ * The panel on the right: the tool, the scan, and whatever the moment needs.
+ * Its see-through dark starts under the bar, which has the same dark while
+ * a tool is open, so nothing scrolls up behind the bar.
+ */
+const Inspector = ({ insets, shown, onClose, scan, scans, onShow, children }: {
+    insets: Insets; shown: boolean; onClose: () => void; scan: Scan; scans: Scan[]; onShow: (scan: Scan) => void; children: React.ReactNode;
+}) => {
+    const entered = useEntered();
+    const on = shown && entered;
+    return (
+        <div
+            ref={inks.shade(PANEL_KEEP)}
+            className={`absolute bottom-0 right-0 pointer-events-none ${PANEL_BG} ${PANEL_TEXT} ${SLIDE} ${on ? 'translate-x-0' : 'translate-x-full'}`}
+            style={{ top: insets.top, width: insets.right }}
+        >
+            <aside className="absolute inset-0 overflow-y-auto px-4 pt-4 pb-6 text-sm pointer-events-auto">
+                <div className="flex items-center justify-between gap-2 mb-4">
+                    <div className={LABEL}>Create</div>
+                    <div className="flex items-center gap-2">
+                        <select className={field} value={scan.id} onChange={(e) => onShow(scans.find((x) => x.id === e.target.value)!)}>
+                            {scans.map((x) => <option key={x.id} value={x.id}>{x.title}</option>)}
+                        </select>
+                        <button type="button" title="Close (Esc)" aria-label="Close" className="px-1 text-lg/none text-white/60 hover:text-white" onClick={onClose}>×</button>
+                    </div>
+                </div>
+                {children}
+            </aside>
         </div>
-        {children}
-    </aside>
-);
+    );
+};
 
-/** The timeline's place along the bottom. */
-const Dock = ({ insets, children }: { insets: Insets; children: React.ReactNode }) => (
-    <div className="absolute left-0 bottom-0 border-t border-white/10 bg-slate-950/95" style={{ right: insets.right, height: insets.bottom }}>
-        {children}
-    </div>
-);
+/** The timeline's place along the bottom, on the same see-through dark; it comes up from below. */
+const Dock = ({ insets, shown, children }: { insets: Insets; shown: boolean; children: React.ReactNode }) => {
+    const entered = useEntered();
+    const on = shown && entered;
+    return (
+        <div
+            className={`absolute left-0 bottom-0 ${PANEL_BG} ${PANEL_TEXT} ${SLIDE} ${on ? 'translate-y-0' : 'translate-y-full'}`}
+            style={{ right: insets.right, height: insets.bottom }}
+        >
+            {children}
+        </div>
+    );
+};
 
-const field = 'bg-slate-900 border border-white/15 rounded px-2 py-1 text-xs text-white';
+const field = 'bg-white/10 border border-white/15 rounded px-2 py-1 text-xs text-white';
 const btn = 'px-2.5 py-1 rounded border border-white/20 text-xs hover:bg-white/10';
 
 const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
     <div className="mb-5">
-        <div className="text-[11px] uppercase tracking-widest text-slate-400 mb-2">{title}</div>
+        <div className={`${LABEL} text-white/60 mb-2`}>{title}</div>
         {children}
     </div>
 );
@@ -791,7 +874,7 @@ const Diamond = ({ keyed, onClick }: { keyed: boolean; onClick: () => void }) =>
         type="button"
         title={keyed ? 'Remove the key at the playhead' : 'Set a key at the playhead'}
         onClick={onClick}
-        className={`shrink-0 w-3 h-3 rotate-45 border ${keyed ? 'bg-amber-300 border-amber-300' : 'border-slate-500 hover:border-white'}`}
+        className={`shrink-0 w-3 h-3 rotate-45 border ${keyed ? 'bg-amber-300 border-amber-300' : 'border-white/45 hover:border-white'}`}
     />
 );
 
@@ -802,11 +885,11 @@ const Control = ({ label, value, t, onT, onReset, keyed, onKey }: {
     <div className="mt-2">
         <div className="flex items-center gap-2 text-[11px]">
             <Diamond keyed={keyed} onClick={onKey} />
-            <span className="text-slate-300">{label}</span>
-            <span className="ml-auto font-mono text-slate-400">{value}</span>
+            <span className="text-white/80">{label}</span>
+            <span className="ml-auto font-mono text-white/60">{value}</span>
         </div>
         <input
-            type="range" min={0} max={1} step={0.001} value={t} className="w-full" title="Double-click to reset"
+            type="range" min={0} max={1} step={0.001} value={t} className="w-full accent-white" title="Double-click to reset"
             onChange={(e) => onT(Number(e.target.value))}
             onDoubleClick={onReset}
         />

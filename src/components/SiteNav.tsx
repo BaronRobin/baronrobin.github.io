@@ -5,6 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Menu, X, Sun, Moon } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { inks } from '../pages/splats/ink';
+import { useToolOpen } from '../pages/splats/tools';
+import { PANEL_BG, PANEL_KEEP, SLIDE } from '../pages/splats/ui';
 import Logo from './Logo';
 import { PHOTOGRAPHY_IN_NAV } from '../data/photos';
 import { BACHELOR_ID, LAUTWASSER_ID, SPLATS_ID } from '../data/projects';
@@ -43,7 +45,7 @@ const DECKS = [LAUTWASSER, `/project/${BACHELOR_ID}`];
 const SiteNav = () => {
     const { t, i18n } = useTranslation();
     const { theme, toggleTheme, forced } = useTheme();
-    const { pathname, key, search } = useLocation();
+    const { pathname, key } = useLocation();
     const navigate = useNavigate();
     const reduce = useReducedMotion();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -66,12 +68,11 @@ const SiteNav = () => {
     if (DECKS.some((deck) => pathname.startsWith(`${deck}/slides`))) return null;
 
     const home = pathname === '/';
-    // Lautwasser's page is black whatever the theme, and so are the splat
-    // viewer's creation tool (?create): the bar follows them. There, and on
-    // a page that forces the theme (the Bachelor deck's white), the theme
-    // switch would change nothing, so it keeps its place without being shown
-    // and the flags beside it don't move.
-    const forcedDark = pathname.startsWith(LAUTWASSER) || (pathname === SPLATS && import.meta.env.DEV && /[?&]create\b/.test(search));
+    // Lautwasser's page is black whatever the theme: the bar follows it.
+    // There, and on a page that forces the theme (the Bachelor deck's white),
+    // the theme switch would change nothing, so it keeps its place without
+    // being shown and the flags beside it don't move.
+    const forcedDark = pathname.startsWith(LAUTWASSER);
     const fixedTheme = forcedDark || forced !== null;
     const active = pathname.startsWith('/photography') ? 'photography' : pathname.startsWith('/project/') ? 'projects' : undefined;
 
@@ -83,6 +84,8 @@ const SiteNav = () => {
     // The splat viewer is a picture too, but not always a bright or a dark
     // one: there the words take the ink of the viewer's own controls.
     const overScan = pathname === SPLATS && !solid && !forcedDark;
+    // With one of its tools open, the bar takes the tools' panels' see-through dark, sliding down as they slide in, and its ink reads through it.
+    const overTool = useToolOpen() && overScan;
     const inkRef = overScan ? inks.watch : undefined;
     const inkClass = overScan ? 'splat-ink' : '';
 
@@ -150,7 +153,13 @@ const SiteNav = () => {
 
     const bar = (
         // The frost and the open menu's shadow come and go with the tint, not at once.
-        <nav className={`fixed top-0 w-full z-50 border-b transition-[background-color,border-color,box-shadow,backdrop-filter,-webkit-backdrop-filter] duration-300 ${solid ? 'bg-white/60 dark:bg-slate-950/60 backdrop-blur-md border-slate-200 dark:border-white/5' : 'bg-transparent border-transparent'} ${isMenuOpen ? 'shadow-xl md:shadow-none' : ''}`}>
+        <nav
+            ref={overTool ? inks.shade(PANEL_KEEP) : undefined}
+            className={`fixed top-0 w-full z-50 border-b transition-[background-color,border-color,box-shadow,backdrop-filter,-webkit-backdrop-filter] duration-300 ${solid ? 'bg-white/60 dark:bg-slate-950/60 backdrop-blur-md border-slate-200 dark:border-white/5' : 'bg-transparent border-transparent'} ${isMenuOpen ? 'shadow-xl md:shadow-none' : ''}`}
+        >
+            {pathname === SPLATS && (
+                <div aria-hidden className={`absolute inset-0 -z-10 pointer-events-none ${PANEL_BG} ${SLIDE} ${overTool ? 'translate-y-0' : '-translate-y-full'}`} />
+            )}
             {/* The splat viewer fills the window, so there the bar spans it too: edge to edge, with room for the back arrow left of rb. */}
             <div className={`${pathname === SPLATS ? 'px-6 sm:pl-[4.25rem]' : 'container mx-auto px-6'} h-20 flex items-center justify-between`}>
                 <div ref={inkRef} className={`relative flex items-center ${inkClass}`}>

@@ -89,9 +89,9 @@ const Timeline = ({ shot, time, playing, loop, selected, unkeyedCamera, onTime, 
                 <Btn title="Frame forward (→)" onClick={() => onStep(1)}>▶︎</Btn>
                 <Btn title="End" onClick={() => onTime(shot.duration)}>⏭</Btn>
                 <Btn title="Loop" onClick={onLoop} active={loop}>⟲</Btn>
-                <span className="ml-3 text-slate-300 tabular-nums">{time.toFixed(2)} s</span>
-                <span className="ml-2 text-slate-500 tabular-nums">frame {frame} / {frames}</span>
-                <span className="ml-auto text-slate-500">I key camera · ⇧-click select more · ⌘C ⌘V copy, paste · Del delete · ⌘S save</span>
+                <span className="ml-3 text-white/80 tabular-nums">{time.toFixed(2)} s</span>
+                <span className="ml-2 text-white/45 tabular-nums">frame {frame} / {frames}</span>
+                <span className="ml-auto text-white/45">I key camera · ⇧-click select more · ⌘C ⌘V copy, paste · Del delete · ⌘S save</span>
             </div>
 
             <div className="flex-1 flex min-h-0">
@@ -101,12 +101,12 @@ const Timeline = ({ shot, time, playing, loop, selected, unkeyedCamera, onTime, 
                     {TRACK_IDS.map((id) => {
                         const keyed = keyIndexAt(shot.tracks[id], time, fps) >= 0;
                         return (
-                            <div key={id} className="flex items-center gap-2 px-3 text-[11px] text-slate-300" style={{ height: ROW_H }}>
+                            <div key={id} className="flex items-center gap-2 px-3 text-[11px] text-white/80" style={{ height: ROW_H }}>
                                 <button
                                     type="button"
                                     title={keyed ? 'Remove the key here' : 'Set a key here'}
                                     onClick={() => onToggleKey(id)}
-                                    className={`w-3 h-3 rotate-45 border ${keyed ? 'bg-amber-300 border-amber-300' : 'border-slate-500 hover:border-white'}`}
+                                    className={`w-3 h-3 rotate-45 border ${keyed ? 'bg-amber-300 border-amber-300' : 'border-white/45 hover:border-white'}`}
                                 />
                                 <span className="truncate">{TRACK_LABELS[id]}</span>
                                 {id === 'camera' && unkeyedCamera && shot.tracks.camera.length > 0 && (
@@ -123,7 +123,7 @@ const Timeline = ({ shot, time, playing, loop, selected, unkeyedCamera, onTime, 
                         {seconds.map((s) => (
                             <div key={s} className="absolute top-0 h-full" style={{ left: x(s) }}>
                                 <div className="w-px h-2 bg-white/30" />
-                                <span className="absolute top-2 -translate-x-1/2 font-mono text-[10px] text-slate-500">{s}s</span>
+                                <span className="absolute top-2 -translate-x-1/2 font-mono text-[10px] text-white/45">{s}s</span>
                             </div>
                         ))}
                     </div>
@@ -139,7 +139,7 @@ const Timeline = ({ shot, time, playing, loop, selected, unkeyedCamera, onTime, 
                                         title={`${TRACK_LABELS[id]} · ${key.t.toFixed(2)} s · ${key.interp}`}
                                         className={`absolute top-1/2 w-2.5 h-2.5 -translate-x-1/2 -translate-y-1/2 rotate-45 border ${picked
                                             ? 'bg-white border-white ring-2 ring-amber-300'
-                                            : key.interp === 'hold' ? 'bg-slate-500 border-slate-300' : 'bg-amber-300 border-amber-200'}`}
+                                            : key.interp === 'hold' ? 'bg-white/40 border-white/70' : 'bg-amber-300 border-amber-200'}`}
                                         style={{ left: x(key.t) }}
                                     />
                                 );
