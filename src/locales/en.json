@@ -89,6 +89,13 @@
             "back": "Back",
             "left": "Left",
             "bottom": "Bottom"
+        },
+        "stats": {
+            "label": "About this scan",
+            "splats": "{{amount}} splats",
+            "size": "{{mb}} MB",
+            "format": "{{format}} · SH degree {{sh}}",
+            "perSplat": "{{bytes}} bytes per splat"
         }
     },
     "skills": {

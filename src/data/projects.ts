@@ -589,6 +589,17 @@ export const projects: Project[] = [
             ]
         }
     },
+    {
+        // Not released yet: drop `hidden` to list it.
+        id: '14-boulderapp',
+        hidden: true,
+        title: 'the boulderapp',
+        category: 'Interactive 3D',
+        link: 'https://the-boulderapp.vercel.app',
+        description: 'A 3D twin of a bouldering gym in the browser: climbers log their sends on the real walls, setters build routes. Running at RockTown Kaiserslautern.',
+        folderName: '14_boulderapp',
+        media: []
+    },
 ];
 
 /** What actually gets listed and linked. */

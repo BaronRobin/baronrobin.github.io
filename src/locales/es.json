@@ -89,6 +89,13 @@
             "back": "Detrás",
             "left": "Izquierda",
             "bottom": "Abajo"
+        },
+        "stats": {
+            "label": "Sobre este escaneo",
+            "splats": "{{amount}} splats",
+            "size": "{{mb}} MB",
+            "format": "{{format}} · SH de grado {{sh}}",
+            "perSplat": "{{bytes}} bytes por splat"
         }
     },
     "skills": {

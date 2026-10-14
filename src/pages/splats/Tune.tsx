@@ -7,11 +7,14 @@ import { decodeErased, detectSky, encodeErased, keepMask, neighbourCounts, SCENE
 import { levelQuaternion, orientation, rememberSettings, type Scan, type ScanSettings, type ViewPresets } from './scans';
 import { placeSky, SKY_LAYER, type SkyLayer } from './sky';
 import { VIEW_NAMES, type ViewName } from './views';
+import { inks } from './ink';
+import { INK, LABEL } from './ui';
 
 /**
- * Dev-only tuning panel (?tune): set a scan's start view, crop and streak
- * filters by eye, then save them for baking. Never in the production build:
- * index.tsx only imports it behind import.meta.env.DEV.
+ * Tuning panel, behind ?tune and the pencil it brings up: set a scan's start
+ * view, crop and streak filters by eye, then save them for baking. On the dev
+ * server Save writes into ./settings; on the live site there's no one to
+ * write them, so it downloads the same files instead.
  *
  * Level first: trainers know where the cameras were, not where gravity points,
  * so every scan is a few degrees off. Tilt and turn it square (or let the
@@ -40,6 +43,14 @@ import { VIEW_NAMES, type ViewName } from './views';
 /** The dev server writes what these post into ./settings (scripts/vite-splat-studio.ts). */
 const SAVE_URL = '/__splats/settings';
 const ERASE_URL = '/__splats/erase';
+/** The live site has no server to save to: hand the file over instead. */
+const download = (name: string, blob: Blob) => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
 /** Wait this long after a slider stops before re-hiding splats; a pass can take a second. */
 const APPLY_DELAY = 200;
 const MAX_NEIGHBOURS = 40;
@@ -844,6 +855,14 @@ const Tune = ({ scan, mesh, scene, camera, controls, dom, fileBytes, blueprint, 
     const save = async () => {
         const saving = snapshot;
         const body = { id: scan.id, ...settings, erased: erasedCount, kept, total: data?.n };
+        if (!import.meta.env.DEV) {
+            download(`${scan.id}.json`, new Blob([JSON.stringify(body, null, 2) + '\n'], { type: 'application/json' }));
+            if (erasedCount && erasedRef.current) download(`${scan.id}.erase.bin`, new Blob([encodeErased(erasedRef.current)]));
+            rememberSettings(scan.id, settings);
+            setBaseline(saving);
+            setSaved(`Downloaded ${new Date().toLocaleTimeString()}: put ${scan.id}.json in src/pages/splats/settings${erasedCount ? ` with ${scan.id}.erase.bin` : ''}.`);
+            return;
+        }
         try {
             if (erasedRef.current) {
                 const res = await fetch(`${ERASE_URL}/${scan.id}`, { method: 'POST', body: encodeErased(erasedRef.current) });
@@ -887,19 +906,19 @@ const Tune = ({ scan, mesh, scene, camera, controls, dom, fileBytes, blueprint, 
                 status={(
                     <>
                         {brushing && <span className="text-amber-300">brush {radius} px</span>}
-                        {erasedCount > 0 && <span className="text-slate-400">{erasedCount.toLocaleString()} painted out</span>}
+                        {erasedCount > 0 && <span className="opacity-60">{erasedCount.toLocaleString()} painted out</span>}
                         {dirty && <span title="Unsaved changes">●</span>}
                     </>
                 )}
                 footer={(
                     <>
-                        <div className="text-xs text-slate-300 mb-2">
+                        <div className="text-xs opacity-80 mb-2">
                             Keeps {((kept ?? 0) / 1e6).toFixed(2)} M of {(data.n / 1e6).toFixed(2)} M splats {mb(kept ?? 0)}
                         </div>
-                        <button type="button" className={`${btn} bg-purple-500/80 border-purple-400 text-white`} onClick={save}>
+                        <button type="button" className={`${btnOn} font-medium`} onClick={save}>
                             Save settings{dirty ? ' ●' : ''}
                         </button>
-                        {saved && <div className="text-[11px] text-slate-400 mt-1">{saved}</div>}
+                        {saved && <div data-ink-part className="text-[11px] opacity-60 mt-1">{saved}</div>}
                     </>
                 )}
             >
@@ -908,7 +927,7 @@ const Tune = ({ scan, mesh, scene, camera, controls, dom, fileBytes, blueprint, 
                         <button type="button" className={btn} onClick={() => setView({ position: vec(camera.position), target: vec(controls.target) })}>
                             Use current view
                         </button>
-                        <div className="text-[11px] text-slate-400 mt-1 font-mono">
+                        <div data-ink-part className="text-[11px] opacity-60 mt-1 font-mono">
                             {view ? `cam ${view.position.join(', ')}\ntgt ${view.target.join(', ')}` : 'not set (auto framing)'}
                         </div>
                     </Section>
@@ -921,9 +940,9 @@ const Tune = ({ scan, mesh, scene, camera, controls, dom, fileBytes, blueprint, 
                             <button type="button" className={btn} onClick={autoLevel}>Auto-level</button>
                             <button type="button" className={btn} onClick={() => changeLevel([0, 0, 0])}>Reset</button>
                         </div>
-                        <div className="text-[11px] text-slate-400 mt-1">Auto-level takes the scene's flattest direction, inside the crop if there is one, as the ground.</div>
-                        <label className="flex items-center gap-2 mt-2 text-[11px] text-slate-300">
-                            <input type="checkbox" checked={showGrid} onChange={(e) => setShowGrid(e.target.checked)} />
+                        <div data-ink-part className="text-[11px] opacity-60 mt-1">Auto-level takes the scene's flattest direction, inside the crop if there is one, as the ground.</div>
+                        <label data-ink-part className="flex items-center gap-2 mt-2 text-[11px] opacity-80">
+                            <input type="checkbox" className="accent-current" checked={showGrid} onChange={(e) => setShowGrid(e.target.checked)} />
                             Show level grid at the orbit point
                         </label>
                     </Section>
@@ -933,12 +952,13 @@ const Tune = ({ scan, mesh, scene, camera, controls, dom, fileBytes, blueprint, 
                     <Section>
                         {detectedSky ? (
                             <>
-                                <div className="text-[11px] text-slate-300">
+                                <div data-ink-part className="text-[11px] opacity-80">
                                     Sky sphere (Luma): {detectedSky.count.toLocaleString()} splats from r {detectedSky.radius.toFixed(1)}
                                 </div>
-                                <label className="flex items-center gap-2 mt-1.5 text-[11px] text-slate-300">
+                                <label data-ink-part className="flex items-center gap-2 mt-1.5 text-[11px] opacity-80">
                                     <input
                                         type="checkbox"
+                                        className="accent-current"
                                         checked={skyRadius !== null}
                                         onChange={(e) => setSkyRadius(e.target.checked ? detectedSky.radius : null)}
                                     />
@@ -946,11 +966,11 @@ const Tune = ({ scan, mesh, scene, camera, controls, dom, fileBytes, blueprint, 
                                 </label>
                             </>
                         ) : (
-                            <div className="text-[11px] text-slate-400">No sky sphere found: not a Luma scan, all of it is scene.</div>
+                            <div data-ink-part className="text-[11px] opacity-60">No sky sphere found: not a Luma scan, all of it is scene.</div>
                         )}
                         {sky && (
                             <>
-                                <div className="text-[11px] text-slate-300 mt-3">Added sky, from Luma: its own layer, around the scan.</div>
+                                <div data-ink-part className="text-[11px] opacity-80 mt-3">Added sky, from Luma: its own layer, around the scan.</div>
                                 <Slider
                                     value={(skyLayer.turn + 180) / 360}
                                     onChange={(t) => setSkyLayer({ ...skyLayer, turn: Math.round(t * 360 - 180) })}
@@ -979,7 +999,7 @@ const Tune = ({ scan, mesh, scene, camera, controls, dom, fileBytes, blueprint, 
                         <button type="button" className={btn} onClick={() => setCropCenter(controls.target.clone())}>
                             Centre on orbit point
                         </button>
-                        <div className="text-[11px] text-slate-400 mt-1">Right-drag to move the orbit point, then centre.</div>
+                        <div data-ink-part className="text-[11px] opacity-60 mt-1">Right-drag to move the orbit point, then centre.</div>
                         <Slider value={toT(cropRadius, ranges.crop)} onChange={(t) => setCropRadius(fromT(t, ranges.crop))} onReset={() => setCropRadius(null)} label={cropRadius === null ? 'off' : `radius ${cropRadius.toFixed(2)}`} />
                         <Slider value={keepOutside} onChange={setKeepOutside} onReset={() => setKeepOutside(KEEP_OUTSIDE)} label={`backdrop outside: ${Math.round(keepOutside * 100)}% of splats`} />
                     </Section>
@@ -997,7 +1017,7 @@ const Tune = ({ scan, mesh, scene, camera, controls, dom, fileBytes, blueprint, 
                             onReset={() => setCeiling(null)}
                             label={ceiling === null ? 'ceiling: off' : `ceiling: drop above y ${ceiling.toFixed(2)}`}
                         />
-                        <div className="text-[11px] text-slate-400 mt-1">A hard cut: under the floor and over the ceiling goes, the sky layer stays. Heights are after levelling, so level first.</div>
+                        <div data-ink-part className="text-[11px] opacity-60 mt-1">A hard cut: under the floor and over the ceiling goes, the sky layer stays. Heights are after levelling, so level first.</div>
                     </Section>
 
                     <Section title="Streaks and floaters">
@@ -1010,8 +1030,8 @@ const Tune = ({ scan, mesh, scene, camera, controls, dom, fileBytes, blueprint, 
                         />
                         <Slider value={toT(cell, ranges.cell)} onChange={(t) => setCell(logScale(Math.min(t, 1), ...ranges.cell))} onReset={() => setCell(sceneRadius / 300)} label={`neighbourhood: ${cell.toPrecision(2)}`} />
                         <Slider value={toT(maxNeedle, ranges.needle)} onChange={(t) => setMaxNeedle(fromT(t, ranges.needle))} onReset={() => setMaxNeedle(null)} label={maxNeedle === null ? 'needles: off' : `needles: drop over ${maxNeedle.toFixed(1)}× their width`} />
-                        <label className="flex items-center gap-2 mt-2 text-[11px] text-slate-300">
-                            <input type="checkbox" checked={highlight} onChange={(e) => setHighlight(e.target.checked)} />
+                        <label data-ink-part className="flex items-center gap-2 mt-2 text-[11px] opacity-80">
+                            <input type="checkbox" className="accent-current" checked={highlight} onChange={(e) => setHighlight(e.target.checked)} />
                             Show what goes in red (the brush's in amber, the sky in blue) instead of hiding it
                         </label>
                     </Section>
@@ -1021,25 +1041,25 @@ const Tune = ({ scan, mesh, scene, camera, controls, dom, fileBytes, blueprint, 
                             <button
                                 type="button"
                                 disabled={blueprint}
-                                className={`${btn} disabled:opacity-40 ${brushing ? 'bg-amber-300 text-black border-amber-300 hover:bg-amber-200' : ''}`}
+                                className={brushing ? btnOn : btn}
                                 onClick={() => setBrushOn(!brushOn)}
                             >
                                 {brushing ? 'Brush on (B)' : 'Brush (B)'}
                             </button>
-                            <button type="button" className={`${btn} disabled:opacity-40`} disabled={!history.undo} onClick={undo} title="⌘Z">Undo</button>
-                            <button type="button" className={`${btn} disabled:opacity-40`} disabled={!history.redo} onClick={redo} title="⇧⌘Z">Redo</button>
-                            <button type="button" className={`${btn} disabled:opacity-40`} disabled={!erasedCount} onClick={clearBrush}>Clear</button>
+                            <button type="button" className={btn} disabled={!history.undo} onClick={undo} title="⌘Z">Undo</button>
+                            <button type="button" className={btn} disabled={!history.redo} onClick={redo} title="⇧⌘Z">Redo</button>
+                            <button type="button" className={btn} disabled={!erasedCount} onClick={clearBrush}>Clear</button>
                         </div>
-                        {blueprint && <div className="text-[11px] text-slate-400 mt-1">Leave blueprint to brush.</div>}
+                        {blueprint && <div data-ink-part className="text-[11px] opacity-60 mt-1">Leave blueprint to brush.</div>}
                         <Slider value={unLogScale(radius, BRUSH_MIN, BRUSH_MAX)} onChange={(t) => setRadius(Math.round(logScale(t, BRUSH_MIN, BRUSH_MAX)))} onReset={() => setRadius(BRUSH_SIZE)} label={`size ${radius} px ( [ and ] )`} />
                         <div className="flex gap-1 mt-2">
                             {(['through', 'front'] as const).map((m) => (
-                                <button key={m} type="button" className={`${btn} ${mode === m ? 'bg-white text-black' : ''}`} onClick={() => setMode(m)}>
+                                <button key={m} type="button" className={mode === m ? btnOn : btn} onClick={() => setMode(m)}>
                                     {m === 'through' ? 'Through' : 'Front layer'}
                                 </button>
                             ))}
                         </div>
-                        <div className="text-[11px] text-slate-400 mt-1">
+                        <div data-ink-part className="text-[11px] opacity-60 mt-1">
                             {mode === 'through'
                                 ? 'Takes everything under the ring, at any depth. For floaters against the sky, or seen from a clear angle.'
                                 : 'Each stroke keeps to the depth of the first splat it touches, so a floater goes without the wall behind it.'}
@@ -1047,15 +1067,15 @@ const Tune = ({ scan, mesh, scene, camera, controls, dom, fileBytes, blueprint, 
                         {mode === 'front' && (
                             <Slider value={unLogScale(band, 0.02, 0.5)} onChange={(t) => setBand(Number(logScale(t, 0.02, 0.5).toFixed(3)))} onReset={() => setBand(BAND)} label={`reaches ${Math.round(band * 100)}% of the distance behind it`} />
                         )}
-                        <div className="text-[11px] text-slate-400 mt-2">Drag to paint · ⌥-drag to unpaint · hold Space to orbit · right-drag pans</div>
-                        <div className="text-[11px] text-slate-300 mt-1">{erasedCount.toLocaleString()} splats painted out</div>
-                        {eraseNote && <div className="text-[11px] text-amber-300 mt-1">{eraseNote}</div>}
+                        <div data-ink-part className="text-[11px] opacity-60 mt-2">Drag to paint · ⌥-drag to unpaint · hold Space to orbit · right-drag pans</div>
+                        <div data-ink-part className="text-[11px] opacity-80 mt-1">{erasedCount.toLocaleString()} splats painted out</div>
+                        {eraseNote && <div data-ink-part className="text-[11px] text-amber-300 mt-1">{eraseNote}</div>}
                     </Section>
                 </Group>
 
                 <Group title="Presentation" summary={summaries.presentation} open={groups.presentation} onToggle={() => toggleGroup('presentation')}>
                     <Section title="Blueprint views">
-                        <div className="text-[11px] text-slate-400 mb-1.5">
+                        <div data-ink-part className="text-[11px] opacity-60 mb-1.5">
                             {section
                                 ? 'Dial in cut and depth for this view, then set it. Snapping to a view glides to its section; views without one show the whole scan.'
                                 : 'Turn on Blueprint (bottom right) to set the cut and depth each view opens with.'}
@@ -1063,14 +1083,14 @@ const Tune = ({ scan, mesh, scene, camera, controls, dom, fileBytes, blueprint, 
                         {VIEW_NAMES.map((name) => {
                             const preset = presets[name];
                             return (
-                                <div key={name} className={`flex items-center gap-2 font-mono text-[11px] ${section?.view === name ? 'text-white' : 'text-slate-400'}`}>
+                                <div key={name} className={`flex items-center gap-2 font-mono text-[11px] ${section?.view === name ? '' : 'opacity-60'}`}>
                                     <span className="w-14 uppercase">{name}</span>
                                     <span className="flex-1">{preset ? `cut ${preset.cut.toFixed(2)} · depth ${preset.depth.toFixed(2)}` : '–'}</span>
                                     {preset && (
                                         <button
                                             type="button"
                                             title={`Clear ${name}`}
-                                            className="px-1 text-slate-500 hover:text-white"
+                                            className="px-1 opacity-60 hover:opacity-100"
                                             onClick={() => onPresets(Object.fromEntries(Object.entries(presets).filter(([k]) => k !== name)))}
                                         >
                                             ×
@@ -1082,7 +1102,7 @@ const Tune = ({ scan, mesh, scene, camera, controls, dom, fileBytes, blueprint, 
                         {section && (
                             <button
                                 type="button"
-                                className={`${btn} mt-2 w-full`}
+                                className={`${btn} mt-2 text-left`}
                                 onClick={() => onPresets({ ...presets, [section.view]: { cut: fmt(section.cut), depth: fmt(section.depth) } })}
                             >
                                 Set for {section.view.toUpperCase()}: cut {section.cut.toFixed(2)} · depth {section.depth.toFixed(2)}
@@ -1095,14 +1115,14 @@ const Tune = ({ scan, mesh, scene, camera, controls, dom, fileBytes, blueprint, 
                         <div className="flex items-center gap-2 mt-2">
                             <button
                                 type="button"
-                                className={`${btn} select-none ${comparing ? 'bg-white text-black' : ''}`}
+                                className={`${comparing ? btnOn : btn} select-none`}
                                 onPointerDown={() => setComparing(true)}
                                 onPointerUp={() => setComparing(false)}
                                 onPointerLeave={() => setComparing(false)}
                             >
                                 Hold to compare
                             </button>
-                            <span className="text-[11px] text-slate-400">Like Unreal's tonemapper sharpen; 0.5–1 is typical.</span>
+                            <span className="text-[11px] opacity-60">Like Unreal's tonemapper sharpen; 0.5–1 is typical.</span>
                         </div>
                     </Section>
                 </Group>
@@ -1111,7 +1131,15 @@ const Tune = ({ scan, mesh, scene, camera, controls, dom, fileBytes, blueprint, 
     );
 };
 
-const btn = 'px-2.5 py-1 rounded border border-white/20 text-xs hover:bg-white/10';
+/**
+ * Buttons are plain words: an underline grows in from the left under the
+ * pointer, and stays while the button is on.
+ */
+const LINK = 'pb-0.5 text-xs bg-[linear-gradient(currentColor,currentColor)] bg-no-repeat bg-left-bottom transition-[background-size,opacity] duration-300 ease-in-out motion-reduce:transition-none disabled:opacity-40';
+const btn = `${LINK} bg-[length:0%_1px] hover:bg-[length:100%_1px] focus-visible:bg-[length:100%_1px] disabled:hover:bg-[length:0%_1px]`;
+const btnOn = `${LINK} bg-[length:100%_1px]`;
+/** A hairline in the ink. */
+const RULE = 'border-[color:color-mix(in_srgb,currentColor_25%,transparent)]';
 
 /**
  * The panel, in groups that open and close, with saving pinned to its foot.
@@ -1130,20 +1158,21 @@ const Panel = ({ title, collapsed, onCollapse, status, footer, children }: {
         type="button"
         title="Show the tuning panel (N)"
         onClick={() => onCollapse(false)}
-        className="absolute top-24 right-4 z-30 flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/90 border border-white/10 text-xs text-white backdrop-blur pointer-events-auto hover:border-white/30"
+        ref={inks.watch}
+        className={`absolute top-24 right-4 z-30 flex items-center gap-2 ${LABEL} ${INK} pointer-events-auto ${btn}`}
     >
         <span aria-hidden>‹</span>
-        <span className="font-semibold">Tune</span>
+        <span>Tune</span>
         {status}
     </button>
 ) : (
-    <div className="absolute top-24 right-4 w-72 max-h-[calc(100vh-8rem)] overflow-y-auto px-4 pt-4 rounded-xl bg-slate-900/90 border border-white/10 text-sm text-white backdrop-blur pointer-events-auto z-30 whitespace-pre-line">
-        <div className="flex items-start justify-between gap-2 mb-1">
-            <div className="font-semibold">{title}</div>
-            <button type="button" title="Hide the panel (N)" className="px-1.5 -mr-1 text-slate-400 hover:text-white" onClick={() => onCollapse(true)}>›</button>
+    <div ref={inks.watch} className={`absolute top-24 right-4 w-72 max-h-[calc(100vh-8rem)] overflow-y-auto pt-1 text-sm pointer-events-auto z-30 whitespace-pre-line ${INK}`}>
+        <div data-ink-part className="flex items-start justify-between gap-2 mb-2">
+            <div className={LABEL}>{title}</div>
+            <button type="button" title="Hide the panel (N)" className="px-1.5 -mr-1 opacity-60 hover:opacity-100" onClick={() => onCollapse(true)}>›</button>
         </div>
         {children}
-        {footer ? <div className="sticky bottom-0 -mx-4 px-4 pt-3 pb-4 border-t border-white/10 bg-slate-900">{footer}</div> : <div className="pb-4" />}
+        {footer ? <div data-ink-part className={`mt-1 pt-3 pb-4 border-t ${RULE}`}>{footer}</div> : <div className="pb-4" />}
     </div>
 );
 
@@ -1155,11 +1184,11 @@ const Group = ({ title, summary, open, onToggle, children }: {
     onToggle: () => void;
     children: React.ReactNode;
 }) => (
-    <div className="border-t border-white/10">
-        <button type="button" onClick={onToggle} aria-expanded={open} className="flex w-full items-center gap-2 py-2.5 text-left">
-            <span aria-hidden className={`text-[9px] text-slate-500 transition-transform duration-300 ease-in-out ${open ? 'rotate-90' : ''}`}>▶</span>
-            <span className="font-semibold">{title}</span>
-            <span className={`ml-auto truncate pl-2 font-mono text-[10px] text-slate-500 transition-opacity duration-300 ${open ? 'opacity-0' : 'opacity-100'}`}>{summary}</span>
+    <div data-ink-part className={`border-t ${RULE}`}>
+        <button type="button" data-ink-part onClick={onToggle} aria-expanded={open} className="flex w-full items-center gap-2 py-2.5 text-left">
+            <span aria-hidden className={`text-[9px] opacity-60 transition-transform duration-300 ease-in-out ${open ? 'rotate-90' : ''}`}>▶</span>
+            <span className={`${LABEL} ${btn} !text-[11px]`}>{title}</span>
+            <span className={`ml-auto truncate pl-2 font-mono text-[10px] opacity-60 transition-opacity duration-300 ${open ? 'opacity-0' : 'opacity-100'}`}>{summary}</span>
         </button>
         {/* Rows from 0fr to 1fr: the height eases, whatever's inside. */}
         <div className={`grid transition-[grid-template-rows] duration-300 ease-in-out motion-reduce:transition-none ${open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`} inert={!open}>
@@ -1171,22 +1200,22 @@ const Group = ({ title, summary, open, onToggle, children }: {
 );
 
 const Section = ({ title, children }: { title?: string; children: React.ReactNode }) => (
-    <div className="mb-4">
-        {title && <div className="text-[11px] uppercase tracking-widest text-slate-400 mb-1.5">{title}</div>}
+    <div ref={inks.watch} className={`mb-4 ${INK}`}>
+        {title && <div data-ink-part className={`${LABEL} opacity-60 mb-1.5`}>{title}</div>}
         {children}
     </div>
 );
 
 /** A slider on 0–1. Double-click puts it back to neutral (0 or off), as in Premiere. */
 const Slider = ({ value, onChange, onReset, label }: { value: number; onChange: (v: number) => void; onReset?: () => void; label: string }) => (
-    <label className="block mt-2">
+    <label data-ink-part className="block mt-2">
         <input
-            type="range" min={0} max={1} step={0.001} value={value} className="w-full"
+            type="range" min={0} max={1} step={0.001} value={value} className="w-full accent-current"
             onChange={(e) => onChange(Number(e.target.value))}
             onDoubleClick={onReset}
             title={onReset ? 'Double-click to reset' : undefined}
         />
-        <span className="text-[11px] text-slate-400 font-mono">{label}</span>
+        <span className="text-[11px] opacity-60 font-mono">{label}</span>
     </label>
 );
 

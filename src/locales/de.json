@@ -89,6 +89,13 @@
             "back": "Hinten",
             "left": "Links",
             "bottom": "Unten"
+        },
+        "stats": {
+            "label": "Über diesen Scan",
+            "splats": "{{amount}} Splats",
+            "size": "{{mb}} MB",
+            "format": "{{format}} · SH-Grad {{sh}}",
+            "perSplat": "{{bytes}} Byte pro Splat"
         }
     },
     "skills": {

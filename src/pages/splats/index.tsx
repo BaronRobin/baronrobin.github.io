@@ -1,7 +1,7 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
-import { DraftingCompass, X } from 'lucide-react';
+import { DraftingCompass, Pencil, X } from 'lucide-react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { SparkRenderer, SplatMesh } from '@sparkjsdev/spark';
@@ -14,6 +14,7 @@ import {
 } from './blueprint';
 import BuildUp, { Dots } from './BuildUp';
 import Help from './Help';
+import Info from './Info';
 import { inks } from './ink';
 import { BPM, Pulse } from './pulse';
 import { addReveal, playFront, removeReveal } from './reveal';
@@ -124,8 +125,8 @@ interface Loaded extends Stage {
     scan: Scan;
 }
 
-// Dev-only tuning panel (?tune); the dead branch drops it from the production build.
-const Tune = import.meta.env.DEV ? lazy(() => import('./Tune')) : null;
+// Tuning panel: on the live site too, but only behind ?tune, and only loaded once opened.
+const Tune = lazy(() => import('./Tune'));
 // Dev-only creation tool (?create): keyframes and renders. Same deal.
 const Create = import.meta.env.DEV ? lazy(() => import('./create/Create')) : null;
 /** Room the site nav (top), the creation tool's inspector (right) and its timeline (bottom) take from the canvas. */
@@ -174,7 +175,7 @@ const SWAP_MS = 1800;
  * and the `dark` class switches the shared nav to match.
  */
 const Splats = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     useDocumentTitle(t(`projects.${SPLATS_ID}.title`));
 
     const hostRef = useRef<HTMLDivElement>(null);
@@ -201,11 +202,13 @@ const Splats = () => {
     const ready = loaded?.scan === current ? loaded : null;
     const [params] = useSearchParams();
     const creating = Create !== null && params.has('create');
-    // The tools save by scan, so not on a file opened from disk.
-    const tuning = Tune !== null && params.has('tune') && !creating && !current.file;
-    // The page follows the theme; the tools' panels are dark, and so is it under them.
+    // ?tune puts a pencil under blueprint; it opens the panel. The tools save by scan, so not on a file opened from disk.
+    const tunable = params.has('tune') && !creating && !current.file;
+    const [tuneOpen, setTuneOpen] = useState(false);
+    const tuning = tunable && tuneOpen;
+    // The page follows the theme; the creation tool's panels are dark, and so is it under them.
     const { theme } = useTheme();
-    const light = theme === 'light' && !creating && !tuning;
+    const light = theme === 'light' && !creating;
     const lightRef = useRef(light);
     const phone = useMedia(PHONE);
     const low = useMedia(LOW) && !phone;
@@ -744,6 +747,23 @@ const Splats = () => {
             ]}
         />
     );
+    /** The scan's numbers, once the full file is in: how many splats, how big, in what, and what one costs. */
+    const stats = (() => {
+        if (!ready) return null;
+        const splats = ready.mesh.packedSplats;
+        const count = splats?.numSplats ?? 0;
+        const extra = splats?.extra ?? {};
+        const sh = extra.sh3 || (extra.sh3a && extra.sh3b) ? 3 : extra.sh2 ? 2 : extra.sh1 ? 1 : 0;
+        const name = current.file?.name ?? scanUrl(current);
+        const format = name.slice(name.lastIndexOf('.') + 1).toUpperCase();
+        const n = (value: number, digits = 0) => value.toLocaleString(i18n.language, { maximumFractionDigits: digits, minimumFractionDigits: digits });
+        return [
+            t('splats.stats.splats', { amount: n(count) }),
+            ...(ready.bytes ? [t('splats.stats.size', { mb: n(ready.bytes / 1e6, 1) })] : []),
+            t('splats.stats.format', { format, sh }),
+            ...(ready.bytes && count ? [t('splats.stats.perSplat', { bytes: n(ready.bytes / count, 1) })] : []),
+        ];
+    })();
     const viewButtons = VIEW_NAMES.map((name) => {
         // The view a drag is pulling towards brightens as it nears the edge; none is the view while the turntable runs.
         const lean = pullTowards === name ? pull : 0;
@@ -891,7 +911,7 @@ const Splats = () => {
                     </Suspense>
                 )}
 
-                {tuning && Tune && ready && (
+                {tuning && ready && (
                     <Suspense fallback={null}>
                         <Tune
                             key={current.id}
@@ -958,7 +978,7 @@ const Splats = () => {
                           * blueprint as a mark of its own. Clear of the tuning panel.
                           */}
                         <div className={`absolute top-[4.25rem] z-10 pointer-events-none ${tuning ? 'right-[320px]' : 'inset-x-0'}`}>
-                            <div className={tuning ? '' : 'container mx-auto flex justify-end px-6'}>
+                            <div className={tuning ? '' : 'flex justify-end px-6'}>
                                 <div ref={inks.watch} className={`pointer-events-auto flex w-10 flex-col items-center gap-4 md:w-6 ${INK}`}>
                                     <span aria-hidden className="h-px w-5 bg-current opacity-50" />
                                     <div data-ink-part>{help}</div>
@@ -977,6 +997,21 @@ const Splats = () => {
                                         {/* On, like the toggles' underline. */}
                                         <span aria-hidden className={`h-px w-5 bg-current transition-opacity ${blueprint ? 'opacity-100' : 'opacity-0'}`} />
                                     </button>
+                                    {tunable && (
+                                        <button
+                                            type="button"
+                                            data-ink-part
+                                            onClick={() => setTuneOpen((o) => !o)}
+                                            disabled={!ready}
+                                            aria-pressed={tuneOpen}
+                                            aria-label="Tune"
+                                            title="Tune"
+                                            className={`flex flex-col items-center gap-1.5 transition-colors disabled:opacity-30 ${tuneOpen ? ON : OFF}`}
+                                        >
+                                            <Pencil size={20} strokeWidth={1.75} />
+                                            <span aria-hidden className={`h-px w-5 bg-current transition-opacity ${tuneOpen ? 'opacity-100' : 'opacity-0'}`} />
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -1026,6 +1061,12 @@ const Splats = () => {
                                     <p ref={inks.watch} className={`absolute bottom-6 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap normal-case ${LABEL} ${INK}`}>
                                         <span className="opacity-60">{copyright} · {t('footer.rights')}</span>
                                     </p>
+                                )}
+
+                                {stats && !tuning && (
+                                    <div ref={inks.watch} className={`absolute right-6 bottom-6 z-10 ${INK}`}>
+                                        <div data-ink-part><Info key={current.id} label={t('splats.stats.label')} lines={stats} /></div>
+                                    </div>
                                 )}
 
                                 {/* Behind them the scan fades into the ground, feathered: no panel, but the points don't drown the type. */}

@@ -67,11 +67,11 @@ const SiteNav = () => {
 
     const home = pathname === '/';
     // Lautwasser's page is black whatever the theme, and so are the splat
-    // viewer's dev tools (?tune, ?create): the bar follows them. There, and on
+    // viewer's creation tool (?create): the bar follows them. There, and on
     // a page that forces the theme (the Bachelor deck's white), the theme
     // switch would change nothing, so it keeps its place without being shown
     // and the flags beside it don't move.
-    const forcedDark = pathname.startsWith(LAUTWASSER) || (pathname === SPLATS && import.meta.env.DEV && /[?&](tune|create)\b/.test(search));
+    const forcedDark = pathname.startsWith(LAUTWASSER) || (pathname === SPLATS && import.meta.env.DEV && /[?&]create\b/.test(search));
     const fixedTheme = forcedDark || forced !== null;
     const active = pathname.startsWith('/photography') ? 'photography' : pathname.startsWith('/project/') ? 'projects' : undefined;
 
@@ -151,7 +151,8 @@ const SiteNav = () => {
     const bar = (
         // The frost and the open menu's shadow come and go with the tint, not at once.
         <nav className={`fixed top-0 w-full z-50 border-b transition-[background-color,border-color,box-shadow,backdrop-filter,-webkit-backdrop-filter] duration-300 ${solid ? 'bg-white/60 dark:bg-slate-950/60 backdrop-blur-md border-slate-200 dark:border-white/5' : 'bg-transparent border-transparent'} ${isMenuOpen ? 'shadow-xl md:shadow-none' : ''}`}>
-            <div className="container mx-auto px-6 h-20 flex items-center justify-between">
+            {/* The splat viewer fills the window, so there the bar spans it too: edge to edge, with room for the back arrow left of rb. */}
+            <div className={`${pathname === SPLATS ? 'px-6 sm:pl-[4.25rem]' : 'container mx-auto px-6'} h-20 flex items-center justify-between`}>
                 <div ref={inkRef} className={`relative flex items-center ${inkClass}`}>
                     {/* The back arrow's slot, clipped at the mark's left edge, so the
                         arrow slides out from behind the mark rather than fading in
