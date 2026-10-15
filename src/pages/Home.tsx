@@ -214,7 +214,10 @@ const Home = () => {
     const [showBackToTop, setShowBackToTop] = useState(false);
 
     useEffect(() => {
-        const handleScroll = () => setShowBackToTop(window.scrollY > 500);
+        // Not once the footer is in view: on a phone the button would sit on its version and the hold.
+        const handleScroll = () => setShowBackToTop(
+            window.scrollY > 500 && window.scrollY + window.innerHeight < document.documentElement.scrollHeight - 80,
+        );
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
@@ -426,7 +429,7 @@ const Home = () => {
             </section>
 
             {/* Contact Section */}
-            <section id="contact" className="pt-12 md:pt-16 pb-32 md:pb-48 bg-slate-100/80 dark:bg-slate-900/80 transition-colors">
+            <section id="contact" className="pt-12 md:pt-16 pb-12 md:pb-16 bg-slate-100/80 dark:bg-slate-900/80 transition-colors">
                 <div className="container mx-auto px-6 text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -482,6 +485,7 @@ const Home = () => {
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{ duration: 0.3, ease: 'easeInOut' }}
                         onClick={scrollToTop}
                         className="fixed bottom-8 right-8 p-3 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-lg z-50 transition-colors"
                     >
