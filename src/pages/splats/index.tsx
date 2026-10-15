@@ -1,7 +1,7 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
-import { Clapperboard, DraftingCompass, Pencil, X } from 'lucide-react';
+import { Clapperboard, DraftingCompass, Map as MapIcon, Pencil, X } from 'lucide-react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { SparkRenderer, SplatMesh } from '@sparkjsdev/spark';
@@ -93,6 +93,10 @@ const RPMS = [2, 4, 8, 16, 33, 45, 78];
 const PHONE = '(max-width: 639px)';
 /** A phone on its side: wide enough for a desktop's edges, too low for its columns. */
 const LOW = '(max-height: 520px)';
+/** The desktop map's foot above the window's, px: clear of its icon and the "i". */
+const MAP_BOTTOM = 64;
+/** Smaller than this, the map goes beside the blueprint controls instead of under them. */
+const MAP_MIN = 120;
 
 /** Whether a media query holds, kept up to date. */
 const useMedia = (query: string) => {
@@ -274,7 +278,49 @@ const Splats = () => {
     const [tempo, setTempo] = useState<number | null>(null);
     /** The section's map, for anyone who'd rather have the room. */
     const [mapOn, setMapOn] = useState(true);
-    const mapFade = usePresence(mapOn, 300);
+    // The scan's numbers open where the map sits (beside its icon), so it steps aside while they're up.
+    const [infoOpen, setInfoOpen] = useState(false);
+    const mapFade = usePresence(mapOn && !infoOpen, 300);
+    /**
+     * On a desktop the blueprint controls sit on the right, centred where the
+     * window has the height, and otherwise just under the rail of icons above
+     * them. The map sits in the corner, over its icon and the "i", in whatever
+     * room the controls leave below them, and beside them where they leave too
+     * little. All measured: the controls' size, the rail's foot, the window.
+     */
+    const [controlsEl, setControlsEl] = useState<HTMLDivElement | null>(null);
+    const [railEl, setRailEl] = useState<HTMLDivElement | null>(null);
+    const railRef = useCallback((el: HTMLDivElement | null) => {
+        inks.watch(el);
+        setRailEl(el);
+    }, []);
+    const [layout, setLayout] = useState({ vw: window.innerWidth, vh: window.innerHeight, height: 0, width: 0, railBottom: 0 });
+    useEffect(() => {
+        const measure = () => setLayout({
+            vw: window.innerWidth,
+            vh: window.innerHeight,
+            height: controlsEl?.offsetHeight ?? 0,
+            width: controlsEl?.offsetWidth ?? 0,
+            railBottom: railEl?.getBoundingClientRect().bottom ?? 0,
+        });
+        const observer = new ResizeObserver(measure);
+        if (controlsEl) observer.observe(controlsEl);
+        if (railEl) observer.observe(railEl);
+        window.addEventListener('resize', measure);
+        measure();
+        return () => {
+            observer.disconnect();
+            window.removeEventListener('resize', measure);
+        };
+    }, [controlsEl, railEl]);
+    // Where the rail leaves too little height above the corner's icons, the controls step left of the rail instead.
+    const crowded = layout.railBottom + 24 + layout.height > layout.vh - MAP_BOTTOM;
+    const controlsTop = crowded ? Math.max(layout.vh / 2 - layout.height / 2, 88) : Math.max(layout.vh / 2 - layout.height / 2, layout.railBottom + 24);
+    const controlsRight = (tuning ? TUNE_WIDTH - 16 : 0) + (crowded ? 64 : 0);
+    const mapRoom = {
+        below: layout.vh - MAP_BOTTOM - 16 - (controlsTop + layout.height),
+        beside: controlsRight + layout.width + 24,
+    };
     /** On a phone: which of the blueprint's groups is open, and whether the scan wheel is, which they make way for. */
     const [tab, setTab] = useState<Tab>('view');
     const [wheelOpen, setWheelOpen] = useState(false);
@@ -869,7 +915,9 @@ const Splats = () => {
         </button>
     );
     // Its room is kept whether it's on or not, so turning it on and off moves nothing else; it fades in and out in place.
-    const mapSize = phone ? 136 : low ? 112 : 172;
+    // Below the controls when there's room for a map worth reading; beside them otherwise.
+    const mapBelow = mapRoom.below >= MAP_MIN;
+    const mapSize = phone ? 136 : mapBelow ? Math.min(172, Math.floor(mapRoom.below)) : 136;
     const map = (
         <div className="relative shrink-0" style={{ width: mapSize, height: mapSize }}>
             {mapFade.mounted && cloud && ready && (
@@ -1073,7 +1121,7 @@ const Splats = () => {
                           */}
                         <div className={`absolute top-[4.25rem] z-10 pointer-events-none ${tuning ? '' : 'inset-x-0'}`} style={tuning ? { right: TUNE_WIDTH + 16 } : undefined}>
                             <div className={tuning ? '' : 'flex justify-end px-6'}>
-                                <div ref={inks.watch} className={`pointer-events-auto flex w-10 flex-col items-center gap-6 md:w-6 ${INK}`}>
+                                <div ref={railRef} className={`pointer-events-auto flex w-10 flex-col items-center gap-6 md:w-6 ${INK}`}>
                                     <span aria-hidden className="h-px w-5 bg-current opacity-50" />
                                     <div data-ink-part>{help}</div>
                                     <button
@@ -1158,9 +1206,26 @@ const Splats = () => {
                                     </p>
                                 )}
 
-                                {stats && !tuning && (
-                                    <div ref={inks.watch} className={`absolute right-6 bottom-6 z-10 ${INK}`}>
-                                        <div data-ink-part><Info key={current.id} label={t('splats.stats.label')} lines={stats} /></div>
+                                {/* The corner: the scan's numbers, then in blueprint the map's switch, under the map. */}
+                                {((stats && !tuning) || inBlueprint) && (
+                                    <div ref={inks.watch} className={`absolute bottom-6 z-10 flex items-end gap-5 ${INK}`} style={{ right: tuning ? TUNE_WIDTH + 72 : 24 }}>
+                                        {stats && !tuning && (
+                                            <div data-ink-part><Info key={current.id} label={t('splats.stats.label')} lines={stats} onOpenChange={setInfoOpen} /></div>
+                                        )}
+                                        {inBlueprint && (
+                                            <button
+                                                type="button"
+                                                data-ink-part
+                                                onClick={() => setMapOn((on) => !on)}
+                                                aria-pressed={mapOn}
+                                                aria-label={t('splats.mapToggle')}
+                                                title={t('splats.mapToggle')}
+                                                className={`flex flex-col items-center gap-1.5 transition-colors ${mapOn ? ON : OFF}`}
+                                            >
+                                                <MapIcon size={20} strokeWidth={1.75} />
+                                                <span aria-hidden className={`h-px w-5 bg-current transition-opacity ${mapOn ? 'opacity-100' : 'opacity-0'}`} />
+                                            </button>
+                                        )}
                                     </div>
                                 )}
 
@@ -1169,7 +1234,7 @@ const Splats = () => {
                                     <div aria-hidden className={`absolute inset-y-0 right-0 pointer-events-none bg-gradient-to-l from-slate-50/90 via-slate-50/60 to-transparent dark:from-black/90 dark:via-black/60 ${low ? 'w-[28rem]' : 'w-80'}`} />
                                 )}
                                 {inBlueprint && (
-                                    <div className={`absolute top-1/2 -translate-y-1/2 z-10 flex items-center gap-6 ${LABEL} ${tuning ? '' : 'right-0'} ${INK}`} style={tuning ? { right: TUNE_WIDTH - 16 } : undefined}>
+                                    <div ref={setControlsEl} className={`absolute z-10 flex items-center gap-6 ${LABEL} ${INK}`} style={{ top: controlsTop, right: controlsRight }}>
                                         <div className="flex flex-col items-end gap-1.5">
                                             {viewButtons}
                                             <div className="mt-5 flex flex-col items-end gap-2.5">{motion}</div>
@@ -1177,10 +1242,14 @@ const Splats = () => {
                                         <div className="flex">{rings}</div>
                                     </div>
                                 )}
-                                {/* The map in the corner, over the scan's numbers; beside the tuning panel's toggles while it's open. */}
+                                {/* The map over its icon in the corner, or beside the controls where there's no room under them. */}
                                 {inBlueprint && (
-                                    <div className={`absolute bottom-16 z-10 flex flex-col items-center gap-3 ${LABEL} ${INK}`} style={{ right: tuning ? TUNE_WIDTH + 72 : 24 }}>
-                                        {mapToggle}
+                                    <div
+                                        className={`absolute z-10 ${INK}`}
+                                        style={mapBelow
+                                            ? { right: tuning ? TUNE_WIDTH + 72 : 24, bottom: MAP_BOTTOM }
+                                            : { right: mapRoom.beside, bottom: 24 }}
+                                    >
                                         {map}
                                     </div>
                                 )}

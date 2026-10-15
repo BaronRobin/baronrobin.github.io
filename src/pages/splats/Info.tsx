@@ -6,9 +6,14 @@ import { OFF, ON } from './ui';
  * rise in one after the other, nearest first, and go again on a second click,
  * a click anywhere else or Esc. They open upwards, right-aligned over the mark.
  */
-const Info = ({ label, lines }: { label: string; lines: string[] }) => {
+const Info = ({ label, lines, onOpenChange }: { label: string; lines: string[]; onOpenChange?: (open: boolean) => void }) => {
     const [open, setOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
+    // The map in blueprint opens in the same place, so it steps aside while these are up.
+    const report = useRef(onOpenChange);
+    report.current = onOpenChange;
+    useEffect(() => { report.current?.(open); }, [open]);
+    useEffect(() => () => report.current?.(false), []);
     useEffect(() => {
         if (!open) return;
         const away = (e: PointerEvent) => { if (!ref.current?.contains(e.target as Node)) setOpen(false); };

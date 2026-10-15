@@ -534,7 +534,8 @@
                     "Built while learning"
                 ]
             }
-        }
+        },
+        "majors": "Versions"
     },
     "notFoundPage": {
         "title": "404",

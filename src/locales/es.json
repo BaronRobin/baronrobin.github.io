@@ -534,7 +534,8 @@
                     "Hecha mientras aprendía"
                 ]
             }
-        }
+        },
+        "majors": "Versiones"
     },
     "notFoundPage": {
         "title": "404",
