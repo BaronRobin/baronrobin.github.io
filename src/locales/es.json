@@ -420,6 +420,12 @@
                     "Boquillas: 0,2 / 0,4 / 0,6 mm"
                 ]
             }
+        },
+        "view": {
+            "label": "Vista",
+            "wide": "Ancho completo",
+            "mosaic": "Mosaico",
+            "list": "Lista"
         }
     },
     "photography": {

@@ -420,6 +420,12 @@
                     "Nozzles: 0.2 / 0.4 / 0.6 mm"
                 ]
             }
+        },
+        "view": {
+            "label": "View",
+            "wide": "Full width",
+            "mosaic": "Mosaic",
+            "list": "List"
         }
     },
     "photography": {

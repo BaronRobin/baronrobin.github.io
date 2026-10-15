@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link, useLocation, useNavigationType } from 'react-router-dom';
+import { useLocation, useNavigationType } from 'react-router-dom';
 import { useTranslation, Trans } from 'react-i18next';
 import {
     Instagram,
@@ -27,8 +27,8 @@ import {
     SiRaspberrypi,
     SiBambulab
 } from 'react-icons/si';
-import { visibleProjects } from '../data/projects';
 import CareerTimeline from '../components/CareerTimeline';
+import SelectedWorks from '../components/SelectedWorks';
 import ProfileMedia from '../components/ProfileMedia';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import SiteFooter from '../components/SiteFooter';
@@ -84,41 +84,6 @@ const SectionHeader = ({ title, tight = false }: SectionHeaderProps) => (
         {title}
     </h2>
 );
-
-/**
- * Card spans for the project mosaic, as [columns, rows] on a six-column grid.
- *
- * Rows are defined in pairs whose columns add up to six and which share a row
- * span. That is what keeps the mosaic gap-free: a row can never leave a hole
- * for the next card to fall into. The pattern repeats for as many projects as
- * there are, and an odd one left at the end takes the full width instead.
- */
-const MOSAIC_ROWS: [number, number][][] = [
-    [[4, 4], [2, 4]],
-    [[2, 3], [4, 3]],
-    [[3, 3], [3, 3]],
-];
-
-/** Written out rather than interpolated so Tailwind can see the class names. */
-const SPAN_CLASS: Record<string, string> = {
-    '4,4': 'md:col-span-4 md:row-span-4',
-    '2,4': 'md:col-span-2 md:row-span-4',
-    '2,3': 'md:col-span-2 md:row-span-3',
-    '4,3': 'md:col-span-4 md:row-span-3',
-    '3,3': 'md:col-span-3 md:row-span-3',
-    '6,4': 'md:col-span-6 md:row-span-4',
-};
-
-const mosaicSpans = (count: number): string[] => {
-    const spans: [number, number][] = [];
-    for (let row = 0; count - spans.length >= 2; row++) {
-        spans.push(...MOSAIC_ROWS[row % MOSAIC_ROWS.length]);
-    }
-    if (spans.length < count) spans.push([6, 4]);
-    return spans.map(([c, r]) => SPAN_CLASS[`${c},${r}`]);
-};
-
-const PROJECT_SPANS = mosaicSpans(visibleProjects.length);
 
 /**
  * The three accounts the Social Hub section used to list. The section was three
@@ -446,75 +411,8 @@ const Home = () => {
             <section id="projects" className="pt-16 md:pt-20 pb-8 md:pb-10 bg-white/50 dark:bg-slate-900/50 transition-colors">
                 <div className="container mx-auto px-6">
                     <SectionHeader title={t('projects.title')} />
-
-                    {/* A mosaic rather than a grid of identical squares. Cards
-                        carry a column and row span each, so a card's shape is
-                        close to the shape of the work inside it instead of
-                        cropping every piece to the same box. One column on
-                        mobile, where a mosaic would just be small. */}
-                    <div className="grid grid-cols-1 md:grid-cols-6 gap-4 md:gap-5 md:auto-rows-[6.5rem] max-w-6xl mx-auto">
-                        {visibleProjects.map((project, index) => (
-                            <motion.div
-                                key={project.id}
-                                initial={{ opacity: 0, y: 24 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, margin: '-60px' }}
-                                transition={{ duration: 0.5, delay: (index % 2) * 0.08 }}
-                                className={`group relative overflow-hidden rounded-2xl cursor-pointer aspect-[4/3] md:aspect-auto ${PROJECT_SPANS[index]}`}
-                                onMouseEnter={(e) => {
-                                    const video = e.currentTarget.querySelector('video');
-                                    if (video) video.play();
-                                }}
-                                onMouseLeave={(e) => {
-                                    const video = e.currentTarget.querySelector('video');
-                                    if (video) video.pause();
-                                }}
-                            >
-                                <Link
-                                    to={`/project/${project.id}`}
-                                    className="absolute inset-0 z-20"
-                                    aria-label={t(`projects.${project.id}.title`)}
-                                />
-                                <div className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-105">
-                                    {project.media[0]?.type === 'video' ? (
-                                        <video
-                                            src={project.media[0].url}
-                                            muted
-                                            loop
-                                            playsInline
-                                            // Every video tile has a poster, so
-                                            // nothing needs fetching until a
-                                            // hover actually asks for playback.
-                                            preload="none"
-                                            poster={project.media[0].thumbnail}
-                                            className="object-cover w-full h-full pointer-events-none"
-                                        />
-                                    ) : (
-                                        <img
-                                            src={project.media[0]?.url}
-                                            alt=""
-                                            loading="lazy"
-                                            className="object-cover w-full h-full pointer-events-none"
-                                        />
-                                    )}
-                                </div>
-
-                                {/* The title stays legible without a hover,
-                                    which is the only state a touch screen has.
-                                    The category is what the hover reveals, and
-                                    it holds its space so the title cannot jump. */}
-                                <div className="absolute inset-x-0 bottom-0 z-10 p-5 md:p-6 pointer-events-none bg-gradient-to-t from-slate-950/80 via-slate-950/25 to-transparent">
-                                    <span className="block text-[10px] font-bold uppercase tracking-widest text-purple-300 mb-1 opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                                        {t(`projects.${project.id}.category`)}
-                                    </span>
-                                    <h3 className="text-lg md:text-xl font-bold text-white drop-shadow-md">
-                                        {t(`projects.${project.id}.title`)}
-                                    </h3>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
                 </div>
+                <SelectedWorks />
             </section>
 
             {/* Contact Section */}
@@ -545,7 +443,8 @@ const Home = () => {
                             <span className="text-[11px] uppercase tracking-widest text-slate-400 dark:text-slate-500">
                                 {t('contact.socialHint')}
                             </span>
-                            <div className="flex flex-wrap justify-center gap-2">
+                            {/* Stacked on a phone, each its own width; in a row where there's room. */}
+                            <div className="flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-2">
                                 {INSTAGRAM.map(({ handle, url }) => (
                                     <a
                                         key={handle}
