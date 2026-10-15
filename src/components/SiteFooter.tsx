@@ -37,7 +37,7 @@ const BoulderHold = () => {
             rel="noopener noreferrer"
             aria-label="the boulderapp"
             title="the boulderapp"
-            className="inline-flex text-slate-300 dark:text-slate-700 hover:text-amber-500 dark:hover:text-amber-400 hover:rotate-12 transition-[color,transform] duration-300 ease-in-out"
+            className="inline-flex text-slate-300 dark:text-slate-700 hover:text-purple-600 dark:hover:text-purple-400 hover:rotate-12 transition-[color,transform] duration-300 ease-in-out"
         >
             <svg viewBox="-170 -150 340 300" width="18" height="16" aria-hidden>
                 <mask id={cut}>
