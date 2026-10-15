@@ -10,6 +10,7 @@ import { PANEL_BG, PANEL_KEEP, SLIDE } from '../pages/splats/ui';
 import Logo from './Logo';
 import { PHOTOGRAPHY_IN_NAV } from '../data/photos';
 import { BACHELOR_ID, LAUTWASSER_ID, SPLATS_ID } from '../data/projects';
+import { hasHistory } from '../hooks/navHistory';
 
 /**
  * The site header. There is one, rendered by App outside the routes, so it
@@ -45,7 +46,7 @@ const DECKS = [LAUTWASSER, `/project/${BACHELOR_ID}`];
 const SiteNav = () => {
     const { t, i18n } = useTranslation();
     const { theme, toggleTheme, forced } = useTheme();
-    const { pathname, key } = useLocation();
+    const { pathname } = useLocation();
     const navigate = useNavigate();
     const reduce = useReducedMotion();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -60,6 +61,8 @@ const SiteNav = () => {
 
     // A menu left open doesn't follow you to the next page.
     const [menuFor, setMenuFor] = useState(pathname);
+    // Every hook above the early return below: on a deck's slides the bar isn't drawn, but its hooks still run in the same order.
+    const toolOpen = useToolOpen();
     if (menuFor !== pathname) {
         setMenuFor(pathname);
         setIsMenuOpen(false);
@@ -85,7 +88,7 @@ const SiteNav = () => {
     // one: there the words take the ink of the viewer's own controls.
     const overScan = pathname === SPLATS && !solid && !forcedDark;
     // With one of its tools open, the bar takes the tools' panels' see-through dark, sliding down as they slide in, and its ink reads through it.
-    const overTool = useToolOpen() && overScan;
+    const overTool = toolOpen && overScan;
     const inkRef = overScan ? inks.watch : undefined;
     const inkClass = overScan ? 'splat-ink' : '';
 
@@ -97,7 +100,7 @@ const SiteNav = () => {
     // Back where you came from, if that was somewhere on this site. A deep
     // link has nowhere on the site to go back to, so it goes to the projects.
     const goBack = () => {
-        if (key !== 'default') navigate(-1);
+        if (hasHistory()) navigate(-1);
         else navigate('/', { state: { section: 'projects' } });
     };
 

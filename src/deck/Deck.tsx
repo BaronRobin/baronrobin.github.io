@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { AnimatePresence, motion, useIsPresent, useReducedMotion, type Variants } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Captions, CaptionsOff, Maximize, Minimize, Volume2, VolumeX } from 'lucide-react';
+import { cameFrom, hasHistory } from '../hooks/navHistory';
 import { PlaybackContext } from './playback';
 import type { DeckConfig, SlideDef, Transition } from './types';
 import './strings';
@@ -98,6 +99,15 @@ export const Deck = <Chapter extends string, Media extends string>({ ns, base, s
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const { n } = useParams<{ n?: string }>();
+    // Leaving goes back to the project page where it was opened from there, as the browser's
+    // back would, so its own back arrow then leads on to the projects, not into the slides again.
+    // Opened from anywhere else (a link straight to a slide), the project page takes the slides' place.
+    const { pathname } = useLocation();
+    const [fromPage] = useState(() => cameFrom(pathname) === base && hasHistory());
+    const leave = useCallback(() => {
+        if (fromPage) navigate(-1);
+        else navigate(base, { replace: true });
+    }, [fromPage, navigate, base]);
     const reduce = Boolean(useReducedMotion());
 
     const total = slides.length;
@@ -224,7 +234,7 @@ export const Deck = <Chapter extends string, Media extends string>({ ns, base, s
                     break;
                 case 'Escape':
                     // In full screen the browser takes Escape itself.
-                    if (!document.fullscreenElement) navigate(base);
+                    if (!document.fullscreenElement) leave();
                     break;
                 default:
                     return;
@@ -233,7 +243,7 @@ export const Deck = <Chapter extends string, Media extends string>({ ns, base, s
         };
         window.addEventListener('keydown', onKey);
         return () => window.removeEventListener('keydown', onKey);
-    }, [advance, go, total, toggleFullscreen, navigate, base, hasSound]);
+    }, [advance, go, total, toggleFullscreen, leave, hasSound]);
 
     useEffect(() => {
         const el = rootRef.current;
@@ -300,7 +310,14 @@ export const Deck = <Chapter extends string, Media extends string>({ ns, base, s
         >
             {/* Top bar */}
             <div className={`shrink-0 h-14 px-4 md:px-6 flex items-center justify-between gap-4 text-xs uppercase tracking-wider ${chrome}`}>
-                <Link to={base} className={`inline-flex items-center gap-2 transition-colors group ${theme.link}`}>
+                <Link
+                    to={base}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        leave();
+                    }}
+                    className={`inline-flex items-center gap-2 transition-colors group ${theme.link}`}
+                >
                     <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
                     <span className="hidden sm:inline">{t('deck.caseStudy')}</span>
                 </Link>

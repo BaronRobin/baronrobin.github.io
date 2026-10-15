@@ -11,7 +11,7 @@ const Info = ({ label, lines, onOpenChange }: { label: string; lines: string[]; 
     const ref = useRef<HTMLDivElement>(null);
     // The map in blueprint opens in the same place, so it steps aside while these are up.
     const report = useRef(onOpenChange);
-    report.current = onOpenChange;
+    useEffect(() => { report.current = onOpenChange; });
     useEffect(() => { report.current?.(open); }, [open]);
     useEffect(() => () => report.current?.(false), []);
     useEffect(() => {

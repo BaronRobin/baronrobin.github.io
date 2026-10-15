@@ -18,6 +18,25 @@ const major = (label: string) => label.split('.')[0];
  */
 const groups = [...new Set(versions.map((v) => major(v.label)))].map((m) => versions.filter((v) => major(v.label) === m));
 
+/**
+ * A boulder hold, bolted on at the end of the footer and as faint as its
+ * separators: it goes to the boulderapp, and nothing else on the site says so.
+ */
+const BoulderHold = () => (
+    <a
+        href="https://the-boulderapp.vercel.app"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="the boulderapp"
+        title="the boulderapp"
+        className="inline-flex text-slate-300 dark:text-slate-700 hover:text-amber-500 dark:hover:text-amber-400 hover:rotate-12 transition-[color,transform] duration-300 ease-in-out"
+    >
+        <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden fill="currentColor" fillRule="evenodd">
+            <path d="M5 9.5C4.2 6.4 6.6 3.6 9.8 3.9c1.6.2 2.6 1.1 4 1.2 2.4.2 4.7-.4 6 1.6 1.4 2.1.1 4.6-.4 6.8-.6 2.4.6 4.8-1.2 6.6-2.1 2-5.2 1.1-7.6.3-2.2-.7-4.8-.3-6.2-2.3C2.9 16.2 5.7 12.4 5 9.5ZM12.6 9.9a1.7 1.7 0 1 0 0 3.4 1.7 1.7 0 0 0 0-3.4Z" />
+        </svg>
+    </a>
+);
+
 const SiteFooter = ({ bordered = true }: { bordered?: boolean }) => {
     const { t, i18n } = useTranslation();
     const [open, setOpen] = useState(false);
@@ -53,6 +72,7 @@ const SiteFooter = ({ bordered = true }: { bordered?: boolean }) => {
                     >
                         v{currentVersion.label}
                     </button>
+                    <BoulderHold />
                 </p>
             </footer>
 

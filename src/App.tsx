@@ -6,6 +6,7 @@ import './i18n';
 import { ThemeProvider } from './context/ThemeContext';
 import useHtmlLang from './hooks/useHtmlLang';
 import { BACHELOR_ID, LAUTWASSER_ID, SPLATS_ID } from './data/projects';
+import { PathTracker } from './hooks/navHistory';
 
 // Home is the landing route, so it stays in the main chunk; lazy-loading it
 // would just add a round trip before first paint. The rest are split out.
@@ -51,6 +52,7 @@ const App = () => {
     <ThemeProvider>
       <Router>
         <ScrollToTop />
+        <PathTracker />
         {/* One header for every page, outside the routes so it never remounts. */}
         <SiteNav />
         <Suspense fallback={<RouteFallback />}>

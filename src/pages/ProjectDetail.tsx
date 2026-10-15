@@ -23,12 +23,13 @@ const ProjectDetail = () => {
     }, [id]);
 
     // The scroll hint points at the tools card; once that's on screen, or scrolled past, it goes.
-    const [atDetails, setAtDetails] = useState(false);
+    // Kept per project, so the next project's page starts with it showing.
+    const [atDetailsOf, setAtDetailsOf] = useState<string | null>(null);
+    const atDetails = atDetailsOf === id;
     useEffect(() => {
-        setAtDetails(false);
         const details = document.getElementById('technicals');
-        if (!details) return;
-        const observer = new IntersectionObserver(([entry]) => setAtDetails(entry.isIntersecting || entry.boundingClientRect.top < 0));
+        if (!details || !id) return;
+        const observer = new IntersectionObserver(([entry]) => setAtDetailsOf(entry.isIntersecting || entry.boundingClientRect.top < 0 ? id : null));
         observer.observe(details);
         return () => observer.disconnect();
     }, [id]);

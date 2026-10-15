@@ -45,17 +45,22 @@ export const usePresence = (open: boolean, ms = SLIDE_MS) => {
     const [shown, setShown] = useState(false);
     useEffect(() => {
         if (open) {
-            setMounted(true);
-            // Two frames: the first paints it where it starts.
+            // Two frames: the first paints it where it starts. It stays mounted for the slide out from the first.
             let second = 0;
-            const first = requestAnimationFrame(() => { second = requestAnimationFrame(() => setShown(true)); });
+            const first = requestAnimationFrame(() => {
+                setMounted(true);
+                second = requestAnimationFrame(() => setShown(true));
+            });
             return () => { cancelAnimationFrame(first); cancelAnimationFrame(second); };
         }
-        setShown(false);
-        const timer = setTimeout(() => setMounted(false), ms);
+        const timer = setTimeout(() => {
+            setShown(false);
+            setMounted(false);
+        }, ms);
         return () => clearTimeout(timer);
     }, [open, ms]);
-    return { mounted: mounted || open, shown };
+    // Closing hides it at once (the slide out runs from here); unmounting waits for the slide.
+    return { mounted: mounted || open, shown: shown && open };
 };
 
 /**
