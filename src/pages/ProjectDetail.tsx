@@ -7,11 +7,14 @@ import { visibleProjects, arViewerUrl } from '../data/projects';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import SiteFooter from '../components/SiteFooter';
 import ProjectTechnicals from '../components/ProjectTechnicals';
+import ProjectSplit from './ProjectSplit';
 
 const ProjectDetail = () => {
     const { t } = useTranslation();
     const { id } = useParams<{ id: string }>();
     const project = visibleProjects.find((p) => p.id === id);
+    // Video beside a click-through viewer of cut-out screens (see Project.layout)
+    const split = project?.layout === 'split';
 
     useDocumentTitle(project ? t(`projects.${project.id}.title`) : undefined);
 
@@ -29,6 +32,8 @@ const ProjectDetail = () => {
         if (a.type !== 'video' && b.type === 'video') return 1;
         return 0;
     }) : [];
+    // The split layout's lightbox holds just the screens, numbered as in its viewer
+    const lightboxMedia = split ? processedMedia.filter((item) => item.type === 'image') : processedMedia;
 
     const openLightbox = (index: number) => setLightboxIndex(index);
     const closeLightbox = () => setLightboxIndex(null);
@@ -36,14 +41,14 @@ const ProjectDetail = () => {
     const nextImage = (e?: React.MouseEvent) => {
         e?.stopPropagation();
         if (lightboxIndex !== null && project) {
-            setLightboxIndex((prev) => (prev! + 1) % processedMedia.length);
+            setLightboxIndex((prev) => (prev! + 1) % lightboxMedia.length);
         }
     };
 
     const prevImage = (e?: React.MouseEvent) => {
         e?.stopPropagation();
         if (lightboxIndex !== null && project) {
-            setLightboxIndex((prev) => (prev! - 1 + processedMedia.length) % processedMedia.length);
+            setLightboxIndex((prev) => (prev! - 1 + lightboxMedia.length) % lightboxMedia.length);
         }
     };
 
@@ -129,6 +134,14 @@ const ProjectDetail = () => {
 
             {/* Media Gallery */}
             <section className="pb-16 container mx-auto px-6">
+                {split ? (
+                    <ProjectSplit
+                        title={t(`projects.${project.id}.title`)}
+                        media={processedMedia}
+                        onExpand={openLightbox}
+                        keysEnabled={lightboxIndex === null}
+                    />
+                ) : (
                 <div className="columns-1 md:columns-2 gap-8 max-w-6xl mx-auto space-y-8">
                     {processedMedia.map((item, index) => (
                         <motion.div
@@ -165,6 +178,7 @@ const ProjectDetail = () => {
                         </motion.div>
                     ))}
                 </div>
+                )}
 
                 {/* Lightbox Overlay */}
                 {lightboxIndex !== null && (
@@ -184,22 +198,24 @@ const ProjectDetail = () => {
                         </button>
 
                         <div className="max-w-7xl max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
-                            {processedMedia[lightboxIndex].type === 'video' ? (
+                            {lightboxMedia[lightboxIndex].type === 'video' ? (
                                 <video
-                                    src={processedMedia[lightboxIndex].url}
+                                    src={lightboxMedia[lightboxIndex].url}
                                     controls
                                     autoPlay
                                     className="max-w-full max-h-[85vh] object-contain mx-auto rounded-lg"
                                 />
                             ) : (
                                 <img
-                                    src={processedMedia[lightboxIndex].url}
+                                    src={lightboxMedia[lightboxIndex].url}
                                     alt="Enlarged view"
-                                    className="max-w-full max-h-[90vh] object-contain mx-auto rounded-lg shadow-2xl"
+                                    className={split
+                                        ? 'max-w-full max-h-[90vh] object-contain mx-auto'
+                                        : 'max-w-full max-h-[90vh] object-contain mx-auto rounded-lg shadow-2xl'}
                                 />
                             )}
                             <div className="text-center text-slate-400 mt-4 font-mono text-sm">
-                                {lightboxIndex + 1} / {processedMedia.length}
+                                {lightboxIndex + 1} / {lightboxMedia.length}
                             </div>
                         </div>
                     </div>

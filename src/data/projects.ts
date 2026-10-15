@@ -53,6 +53,13 @@ export interface Project {
      * stays in public/projects/.
      */
     hidden?: boolean;
+    /**
+     * How the project page shows the media. Unset: the masonry gallery.
+     * 'split': the video on the left and the stills as a click-through viewer
+     * on the right (src/pages/ProjectSplit.tsx), for screens cut out of their
+     * background.
+     */
+    layout?: 'split';
     media: ProjectMedia[];
     technicals?: {
         icons: ComponentType<{ className?: string }>[];
@@ -203,19 +210,20 @@ export const projects: Project[] = [
         category: 'UI/UX',
         description: 'Data visualization dashboard design for enterprise metrics.',
         folderName: '05_dashboard',
+        layout: 'split',
         media: [
             {
                 type: 'video',
                 url: '/projects/05_dashboard/relticc_Experience_Pro_Platform.webm',
                 thumbnail: '/projects/05_dashboard/relticc_Experience_Pro_Platform.poster.jpg',
             },
-            { type: 'image', url: '/projects/05_dashboard/01.jpg' },
-            { type: 'image', url: '/projects/05_dashboard/02.jpg' },
-            { type: 'image', url: '/projects/05_dashboard/03.jpg' },
-            { type: 'image', url: '/projects/05_dashboard/04.jpg' },
-            { type: 'image', url: '/projects/05_dashboard/05.jpg' },
-            { type: 'image', url: '/projects/05_dashboard/06.jpg' },
-            { type: 'image', url: '/projects/05_dashboard/07.jpg' }
+            { type: 'image', url: '/projects/05_dashboard/01.webp' },
+            { type: 'image', url: '/projects/05_dashboard/02.webp' },
+            { type: 'image', url: '/projects/05_dashboard/03.webp' },
+            { type: 'image', url: '/projects/05_dashboard/04.webp' },
+            { type: 'image', url: '/projects/05_dashboard/05.webp' },
+            { type: 'image', url: '/projects/05_dashboard/06.webp' },
+            { type: 'image', url: '/projects/05_dashboard/07.webp' }
         ],
         technicals: {
             icons: [SiReact, Database, Mail],
