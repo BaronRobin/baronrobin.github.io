@@ -72,9 +72,12 @@ const SectionIndex = ({ entries, tone = 'dark', font = 'font-lw' }: {
     // Shown while the pointer is over the column or keyboard focus is in it.
     // Tap focus doesn't count, or the panel would stay open over the page.
     const revealed = 'group-hover:opacity-100 group-has-[:focus-visible]:opacity-100';
+    // Closed, only the dots catch the pointer, so the invisible labels can't
+    // open the panel over what's beside them; open, the labels can be clicked.
+    const live = 'pointer-events-none group-hover:pointer-events-auto group-has-[:focus-visible]:pointer-events-auto';
 
     return (
-        <nav aria-label={t('deck.index')} className="group fixed right-2 xl:right-6 top-1/2 -translate-y-1/2 z-40 hidden md:block">
+        <nav aria-label={t('deck.index')} className="group fixed right-2 xl:right-6 top-1/2 -translate-y-1/2 z-40 hidden md:block pointer-events-none">
             <div
                 aria-hidden
                 className={`absolute -inset-y-3 -left-4 -right-2 rounded-xl border backdrop-blur-md ${look.panel} opacity-0 transition-opacity duration-200 pointer-events-none ${revealed}`}
@@ -88,14 +91,15 @@ const SectionIndex = ({ entries, tone = 'dark', font = 'font-lw' }: {
                                 type="button"
                                 onClick={() => go(id)}
                                 aria-current={here ? 'location' : undefined}
-                                className="group/item flex w-full items-center justify-end gap-3 py-1.5 pl-2 outline-none"
+                                className={`group/item flex w-full items-center justify-end gap-3 pl-2 outline-none ${live}`}
                             >
                                 <span
-                                    className={`${font} font-light uppercase text-[11px] tracking-[0.16em] whitespace-nowrap opacity-0 transition-opacity duration-200 ${revealed} ${here ? look.here : look.other}`}
+                                    className={`${font} py-1.5 font-light uppercase text-[11px] tracking-[0.16em] whitespace-nowrap opacity-0 transition-opacity duration-200 ${revealed} ${here ? look.here : look.other}`}
                                 >
                                     {label}
                                 </span>
-                                <span aria-hidden className="flex w-4 justify-end">
+                                {/* The dot's hit area: the row's height, a little wider than the dot. */}
+                                <span aria-hidden className="-ml-2 flex w-6 self-stretch items-center justify-end py-1.5 pointer-events-auto">
                                     <span
                                         className={`block rounded-full ring-1 transition-all duration-300 ${look.dot} ${here ? `w-4 h-0.5 ${look.dotHere}` : `w-1.5 h-1.5 ${look.dotOther}`}`}
                                     />
