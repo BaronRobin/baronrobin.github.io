@@ -66,9 +66,12 @@ const mosaicSpans = (count: number): string[] => {
 
 const PROJECT_SPANS = mosaicSpans(visibleProjects.length);
 
-/** A video plays while the pointer is over its card, and stops when it leaves. */
+/**
+ * A video plays while the pointer is over its card, and stops when it leaves.
+ * Leaving before it has started cancels the play() on its way; that's fine.
+ */
 const hover = {
-    onMouseEnter: (e: React.MouseEvent<HTMLElement>) => { e.currentTarget.querySelector('video')?.play(); },
+    onMouseEnter: (e: React.MouseEvent<HTMLElement>) => { e.currentTarget.querySelector('video')?.play().catch(() => {}); },
     onMouseLeave: (e: React.MouseEvent<HTMLElement>) => { e.currentTarget.querySelector('video')?.pause(); },
 };
 

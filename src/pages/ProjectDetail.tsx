@@ -13,13 +13,24 @@ const ProjectDetail = () => {
     const { t } = useTranslation();
     const { id } = useParams<{ id: string }>();
     const project = visibleProjects.find((p) => p.id === id);
-    // Video beside a click-through viewer of cut-out screens (see Project.layout)
+    // Video beside a click-through viewer of the stills (see Project.layout)
     const split = project?.layout === 'split';
 
     useDocumentTitle(project ? t(`projects.${project.id}.title`) : undefined);
 
     useEffect(() => {
         window.scrollTo(0, 0);
+    }, [id]);
+
+    // The scroll hint points at the tools card; once that's on screen, or scrolled past, it goes.
+    const [atDetails, setAtDetails] = useState(false);
+    useEffect(() => {
+        setAtDetails(false);
+        const details = document.getElementById('technicals');
+        if (!details) return;
+        const observer = new IntersectionObserver(([entry]) => setAtDetails(entry.isIntersecting || entry.boundingClientRect.top < 0));
+        observer.observe(details);
+        return () => observer.disconnect();
     }, [id]);
 
     const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
@@ -77,17 +88,24 @@ const ProjectDetail = () => {
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white font-sans selection:bg-purple-500/30 transition-colors duration-300">
 
-            {/* Scroll Hint: in the right margin where there is one; a phone has none, and it would sit on the pictures. */}
-            <motion.button
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1, duration: 0.4, ease: 'easeInOut' }}
-                onClick={() => document.getElementById('technicals')?.scrollIntoView({ behavior: 'smooth' })}
-                className="hidden md:flex fixed right-4 md:right-8 top-1/2 -translate-y-1/2 z-40 flex-col items-center gap-4 text-slate-400 dark:text-slate-500 hover:text-purple-600 dark:hover:text-purple-400 transition-colors cursor-pointer"
-            >
-                <span className="[writing-mode:vertical-rl] rotate-180 text-xs tracking-widest uppercase font-light">{t('projects.scrollHint')}</span>
-                <ArrowDown size={20} />
-            </motion.button>
+            {/* Scroll Hint: in the right margin where there is one; a phone has none, and it would sit on the pictures.
+                Only where there's a tools card to point at, and only until it's in view. */}
+            {project.technicals && (
+                <motion.button
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 1, duration: 0.4, ease: 'easeInOut' }}
+                    onClick={() => document.getElementById('technicals')?.scrollIntoView({ behavior: 'smooth' })}
+                    aria-hidden={atDetails}
+                    tabIndex={atDetails ? -1 : 0}
+                    className={`hidden md:flex fixed right-4 md:right-8 top-1/2 -translate-y-1/2 z-40 text-slate-400 dark:text-slate-500 hover:text-purple-600 dark:hover:text-purple-400 transition-colors cursor-pointer ${atDetails ? 'pointer-events-none' : ''}`}
+                >
+                    <span className={`flex flex-col items-center gap-4 transition-opacity duration-300 ease-in-out ${atDetails ? 'opacity-0' : 'opacity-100'}`}>
+                        <span className="[writing-mode:vertical-rl] rotate-180 text-xs tracking-widest uppercase font-light">{t('projects.scrollHint')}</span>
+                        <ArrowDown size={20} />
+                    </span>
+                </motion.button>
+            )}
 
             {/* Hero Content (Details) */}
             <div className="pt-32 pb-16 container mx-auto px-6">
@@ -138,6 +156,7 @@ const ProjectDetail = () => {
                 {split ? (
                     <ProjectSplit
                         title={t(`projects.${project.id}.title`)}
+                        cutouts={!!project.cutouts}
                         media={processedMedia}
                         onExpand={openLightbox}
                         openAt={lightboxIndex}
@@ -210,7 +229,7 @@ const ProjectDetail = () => {
                                 <img
                                     src={lightboxMedia[lightboxIndex].url}
                                     alt="Enlarged view"
-                                    className={split
+                                    className={project.cutouts
                                         ? 'max-w-full max-h-[90vh] object-contain mx-auto'
                                         : 'max-w-full max-h-[90vh] object-contain mx-auto rounded-lg shadow-2xl'}
                                 />

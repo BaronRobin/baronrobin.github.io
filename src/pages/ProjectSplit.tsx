@@ -5,15 +5,16 @@ import { ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
 import type { ProjectMedia } from '../data/projects';
 
 /*
- * The stills are 1658×1080 cut-outs: a screen in its frame, with the frame's
- * shadow on a transparent margin. FRAME is where the frame's outline sits in
- * each picture; it was measured when they were cut out and is the same in all.
+ * Cut-out stills (the Dashboard's) are 1658×1080: a screen in its frame, with
+ * the frame's shadow on a transparent margin. FRAME is where the frame's
+ * outline sits in each picture; it was measured when they were cut out and is
+ * the same in all. Plain stills (photos, renders) just fill the viewer's box.
  */
 const PIC = { w: 1658, h: 1080 };
 const FRAME = { x: 58, y: 39.2, w: 1542, h: 964 };
 const pct = (n: number) => `${n * 100}%`;
 
-/** Places a picture so its frame fills the viewer's 16:10 box; margin and shadow spill over. */
+/** Places a cut-out so its frame fills the viewer's box; margin and shadow spill over. */
 const picStyle: CSSProperties = {
     left: pct(-FRAME.x / FRAME.w),
     top: pct(-FRAME.y / FRAME.h),
@@ -41,6 +42,8 @@ const controlButton =
 
 interface ProjectSplitProps {
     title: string;
+    /** The stills are framed cut-outs (see FRAME), not plain pictures. */
+    cutouts: boolean;
     /** The page's media: the first video and every still are shown. */
     media: ProjectMedia[];
     /** Opens the lightbox on the still at this index, counted among the stills. */
@@ -57,12 +60,19 @@ interface ProjectSplitProps {
  * The 'split' project layout: the video on the left, the stills on the right
  * as one viewer that is clicked through. On phones the video sits on top.
  */
-const ProjectSplit = ({ title, media, onExpand, openAt }: ProjectSplitProps) => {
+/** Width over height of a media item, where the data gives its size. */
+const aspectOf = (item: ProjectMedia | undefined, fallback: number) =>
+    item?.width && item.height ? item.width / item.height : fallback;
+
+const ProjectSplit = ({ title, cutouts, media, onExpand, openAt }: ProjectSplitProps) => {
     const { t } = useTranslation();
     const keysEnabled = openAt === null;
     const video = media.find((item) => item.type === 'video');
     const screens = media.flatMap((item, index) => (item.type === 'image' ? [{ ...item, index }] : []));
     const count = screens.length;
+    // Each column is as wide as its shape asks, so the video and the stills come out the same height.
+    const videoAspect = aspectOf(video, 16 / 9);
+    const stillAspect = cutouts ? FRAME.w / FRAME.h : aspectOf(screens[0], 3 / 2);
 
     // `shown` is the screen on top; `base` the one under it. They differ only
     // while the fade runs.
@@ -112,19 +122,24 @@ const ProjectSplit = ({ title, media, onExpand, openAt }: ProjectSplitProps) => 
 
     const layer = (i: number): CSSProperties => {
         if (i === base) return { zIndex: 0 };
-        if (i === shown) return { zIndex: 1, clipPath: incomingClip };
+        // A cut-out only fades its screen in: its frame and shadow are the ones underneath.
+        if (i === shown) return cutouts ? { zIndex: 1, clipPath: incomingClip } : { zIndex: 1 };
         return { opacity: 0 };
     };
 
     return (
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-[1fr_1.6fr] gap-10 items-start">
+        <div
+            className="max-w-6xl mx-auto grid grid-cols-1 md:[grid-template-columns:var(--split-columns)] gap-10 items-start"
+            style={{ '--split-columns': video ? `${videoAspect}fr ${stillAspect}fr` : '1fr' } as CSSProperties}
+        >
             {video && (
                 <video
                     src={video.url}
                     poster={video.thumbnail}
                     controls
                     preload="none"
-                    className="block w-full aspect-square object-contain bg-black rounded-lg shadow-lg"
+                    className="block w-full object-contain bg-black rounded-lg shadow-lg"
+                    style={{ aspectRatio: videoAspect }}
                 />
             )}
 
@@ -137,7 +152,11 @@ const ProjectSplit = ({ title, media, onExpand, openAt }: ProjectSplitProps) => 
                     aria-label={title}
                     className="rounded-lg focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-purple-500"
                 >
-                    <div className="relative aspect-[16/10] cursor-pointer" onClick={() => step(1)}>
+                    <div
+                        className={`relative cursor-pointer ${cutouts ? '' : 'overflow-hidden rounded-lg shadow-lg bg-slate-200 dark:bg-white/5'}`}
+                        style={{ aspectRatio: stillAspect }}
+                        onClick={() => step(1)}
+                    >
                         {screens.map((screen, i) => (
                             <img
                                 key={screen.url}
@@ -148,8 +167,8 @@ const ProjectSplit = ({ title, media, onExpand, openAt }: ProjectSplitProps) => 
                                 alt={i === shown ? `${title} - Media ${screen.index + 1}` : ''}
                                 aria-hidden={i !== shown}
                                 draggable={false}
-                                className="absolute max-w-none select-none"
-                                style={{ ...picStyle, ...layer(i) }}
+                                className={cutouts ? 'absolute max-w-none select-none' : 'absolute inset-0 h-full w-full object-cover select-none'}
+                                style={cutouts ? { ...picStyle, ...layer(i) } : layer(i)}
                             />
                         ))}
                     </div>

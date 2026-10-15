@@ -19,6 +19,9 @@ export interface ProjectMedia {
     type: 'image' | 'video';
     url: string;
     thumbnail?: string;
+    /** Pixel size, where a layout needs the shape before the file loads (the 'split' layout). */
+    width?: number;
+    height?: number;
 }
 
 // Self-hosted WebAR viewer (github.com/BaronRobin/artivive), deployed separately.
@@ -60,6 +63,12 @@ export interface Project {
      * background.
      */
     layout?: 'split';
+    /**
+     * The stills are cut-outs of a screen in its frame, on a transparent margin
+     * with the frame's shadow (the Dashboard's): the split viewer places them by
+     * their frame instead of filling its box with them.
+     */
+    cutouts?: boolean;
     media: ProjectMedia[];
     technicals?: {
         icons: ComponentType<{ className?: string }>[];
@@ -110,12 +119,7 @@ export const projects: Project[] = [
         // The Bachelor thesis, with its own page (src/pages/bachelor) like
         // Lautwasser's: the deck, read out of the presentation, and a project
         // page. Only the grid tile and the tools card read this entry.
-        //
-        // Unlisted until the page and the deck have been reviewed: no tile in
-        // the grid, but /project/00-bachelor and its slides still open by
-        // direct link. Drop `hidden` to list it.
         id: BACHELOR_ID,
-        hidden: true,
         title: '3D Grillz',
         category: 'Bachelor Thesis',
         description: 'A digital pipeline for custom dental grillz, from the scan of a set of teeth to a piece ready for casting.',
@@ -127,7 +131,7 @@ export const projects: Project[] = [
             },
         ],
         technicals: {
-            icons: [SiBlender, SiUnrealengine, SiBambulab, Printer],
+            icons: [SiBlender, SiUnrealengine, SiBambulab],
             columns: [
                 [
                     'Intraoralscan beim Zahnarzt, als STL',
@@ -164,24 +168,27 @@ export const projects: Project[] = [
         category: 'Arch Viz',
         description: 'A comprehensive AI hub design system focusing on clarity and utility.',
         folderName: '01_polarise',
+        layout: 'split',
         media: [
             { type: 'image', url: '/projects/01_polarise/cover.jpg' },
-            { type: 'image', url: '/projects/01_polarise/01_Datacenter_Outdoor.jpg' },
+            { type: 'image', url: '/projects/01_polarise/01_Datacenter_Outdoor.jpg', width: 2000, height: 1334 },
             {
                 type: 'video',
                 url: '/projects/01_polarise/Polarise_1.webm',
                 thumbnail: '/projects/01_polarise/Polarise_1.poster.jpg',
+                width: 1920,
+                height: 1080,
             },
-            { type: 'image', url: '/projects/01_polarise/02_PV_Anlage.jpg' },
-            { type: 'image', url: '/projects/01_polarise/03_Office.jpg' },
-            { type: 'image', url: '/projects/01_polarise/04_Kitchen.jpg' },
-            { type: 'image', url: '/projects/01_polarise/05_Meeting.jpg' },
-            { type: 'image', url: '/projects/01_polarise/06_Rack.jpg' },
-            { type: 'image', url: '/projects/01_polarise/07_Pods.jpg' },
-            { type: 'image', url: '/projects/01_polarise/08_OverallDC.jpg' },
-            { type: 'image', url: '/projects/01_polarise/09_UPS.jpg' },
-            { type: 'image', url: '/projects/01_polarise/10_Cooling.jpg' },
-            { type: 'image', url: '/projects/01_polarise/11_Focus_Zone.jpg' },
+            { type: 'image', url: '/projects/01_polarise/02_PV_Anlage.jpg', width: 2000, height: 1334 },
+            { type: 'image', url: '/projects/01_polarise/03_Office.jpg', width: 2000, height: 1334 },
+            { type: 'image', url: '/projects/01_polarise/04_Kitchen.jpg', width: 2000, height: 1334 },
+            { type: 'image', url: '/projects/01_polarise/05_Meeting.jpg', width: 2000, height: 1334 },
+            { type: 'image', url: '/projects/01_polarise/06_Rack.jpg', width: 2000, height: 1334 },
+            { type: 'image', url: '/projects/01_polarise/07_Pods.jpg', width: 2000, height: 1334 },
+            { type: 'image', url: '/projects/01_polarise/08_OverallDC.jpg', width: 2000, height: 1334 },
+            { type: 'image', url: '/projects/01_polarise/09_UPS.jpg', width: 2000, height: 1334 },
+            { type: 'image', url: '/projects/01_polarise/10_Cooling.jpg', width: 2000, height: 1334 },
+            { type: 'image', url: '/projects/01_polarise/11_Focus_Zone.jpg', width: 2000, height: 1334 },
         ],
         technicals: {
             icons: [SiAdobeaftereffects, SiAdobepremierepro, SiAdobephotoshop, SiUnrealengine],
@@ -211,11 +218,14 @@ export const projects: Project[] = [
         description: 'Data visualization dashboard design for enterprise metrics.',
         folderName: '05_dashboard',
         layout: 'split',
+        cutouts: true,
         media: [
             {
                 type: 'video',
                 url: '/projects/05_dashboard/relticc_Experience_Pro_Platform.webm',
                 thumbnail: '/projects/05_dashboard/relticc_Experience_Pro_Platform.poster.jpg',
+                width: 1000,
+                height: 1000,
             },
             { type: 'image', url: '/projects/05_dashboard/01.webp' },
             { type: 'image', url: '/projects/05_dashboard/02.webp' },

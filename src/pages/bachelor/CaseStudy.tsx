@@ -337,6 +337,39 @@ const Viewer = ({ names }: { names: string[] }) => {
     );
 };
 
+
+/**
+ * The four metals as tiles from the periodic table, in the order the deck
+ * lists them: atomic number, symbol, name, atomic mass. Rose gold is an alloy,
+ * so its tile carries both of its elements. Names come from the page's own
+ * strings, so they follow the language.
+ */
+const ELEMENTS: { symbol: string; number: string; mass: string; tint: string; mark?: string }[] = [
+    { symbol: 'Au', number: '79', mass: '196.97', tint: 'bg-[#f3e2a6]' },
+    { symbol: 'Ag', number: '47', mass: '107.87', tint: 'bg-[#e7e9ec]', mark: '925' },
+    { symbol: 'Ti', number: '22', mass: '47.867', tint: 'bg-[#d3d7dc]' },
+    { symbol: 'AuCu', number: '79 · 29', mass: '196.97 · 63.546', tint: 'bg-[#f2cdbd]' },
+];
+
+/** The name part of a metal's line: "Gold (Au)" is Gold, "Rosegold: Gold-Kupferlegierung (Au & Cu)" is Rosegold. */
+const metalName = (line: string) => line.split(/[:(]/)[0].trim();
+
+const ElementTile = ({ element, line }: { element: (typeof ELEMENTS)[number]; line: string }) => (
+    <li className={`relative flex aspect-square flex-col justify-between border border-black/25 p-2.5 sm:p-3 ${element.tint}`} title={line}>
+        <div className="flex items-start justify-between text-[11px] tabular-nums leading-none">
+            <span>{element.number}</span>
+            {element.mark && <span className="text-black/60">{element.mark}</span>}
+        </div>
+        <div>
+            <span className={`block font-light leading-none ${element.symbol.length > 2 ? 'text-5xl sm:text-[1.65rem]' : 'text-5xl'}`}>
+                {element.symbol.length > 2 ? <>Au<span className="text-black/60">Cu</span></> : element.symbol}
+            </span>
+            <span className="mt-1.5 block truncate text-[11px] sm:text-xs leading-tight">{metalName(line)}</span>
+            <span className="block text-[10px] tabular-nums leading-tight text-black/55">{element.mass}</span>
+        </div>
+    </li>
+);
+
 const CaseStudy = () => {
     const { t } = useTranslation();
 
@@ -481,8 +514,8 @@ const CaseStudy = () => {
             <Chapter
                 id="material"
                 text={
-                    <ul className="space-y-4 text-2xl md:text-3xl leading-snug">
-                        {materials.map((m) => <li key={m}>{m}</li>)}
+                    <ul className="grid grid-cols-2 sm:grid-cols-4 gap-2 max-w-md">
+                        {materials.map((line, i) => ELEMENTS[i] && <ElementTile key={line} element={ELEMENTS[i]} line={line} />)}
                     </ul>
                 }
                 side="max-w-3xl"
