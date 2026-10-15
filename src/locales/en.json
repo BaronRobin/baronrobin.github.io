@@ -14,7 +14,7 @@
     "about": {
         "title": "About",
         "intro1": "I'm a 3D generalist based in Germany, currently on the Master's course in <0>Virtual Design</0> at Hochschule Kaiserslautern, where I did my Bachelor's too.",
-        "intro2": "Most of the work below comes from <0>relticc GmbH</0>, where I spent a bit under two years as a 3D generalist alongside the degree. Before that I was a research assistant at the university, working on VR, motion capture, and photogrammetry. Since October 2026 I'm back there as a research assistant, turning 3D scans into point clouds and VR visualisations.",
+        "intro2": "Most of the work below comes from <0>relticc GmbH</0>, where I spent a bit under two years as a 3D generalist alongside the degree. Before that I was a research assistant at the university, working on VR, motion capture, and photogrammetry. Since October 2026 I'm back there, helping with 3D scanning and turning what we capture into VR applications.",
         "intro3": "Most of what I do sits between departments: scanning, processing footage, cleaning, rendering and compositing. I love understanding the tools and combining them to get the best result. I also shoot a lot, analog and digital."
     },
     "timeline": {
@@ -228,7 +228,7 @@
         "04-smart-city": {
             "title": "Smart City",
             "category": "3D Visualization",
-            "description": "A scanned point cloud rebuilt into usable Unreal geometry.",
+            "description": "A trailer for the digitalisation of several small towns in one region: smart lighting, how much it rained where, energy and environmental monitoring, and a new dashboard, coming soon.",
             "technicals": {
                 "col1": [
                     "Postproduction including Cryptomattes",
@@ -484,7 +484,7 @@
                     "Selected Works: full width, mosaic or list",
                     "3D Grillz: bachelor thesis, page and slides",
                     "Lautwasser page uses the full width",
-                    "Dashboard and Polarise: video and pictures side by side",
+                    "Dashboard, Polarise, Smart City: video and pictures side by side",
                     "Scans show their numbers",
                     "Gaussian Splats tile plays on hover"
                 ]

@@ -14,7 +14,7 @@
     "about": {
         "title": "Sobre mí",
         "intro1": "Soy generalista 3D, con base en Alemania, y curso el máster en <0>Virtual Design</0> en la Hochschule Kaiserslautern, donde también hice la carrera.",
-        "intro2": "La mayor parte del trabajo de abajo viene de <0>relticc GmbH</0>, donde pasé poco menos de dos años como generalista 3D en paralelo a los estudios. Antes fui ayudante de investigación en la universidad, trabajando en VR, captura de movimiento y fotogrametría. Desde octubre de 2026 vuelvo a ser ayudante de investigación allí, convirtiendo escaneos 3D en nubes de puntos y visualizaciones en VR.",
+        "intro2": "La mayor parte del trabajo de abajo viene de <0>relticc GmbH</0>, donde pasé poco menos de dos años como generalista 3D en paralelo a los estudios. Antes fui ayudante de investigación en la universidad, trabajando en VR, captura de movimiento y fotogrametría. Desde octubre de 2026 he vuelto allí: ayudo con el escaneo 3D y convierto lo que capturamos en aplicaciones de VR.",
         "intro3": "La mayor parte de lo que hago está entre departamentos: escaneo, procesamiento de metraje, limpieza, renderizado y composición. Me encanta entender las herramientas y combinarlas para obtener el mejor resultado. También fotografío mucho, analógico y digital."
     },
     "timeline": {
@@ -227,7 +227,7 @@
         "04-smart-city": {
             "title": "Smart City",
             "category": "Visualización 3D",
-            "description": "Una nube de puntos escaneada, reconstruida como geometría utilizable en Unreal.",
+            "description": "Un tráiler para la digitalización de varios pueblos pequeños de una misma región: alumbrado inteligente, cuánto ha llovido y dónde, monitorización energética y ambiental, y un nuevo dashboard que llegará pronto.",
             "technicals": {
                 "col1": [
                     "Postproducción incluyendo Cryptomattes",
@@ -484,7 +484,7 @@
                     "Trabajos seleccionados: ancho completo, mosaico o lista",
                     "3D Grillz: trabajo de fin de grado, página y diapositivas",
                     "La página de Lautwasser usa todo el ancho",
-                    "Dashboard y Polarise: vídeo e imágenes lado a lado",
+                    "Dashboard, Polarise, Smart City: vídeo e imágenes lado a lado",
                     "Los escaneos muestran sus cifras",
                     "La tarjeta de Gaussian Splats se reproduce al pasar el ratón"
                 ]

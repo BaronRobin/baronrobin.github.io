@@ -439,15 +439,16 @@ export const projects: Project[] = [
         id: '04-smart-city',
         title: 'Smart City',
         category: '3D Visualization',
-        description: 'Point Cloud to Unreal Mesh',
+        description: 'A trailer for the digitalisation of several small towns in one region: smart lighting, how much it rained where, energy and environmental monitoring, and a new dashboard, coming soon.',
         folderName: '04_smart_city',
+        layout: 'split',
         media: [
-            { type: 'video', url: '/projects/04_smart_city/demo.webm', thumbnail: '/projects/04_smart_city/cover.webp' },
+            { type: 'video', url: '/projects/04_smart_city/demo.webm', thumbnail: '/projects/04_smart_city/cover.webp', width: 1280, height: 720 },
             { type: 'image', url: '/projects/04_smart_city/cover.webp' },
-            { type: 'image', url: '/projects/04_smart_city/1.jpg' },
-            { type: 'image', url: '/projects/04_smart_city/2.jpg' },
-            { type: 'image', url: '/projects/04_smart_city/3.jpg' },
-            { type: 'image', url: '/projects/04_smart_city/4.jpg' }
+            { type: 'image', url: '/projects/04_smart_city/1.jpg', width: 1920, height: 1080 },
+            { type: 'image', url: '/projects/04_smart_city/2.jpg', width: 1920, height: 1080 },
+            { type: 'image', url: '/projects/04_smart_city/3.jpg', width: 1920, height: 1080 },
+            { type: 'image', url: '/projects/04_smart_city/4.jpg', width: 1920, height: 1080 }
         ],
         technicals: {
             icons: [SiAdobeaftereffects, Box, SiUnrealengine],
