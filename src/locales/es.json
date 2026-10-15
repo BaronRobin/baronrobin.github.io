@@ -15,7 +15,18 @@
         "title": "Sobre mí",
         "intro1": "Soy generalista 3D, con base en Alemania, y curso el máster en <0>Virtual Design</0> en la Hochschule Kaiserslautern, donde también hice la carrera.",
         "intro2": "La mayor parte del trabajo de abajo viene de <0>relticc GmbH</0>, donde pasé poco menos de dos años como generalista 3D en paralelo a los estudios. Antes fui ayudante de investigación en la universidad, trabajando en VR, captura de movimiento y fotogrametría. Desde octubre de 2026 he vuelto allí: ayudo con el escaneo 3D y convierto lo que capturamos en aplicaciones de VR.",
-        "intro3": "La mayor parte de lo que hago está entre departamentos: escaneo, procesamiento de metraje, limpieza, renderizado y composición. Me encanta entender las herramientas y combinarlas para obtener el mejor resultado. También fotografío mucho, analógico y digital."
+        "intro3": "La mayor parte de lo que hago está entre departamentos: escaneo, procesamiento de metraje, limpieza, renderizado y composición. Me encanta entender las herramientas y combinarlas para obtener el mejor resultado. También fotografío mucho, analógico y digital.",
+        "quotes": [
+            {
+                "text": "«Aprovechó al máximo la libertad que se le dio y desarrolló y llevó a cabo sus propias soluciones técnicas de forma autónoma.»",
+                "by": "Leon de Fries, director general, relticc GmbH"
+            },
+            {
+                "text": "«Su trabajo se caracterizó por la fiabilidad, el esmero y un alto grado de conocimientos técnicos.»",
+                "by": "Prof. Matthias Pfaff, Virtual Design, Hochschule Kaiserslautern"
+            }
+        ],
+        "quotesNote": "De mis referencias laborales, traducido del alemán."
     },
     "timeline": {
         "title": "Trayectoria",

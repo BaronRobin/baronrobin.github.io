@@ -310,6 +310,16 @@ const Home = () => {
                                 />
                             </p>
                             <p>{t('about.intro3')}</p>
+                            {/* In the words of the people I worked for: a line from each reference. */}
+                            <figure className="space-y-5 pt-2">
+                                {(t('about.quotes', { returnObjects: true }) as { text: string; by: string }[]).map((quote) => (
+                                    <blockquote key={quote.by} className="border-l-2 border-purple-600/40 dark:border-purple-400/40 pl-5">
+                                        <p className="text-slate-800 dark:text-slate-100">{quote.text}</p>
+                                        <footer className="mt-1.5 text-sm text-slate-500 dark:text-slate-400">{quote.by}</footer>
+                                    </blockquote>
+                                ))}
+                                <figcaption className="text-xs text-slate-400 dark:text-slate-500">{t('about.quotesNote')}</figcaption>
+                            </figure>
                         </div>
                     </div>
                 </div>

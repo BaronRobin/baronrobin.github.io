@@ -15,7 +15,18 @@
         "title": "Über mich",
         "intro1": "Ich bin 3D Generalist aus Deutschland und studiere derzeit <0>Virtual Design</0> im Master an der Hochschule Kaiserslautern, wo ich auch meinen Bachelor absolviert habe.",
         "intro2": "Die meisten Arbeiten unten stammen von der <0>relticc GmbH</0>, wo ich ein bisschen weniger als 2 Jahre lang neben dem Studium als 3D Generalist gearbeitet habe. Davor war ich wissenschaftliche Hilfskraft an der Hochschule, im Bereich VR, Motion Capture & Fotogrammetrie. Seit Oktober 2026 bin ich wieder dort, helfe beim 3D-Scannen und mache aus den Aufnahmen VR-Anwendungen.",
-        "intro3": "Das meiste, was ich mache, liegt zwischen den Gewerken: Scanning, Verarbeitung von Footage, Cleaning, Rendering & Compositing. Ich liebe es, die Werkzeuge zu verstehen und zu kombinieren, um das bestmögliche Ergebnis zu erzielen. Außerdem fotografiere ich gerne, analog und digital."
+        "intro3": "Das meiste, was ich mache, liegt zwischen den Gewerken: Scanning, Verarbeitung von Footage, Cleaning, Rendering & Compositing. Ich liebe es, die Werkzeuge zu verstehen und zu kombinieren, um das bestmögliche Ergebnis zu erzielen. Außerdem fotografiere ich gerne, analog und digital.",
+        "quotes": [
+            {
+                "text": "„Die ihm eingeräumten Freiräume nutzte er in vollem Umfang; eigene technische Lösungsansätze entwickelte und realisierte er selbstständig.“",
+                "by": "Leon de Fries, Geschäftsführer, relticc GmbH"
+            },
+            {
+                "text": "„Seine Arbeit war geprägt von Zuverlässigkeit, Sorgfalt und einem hohen Maß an technischer Expertise.“",
+                "by": "Prof. Matthias Pfaff, Virtual Design, Hochschule Kaiserslautern"
+            }
+        ],
+        "quotesNote": "Aus meinen Arbeitszeugnissen."
     },
     "timeline": {
         "title": "Werdegang",
