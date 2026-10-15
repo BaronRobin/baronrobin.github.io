@@ -53,6 +53,13 @@ export interface Project {
      * stays in public/projects/.
      */
     hidden?: boolean;
+    /**
+     * How the project page shows the media. Unset: the masonry gallery.
+     * 'split': the video on the left and the stills as a click-through viewer
+     * on the right (src/pages/ProjectSplit.tsx), for screens cut out of their
+     * background.
+     */
+    layout?: 'split';
     media: ProjectMedia[];
     technicals?: {
         icons: ComponentType<{ className?: string }>[];
@@ -202,6 +209,7 @@ export const projects: Project[] = [
         category: 'UI/UX',
         description: 'Data visualization dashboard design for enterprise metrics.',
         folderName: '05_dashboard',
+        layout: 'split',
         media: [
             {
                 type: 'video',
