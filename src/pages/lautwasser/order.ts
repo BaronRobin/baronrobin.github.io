@@ -3,13 +3,15 @@ import { COVER, FADE, IDEA_STEPS, PULL_RIGHT, PULL_UP, PUSH_UP, STATES, type Cha
 import type { MediaId } from './media';
 import {
     Aufbau, Aufnahmen, Casefilm, Datenvis, Effekt, Effekte, Idee, Intro, Laerm, Logik, Moodboard, Outro,
-    Personifikation, Perspektive, PiApp, Raum, Spektral24, Spektral32, Stationen, Stele, TdEffect, TdNetwork,
+    Personifikation, Perspektive, PiApp, Raum, Spektral24, Spektral32, Stationen, TdEffect, TdNetwork,
     Titel, Umsetzung, Vergleich, Voegel, Weitere, Wellen,
 } from './slides';
 
 /*
  * Slides 11-13 share one topic under lautwasser.slides, as do 14 and 17.
  * Slides 20 and 21 are the deck's morph: one group, two phases.
+ * The deck's slide 22, the 3D-printed stele, is left out, so from 23 on the
+ * presenter counts one lower than the numbers here.
  */
 
 /** The presentation in order, numbered as in the deck. */
@@ -35,7 +37,6 @@ export const SLIDES: SlideDef<ChapterId, MediaId>[] = [
     /* 19 */ { id: 'personifikation', chapter: 'prozess', transition: PUSH_UP, media: ['persona-face', 'persona-fx'], Render: Personifikation },
     /* 20 */ { id: 'pi', chapter: 'prozess', transition: PUSH_UP, group: 'pi', phase: 0, media: ['pi-pc', 'pi-knob', 'pi-board', 'pi-sketch'], Render: PiApp },
     /* 21 */ { id: 'app', chapter: 'prozess', transition: PUSH_UP, group: 'pi', phase: 1, media: ['pi-pc', 'pi-phone', 'app-ui'], Render: PiApp },
-    /* 22 */ { id: 'stele', chapter: 'prozess', transition: PUSH_UP, media: ['stele-print'], Render: Stele },
     /* 23 */ { id: 'logik', chapter: 'prozess', transition: PUSH_UP, media: STATES, Render: Logik },
     /* 24 */ {
         id: 'moodboard',

@@ -94,9 +94,6 @@
             "app": {
                 "topic": "Idea de app descartada"
             },
-            "stele": {
-                "topic": "Estela impresa en 3D"
-            },
             "logik": {
                 "topic": "Lógica",
                 "states": [
@@ -174,7 +171,6 @@
                 "persona": "Un cambio de perspectiva: el Lauter recibe un rostro y habla en cinemáticas. La visita se convierte en un diálogo.",
                 "control": "Un regulador de volumen en una Raspberry Pi envía su valor a TouchDesigner por OSC.",
                 "app": "Un borrador anterior llevaba el control a una app de móvil. Lo descartamos.",
-                "stele": "El regulador va montado en una estela impresa en 3D.",
                 "logic": "La instalación alterna entre cuatro estados: interactivo, reposo, cinemática y transición."
             },
             "ausstellung": {

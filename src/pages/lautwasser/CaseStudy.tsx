@@ -11,6 +11,9 @@ import {
 } from './data';
 import { aspectOf, ratioOf, type MediaId } from './media';
 import { Clip, DisplayWord, Still } from './parts';
+import { Clip as DeckClip } from '../../deck/Clip';
+import { at, type Rect } from '../../deck/geometry';
+import type { ClipMedia } from '../../deck/media';
 import { PlaybackContext } from '../../deck/playback';
 import SectionIndex from '../../deck/SectionIndex';
 
@@ -245,31 +248,123 @@ const StationsMap = ({ className = '' }: { className?: string }) => {
     );
 };
 
-/** The deck's outlined arrow with "OSC" in it: the knob's value travelling to TouchDesigner. */
-const OscArrow = () => (
-    <div className="relative w-14 sm:w-20 md:w-28 aspect-[7/5] text-lw-paper">
-        <svg aria-hidden viewBox="0 0 140 100" className="absolute inset-0 w-full h-full overflow-visible" fill="none" stroke="currentColor" strokeWidth={1.5}>
-            <path d="M0 25 H90 V0 L140 50 L90 100 V75 H0 Z" vectorEffect="non-scaling-stroke" />
-        </svg>
-        <span className="absolute inset-y-0 left-[9%] flex items-center font-lw font-light text-xs sm:text-sm md:text-lg">OSC</span>
+/*
+ * Slides 20 and 21 for reading, in the deck's own proportions (the boxes are
+ * slides.tsx's PI_*, as on slide 20): the Pi with its cable to the knob, the
+ * knob at its size beside the Pi, the OSC arrow into the computer. The app
+ * figure keeps the computer and the arrow exactly where they are and puts the
+ * phone where the Pi and the knob were, so the same computer receives both.
+ */
+
+/** The part of the slide the drawings cover: the Pi's left edge to the computer's right, the cable's top to the phone's foot. */
+const PI_AREA: Rect = [0.0279, 0.1501, 0.9306, 0.7019];
+
+const PI_PARTS = {
+    pc: [0.5609, 0.2171, 0.3976, 0.6176],
+    knob: [0.2887, 0.4164, 0.1202, 0.2512],
+    board: [0.0279, 0.2621, 0.2694, 0.541],
+    /** The hand-drawn cable from the Pi to the knob, stretched as the deck stretches it. */
+    cable: [0.0881, 0.1501, 0.2627, 0.4381],
+    osc: [0.44, 0.4789, 0.1025, 0.1398],
+    /** Slide 21's phone at its size, ending where the knob ends and centred on the computer. */
+    phone: [0.1823, 0.1998, 0.2266, 0.6522],
+} satisfies Record<string, Rect>;
+
+/** A box on slide 20 or 21, placed within PI_AREA. */
+const onSketch = ([x, y, w, h]: Rect): CSSProperties => {
+    const [ax, ay, aw, ah] = PI_AREA;
+    return at([(x - ax) / aw, (y - ay) / ah, w / aw, h / ah]);
+};
+
+/** The figure: PI_AREA's shape, with type sized against its width like the slide's. */
+const PiSketch = ({ children }: { children: ReactNode }) => (
+    <div className="relative [container-type:inline-size]" style={{ aspectRatio: `${PI_AREA[2] * 16} / ${PI_AREA[3] * 9}` }}>
+        {children}
     </div>
 );
 
-/** Line art on black needs no frame: the Pi, the knob, the computer. */
-const Plain = ({ id }: { id: MediaId }) => (
-    <div className="relative" style={{ aspectRatio: ratioOf(id) }}>
-        <Still id={id} />
+/** Line art on black needs no frame: the Pi, the knob, the computer, the cable. */
+const Drawing = ({ id, rect, fill = false }: { id: MediaId; rect: Rect; fill?: boolean }) => (
+    <div style={onSketch(rect)}>
+        <Still id={id} fit={fill ? 'fill' : 'cover'} />
     </div>
 );
 
-/** Slide 21's phone, with the app running on its screen where the deck put it. */
-const PhoneWithApp = () => (
-    <div className="relative" style={{ aspectRatio: ratioOf('pi-phone') }}>
-        <Still id="pi-phone" />
-        <div className="absolute" style={{ left: '36.3%', top: '9.95%', width: '49.2%', height: '65.9%' }}>
-            <Clip id="app-ui" />
+/**
+ * The deck's OSC arrow: PowerPoint's right arrow in a white outline, its
+ * shaft half the box high and its head half the box's shorter side long, with
+ * the label at the deck's 24pt.
+ */
+const OscArrow = () => {
+    const w = PI_PARTS.osc[2] * 1920;
+    const h = PI_PARTS.osc[3] * 1080;
+    const neck = w - Math.min(w, h) / 2;
+    return (
+        <div style={onSketch(PI_PARTS.osc)} className="text-lw-paper">
+            <svg aria-hidden viewBox={`0 0 ${w} ${h}`} className="absolute inset-0 w-full h-full overflow-visible" fill="none" stroke="currentColor" strokeWidth={1.5}>
+                <path d={`M0 ${h / 4} H${neck} V0 L${w} ${h / 2} L${neck} ${h} V${(h * 3) / 4} H0 Z`} vectorEffect="non-scaling-stroke" />
+            </svg>
+            <span className="absolute inset-y-0 left-[7%] flex items-center font-lw font-light leading-none" style={{ fontSize: `max(0.625rem, ${(2.5 / PI_AREA[2]).toFixed(3)}cqw)` }}>
+                OSC
+            </span>
         </div>
-    </div>
+    );
+};
+
+/** Slide 20: the Pi, cabled to the knob, sending the knob's value to the computer over OSC. */
+const PiSetup = () => (
+    <PiSketch>
+        <Drawing id="pi-pc" rect={PI_PARTS.pc} />
+        <Drawing id="pi-knob" rect={PI_PARTS.knob} />
+        <Drawing id="pi-board" rect={PI_PARTS.board} />
+        <Drawing id="pi-sketch" rect={PI_PARTS.cable} fill />
+        <OscArrow />
+    </PiSketch>
+);
+
+/** Slide 21's idea: the phone with the app running on its screen, sending over OSC to the same computer. */
+const AppSetup = () => (
+    <PiSketch>
+        <Drawing id="pi-pc" rect={PI_PARTS.pc} />
+        <div style={onSketch(PI_PARTS.phone)}>
+            <Still id="pi-phone" />
+            <div className="absolute" style={{ left: '36.3%', top: '9.95%', width: '49.2%', height: '65.9%' }}>
+                <Clip id="app-ui" />
+            </div>
+        </div>
+        <OscArrow />
+    </PiSketch>
+);
+
+/**
+ * Slide 19 for reading: the persona's face, and over its right half the same
+ * footage through the effect, with the deck's black seam between them, as
+ * one video so the two can't drift apart. persona-fx is the right half of the
+ * deck's effect video (scripts/lautwasser-media.py crops it so), and it lines
+ * up with persona-face 14 frames in (matched on edges and motion: 13 to 15
+ * fit about equally, 14 is the middle). Made from the two clips with:
+ *
+ *   ffmpeg -i persona-face.webm -i persona-fx.webm -filter_complex
+ *     "[1:v]trim=start_frame=14,setpts=PTS-STARTPTS,scale=640:720:flags=lanczos[fx];
+ *      [0:v]setpts=PTS-STARTPTS[face];[face][fx]overlay=x=640:y=0:shortest=1,
+ *      drawbox=x=633:y=0:w=14:h=720:color=black:t=fill,format=yuv420p[v]"
+ *     -map "[v]" -an -c:v libvpx-vp9 -crf 36 -b:v 1152k -row-mt 1 -tile-columns 2
+ *     -deadline good -cpu-used 3 -g 150 -r 30 persona-pair.webm
+ *
+ * and its poster from 4s in, like persona-face's.
+ */
+const PERSONA_PAIR: ClipMedia = {
+    src: '/projects/11_lautwasser/persona-pair.webm',
+    poster: '/projects/11_lautwasser/persona-pair.poster.jpg',
+    w: 1280,
+    h: 720,
+    duration: 11.266,
+};
+
+const PersonaPair = () => (
+    <Framed ratio={`${PERSONA_PAIR.w} / ${PERSONA_PAIR.h}`}>
+        <DeckClip id="persona-pair" media={PERSONA_PAIR} chrome="font-lw text-lw-paper" />
+    </Framed>
 );
 
 const CaseStudy = () => {
@@ -443,7 +538,7 @@ const CaseStudy = () => {
                     </Block>
                 </Chapter>
 
-                {/* 9-23 - process */}
+                {/* 9-23 - process (the deck's slide 22, the 3D-printed stele, is left out) */}
                 <Chapter id="prozess" left={t('lautwasser.slides.stationen.topic')} middle={prozess} word={t('lautwasser.display.prozess')}>
                     <Lead>{t('lautwasser.study.prozess.stations')}</Lead>
                     {/* The map with the recordings beside it on wide screens, above them otherwise. */}
@@ -501,49 +596,24 @@ const CaseStudy = () => {
                     <Block left={t('lautwasser.slides.perspektive.topic')} middle={prozess}>
                         <Note>{t('lautwasser.study.prozess.persona')}</Note>
                         {/* One row on wide screens; the quote is sized by its picture, so it shrinks with it. */}
-                        <Band className="mt-8" cols={fr('persona-face', 'persona-fx')} wide={fr('persona-phone', 'persona-face', 'persona-fx')}>
-                            <Framed ratio={ratioOf('persona-phone')} className="col-span-2 xl:col-span-1 [container-type:inline-size]">
+                        <Band className="mt-8" cols="1fr" wide={fr('persona-phone', 'persona-face')}>
+                            <Framed ratio={ratioOf('persona-phone')} className="[container-type:inline-size]">
                                 <Still id="persona-phone" />
                                 <p className="absolute left-[3%] bottom-[7%] max-w-[65%] font-lw font-light uppercase leading-[1.1] text-lw-paper" style={{ fontSize: 'clamp(1rem, 3.8cqw, 2.6rem)' }}>
                                     {t('lautwasser.slides.perspektive.quote')}
                                 </p>
                             </Framed>
-                            {(['persona-face', 'persona-fx'] as MediaId[]).map((id) => (
-                                <Framed key={id} ratio={ratioOf(id)}>
-                                    <Clip id={id} />
-                                </Framed>
-                            ))}
+                            <PersonaPair />
                         </Band>
                     </Block>
 
                     <Block left={t('lautwasser.slides.pi.topic')} middle={prozess}>
                         <Split text={<Note>{t('lautwasser.study.prozess.control')}</Note>}>
-                            <div
-                                className="grid items-center gap-3 md:gap-5"
-                                style={{ gridTemplateColumns: `${aspectOf('pi-board')}fr ${aspectOf('pi-knob')}fr auto ${aspectOf('pi-pc')}fr` }}
-                            >
-                                <Plain id="pi-board" />
-                                <Plain id="pi-knob" />
-                                <OscArrow />
-                                <Plain id="pi-pc" />
-                            </div>
+                            <PiSetup />
                         </Split>
 
                         <Split className="mt-12" text={<Note>{t('lautwasser.study.prozess.app')}</Note>}>
-                            <div
-                                className="grid items-center gap-3 md:gap-5"
-                                style={{ gridTemplateColumns: `${aspectOf('pi-pc')}fr auto ${aspectOf('pi-phone')}fr` }}
-                            >
-                                <Plain id="pi-pc" />
-                                <OscArrow />
-                                <PhoneWithApp />
-                            </div>
-                        </Split>
-
-                        <Split className="mt-12" text={<Note>{t('lautwasser.study.prozess.stele')}</Note>}>
-                            <Framed ratio={ratioOf('stele-print')}>
-                                <Still id="stele-print" />
-                            </Framed>
+                            <AppSetup />
                         </Split>
                     </Block>
 

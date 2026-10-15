@@ -94,9 +94,6 @@
             "app": {
                 "topic": "Verworfene App-Idee"
             },
-            "stele": {
-                "topic": "3D-Druck Stele"
-            },
             "logik": {
                 "topic": "Logik",
                 "states": [
@@ -174,7 +171,6 @@
                 "persona": "Perspektivwechsel: Die Lauter bekommt ein Gesicht und spricht in Cutscenes. Aus dem Besuch wird ein Dialog.",
                 "control": "Ein Lautstärkeregler am Raspberry Pi schickt seinen Wert per OSC an TouchDesigner.",
                 "app": "Ein früherer Entwurf verlegte die Steuerung in eine Handy-App. Wir haben ihn verworfen.",
-                "stele": "Der Regler sitzt in einer 3D-gedruckten Stele.",
                 "logic": "Die Installation wechselt zwischen vier Zuständen: Interactive, Idle, Cutscene und Transition."
             },
             "ausstellung": {

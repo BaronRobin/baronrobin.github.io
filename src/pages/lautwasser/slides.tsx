@@ -604,18 +604,7 @@ export const PiApp = ({ phase: at = 0 }: SlideProps) => {
     );
 };
 
-/* 22 - The stele ------------------------------------------------------------------ */
-
-export const Stele = () => (
-    <Stage>
-        <Hairlines lines={[[0.6941, 0.0788, 0.6941, 0.9751], [0.3193, 0.0778, 0.3193, 0.9741]]} />
-        <Place rect={[0.0255, 0.1142, 0.9521, 0.808]}>
-            <Still id="stele-print" />
-        </Place>
-        <Hairlines rects={[FRAME]} />
-        <Header topic="stele" chapter="prozess" />
-    </Stage>
-);
+/* 22, the 3D-printed stele, is left out (see order.ts). */
 
 /* 23 - Logic ------------------------------------------------------------------------ */
 
