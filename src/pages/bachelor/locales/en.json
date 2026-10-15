@@ -76,7 +76,13 @@
                     "The renders come from Unreal Engine: a light setup, a grillz viewer built as a Blueprint, a material node tree, and three metals, silver, rose gold and gold, with flakes in the surface."
                 ],
                 "setup": "The light setup, and the grillz viewer.",
-                "metals": "Silver, rose gold, gold."
+                "metals": "Silver, rose gold, gold.",
+                "viewer": {
+                    "label": "Renders",
+                    "previous": "Previous render",
+                    "next": "Next render",
+                    "show": "Render {{n}} of {{total}}"
+                }
             },
             "material": {
                 "heading": "Real-world materials",
