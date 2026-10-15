@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useId } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { X, ExternalLink } from 'lucide-react';
@@ -18,24 +18,41 @@ const major = (label: string) => label.split('.')[0];
  */
 const groups = [...new Set(versions.map((v) => major(v.label)))].map((m) => versions.filter((v) => major(v.label) === m));
 
+/** The boulderapp's hold: the outline its icon and its name on the about page are drawn from. */
+const HOLD = 'M144.56 0C142.38 20.9 137.61 41.97 125.95 59.63C114.29 77.29 95.59 95.61 74.59 105.95C53.6 116.28 25.84 120.25 0 121.63C-25.84 123.01 -59.37 124.52 -80.42 114.22C-101.47 103.91 -119.05 78.82 -126.29 59.79C-133.53 40.75 -123.89 19.9 -123.84 0C-123.79 -19.9 -134.19 -41.98 -125.98 -59.64C-117.77 -77.3 -95.58 -96.52 -74.59 -105.93C-53.59 -115.35 -24.35 -116.85 0 -116.12C24.35 -115.4 48.36 -109.97 71.52 -101.58C94.69 -93.19 126.82 -82.73 138.99 -65.8C151.16 -48.87 146.73 -20.9 144.56 0Z';
+
 /**
- * A boulder hold, bolted on at the end of the footer and as faint as its
- * separators: it goes to the boulderapp, and nothing else on the site says so.
+ * The boulderapp's hold, bolted on at the end of the footer and as faint as
+ * its separators: drawn as the app draws it beside its name (the hold in the
+ * text's colour, its bolt hole and grip strokes cut out), and it goes there.
+ * Nothing else on the site says so.
  */
-const BoulderHold = () => (
-    <a
-        href="https://the-boulderapp.vercel.app"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="the boulderapp"
-        title="the boulderapp"
-        className="inline-flex text-slate-300 dark:text-slate-700 hover:text-amber-500 dark:hover:text-amber-400 hover:rotate-12 transition-[color,transform] duration-300 ease-in-out"
-    >
-        <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden fill="currentColor" fillRule="evenodd">
-            <path d="M5 9.5C4.2 6.4 6.6 3.6 9.8 3.9c1.6.2 2.6 1.1 4 1.2 2.4.2 4.7-.4 6 1.6 1.4 2.1.1 4.6-.4 6.8-.6 2.4.6 4.8-1.2 6.6-2.1 2-5.2 1.1-7.6.3-2.2-.7-4.8-.3-6.2-2.3C2.9 16.2 5.7 12.4 5 9.5ZM12.6 9.9a1.7 1.7 0 1 0 0 3.4 1.7 1.7 0 0 0 0-3.4Z" />
-        </svg>
-    </a>
-);
+const BoulderHold = () => {
+    // Ids from useId have colons, which a url(#…) doesn't take everywhere.
+    const cut = `hold${useId().replace(/:/g, '')}`;
+    return (
+        <a
+            href="https://the-boulderapp.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="the boulderapp"
+            title="the boulderapp"
+            className="inline-flex text-slate-300 dark:text-slate-700 hover:text-amber-500 dark:hover:text-amber-400 hover:rotate-12 transition-[color,transform] duration-300 ease-in-out"
+        >
+            <svg viewBox="-170 -150 340 300" width="18" height="16" aria-hidden>
+                <mask id={cut}>
+                    <g transform="rotate(-8)" strokeLinecap="round" strokeLinejoin="round">
+                        <path d={HOLD} fill="#fff" />
+                        <path d={HOLD} fill="none" stroke="#fff" strokeWidth={5} transform="translate(3 -2) rotate(1.5)" />
+                        <circle cx={0} cy={-14} r={19} fill="none" stroke="#000" strokeWidth={10} />
+                        <path d="M-70 78l32 -26M-16 84l32 -26M38 76l30 -24" fill="none" stroke="#000" strokeWidth={10} />
+                    </g>
+                </mask>
+                <rect x={-170} y={-150} width={340} height={300} fill="currentColor" mask={`url(#${cut})`} />
+            </svg>
+        </a>
+    );
+};
 
 const SiteFooter = ({ bordered = true }: { bordered?: boolean }) => {
     const { t, i18n } = useTranslation();
