@@ -85,7 +85,7 @@ export const projects: Project[] = [
             },
         ],
         technicals: {
-            icons: [TouchDesignerIcon, SiAdobeaudition, SiRaspberrypi, Mic, Printer],
+            icons: [TouchDesignerIcon, SiAdobeaudition, SiRaspberrypi, Mic],
             columns: [
                 [
                     'Unterwasseraufnahmen an den offenen Stationen der Lauter',
