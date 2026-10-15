@@ -1,13 +1,14 @@
-import { useEffect, type CSSProperties, type ReactNode } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowRight, Play } from 'lucide-react';
+import { useReducedMotion } from 'framer-motion';
+import { ArrowRight, ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import { BACHELOR_ID, projects } from '../../data/projects';
 import ProjectTechnicals from '../../components/ProjectTechnicals';
 import SiteFooter from '../../components/SiteFooter';
 import { Clip } from '../../deck/Clip';
 import SectionIndex from '../../deck/SectionIndex';
-import { clipMedia, stillMedia } from './deck';
+import { clipMedia, preloadMedia, stillMedia } from './deck';
 import { CHAPTERS, chapterSlides, type ChapterId } from './order';
 
 /*
@@ -100,8 +101,8 @@ const Paragraphs = ({ k }: { k: string }) => {
 /*
  * The page runs the width of the window. The margin keeps clear of the
  * section dots on the right (right-2, xl:right-6).
- * From lg up the hero and each chapter are a 12-column grid: the words on the
- * left at a reading measure, the pictures beside them.
+ * From lg up the hero and each chapter are a 12-column grid: the words at a
+ * reading measure, the pictures beside them.
  */
 const FRAME = 'px-6 md:px-10 xl:px-14';
 const GRID = 'lg:grid lg:grid-cols-12 lg:gap-x-8 xl:gap-x-10 2xl:gap-x-12';
@@ -110,16 +111,18 @@ const PICTURES = 'lg:col-span-6 xl:col-span-7 2xl:col-span-8';
 
 /**
  * A chapter: the deck's red label, the question it asked, the way into its slides.
- * On wide screens the heading and `text` stay in view on the left while the
+ * On wide screens the label, heading and `text` stay in view while the
  * pictures (`children`) pass beside them, if the window is tall enough to
- * hold them; `wide` runs the full width underneath. On a phone it all
- * stacks, in that order.
+ * hold them; `flip` puts the pictures on the left. `wide` runs the full width
+ * underneath, outside the grid, so the words stop before it. On a phone it
+ * all stacks, words first.
  */
-const Chapter = ({ id, text, children, wide, side = '' }: {
+const Chapter = ({ id, text, children, wide, flip = false, side = '' }: {
     id: ChapterId;
     text?: ReactNode;
     children?: ReactNode;
     wide?: ReactNode;
+    flip?: boolean;
     /** Extra classes for the pictures' column, e.g. how it sits against the words. */
     side?: string;
 }) => {
@@ -128,20 +131,21 @@ const Chapter = ({ id, text, children, wide, side = '' }: {
     return (
         <section id={id} className="scroll-mt-24 border-t border-black/10">
             <div className={`${FRAME} py-16 md:py-20`}>
-                <div className="flex items-baseline justify-between gap-6 text-xs uppercase tracking-[0.2em]">
-                    <span className="text-grillz-red">{t(`bachelor.chapters.${id}`)}</span>
-                    <Link to={`slides/${from}`} className="group inline-flex items-center gap-1.5 text-black/45 hover:text-black transition-colors">
-                        {t('bachelor.study.slides', { from, to })}
-                        <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
-                    </Link>
-                </div>
-                <div className={`mt-6 ${GRID}`}>
+                <div className={GRID}>
                     <div className={`${WORDS} lg:self-start lg:[@media(min-height:640px)]:sticky lg:top-28`}>
-                        <h2 className="text-3xl md:text-5xl leading-tight tracking-tight text-balance">{t(`bachelor.study.${id}.heading`)}</h2>
+                        <div className="flex items-baseline justify-between gap-6 text-xs uppercase tracking-[0.2em]">
+                            <span className="text-grillz-red">{t(`bachelor.chapters.${id}`)}</span>
+                            <Link to={`slides/${from}`} className="group inline-flex items-center gap-1.5 text-black/45 hover:text-black transition-colors">
+                                {t('bachelor.study.slides', { from, to })}
+                                <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
+                            </Link>
+                        </div>
+                        <h2 className="mt-6 text-3xl md:text-5xl leading-tight tracking-tight text-balance">{t(`bachelor.study.${id}.heading`)}</h2>
                         {text && <div className="mt-10 md:mt-12 lg:mt-8">{text}</div>}
                     </div>
                     {children && (
-                        <div className={`${text ? 'mt-14' : 'mt-10 md:mt-12'} lg:mt-0 ${PICTURES} space-y-10 md:space-y-14 lg:space-y-10 ${side}`}>
+                        // lg:mt-10 is the label row and its gap, so the pictures start level with the heading.
+                        <div className={`${text ? 'mt-14' : 'mt-10 md:mt-12'} lg:mt-10 ${PICTURES} ${flip ? 'lg:order-first' : ''} space-y-10 md:space-y-14 lg:space-y-10 ${side}`}>
                             {children}
                         </div>
                     )}
@@ -149,6 +153,187 @@ const Chapter = ({ id, text, children, wide, side = '' }: {
                 {wide && <div className="mt-10 md:mt-14">{wide}</div>}
             </div>
         </section>
+    );
+};
+
+/** The renders, in the deck's order. */
+const RENDERS = ['image112', 'image110', 'image111', 'image113', 'image114', 'image115'];
+
+const FADE = { duration: 400, easing: 'ease-in-out' } as const;
+
+/**
+ * One render in the viewer. It waits, transparent, until its picture has
+ * loaded and decoded, then fades in over whatever is under it and says so.
+ */
+const Slide = ({ name, onShown }: { name: string; onShown: () => void }) => {
+    const media = stillMedia(name);
+    const reduce = useReducedMotion();
+    const ref = useRef<HTMLImageElement>(null);
+    const started = useRef(false);
+    const [shown, setShown] = useState(false);
+
+    const fadeIn = useCallback((img: HTMLImageElement) => {
+        if (started.current) return;
+        started.current = true;
+        img.decode().catch(() => { /* drawn anyway */ }).then(() => {
+            if (reduce) {
+                setShown(true);
+                onShown();
+                return;
+            }
+            // Started before the class flips, so the picture never shows at full strength first.
+            const fade = img.animate([{ opacity: 0 }, { opacity: 1 }], FADE);
+            setShown(true);
+            fade.finished.then(onShown, () => { /* taken off the page first */ });
+        });
+    }, [reduce, onShown]);
+
+    // A picture already in the cache may have loaded before React was listening.
+    useLayoutEffect(() => {
+        const img = ref.current;
+        if (img?.complete && img.naturalWidth > 0) fadeIn(img);
+    }, [fadeIn]);
+
+    return (
+        <img
+            ref={ref}
+            src={media.src}
+            width={media.w}
+            height={media.h}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            draggable={false}
+            onLoad={(e) => fadeIn(e.currentTarget)}
+            className={`absolute inset-0 h-full w-full object-contain ${shown ? 'opacity-100' : 'opacity-0'}`}
+        />
+    );
+};
+
+/**
+ * The six renders, one at a time across the full width. The arrows, a swipe,
+ * the dots, or ← → while the viewer is in view or focused step through them,
+ * round and round. Each new render fades in over the last (400 ms, eased in
+ * and out); the ones under it go once it's fully there, so stepping quickly
+ * never drops to black. Pictures load lazily, then only the neighbours ahead.
+ *
+ * The renders are on black, so the frame is black too: on a wide, short
+ * window it stays within the screen and the picture sits in the middle of it.
+ */
+const Viewer = ({ names }: { names: string[] }) => {
+    const { t } = useTranslation();
+    const count = names.length;
+    const root = useRef<HTMLDivElement>(null);
+    const keys = useRef(1);
+    const [layers, setLayers] = useState([{ key: 0, at: 0 }]);
+    const [warm, setWarm] = useState(false);
+    const index = layers[layers.length - 1].at;
+
+    const go = useCallback((to: (from: number) => number) => {
+        setLayers((ls) => {
+            const from = ls[ls.length - 1].at;
+            const at = (to(from) + count) % count;
+            return at === from ? ls : [...ls, { key: keys.current++, at }];
+        });
+    }, [count]);
+    const step = useCallback((by: number) => go((from) => from + by), [go]);
+
+    // A layer that has fully faded in covers everything under it.
+    const shown = useCallback((key: number) => {
+        setWarm(true);
+        setLayers((ls) => {
+            const i = ls.findIndex((l) => l.key === key);
+            return i > 0 ? ls.slice(i) : ls;
+        });
+    }, []);
+
+    useEffect(() => {
+        if (warm) preloadMedia([names[(index + 1) % count], names[(index - 1 + count) % count]]);
+    }, [warm, index, names, count]);
+
+    // ← → step while at least half the viewer is on screen, or while focus is in
+    // it and some of it is. Never once it's scrolled away, even if a button in
+    // it kept focus from a click.
+    useEffect(() => {
+        const el = root.current;
+        if (!el) return;
+        let seen = 0;
+        const observer = new IntersectionObserver(([entry]) => { seen = entry.isIntersecting ? entry.intersectionRatio : 0; }, { threshold: [0, 0.5] });
+        observer.observe(el);
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+            if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+            const focused = el.contains(document.activeElement);
+            if (!(seen >= 0.5 || (focused && seen > 0))) return;
+            if (!focused && (e.target as HTMLElement).closest?.('input, textarea, select, [contenteditable="true"]')) return;
+            e.preventDefault();
+            step(e.key === 'ArrowRight' ? 1 : -1);
+        };
+        window.addEventListener('keydown', onKey);
+        return () => {
+            observer.disconnect();
+            window.removeEventListener('keydown', onKey);
+        };
+    }, [step]);
+
+    // A swipe: a mostly sideways move of 40 px or more. Vertical moves still scroll the page.
+    const touch = useRef<{ id: number; x: number; y: number } | null>(null);
+    const onPointerDown = (e: ReactPointerEvent) => {
+        if (e.pointerType !== 'mouse') touch.current = { id: e.pointerId, x: e.clientX, y: e.clientY };
+    };
+    const onPointerUp = (e: ReactPointerEvent) => {
+        const start = touch.current;
+        touch.current = null;
+        if (!start || start.id !== e.pointerId) return;
+        const dx = e.clientX - start.x;
+        const dy = e.clientY - start.y;
+        if (Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
+    };
+
+    // On a phone the arrows are small enough to stay in the black either side of the model.
+    const arrow = 'absolute top-1/2 z-10 -translate-y-1/2 flex h-8 w-8 md:h-12 md:w-12 items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-white/20 hover:text-white transition-colors outline-none focus-visible:ring-2 focus-visible:ring-white/70';
+    const chevron = 'h-[18px] w-[18px] md:h-[22px] md:w-[22px]';
+
+    return (
+        <div ref={root} role="region" aria-label={t('bachelor.study.rendering.viewer.label')}>
+            <div
+                className="relative w-full overflow-hidden bg-black select-none"
+                style={{ aspectRatio: '16 / 9', maxHeight: 'calc(100svh - 10rem)', touchAction: 'pan-y' }}
+                onPointerDown={onPointerDown}
+                onPointerUp={onPointerUp}
+                onPointerCancel={() => { touch.current = null; }}
+            >
+                {layers.map((l) => <Slide key={l.key} name={names[l.at]} onShown={() => shown(l.key)} />)}
+                <button type="button" onClick={() => step(-1)} aria-label={t('bachelor.study.rendering.viewer.previous')} className={`${arrow} left-1.5 md:left-5`}>
+                    <ChevronLeft aria-hidden className={chevron} />
+                </button>
+                <button type="button" onClick={() => step(1)} aria-label={t('bachelor.study.rendering.viewer.next')} className={`${arrow} right-1.5 md:right-5`}>
+                    <ChevronRight aria-hidden className={chevron} />
+                </button>
+            </div>
+            <div className="mt-3 flex items-center justify-between gap-6">
+                <div className="-ml-1.5 flex items-center">
+                    {names.map((n, i) => (
+                        <button
+                            key={n}
+                            type="button"
+                            onClick={() => go(() => i)}
+                            aria-label={t('bachelor.study.rendering.viewer.show', { n: i + 1, total: count })}
+                            aria-current={i === index ? 'true' : undefined}
+                            className="group flex h-7 w-7 items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-black/40 rounded-full"
+                        >
+                            <span
+                                aria-hidden
+                                className={`block rounded-full transition-all duration-300 ease-in-out ${i === index ? 'h-0.5 w-4 bg-black' : 'h-1.5 w-1.5 bg-black/25 group-hover:bg-black/60'}`}
+                            />
+                        </button>
+                    ))}
+                </div>
+                <p aria-live="polite" className="text-xs tabular-nums tracking-[0.2em] text-black/45">
+                    {index + 1} / {count}
+                </p>
+            </div>
+        </div>
     );
 };
 
@@ -196,7 +381,7 @@ const CaseStudy = () => {
             </header>
 
             {/* 3-11 */}
-            <Chapter id="grillz" text={<Paragraphs k="bachelor.study.grillz.body" />}>
+            <Chapter id="grillz" flip text={<Paragraphs k="bachelor.study.grillz.body" />}>
                 <figure>
                     <Row names={['image61', 'image62', 'image63']} />
                     <div className="mt-3 grid gap-1">
@@ -226,7 +411,7 @@ const CaseStudy = () => {
             </Chapter>
 
             {/* 19-25 */}
-            <Chapter id="scan" text={<Paragraphs k="bachelor.study.scan.body" />}>
+            <Chapter id="scan" flip text={<Paragraphs k="bachelor.study.scan.body" />}>
                 <figure>
                     <Video name="media2" />
                 </figure>
@@ -245,7 +430,7 @@ const CaseStudy = () => {
             </Chapter>
 
             {/* 30-38 */}
-            <Chapter id="modell" text={<Paragraphs k="bachelor.study.modell.body" />}>
+            <Chapter id="modell" flip text={<Paragraphs k="bachelor.study.modell.body" />}>
                 <figure>
                     <Row names={['image87', 'image90']} />
                     <Caption>{t('bachelor.study.modell.cleanup')}</Caption>
@@ -280,18 +465,8 @@ const CaseStudy = () => {
                 </div>
             </Chapter>
 
-            {/* 43-55: the renders run the full width under the setup */}
-            <Chapter
-                id="rendering"
-                text={<Paragraphs k="bachelor.study.rendering.body" />}
-                wide={
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
-                        {['image112', 'image110', 'image111', 'image113', 'image114', 'image115'].map((n) => (
-                            <Picture key={n} name={n} />
-                        ))}
-                    </div>
-                }
-            >
+            {/* 43-55: the renders, one at a time across the full width under the setup */}
+            <Chapter id="rendering" flip text={<Paragraphs k="bachelor.study.rendering.body" />} wide={<Viewer names={RENDERS} />}>
                 <figure>
                     <Row names={['image101', 'image102']} />
                     <Caption>{t('bachelor.study.rendering.setup')}</Caption>

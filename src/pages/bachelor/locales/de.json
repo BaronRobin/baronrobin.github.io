@@ -76,7 +76,13 @@
                     "Die Renderings kommen aus der Unreal Engine: ein Licht-Setup, ein Grillz-Viewer als Blueprint, ein Material Node Tree und drei Metalle, Silber, Rosegold und Gold, mit Flakes in der Oberfläche."
                 ],
                 "setup": "Das Licht-Setup und der Grillz-Viewer.",
-                "metals": "Silber, Rosegold, Gold."
+                "metals": "Silber, Rosegold, Gold.",
+                "viewer": {
+                    "label": "Renderings",
+                    "previous": "Vorheriges Rendering",
+                    "next": "Nächstes Rendering",
+                    "show": "Rendering {{n}} von {{total}}"
+                }
             },
             "material": {
                 "heading": "Echtwelt-Materialien",

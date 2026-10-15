@@ -76,7 +76,13 @@
                     "Los renders salen de Unreal Engine: una iluminación, un visor de grillz hecho como Blueprint, un árbol de nodos de material y tres metales, plata, oro rosa y oro, con escamas en la superficie."
                 ],
                 "setup": "La iluminación y el visor de grillz.",
-                "metals": "Plata, oro rosa, oro."
+                "metals": "Plata, oro rosa, oro.",
+                "viewer": {
+                    "label": "Renders",
+                    "previous": "Render anterior",
+                    "next": "Render siguiente",
+                    "show": "Render {{n}} de {{total}}"
+                }
             },
             "material": {
                 "heading": "Materiales reales",
