@@ -426,6 +426,11 @@
             "wide": "Volle Breite",
             "mosaic": "Mosaik",
             "list": "Liste"
+        },
+        "split": {
+            "previous": "Vorheriger Screen",
+            "next": "Nächster Screen",
+            "expand": "In voller Größe öffnen"
         }
     },
     "photography": {

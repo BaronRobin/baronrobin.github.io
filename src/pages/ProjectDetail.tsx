@@ -77,16 +77,16 @@ const ProjectDetail = () => {
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white font-sans selection:bg-purple-500/30 transition-colors duration-300">
 
-            {/* Scroll Hint */}
+            {/* Scroll Hint: in the right margin where there is one; a phone has none, and it would sit on the pictures. */}
             <motion.button
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1 }}
+                transition={{ delay: 1, duration: 0.4, ease: 'easeInOut' }}
                 onClick={() => document.getElementById('technicals')?.scrollIntoView({ behavior: 'smooth' })}
-                className="fixed right-4 md:right-8 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center gap-4 text-slate-400 dark:text-slate-500 hover:text-purple-600 dark:hover:text-purple-400 transition-colors cursor-pointer"
+                className="hidden md:flex fixed right-4 md:right-8 top-1/2 -translate-y-1/2 z-40 flex-col items-center gap-4 text-slate-400 dark:text-slate-500 hover:text-purple-600 dark:hover:text-purple-400 transition-colors cursor-pointer"
             >
                 <span className="[writing-mode:vertical-rl] rotate-180 text-xs tracking-widest uppercase font-light">{t('projects.scrollHint')}</span>
-                <ArrowDown size={20} className="animate-bounce" />
+                <ArrowDown size={20} />
             </motion.button>
 
             {/* Hero Content (Details) */}
@@ -94,6 +94,7 @@ const ProjectDetail = () => {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, ease: 'easeInOut' }}
                     className="max-w-4xl mx-auto text-center"
                 >
                     <span className="text-purple-600 dark:text-purple-400 font-medium mb-4 block tracking-wide uppercase text-sm transition-colors">
@@ -139,7 +140,7 @@ const ProjectDetail = () => {
                         title={t(`projects.${project.id}.title`)}
                         media={processedMedia}
                         onExpand={openLightbox}
-                        keysEnabled={lightboxIndex === null}
+                        openAt={lightboxIndex}
                     />
                 ) : (
                 <div className="columns-1 md:columns-2 gap-8 max-w-6xl mx-auto space-y-8">
@@ -149,7 +150,7 @@ const ProjectDetail = () => {
                             initial={{ opacity: 0, scale: 0.95 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
-                            transition={{ delay: index * 0.1 }}
+                            transition={{ delay: index * 0.1, duration: 0.4, ease: 'easeInOut' }}
                             className="relative w-full cursor-pointer group break-inside-avoid mb-8"
                             onClick={() => openLightbox(index)}
                         >

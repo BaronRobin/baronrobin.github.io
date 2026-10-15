@@ -426,6 +426,11 @@
             "wide": "Full width",
             "mosaic": "Mosaic",
             "list": "List"
+        },
+        "split": {
+            "previous": "Previous screen",
+            "next": "Next screen",
+            "expand": "Open full size"
         }
     },
     "photography": {

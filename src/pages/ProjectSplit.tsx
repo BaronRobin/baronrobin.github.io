@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { CSSProperties, KeyboardEvent } from 'react';
 import { ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
 import type { ProjectMedia } from '../data/projects';
@@ -44,15 +45,21 @@ interface ProjectSplitProps {
     media: ProjectMedia[];
     /** Opens the lightbox on the still at this index, counted among the stills. */
     onExpand: (index: number) => void;
-    /** Off while the lightbox is open, which has the arrow keys then. */
-    keysEnabled: boolean;
+    /**
+     * The still the lightbox is on while it's open, null while it's closed. The
+     * lightbox has the arrow keys while it's open, and the viewer lands on its
+     * last still when it closes.
+     */
+    openAt: number | null;
 }
 
 /**
  * The 'split' project layout: the video on the left, the stills on the right
  * as one viewer that is clicked through. On phones the video sits on top.
  */
-const ProjectSplit = ({ title, media, onExpand, keysEnabled }: ProjectSplitProps) => {
+const ProjectSplit = ({ title, media, onExpand, openAt }: ProjectSplitProps) => {
+    const { t } = useTranslation();
+    const keysEnabled = openAt === null;
     const video = media.find((item) => item.type === 'video');
     const screens = media.flatMap((item, index) => (item.type === 'image' ? [{ ...item, index }] : []));
     const count = screens.length;
@@ -74,6 +81,18 @@ const ProjectSplit = ({ title, media, onExpand, keysEnabled }: ProjectSplitProps
         fade.onfinish = () => setView((view) => (view.shown === shown ? { base: shown, shown } : view));
         return () => fade.cancel();
     }, [base, shown]);
+
+    // Closing the lightbox leaves the viewer on the still it ended on, without a fade.
+    const lastOpen = useRef<number | null>(null);
+    useEffect(() => {
+        if (openAt !== null) {
+            lastOpen.current = openAt;
+            return;
+        }
+        const landing = lastOpen.current;
+        lastOpen.current = null;
+        if (landing !== null) setView({ base: landing, shown: landing });
+    }, [openAt]);
 
     // Decode every screen up front so the first fade to each one starts on time.
     useEffect(() => {
@@ -137,17 +156,17 @@ const ProjectSplit = ({ title, media, onExpand, keysEnabled }: ProjectSplitProps
 
                     <div className="mt-10 flex items-center justify-between">
                         <div className="flex items-center gap-1">
-                            <button type="button" onClick={() => step(-1)} aria-label="Previous screen" className={controlButton}>
+                            <button type="button" onClick={() => step(-1)} aria-label={t('projects.split.previous')} className={controlButton}>
                                 <ChevronLeft size={20} />
                             </button>
                             <span className="min-w-14 text-center font-mono text-sm tabular-nums text-slate-500 dark:text-slate-400" aria-live="polite">
                                 {shown + 1} / {count}
                             </span>
-                            <button type="button" onClick={() => step(1)} aria-label="Next screen" className={controlButton}>
+                            <button type="button" onClick={() => step(1)} aria-label={t('projects.split.next')} className={controlButton}>
                                 <ChevronRight size={20} />
                             </button>
                         </div>
-                        <button type="button" onClick={() => onExpand(shown)} aria-label="Open full size" className={controlButton}>
+                        <button type="button" onClick={() => onExpand(shown)} aria-label={t('projects.split.expand')} className={controlButton}>
                             <Maximize2 size={18} />
                         </button>
                     </div>

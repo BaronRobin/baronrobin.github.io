@@ -426,6 +426,11 @@
             "wide": "Ancho completo",
             "mosaic": "Mosaico",
             "list": "Lista"
+        },
+        "split": {
+            "previous": "Pantalla anterior",
+            "next": "Pantalla siguiente",
+            "expand": "Abrir a tamaño completo"
         }
     },
     "photography": {
