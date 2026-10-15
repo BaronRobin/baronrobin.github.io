@@ -478,6 +478,16 @@
         "close": "Schließen",
         "caveat": "Die archivierten Versionen sind das ursprüngliche Markup und der ursprüngliche Code, laden Medien aber aus der aktuellen Bibliothek statt einer eigenen Kopie. Wo Projekte inzwischen zurückgezogen wurden, können Bilder fehlen.",
         "versions": {
+            "v2-1-2": {
+                "title": "Ausgewählte Arbeiten",
+                "points": [
+                    "Ausgewählte Arbeiten: volle Breite, Mosaik oder Liste",
+                    "Lautwasser-Seite nutzt die volle Breite",
+                    "Dashboard: Video und Screens nebeneinander",
+                    "Scans zeigen ihre Zahlen",
+                    "Gaussian-Splats-Kachel läuft beim Hover"
+                ]
+            },
             "v2-1-1": {
                 "title": "Gaussian Splats",
                 "points": [

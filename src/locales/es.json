@@ -478,6 +478,16 @@
         "close": "Cerrar",
         "caveat": "Las versiones archivadas conservan el marcado y el código originales, pero cargan los medios de la biblioteca actual en lugar de llevar su propia copia, así que pueden faltar imágenes donde se han retirado proyectos.",
         "versions": {
+            "v2-1-2": {
+                "title": "Trabajos seleccionados",
+                "points": [
+                    "Trabajos seleccionados: ancho completo, mosaico o lista",
+                    "La página de Lautwasser usa todo el ancho",
+                    "Dashboard: vídeo y pantallas lado a lado",
+                    "Los escaneos muestran sus cifras",
+                    "La tarjeta de Gaussian Splats se reproduce al pasar el ratón"
+                ]
+            },
             "v2-1-1": {
                 "title": "Gaussian Splats",
                 "points": [
